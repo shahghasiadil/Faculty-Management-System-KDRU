@@ -1,3 +1,0 @@
-ERD
-	/web templates designes
-	/additional notes
