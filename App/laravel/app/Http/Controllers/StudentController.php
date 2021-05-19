@@ -34,7 +34,6 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
-        //
     }
 
     /**
