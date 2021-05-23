@@ -8,4 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class Semester extends Model
 {
     use HasFactory;
+    protected $fillable = ['name'];
+    public function subjects()
+    {
+        return $this->hasMany(Subject::class);
+    }
+
+
+    public function students()
+    {
+        return $this->belongsToMany(Student::class);
+    }
 }

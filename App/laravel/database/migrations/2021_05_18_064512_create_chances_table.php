@@ -17,7 +17,8 @@ class CreateChancesTable extends Migration
             $table->id();
             $table->integer('chance_count');
             $table->integer('marks');
-            $table->foreignId('mark_id')->constrained('marks');
+            $table->foreignId('student_id')->constrained();
+            $table->foreignId('subject_id')->constrained();
             $table->timestamps();
         });
     }
