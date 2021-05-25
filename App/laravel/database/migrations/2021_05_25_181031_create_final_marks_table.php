@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateChancesTable extends Migration
+class CreateFinalMarksTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateChancesTable extends Migration
      */
     public function up()
     {
-        Schema::create('chances', function (Blueprint $table) {
+        Schema::create('final_marks', function (Blueprint $table) {
             $table->id();
-            $table->integer('chance_count');
+            $table->foreignId('enroll_id')->constrained('enrolls');
             $table->integer('marks');
-            $table->foreignId('mark_id')->constrained('marks');
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ class CreateChancesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('chances');
+        Schema::dropIfExists('final_marks');
     }
 }
