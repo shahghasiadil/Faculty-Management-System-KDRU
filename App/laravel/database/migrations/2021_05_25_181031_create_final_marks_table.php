@@ -15,8 +15,7 @@ class CreateFinalMarksTable extends Migration
     {
         Schema::create('final_marks', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('student_id')->constrained();
-            $table->foreignId('subject_id')->constrained();
+            $table->foreignId('enroll_id')->constrained('enrolls');
             $table->integer('marks');
             $table->timestamps();
         });
