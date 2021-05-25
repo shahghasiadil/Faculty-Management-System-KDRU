@@ -16,4 +16,23 @@ class Subject extends Model
     {
         return $this->belongsToMany(Student::class);
     }
+
+    public function attendances()
+    {
+        return $this->hasMany(Attendance::class);
+    }
+
+    public function schedules()
+    {
+        return $this->hasMany(Schedule::class);
+    }
+    public function examSchedules()
+    {
+        return $this->hasMany(ExamSchedule::class);
+    }
+
+    public function chances()
+    {
+        return $this->hasMany(Chance::class);
+    }
 }
