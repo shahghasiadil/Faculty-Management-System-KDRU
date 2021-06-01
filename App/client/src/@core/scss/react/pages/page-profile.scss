@@ -1,0 +1,24 @@
+// Profile
+// =======================================================================
+@import '../../base/bootstrap-extended/include';
+@import '../../base/pages/page-profile';
+
+#user-profile {
+  .profile-load-more {
+    position: relative;
+    overflow: hidden;
+    .ui-loader {
+      position: unset;
+      .overlay {
+        left: 0;
+      }
+      .loader {
+        top: 60%;
+      }
+      .spinner-border {
+        width: 20px;
+        height: 20px;
+      }
+    }
+  }
+}
