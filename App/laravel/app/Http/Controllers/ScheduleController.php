@@ -53,28 +53,6 @@ class ScheduleController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -83,7 +61,16 @@ class ScheduleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $schedule = Schedule::findOrFail($id);
+        $this->validate($request, [
+            'week_day' => 'required|string|max:80',
+            'teacher_id' => 'required|integer',
+            'subject_id' => 'required|integer',
+            'start_time' => 'required|regex:/(\d+\:\d+)/',
+            'end_time' => 'required|regex:/(\d+\:\d+)/'
+        ]);
+
+        $schedule->update($request->all());
     }
 
     /**
@@ -94,6 +81,7 @@ class ScheduleController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $schedule = Schedule::findOrFail($id);
+        $schedule->delete();
     }
 }
