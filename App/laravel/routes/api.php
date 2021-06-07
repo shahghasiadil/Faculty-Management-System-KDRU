@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SubjectController;
+use App\Http\Controllers\ScheduleController;
+use App\Http\Controllers\SemesterController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -21,4 +23,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::apiResource('/subjects', SubjectController::class);
-Route::apiResource('/students', StudentController::class);
+
+Route::apiResource('/schedules', ScheduleController::class);
+
+Route::apiResource('/semesters', SemesterController::class);
