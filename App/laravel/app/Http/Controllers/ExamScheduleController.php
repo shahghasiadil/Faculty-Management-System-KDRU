@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Schedule;
-class ScheduleController extends Controller
+use App\Models\ExamSchedule;
+
+class ExamScheduleController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,7 +14,7 @@ class ScheduleController extends Controller
      */
     public function index()
     {
-        return Schedule::with(['teacher', 'subject'])->latest()->paginate(10);
+        return ExamSchedule::with(['teacher', 'subject'])->latest()->paginate(10);
     }
 
     /**
@@ -24,21 +25,16 @@ class ScheduleController extends Controller
      */
     public function store(Request $request)
     {
-
         $this->validate($request, [
-            'week_day' => 'required|string|max:80',
+            'date' => 'required|date',
             'teacher_id' => 'required|integer',
-            'subject_id' => 'required|integer',
-            'start_time' => 'required|regex:/(\d+\:\d+)/',
-            'end_time' => 'required|regex:/(\d+\:\d+)/'
+            'subject_id' => 'required|integer'
         ]);
 
-        Schedule::create([
-            'week_day' => $request->week_day,
+        ExamSchedule::create([
+            'date' => $request->date,
             'teacher_id' => $request->teacher_id,
-            'subject_id' => $request->subject_id,
-            'start_time' => $request->start_time,
-            'end_time' => $request->end_time
+            'subject_id' => $request->subject_id
         ]);
     }
 
@@ -51,16 +47,14 @@ class ScheduleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $schedule = Schedule::findOrFail($id);
+        $examSchedule = ExamSchedule::findOrFail($id);
         $this->validate($request, [
-            'week_day' => 'required|string|max:80',
+            'date' => 'required|date',
             'teacher_id' => 'required|integer',
-            'subject_id' => 'required|integer',
-            'start_time' => 'required|regex:/(\d+\:\d+)/',
-            'end_time' => 'required|regex:/(\d+\:\d+)/'
+            'subject_id' => 'required|integer'
         ]);
 
-        $schedule->update($request->all());
+        $examSchedule->update($request->all());
     }
 
     /**
@@ -71,7 +65,7 @@ class ScheduleController extends Controller
      */
     public function destroy($id)
     {
-        $schedule = Schedule::findOrFail($id);
-        $schedule->delete();
+        $examSchedule = ExamSchedule::findOrFail($id);
+        $examSchedule->delete();
     }
 }
