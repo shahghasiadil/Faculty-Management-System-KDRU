@@ -1,0 +1,247 @@
+html[dir='rtl'] {
+  body .ps__rail-y {
+    right: auto !important;
+    left: 1px !important;
+  }
+
+  // Scroll To Top
+  .scroll-to-top {
+    div:first-of-type {
+      left: auto !important;
+      right: 30px;
+    }
+  }
+
+  // Vertical Menu Item Arrows
+  .vertical-layout.vertical-menu-modern {
+    .main-menu .navigation {
+      li.has-sub {
+        > a:after {
+          transform: rotate(-90deg) !important;
+        }
+        &:not(.open) {
+          > a:after {
+            transform: rotate(-180deg) !important;
+          }
+        }
+      }
+    }
+  }
+
+  // Horizontal menu
+  .horizontal-menu .header-navbar.navbar-horizontal .dropdown-menu .dropdown-toggle::after {
+    background-image: url(str-replace(str-replace($chevron-left, 'currentColor', $body-color), '#', '%23'));
+  }
+
+  // Breadcrumbs
+  .breadcrumb:not([class*='breadcrumb-']),
+  .breadcrumb.breadcrumb-chevron {
+    .breadcrumb-item + .breadcrumb-item {
+      &:before {
+        transform: rotate(180deg);
+      }
+    }
+  }
+
+  // Pagination
+  .pagination .page-item {
+    &.prev-item,
+    &.prev,
+    &.previous {
+      .page-link {
+        &:before {
+          transform: rotate(180deg);
+        }
+        &:hover,
+        &:active {
+          &:before {
+            transform: rotate(180deg);
+          }
+        }
+      }
+      &.disabled {
+        .page-link {
+          &:before {
+            transform: rotate(180deg);
+          }
+        }
+      }
+    }
+
+    &.next-item,
+    &.next {
+      .page-link {
+        &:after {
+          transform: rotate(180deg);
+        }
+        &:hover,
+        &:active {
+          &:after {
+            transform: rotate(180deg);
+          }
+        }
+      }
+      &.disabled {
+        .page-link {
+          &:before {
+            transform: rotate(180deg);
+          }
+        }
+      }
+    }
+    &:first-of-type,
+    &:last-of-type {
+      .page-link svg {
+        transform: rotate(180deg);
+      }
+    }
+  }
+
+  // Popover
+  .popover {
+    left: auto !important;
+  }
+
+  // Progress
+  .progress-bar-animated {
+    animation: progress-bar-stripes 40s linear infinite;
+  }
+
+  // Tooltip
+  .bs-tooltip-left .arrow::before,
+  .bs-tooltip-auto[x-placement^='left'] .arrow::before {
+    border-width: 0.4rem 0 0.4rem 0.4rem;
+    border-right-color: $tooltip-bg;
+  }
+
+  .bs-tooltip-left .arrow,
+  .bs-tooltip-auto[x-placement^='left'] .arrow {
+    left: 0;
+    right: auto;
+
+    transform: rotate(180deg);
+  }
+
+  .bs-tooltip-right .arrow::before,
+  .bs-tooltip-auto[x-placement^='right'] .arrow::before {
+    border-width: 0.4rem 0.4rem 0.4rem 0;
+    border-left-color: $tooltip-bg;
+  }
+
+  .bs-tooltip-right .arrow,
+  .bs-tooltip-auto[x-placement^='right'] .arrow {
+    right: 0;
+    left: auto;
+
+    transform: rotate(180deg);
+  }
+
+  // App Email
+  .email-application {
+    .toggle-cc.mr-1 {
+      margin-right: 0 !important;
+      margin-left: 1rem !important;
+    }
+  }
+
+  // App Calendar
+  .app-calendar {
+    .fc-toolbar {
+      .fc-prev-button,
+      .fc-next-button {
+        transform: rotate(180deg);
+      }
+    }
+  }
+
+  // App Ecommerce
+  .app-ecommerce-details {
+    .swiper-button-next {
+      right: 0;
+      left: auto;
+    }
+  }
+
+  // Invoice List
+  .invoice-list-table-header {
+    select {
+      background-position: calc(100% - (100% - 45px)) 13px, calc(100% - (100% - 20px)) 13px, 0% 0 !important;
+    }
+  }
+
+  // TinyMCE
+  .tox-tinymce {
+    .tox-editor-header {
+      direction: ltr;
+    }
+  }
+
+  // Apex Charts
+  .apexcharts-canvas {
+    .apexcharts-tooltip {
+      .apexcharts-tooltip-marker {
+        margin-right: 10px;
+        margin-left: 0 !important;
+      }
+    }
+  }
+
+  // Context Menu
+  .react-contexify {
+    z-index: 1031;
+  }
+
+  // Swiper
+  .swiper-button-next {
+    right: 10px !important;
+    left: auto !important;
+  }
+
+  .swiper-button-prev {
+    left: 10px !important;
+    right: auto !important;
+  }
+
+  // Flatpickr
+  .flatpickr-calendar {
+    .flatpickr-months {
+      svg {
+        transform: rotate(180deg);
+      }
+    }
+  }
+
+  // Wizard
+  .bs-stepper {
+    &:not(.vertical) {
+      .bs-stepper-header .line svg {
+        transform: rotate(180deg);
+      }
+    }
+    .btn-next svg,
+    .btn-prev svg {
+      transform: rotate(180deg);
+    }
+  }
+
+  // Datatables
+  .rdt_Table {
+    [aria-label='Expand Row'] {
+      svg {
+        transform: rotate(180deg);
+      }
+    }
+  }
+
+  #profile-info {
+    .post {
+      .post-actions {
+        .share-post {
+          span.mr-1 {
+            margin-right: 0 !important;
+          }
+        }
+      }
+    }
+  }
+}
