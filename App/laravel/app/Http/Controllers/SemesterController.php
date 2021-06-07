@@ -16,9 +16,7 @@ class SemesterController extends Controller
      */
     public function index()
     {
-
         return Semester::with('students')->latest()->paginate(10);
-
     }
 
     /**
@@ -46,7 +44,6 @@ class SemesterController extends Controller
         Semester::create([
             'name' => $request->name
         ]);
-
     }
 
     /**
@@ -85,7 +82,6 @@ class SemesterController extends Controller
             'name' => 'required|string|min:4|max:8'
         ]);
         $semester->update($request->all());
-
     }
 
     /**
