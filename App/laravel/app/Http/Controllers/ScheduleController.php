@@ -13,7 +13,7 @@ class ScheduleController extends Controller
      */
     public function index()
     {
-        return Schedule::with(['teachers', 'subjects'])->latest()->paginate(10);
+        return Schedule::with(['teacher', 'subject'])->latest()->paginate(10);
     }
 
     /**
