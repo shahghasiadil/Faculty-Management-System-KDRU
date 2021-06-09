@@ -18,6 +18,17 @@ class ExamScheduleController extends Controller
     }
 
     /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        return ExamSchedule::findOrFail($id);
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -47,13 +58,13 @@ class ExamScheduleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $examSchedule = ExamSchedule::findOrFail($id);
         $this->validate($request, [
             'date' => 'required|date',
             'teacher_id' => 'required|integer',
             'subject_id' => 'required|integer'
-        ]);
+            ]);
 
+        $examSchedule = ExamSchedule::findOrFail($id);
         $examSchedule->update($request->all());
     }
 

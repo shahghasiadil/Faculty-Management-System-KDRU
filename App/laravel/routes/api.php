@@ -5,6 +5,7 @@ use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\SemesterController;
 use App\Http\Controllers\ExamScheduleController;
+use App\Http\Controllers\AttendanceController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -32,3 +33,5 @@ Route::apiResource('/semesters', SemesterController::class);
 Route::apiResource('/students', StudentController::class);
 
 Route::apiResource('/examschedules', ExamScheduleController::class);
+
+Route::apiResource('/attendances', AttendanceController::class);
