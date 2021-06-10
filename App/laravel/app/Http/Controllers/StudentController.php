@@ -3,8 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Student;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use PhpParser\Node\Expr\Empty_;
+
+use function PHPUnit\Framework\isEmpty;
 
 class StudentController extends Controller
 {
@@ -24,14 +28,20 @@ class StudentController extends Controller
             'password' => 'required',
             'period' => 'required|integer'
         ]);
-        Student::create([
-            'national_id' => $request->national_id,
-            'name' => $request->name,
-            'last_name' => $request->last_name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'period' => $request->period
-        ]);
+        try {
+            Student::create([
+                'national_id' => $request->national_id,
+                'name' => $request->name,
+                'last_name' => $request->last_name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'period' => $request->period
+            ]);
+        } catch (QueryException $e) {
+            if ($e->errorInfo[1] === 1062) {
+                return ("Duplicate Entry");
+            }
+        }
     }
 
 
@@ -72,5 +82,27 @@ class StudentController extends Controller
     {
         $students = Student::findOrFail($id);
         $students->delete();
+    }
+
+    public function show($id)
+    {
+        return Student::findOrFail($id);
+    }
+    public function findByEmail(Request $request)
+    {
+        $student = Student::where('email', '=', $request->email)->get();
+        if (sizeof($student) > 0) {
+            return response()->json(["email already exists", "status" => 200]);
+        } else return response()->json(['status' => 203]);
+    }
+
+    public function permanentDelete($id)
+    {
+        $student = Student::findOrFail($id);
+        $student->forceDelete();
+    }
+    public function restore($id)
+    {
+        $studentData = Student::onlyTrashed()->where('id', $id)->restore();
     }
 }

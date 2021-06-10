@@ -27,4 +27,7 @@ Route::apiResource('/subjects', SubjectController::class);
 Route::apiResource('/schedules', ScheduleController::class);
 
 Route::apiResource('/semesters', SemesterController::class);
+//Student Routes
 Route::apiResource('/students', StudentController::class);
+Route::delete('students/delete/{id}', [StudentController::class, 'permanentDelete']);
+Route::get('/findByEmail', [StudentController::class, 'findByEmail']);
