@@ -6,9 +6,7 @@ use App\Models\Student;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use PhpParser\Node\Expr\Empty_;
-
-use function PHPUnit\Framework\isEmpty;
+use PHPUnit\Framework\MockObject\Builder\Stub;
 
 class StudentController extends Controller
 {
@@ -17,7 +15,21 @@ class StudentController extends Controller
     {
         return Student::latest()->paginate(10);
     }
-
+    // This method is for Sever Side Search
+    public function search()
+    {
+        if ($search = request()->get('q')) {
+            return Student::where(function ($query) use ($search) {
+                $query->where('name', 'LIKE', "%$search%")
+                    ->orWhere('last_name', 'LIKE', "%$search%")
+                    ->orWhere('email', 'LIKE', "%$search%")
+                    ->orWhere('national_id', 'LIKE', "%$search%")
+                    ->orWhere('period', 'LIKE', "%$search%");
+            })->paginate(10);
+        } else {
+            return Student::latest()->paginate(10);
+        }
+    }
     public function store(Request $request)
     {
         $validated = $this->validate($request, [
@@ -88,6 +100,7 @@ class StudentController extends Controller
     {
         return Student::findOrFail($id);
     }
+    // This method check if student exists 
     public function findByEmail(Request $request)
     {
         $student = Student::where('email', '=', $request->email)->get();
@@ -95,14 +108,18 @@ class StudentController extends Controller
             return response()->json(["email already exists", "status" => 200]);
         } else return response()->json(['status' => 203]);
     }
-
+    // This method is for Force Delete 
     public function permanentDelete($id)
     {
         $student = Student::findOrFail($id);
         $student->forceDelete();
     }
+    // This method is for restoring records that SoftDeletes
     public function restore($id)
     {
-        $studentData = Student::onlyTrashed()->where('id', $id)->restore();
+        $student = Student::withTrashed()->find($id);
+        if ($student && $student->trashed()) {
+            $student->restore();
+        }
     }
 }

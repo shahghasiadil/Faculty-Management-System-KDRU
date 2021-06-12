@@ -44,4 +44,16 @@ class SubjectController extends Controller
         $subject = Subject::findOrFail($id);
         $subject->delete();
     }
+    public function permanentDelete($id)
+    {
+        $subject = Subject::findOrFail($id);
+        $subject->delete();
+    }
+    public function restore($id)
+    {
+        $subject = Subject::withTrashed()->find($id);
+        if ($subject && $subject->trashed()) {
+            $subject->restore();
+        }
+    }
 }
