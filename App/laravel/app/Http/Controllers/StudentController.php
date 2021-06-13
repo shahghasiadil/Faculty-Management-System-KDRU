@@ -6,16 +6,21 @@ use App\Models\Student;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use PHPUnit\Framework\MockObject\Builder\Stub;
 
 class StudentController extends Controller
 {
+    /**
+     * @author  Shahghasi Adil
+     * @date    2021-06-13
+     * 
+     */
 
+    // ** index method for getting data
     public function index()
     {
         return Student::latest()->paginate(10);
     }
-    // This method is for Sever Side Search
+    // ** This method is for Sever Side Search
     public function search()
     {
         if ($search = request()->get('q')) {
@@ -30,6 +35,7 @@ class StudentController extends Controller
             return Student::latest()->paginate(10);
         }
     }
+    // ** store method for storing data
     public function store(Request $request)
     {
         $validated = $this->validate($request, [
@@ -55,8 +61,7 @@ class StudentController extends Controller
             }
         }
     }
-
-
+    // ** update method for updating data
     public function update(Request $request, $id)
     {
         $students = Student::findOrFail($id);
@@ -88,19 +93,18 @@ class StudentController extends Controller
             ]);
         }
     }
-
-
+    // ** destroy method for softDeletes
     public function destroy($id)
     {
         $students = Student::findOrFail($id);
         $students->delete();
     }
-
+    // ** show method for showing single record
     public function show($id)
     {
         return Student::findOrFail($id);
     }
-    // This method check if student exists 
+    // ** findByEmail method for Duplicate emails, check if student exists 
     public function findByEmail(Request $request)
     {
         $student = Student::where('email', '=', $request->email)->get();
@@ -108,13 +112,13 @@ class StudentController extends Controller
             return response()->json(["email already exists", "status" => 200]);
         } else return response()->json(['status' => 203]);
     }
-    // This method is for Force Delete 
+    // ** permanentDelete method for forceDelete 
     public function permanentDelete($id)
     {
         $student = Student::findOrFail($id);
         $student->forceDelete();
     }
-    // This method is for restoring records that SoftDeletes
+    // ** restore is for restoring records that SoftDeletes
     public function restore($id)
     {
         $student = Student::withTrashed()->find($id);

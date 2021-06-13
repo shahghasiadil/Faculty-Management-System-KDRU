@@ -9,6 +9,11 @@ use Illuminate\Support\Facades\Hash;
 
 class TeacherController extends Controller
 {
+    /**
+     * @author  Shahghasi Adil
+     * @date    2021-06-13
+     * 
+     */
 
     public function index()
     {
