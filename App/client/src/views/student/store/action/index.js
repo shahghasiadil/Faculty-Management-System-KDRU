@@ -31,41 +31,12 @@ export const getAllData = () => {
 export const getData = params => {
   return async dispatch => {
     await axios.get(`http://127.0.0.1:8000/api/students`, params).then(response => {
-      
-      
-      const { q = '', perPage = 10, page = 1 } = response.config
-      const allData = response.data.data
-    const queryLowered = q.toLowerCase()
-    const filteredData = allData.filter(
-      item =>
-        /* eslint-disable operator-linebreak, implicit-arrow-linebreak */
-        item.name.toLowerCase().includes(queryLowered) ||
-        item.last_name.toLowerCase().includes(queryLowered) ||
-        item.email.toLowerCase().includes(queryLowered) 
-        // item.age.toLowerCase().includes(queryLowered) ||
-        // item.salary.toLowerCase().includes(queryLowered) ||
-        // item.start_date.toLowerCase().includes(queryLowered)
-
-    )
-    // console.log(filteredData)
-    const dat = filteredData.slice((page - 1) * perPage, page * perPage)
-    // paginateArray(filteredData, perPage, page)
-    console.log(dat)
     dispatch({
       type: GET_DATA,
       data: dat,
       totalPages: response.data.total,
       params
     })
-    return dat
-    // console.log(filteredData)
-    // return [
-    //   200,
-    //   {
-    //     students: paginateArray(filteredData, perPage, page),
-    //     total: filteredData.length
-    //   }
-    // ]
     })
   }
 } 
