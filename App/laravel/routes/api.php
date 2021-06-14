@@ -69,6 +69,6 @@ Route::delete('midtermmarks/midtermmark/{id}', [MidtermMarkController::class, 'p
 Route::get('midtermmarks/{id}/restore', [MidtermMarkController::class, 'restore']);
 
 // ** Chance Routes
-Route::apiResouce('chances', ChanceController::class);
+Route::apiResource('chances', ChanceController::class);
 Route::delete('chances/chance/{id}', [ChanceController::class, 'permanentDelete']);
 Route::get('chances/{id}/restore', [ChanceController::class, 'restore']);
