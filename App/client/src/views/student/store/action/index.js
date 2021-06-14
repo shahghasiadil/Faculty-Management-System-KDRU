@@ -11,7 +11,7 @@ import withReactContent from 'sweetalert2-react-content'
 const MySwal = withReactContent(Swal)
 // ** ActionTypes Constants
 import { ADD_STUDENT, ARCHIVE, DELETE_STUDENT, GET_ALL_DATA, GET_DATA, GET_STUDENT, RESTORE_STUDENT, UPDATE_STUDENT } from './actionTypes'
-import { paginateArray } from '../../../../@fake-db/utils'
+
 
 
 // ** Get all Data

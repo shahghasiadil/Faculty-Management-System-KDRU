@@ -27,7 +27,7 @@ const StudentEdit = () => {
   // ** Function to toggle tabs
   const toggle = tab => setActiveTab(tab)
 
-  // ** Function to get user on mount
+  // ** Function to get student on mount
   useEffect(() => {
     dispatch(getStudent(parseInt(id)))
   }, [dispatch])
