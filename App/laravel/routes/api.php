@@ -7,6 +7,7 @@ use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\SemesterController;
 use App\Http\Controllers\ExamScheduleController;
 use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\ChanceController;
 use App\Http\Controllers\FinalMarkController;
 use App\Http\Controllers\TeacherController;
 use Illuminate\Http\Request;
@@ -29,7 +30,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 // ** Schedule Routes
 Route::apiResource('schedules', ScheduleController::class);
 
-// ** Exam_Schedule Routes 
+// ** Exam_Schedule Routes
 Route::apiResource('examschedules', ExamScheduleController::class);
 
 // ** Attendance Routes
@@ -50,7 +51,7 @@ Route::delete('students/student/{id}', [StudentController::class, 'permanentDele
 Route::get('students/{id}/restore', [StudentController::class, 'restore']);
 Route::get('/findByEmail', [StudentController::class, 'findByEmail']);
 
-// **  Teacher Routes 
+// **  Teacher Routes
 Route::apiResource('teachers', TeacherController::class);
 Route::delete('teachers/teacher/{id}', [TeacherController::class, 'permanentDelete']);
 Route::get('teachers/{id}/restore', [TeacherController::class, 'restore']);
@@ -66,3 +67,8 @@ Route::get('finalmarks/{id}/restore', [FinalMarkController::class, 'restore']);
 Route::apiResource('midtermmarks', MidtermMarkController::class);
 Route::delete('midtermmarks/midtermmark/{id}', [MidtermMarkController::class, 'permanentDelete']);
 Route::get('midtermmarks/{id}/restore', [MidtermMarkController::class, 'restore']);
+
+// ** Chance Routes
+Route::apiResouce('chances', ChanceController::class);
+Route::delete('chances/chance/{id}', [ChanceController::class, 'permanentDelete']);
+Route::get('chances/{id}/restore', [ChanceController::class, 'restore']);
