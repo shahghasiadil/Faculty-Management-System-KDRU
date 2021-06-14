@@ -27,25 +27,24 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-// ** Schedule Routes
+// **  Schedule Routes
 Route::apiResource('schedules', ScheduleController::class);
 
-// ** Exam_Schedule Routes
+// **  Exam_Schedule Routes
 Route::apiResource('examschedules', ExamScheduleController::class);
 
-// ** Attendance Routes
+// **  Attendance Routes
 Route::apiResource('attendances', AttendanceController::class);
 
-// ** Semester Routes
+// **  Semester Routes
 Route::apiResource('semesters', SemesterController::class);
 
-
-// ** Subject routes
+// **  Subject routes
 Route::apiResource('subjects', SubjectController::class);
 Route::delete('subjects/subject/{id}', [SubjectController::class, 'permanentDelete']);
 Route::get('subjects/{id}/restore', [SubjectController::class, 'restore']);
 
-// ** Student Routes
+// **  Student Routes
 Route::apiResource('/students', StudentController::class);
 Route::delete('students/student/{id}', [StudentController::class, 'permanentDelete']);
 Route::get('students/{id}/restore', [StudentController::class, 'restore']);
@@ -57,13 +56,12 @@ Route::delete('teachers/teacher/{id}', [TeacherController::class, 'permanentDele
 Route::get('teachers/{id}/restore', [TeacherController::class, 'restore']);
 Route::get('/findTeacherByEmail', [TeacherController::class, 'findByEmail']);
 
-
-// ** Final Mark Routes
+// **  Final Mark Routes
 Route::apiResource('finalmarks', FinalMarkController::class);
 Route::delete('finalmarks/finalmark/{id}', [FinalMarkController::class, 'permanentDelete']);
 Route::get('finalmarks/{id}/restore', [FinalMarkController::class, 'restore']);
 
-// ** Midterm Mark Routes
+// **  Midterm Mark Routes
 Route::apiResource('midtermmarks', MidtermMarkController::class);
 Route::delete('midtermmarks/midtermmark/{id}', [MidtermMarkController::class, 'permanentDelete']);
 Route::get('midtermmarks/{id}/restore', [MidtermMarkController::class, 'restore']);

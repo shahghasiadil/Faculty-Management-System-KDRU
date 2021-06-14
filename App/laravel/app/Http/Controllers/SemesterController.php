@@ -16,7 +16,7 @@ class SemesterController extends Controller
      */
     public function index()
     {
-        return Semester::with('students')->latest()->paginate(10);
+        return Semester::latest()->paginate(10);
     }
 
     /**
