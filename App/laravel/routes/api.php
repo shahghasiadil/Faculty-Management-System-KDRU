@@ -33,7 +33,7 @@ Route::delete('schedules/schedule/{id}', [SemesterController::class, 'permanentD
 Route::get('schedules/{id}/restore', [SemesterController::class, 'restore']);
 
 // **  Exam_Schedule Routes
-Route::apiResource('examschedules', ExamScheduleController::class);
+Route::apiResource('exam-schedules', ExamScheduleController::class);
 
 // **  Subject routes
 Route::apiResource('subjects', SubjectController::class);
@@ -44,30 +44,30 @@ Route::get('subjects/{id}/restore', [SubjectController::class, 'restore']);
 Route::apiResource('/students', StudentController::class);
 Route::delete('students/student/{id}', [StudentController::class, 'permanentDelete']);
 Route::get('students/{id}/restore', [StudentController::class, 'restore']);
-Route::get('/findByEmail', [StudentController::class, 'findByEmail']);
+Route::get('/find-by-email', [StudentController::class, 'findByEmail']);
 
 // **  Teacher Routes
 Route::apiResource('teachers', TeacherController::class);
 Route::delete('teachers/teacher/{id}', [TeacherController::class, 'permanentDelete']);
 Route::get('teachers/{id}/restore', [TeacherController::class, 'restore']);
-Route::get('/findTeacherByEmail', [TeacherController::class, 'findByEmail']);
+Route::get('/find-teacher-by-email', [TeacherController::class, 'findByEmail']);
 
 // **  Final Mark Routes
-Route::apiResource('finalmarks', FinalMarkController::class);
-Route::delete('finalmarks/finalmark/{id}', [FinalMarkController::class, 'permanentDelete']);
-Route::get('finalmarks/{id}/restore', [FinalMarkController::class, 'restore']);
+Route::apiResource('final-marks', FinalMarkController::class);
+Route::delete('final-marks/final-mark/{id}', [FinalMarkController::class, 'permanentDelete']);
+Route::get('final-marks/{id}/restore', [FinalMarkController::class, 'restore']);
 
 // **  Midterm Mark Routes
-Route::apiResource('midtermmarks', MidtermMarkController::class);
-Route::delete('midtermmarks/midtermmark/{id}', [MidtermMarkController::class, 'permanentDelete']);
-Route::get('midtermmarks/{id}/restore', [MidtermMarkController::class, 'restore']);
+Route::apiResource('mid-term-marks', MidtermMarkController::class);
+Route::delete('mid-term-marks/mid-term-mark/{id}', [MidtermMarkController::class, 'permanentDelete']);
+Route::get('mid-term-marks/{id}/restore', [MidtermMarkController::class, 'restore']);
 
-// ** Chance Routes
+// **  Chance Routes
 Route::apiResource('chances', ChanceController::class);
 Route::delete('chances/chance/{id}', [ChanceController::class, 'permanentDelete']);
 Route::get('chances/{id}/restore', [ChanceController::class, 'restore']);
 
-//  **Attendance Routes
+// **  Attendance Routes
 Route::apiResource('attendances', AttendanceController::class);
 Route::delete('attendances/attendance/{id}', [AttendanceController::class, 'permanentDelete']);
 Route::get('attendances/{id}/restore', [AttendanceController::class, 'restore']);
