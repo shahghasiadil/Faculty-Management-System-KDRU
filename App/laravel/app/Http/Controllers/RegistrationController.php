@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Student;
 use Illuminate\Http\Request;
 
 class RegistrationController extends Controller
@@ -9,7 +10,7 @@ class RegistrationController extends Controller
     /**
      * @author  Shahghasi Adil
      * @date    2021-06-13
-     * 
+     *
      */
 
     /**
@@ -38,9 +39,9 @@ class RegistrationController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request,$id)
     {
-        //
+        $student = Student::findOrFail($id)
     }
 
     /**
