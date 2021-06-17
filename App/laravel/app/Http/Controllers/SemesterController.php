@@ -110,4 +110,12 @@ class SemesterController extends Controller
             $semester->restore();
         }
     }
+
+    public function findByNumber(Request $request)
+    {
+        $semester = Semester::where('name', '=', $request->name)->get();
+        if (sizeof($semester) > 0) {
+            return response()->json(["semester already exists", "status" => 200]);
+        } else return response()->json(['status' => 203]);
+    }
 }

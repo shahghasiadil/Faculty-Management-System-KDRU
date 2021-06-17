@@ -27,6 +27,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
 // **  Schedule Routes
 Route::apiResource('schedules', ScheduleController::class);
 Route::delete('schedules/schedule/{id}', [SemesterController::class, 'permanentDelete']);
@@ -34,6 +35,8 @@ Route::get('schedules/{id}/restore', [SemesterController::class, 'restore']);
 
 // **  Exam_Schedule Routes
 Route::apiResource('exam-schedules', ExamScheduleController::class);
+Route::delete('exam-schedules/exam-schedule/{id}', [ExamScheduleController::class, 'permanentDelete']);
+Route::get('exam-schedules/{id}/restore', [ExamScheduleController::class, 'restore']);
 
 // **  Subject routes
 Route::apiResource('subjects', SubjectController::class);
@@ -76,3 +79,4 @@ Route::get('attendances/{id}/restore', [AttendanceController::class, 'restore'])
 Route::apiResource('semesters', SemesterController::class);
 Route::delete('semesters/semester/{id}', [SemesterController::class, 'permanentDelete']);
 Route::get('semesters/{id}/restore', [SemesterController::class, 'restore']);
+Route::get('/find-semester-by-number', [SemesterController::class, 'findByNumber']);
