@@ -85,12 +85,22 @@ class AttendanceController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        $examSchedule = Attendance::findOrFail($id);
-        if($request->permanent_delete){
-            $examSchedule->forceDelete();
-        }
-        else{
-            $examSchedule->delete();
+        $attendance = Attendance::findOrFail($id);
+        $attendance->delete();
+    }
+
+    // ** permanentDelete method for forceDelete
+    public function permanentDelete($id)
+    {
+        $attendance = Attendance::findOrFail($id);
+        $attendance->forceDelete();
+    }
+    // ** restore method for restoring softDeletes records
+    public function restore($id)
+    {
+        $attendance = Attendance::withTrashed()->find($id);
+        if ($attendance && $attendance->trashed()) {
+            $attendance->restore();
         }
     }
 }

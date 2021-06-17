@@ -29,15 +29,11 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 // **  Schedule Routes
 Route::apiResource('schedules', ScheduleController::class);
+Route::delete('schedules/schedule/{id}', [SemesterController::class, 'permanentDelete']);
+Route::get('schedules/{id}/restore', [SemesterController::class, 'restore']);
 
 // **  Exam_Schedule Routes
 Route::apiResource('examschedules', ExamScheduleController::class);
-
-// **  Attendance Routes
-Route::apiResource('attendances', AttendanceController::class);
-
-// **  Semester Routes
-Route::apiResource('semesters', SemesterController::class);
 
 // **  Subject routes
 Route::apiResource('subjects', SubjectController::class);
@@ -70,3 +66,13 @@ Route::get('midtermmarks/{id}/restore', [MidtermMarkController::class, 'restore'
 Route::apiResource('chances', ChanceController::class);
 Route::delete('chances/chance/{id}', [ChanceController::class, 'permanentDelete']);
 Route::get('chances/{id}/restore', [ChanceController::class, 'restore']);
+
+//  **Attendance Routes
+Route::apiResource('attendances', AttendanceController::class);
+Route::delete('attendances/attendance/{id}', [AttendanceController::class, 'permanentDelete']);
+Route::get('attendances/{id}/restore', [AttendanceController::class, 'restore']);
+
+// **  Semester Routes
+Route::apiResource('semesters', SemesterController::class);
+Route::delete('semesters/semester/{id}', [SemesterController::class, 'permanentDelete']);
+Route::get('semesters/{id}/restore', [SemesterController::class, 'restore']);

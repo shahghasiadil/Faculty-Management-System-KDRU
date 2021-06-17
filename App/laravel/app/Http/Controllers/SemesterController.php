@@ -95,4 +95,19 @@ class SemesterController extends Controller
         $semester = Semester::findOrFail($id);
         $semester->delete();
     }
+
+    // ** permanentDelete method for forceDelete
+    public function permanentDelete($id)
+    {
+        $semester = Semester::findOrFail($id);
+        $semester->forceDelete();
+    }
+    // ** restore method for restoring softDeletes records
+    public function restore($id)
+    {
+        $semester = Semester::withTrashed()->find($id);
+        if ($semester && $semester->trashed()) {
+            $semester->restore();
+        }
+    }
 }
