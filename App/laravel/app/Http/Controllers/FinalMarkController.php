@@ -2,48 +2,30 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Semester;
-use App\Models\Student;
-
+use App\Models\FinalMark;
 use Illuminate\Http\Request;
 
-class SemesterController extends Controller
+class FinalMarkController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
-        return Semester::latest()->paginate(10);
+        return FinalMark::with('student,subject')->latest()->paginate(10);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'name' => 'required|string|min:4|max:7'
+        $validated = $this->validate($request, [
+            'marks' => 'required|integer',
+            'student_id' => 'required|integer',
+            'subject_id' => 'required|integer'
         ]);
 
-        Semester::create([
-            'name' => $request->name
-        ]);
+        FinalMark::create($validated);
     }
 
     /**
@@ -54,7 +36,7 @@ class SemesterController extends Controller
      */
     public function show($id)
     {
-        //
+        return FinalMark::with('student,subject')->findOrFail($id);
     }
 
     /**
@@ -77,11 +59,13 @@ class SemesterController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $semester = Semester::findOrFail($id);
-        $this->validate($request, [
-            'name' => 'required|string|min:4|max:8'
+        $finalMark = FinalMark::findOrFail($id);
+        $validated = $this->validate($request, [
+            'marks' => 'required|integer',
+            'student_id' => 'required|integer',
+            'subject_id' => 'required|integer'
         ]);
-        $semester->update($request->all());
+        $finalMark->update($validated);
     }
 
     /**
@@ -92,22 +76,21 @@ class SemesterController extends Controller
      */
     public function destroy($id)
     {
-        $semester = Semester::findOrFail($id);
-        $semester->delete();
+        $finalMark = FinalMark::findOrFail($id);
+        $finalMark->delete();
     }
-
     // ** permanentDelete method for forceDelete
     public function permanentDelete($id)
     {
-        $semester = Semester::findOrFail($id);
-        $semester->forceDelete();
+        $finalMark = FinalMark::findOrFail($id);
+        $finalMark->forceDelete();
     }
     // ** restore method for restoring softDeletes records
     public function restore($id)
     {
-        $semester = Semester::withTrashed()->find($id);
-        if ($semester && $semester->trashed()) {
-            $semester->restore();
+        $finalMark = FinalMark::withTrashed()->find($id);
+        if ($finalMark && $finalMark->trashed()) {
+            $finalMark->restore();
         }
     }
 }

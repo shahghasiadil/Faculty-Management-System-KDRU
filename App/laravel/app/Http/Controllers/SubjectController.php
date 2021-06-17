@@ -7,6 +7,12 @@ use Illuminate\Http\Request;
 
 class SubjectController extends Controller
 {
+    /**
+     * @author  Shahghasi Adil
+     * @date    2021-06-13
+     * 
+     */
+
     // index Method return the data of subjects with semester
     public function index()
     {
@@ -43,5 +49,17 @@ class SubjectController extends Controller
     {
         $subject = Subject::findOrFail($id);
         $subject->delete();
+    }
+    public function permanentDelete($id)
+    {
+        $subject = Subject::findOrFail($id);
+        $subject->delete();
+    }
+    public function restore($id)
+    {
+        $subject = Subject::withTrashed()->find($id);
+        if ($subject && $subject->trashed()) {
+            $subject->restore();
+        }
     }
 }

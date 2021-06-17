@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Semester;
 use App\Models\Student;
-
 use Illuminate\Http\Request;
 
-class SemesterController extends Controller
+class RegistrationController extends Controller
 {
+    /**
+     * @author  Shahghasi Adil
+     * @date    2021-06-13
+     *
+     */
+
     /**
      * Display a listing of the resource.
      *
@@ -16,7 +20,7 @@ class SemesterController extends Controller
      */
     public function index()
     {
-        return Semester::latest()->paginate(10);
+        //
     }
 
     /**
@@ -35,15 +39,9 @@ class SemesterController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request,$id)
     {
-        $this->validate($request, [
-            'name' => 'required|string|min:4|max:7'
-        ]);
-
-        Semester::create([
-            'name' => $request->name
-        ]);
+        $student = Student::findOrFail($id)
     }
 
     /**
@@ -77,11 +75,7 @@ class SemesterController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $semester = Semester::findOrFail($id);
-        $this->validate($request, [
-            'name' => 'required|string|min:4|max:8'
-        ]);
-        $semester->update($request->all());
+        //
     }
 
     /**
@@ -92,22 +86,6 @@ class SemesterController extends Controller
      */
     public function destroy($id)
     {
-        $semester = Semester::findOrFail($id);
-        $semester->delete();
-    }
-
-    // ** permanentDelete method for forceDelete
-    public function permanentDelete($id)
-    {
-        $semester = Semester::findOrFail($id);
-        $semester->forceDelete();
-    }
-    // ** restore method for restoring softDeletes records
-    public function restore($id)
-    {
-        $semester = Semester::withTrashed()->find($id);
-        if ($semester && $semester->trashed()) {
-            $semester->restore();
-        }
+        //
     }
 }

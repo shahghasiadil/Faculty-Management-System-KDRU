@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMidtermMarksTable extends Migration
+class CreateStudentSubjectTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateMidtermMarksTable extends Migration
      */
     public function up()
     {
-        Schema::create('midterm_marks', function (Blueprint $table) {
+        Schema::create('student_subject', function (Blueprint $table) {
             $table->id();
-            $table->integer('marks');
             $table->foreignId('student_id')->constrained();
             $table->foreignId('subject_id')->constrained();
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ class CreateMidtermMarksTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('midterm_marks');
+        Schema::dropIfExists('student_subject');
     }
 }

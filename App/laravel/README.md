@@ -1,3 +1,5 @@
-#Laravel App Installation Commands
-composer install
-npm install
+# Laravel App Installation Commands
+
+# composer install
+
+# npm install

@@ -32,7 +32,7 @@ class AttendanceController extends Controller
             'end_time' => 'required|regex:/(\d+\:\d+)/',
             'student_id' => 'required|integer',
             'subject_id' => 'required|integer',
-            ]);
+        ]);
 
         Attendance::create([
             'state' => $request->state,
@@ -71,7 +71,7 @@ class AttendanceController extends Controller
             'end_time' => 'required|regex:/(\d+\:\d+)/',
             'student_id' => 'required|integer',
             'subject_id' => 'required|integer',
-            ]);
+        ]);
 
         $attendance = Attendance::findOrFail($id);
         $attendance->update($request->all());
@@ -83,14 +83,24 @@ class AttendanceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, $id)
+    public function destroy($id)
     {
-        $examSchedule = Attendance::findOrFail($id);
-        if($request->permanent_delete){
-            $examSchedule->forceDelete();
-        }
-        else{
-            $examSchedule->delete();
+        $attendance = Attendance::findOrFail($id);
+        $attendance->delete();
+    }
+
+    // ** permanentDelete method for forceDelete
+    public function permanentDelete($id)
+    {
+        $attendance = Attendance::findOrFail($id);
+        $attendance->forceDelete();
+    }
+    // ** restore method for restoring softDeletes records
+    public function restore($id)
+    {
+        $attendance = Attendance::withTrashed()->find($id);
+        if ($attendance && $attendance->trashed()) {
+            $attendance->restore();
         }
     }
 }

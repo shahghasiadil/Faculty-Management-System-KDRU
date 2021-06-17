@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Semester;
-use App\Models\Student;
-
+use App\Models\Chance;
 use Illuminate\Http\Request;
 
-class SemesterController extends Controller
+class ChanceController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +14,7 @@ class SemesterController extends Controller
      */
     public function index()
     {
-        return Semester::latest()->paginate(10);
+        return Chance::with('student, subject')->latest()->paginate(10);
     }
 
     /**
@@ -37,13 +35,14 @@ class SemesterController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'name' => 'required|string|min:4|max:7'
+        $validated = $this->validate($request, [
+            'marks' => 'required|integer',
+            'chance_count' => 'required|integer',
+            'student_id' => 'required|integer',
+            'subject_id' => 'required|integer'
         ]);
 
-        Semester::create([
-            'name' => $request->name
-        ]);
+        Chance::create($validated);
     }
 
     /**
@@ -54,7 +53,7 @@ class SemesterController extends Controller
      */
     public function show($id)
     {
-        //
+        return Chance::with('student, subject')->findOrFail($id);
     }
 
     /**
@@ -77,11 +76,14 @@ class SemesterController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $semester = Semester::findOrFail($id);
-        $this->validate($request, [
-            'name' => 'required|string|min:4|max:8'
+        $chance = Chance::findOrFail($id);
+        $validated = $this->validate($request, [
+            'marks' => 'required|integer',
+            'chance_count' => 'required|integer',
+            'student_id' => 'required|integer',
+            'subject_id' => 'required|integer'
         ]);
-        $semester->update($request->all());
+        $chance->update($validated);
     }
 
     /**
@@ -92,22 +94,19 @@ class SemesterController extends Controller
      */
     public function destroy($id)
     {
-        $semester = Semester::findOrFail($id);
-        $semester->delete();
+        $chance = Chance::findOrFail($id);
+        $chance->delete();
     }
-
-    // ** permanentDelete method for forceDelete
     public function permanentDelete($id)
     {
-        $semester = Semester::findOrFail($id);
-        $semester->forceDelete();
+        $chance = Chance::findOrFail($id);
+        $chance->forceDelete();
     }
-    // ** restore method for restoring softDeletes records
     public function restore($id)
     {
-        $semester = Semester::withTrashed()->find($id);
-        if ($semester && $semester->trashed()) {
-            $semester->restore();
+        $chance = Chance::withTrashed()->find($id);
+        if ($chance && $chance->trashed()) {
+            $chance->restore();
         }
     }
 }

@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Semester;
-use App\Models\Student;
-
 use Illuminate\Http\Request;
+use APP\Models\MidtermMark;
 
-class SemesterController extends Controller
+class MidtermMarkController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +14,7 @@ class SemesterController extends Controller
      */
     public function index()
     {
-        return Semester::latest()->paginate(10);
+        return MidtermMark::with('student,subject')->latest()->paginate(10);
     }
 
     /**
@@ -26,7 +24,6 @@ class SemesterController extends Controller
      */
     public function create()
     {
-        //
     }
 
     /**
@@ -37,13 +34,16 @@ class SemesterController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'name' => 'required|string|min:4|max:7'
-        ]);
+        $validated = $this->validate(
+            $request,
+            [
+                'marks' => 'required|integer',
+                'subject_id' => 'required',
+                'student_id' => 'required'
+            ]
+        );
 
-        Semester::create([
-            'name' => $request->name
-        ]);
+        MidtermMark::create($validated);
     }
 
     /**
@@ -54,7 +54,7 @@ class SemesterController extends Controller
      */
     public function show($id)
     {
-        //
+        return MidtermMark::with('student, subject')->findOrFail($id);
     }
 
     /**
@@ -77,11 +77,17 @@ class SemesterController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $semester = Semester::findOrFail($id);
-        $this->validate($request, [
-            'name' => 'required|string|min:4|max:8'
-        ]);
-        $semester->update($request->all());
+        //
+        $midtermMark = MidtermMark::findOrFail($id);
+        $validated = $this->validate(
+            $request,
+            [
+                'marks' => 'required|integer',
+                'subject_id' => 'required',
+                'student_id' => 'required'
+            ]
+        );
+        $midtermMark->update($validated);
     }
 
     /**
@@ -92,22 +98,19 @@ class SemesterController extends Controller
      */
     public function destroy($id)
     {
-        $semester = Semester::findOrFail($id);
-        $semester->delete();
+        $midtermMark = MidtermMark::findOrFail($Id);
+        $midtermMark->delete();
     }
-
-    // ** permanentDelete method for forceDelete
     public function permanentDelete($id)
     {
-        $semester = Semester::findOrFail($id);
-        $semester->forceDelete();
+        $midtermMark = MidtermMark::findOrFail($Id);
+        $midtermMark->forceDelete();
     }
-    // ** restore method for restoring softDeletes records
     public function restore($id)
     {
-        $semester = Semester::withTrashed()->find($id);
-        if ($semester && $semester->trashed()) {
-            $semester->restore();
+        $midtermMark = MidtermMark::withTrashed()->find($id);
+        if ($midtermMark && $midtermMark->trashed()) {
+            $midtermMark->restore();
         }
     }
 }
