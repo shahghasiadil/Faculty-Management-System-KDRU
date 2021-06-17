@@ -74,4 +74,19 @@ class ScheduleController extends Controller
         $schedule = Schedule::findOrFail($id);
         $schedule->delete();
     }
+
+    // ** permanentDelete method for forceDelete
+    public function permanentDelete($id)
+    {
+        $schedule = Schedule::findOrFail($id);
+        $schedule->forceDelete();
+    }
+    // ** restore method for restoring softDeletes records
+    public function restore($id)
+    {
+        $schedule = Schedule::withTrashed()->find($id);
+        if ($schedule && $schedule->trashed()) {
+            $schedule->restore();
+        }
+    }
 }

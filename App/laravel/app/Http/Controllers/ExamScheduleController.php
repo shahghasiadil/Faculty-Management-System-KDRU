@@ -79,4 +79,19 @@ class ExamScheduleController extends Controller
         $examSchedule = ExamSchedule::findOrFail($id);
         $examSchedule->delete();
     }
+
+    // ** permanentDelete method for forceDelete
+    public function permanentDelete($id)
+    {
+        $examSchedule = ExamSchedule::findOrFail($id);
+        $examSchedule->forceDelete();
+    }
+    // ** restore method for restoring softDeletes records
+    public function restore($id)
+    {
+        $examSchedule = ExamSchedule::withTrashed()->find($id);
+        if ($examSchedule && $examSchedule->trashed()) {
+            $examSchedule->restore();
+        }
+    }
 }
