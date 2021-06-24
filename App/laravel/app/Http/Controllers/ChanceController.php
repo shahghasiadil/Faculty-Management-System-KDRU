@@ -14,7 +14,7 @@ class ChanceController extends Controller
      */
     public function index()
     {
-        return Chance::with('student, subject')->latest()->paginate(10);
+        return Chance::with('student', 'subject')->latest()->paginate(10);
     }
 
     /**
@@ -53,7 +53,7 @@ class ChanceController extends Controller
      */
     public function show($id)
     {
-        return Chance::with('student, subject')->findOrFail($id);
+        return Chance::with('student', 'subject')->findOrFail($id);
     }
 
     /**
