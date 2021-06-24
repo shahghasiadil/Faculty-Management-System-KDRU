@@ -11,11 +11,11 @@ import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 const MySwal = withReactContent(Swal)
 // ** ActionTypes Constants
-import { ADD_STUDENT, ARCHIVE, DELETE_STUDENT, GET_ALL_DATA, GET_DATA, GET_STUDENT, RESTORE_STUDENT, UPDATE_STUDENT } from './actionTypes'
+import { ADD_MID_TERM_MARKS, ARCHIVE, DELETE_MID_TERM_MARKS, GET_ALL_DATA, GET_DATA, GET_MID_TERM_MARKS, RESTORE_MID_TERM_MARKS, UPDATE_MID_TERM_MARKS } from './actionTypes'
 // ** Get all Data
 export const getAllData = () => {
   return async dispatch => {
-    await axios.get('http://127.0.0.1:8000/api/students').then(response => {
+    await axios.get('http://127.0.0.1:8000/api/mid-term-marks').then(response => {
       dispatch({
         type: GET_ALL_DATA,
         data: response.data.data
@@ -28,7 +28,7 @@ export const getAllData = () => {
 // ** Get data on page or row change
 export const getData = params => {
   return async dispatch => {
-    await axios.get(`http://127.0.0.1:8000/api/students`, params).then(response => {
+    await axios.get(`http://127.0.0.1:8000/api/mid-term-marks`, params).then(response => {
     dispatch({
       type: GET_DATA,
       data: response.data,
@@ -38,38 +38,35 @@ export const getData = params => {
     })
   }
 } 
-// ** Get Student
-export const getStudent = id => {
+// ** Get Final Marks
+export const getMidTermMark = id => {
   return async dispatch => {
     await axios
-      .get(`http://127.0.0.1:8000/api/students/${id}`)
+      .get(`http://127.0.0.1:8000/api/mid-term-marks/${id}`)
       .then(response => {
         dispatch({
-          type: GET_STUDENT,
-          selectedStudent: response.data
+          type: GET_MID_TERM_MARKS,
+          selectedMidTermMark: response.data
         })
       })
       .catch(err => console.log(err))
   }
 }
 
-// ** Add new student
-export const addStudent = student => {
+// ** Add new Final Mark
+export const addMidTermMark = midTermMark => {
   return (dispatch, getState) => {
     axios
-      .post('http://127.0.0.1:8000/api/students', student)
+      .post('http://127.0.0.1:8000/api/mid-term-marks', midTermMark)
       .then(response => {
         dispatch({
-          type: ADD_STUDENT,
-          student
+          type: ADD_MID_TERM_MARKS,
+          midTermMark 
         })
-        if (response.data) {
-          throw new Error("Duplicate Email or National ID")
-        }
       })
       .then(() => {
-        toast.success(<SuccessProgressToast name={student.name} lastName = {student.last_name}/>)        
-        dispatch(getData(getState().students.params))
+        toast.success(<SuccessProgressToast  mark = {midTermMark.marks} />)        
+        dispatch(getData(getState().midTermMarks.params))
         dispatch(getAllData())
         
       })
@@ -77,22 +74,23 @@ export const addStudent = student => {
         toast.success(<ErrorToast/>)        
       })
     }
+    //console.log(finalMark)
   }
   // ** Update Student
-  export const updateStudent = (student, id) => {
+  export const updateMidTermMark = (midTermMark, id) => {
     return (dispatch, getState) => {
       axios
-        .put(`http://127.0.0.1:8000/api/students/${id}`, student)
+        .put(`http://127.0.0.1:8000/api/mid-term-marks/${id}`, midTermMark)
         .then(response => {
           dispatch({
-            type: UPDATE_STUDENT,
-            student
+            type: UPDATE_MID_TERM_MARKS,
+            midTermMark
           })
           
         })
         .then(() => {
           toast.success(<UpdateProgressToast/>)        
-          dispatch(getData(getState().students.params))
+          dispatch(getData(getState().midTermMarks.params))
           dispatch(getAllData())
           
         })
@@ -100,7 +98,7 @@ export const addStudent = student => {
       }
     }
   // ** Delete Student
-  export const deleteStudent = id => {
+  export const deleteMidTermMark = id => {
     return (dispatch, getState) => {
        MySwal.fire({
           title: 'Are you sure?',
@@ -115,10 +113,10 @@ export const addStudent = student => {
           buttonsStyling: false
         }).then(function (result) {
           if (result.value) {
-            axios.delete(`http://127.0.0.1:8000/api/students/student/${id}`)
+            axios.delete(`http://127.0.0.1:8000/api/mid-term-marks/mid-term-mark/${id}`)
             .then(() => {
                 dispatch({
-                type: DELETE_STUDENT
+                type: DELETE_MID_TERM_MARKS
                 })
                 MySwal.fire({
                   icon: 'success',
@@ -136,20 +134,20 @@ export const addStudent = student => {
           }
         })      
       .then(() => {
-        dispatch(getData(getState().students.params))
+        dispatch(getData(getState().midTermMarks.params))
         dispatch(getAllData())
       }).catch(err => console.log(err))
   }
 }
 // ** Move to Recycle bin student
-export const archiveStudent = id => {
+export const archiveMidTermMark = id => {
   return (dispatch, getState) => {
-    axios.delete(`http://127.0.0.1:8000/api/students/${id}`).then(() => {
+    axios.delete(`http://127.0.0.1:8000/api/mid-term-marks/${id}`).then(() => {
       dispatch({
         type:ARCHIVE
       })
     }).then(() => {
-      dispatch(getData(getState().students.params))
+      dispatch(getData(getState().midTermMarks.params))
       dispatch(getAllData())
       toast.success(<AlertComponent id = {id}/>,
         { transition: Slide, autoClose: 10000 }
@@ -159,14 +157,14 @@ export const archiveStudent = id => {
   }
 }
 // ** Restore Student
-export const restoreStudent = id => {
+export const restoreMidTermMark = id => {
   return (dispatch, getState) => {
-    axios.get(`http://127.0.0.1:8000/api/students/${id}/restore`).then(() => {
+    axios.get(`http://127.0.0.1:8000/api/mid-term-marks/${id}/restore`).then(() => {
       dispatch({
-        type:RESTORE_STUDENT
+        type:RESTORE_MID_TERM_MARKS
       })
     }).then(() => {
-      dispatch(getData(getState().students.params))
+      dispatch(getData(getState().midTermMarks.params))
       dispatch(getAllData())
     }).catch(err => console.log(err))
   }

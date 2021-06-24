@@ -35,6 +35,24 @@ export default [
     navLink: '/subjects'
   },
   {
+    id: 'final-marks',
+    title: 'Final Marks',
+    icon: <FileText size={20}/>,
+    navLink: '/final-marks'
+  },
+  {
+    id: 'mid-term-marks',
+    title: 'Mid Term Marks',
+    icon: <FileText size={20}/>,
+    navLink: '/mid-term-marks'
+  },
+  {
+    id: 'chance',
+    title: 'Chance',
+    icon: <FileText size={20}/>,
+    navLink: '/chances'
+  },
+  {
     id: 'registration',
     title: 'Registration',
     icon: <Edit3 size={20}/>,

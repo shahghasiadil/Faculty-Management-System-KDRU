@@ -11,11 +11,11 @@ import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 const MySwal = withReactContent(Swal)
 // ** ActionTypes Constants
-import { ADD_STUDENT, ARCHIVE, DELETE_STUDENT, GET_ALL_DATA, GET_DATA, GET_STUDENT, RESTORE_STUDENT, UPDATE_STUDENT } from './actionTypes'
+import { ADD_CHANCE, ARCHIVE, DELETE_CHANCE, GET_ALL_DATA, GET_DATA, GET_CHANCE, RESTORE_CHANCE, UPDATE_CHANCE } from './actionTypes'
 // ** Get all Data
 export const getAllData = () => {
   return async dispatch => {
-    await axios.get('http://127.0.0.1:8000/api/students').then(response => {
+    await axios.get('http://127.0.0.1:8000/api/chances').then(response => {
       dispatch({
         type: GET_ALL_DATA,
         data: response.data.data
@@ -28,7 +28,7 @@ export const getAllData = () => {
 // ** Get data on page or row change
 export const getData = params => {
   return async dispatch => {
-    await axios.get(`http://127.0.0.1:8000/api/students`, params).then(response => {
+    await axios.get(`http://127.0.0.1:8000/api/chances`, params).then(response => {
     dispatch({
       type: GET_DATA,
       data: response.data,
@@ -38,69 +38,67 @@ export const getData = params => {
     })
   }
 } 
-// ** Get Student
-export const getStudent = id => {
+// ** Get Chance
+export const getChance = id => {
   return async dispatch => {
     await axios
-      .get(`http://127.0.0.1:8000/api/students/${id}`)
+      .get(`http://127.0.0.1:8000/api/chances/${id}`)
       .then(response => {
         dispatch({
-          type: GET_STUDENT,
-          selectedStudent: response.data
+          type: GET_CHANCE,
+          selectedChance: response.data
         })
       })
       .catch(err => console.log(err))
   }
 }
 
-// ** Add new student
-export const addStudent = student => {
+// ** Add new Chance
+export const addChance = chance => {
   return (dispatch, getState) => {
     axios
-      .post('http://127.0.0.1:8000/api/students', student)
+      .post('http://127.0.0.1:8000/api/chances', chance)
       .then(response => {
         dispatch({
-          type: ADD_STUDENT,
-          student
+          type: ADD_CHANCE,
+          chance 
         })
-        if (response.data) {
-          throw new Error("Duplicate Email or National ID")
-        }
       })
       .then(() => {
-        toast.success(<SuccessProgressToast name={student.name} lastName = {student.last_name}/>)        
-        dispatch(getData(getState().students.params))
+        toast.success(<SuccessProgressToast  chanceCount = {chance.chance_count} mark = {chance.marks} />)        
+        dispatch(getData(getState().chances.params))
         dispatch(getAllData())
         
       })
-      .catch(() => {
-        toast.success(<ErrorToast/>)        
+      .catch((e) => {
+        toast.success(<ErrorToast/>)       
       })
     }
+    //console.log(finalMark)
   }
-  // ** Update Student
-  export const updateStudent = (student, id) => {
+  // ** Update Chance
+  export const updateChance = (chance, id) => {
     return (dispatch, getState) => {
       axios
-        .put(`http://127.0.0.1:8000/api/students/${id}`, student)
+        .put(`http://127.0.0.1:8000/api/chances/${id}`, chance)
         .then(response => {
           dispatch({
-            type: UPDATE_STUDENT,
-            student
+            type: CHANCE,
+            chance
           })
           
         })
         .then(() => {
           toast.success(<UpdateProgressToast/>)        
-          dispatch(getData(getState().students.params))
+          dispatch(getData(getState().chances.params))
           dispatch(getAllData())
           
         })
         .catch(err => console.log(err))
       }
     }
-  // ** Delete Student
-  export const deleteStudent = id => {
+  // ** Delete Chance
+  export const deleteChance = id => {
     return (dispatch, getState) => {
        MySwal.fire({
           title: 'Are you sure?',
@@ -115,10 +113,10 @@ export const addStudent = student => {
           buttonsStyling: false
         }).then(function (result) {
           if (result.value) {
-            axios.delete(`http://127.0.0.1:8000/api/students/student/${id}`)
+            axios.delete(`http://127.0.0.1:8000/api/chances/chance/${id}`)
             .then(() => {
                 dispatch({
-                type: DELETE_STUDENT
+                type: DELETE_CHANCE
                 })
                 MySwal.fire({
                   icon: 'success',
@@ -136,20 +134,20 @@ export const addStudent = student => {
           }
         })      
       .then(() => {
-        dispatch(getData(getState().students.params))
+        dispatch(getData(getState().chances.params))
         dispatch(getAllData())
       }).catch(err => console.log(err))
   }
 }
-// ** Move to Recycle bin student
-export const archiveStudent = id => {
+// ** Move to Recycle bin Chance
+export const archiveChance = id => {
   return (dispatch, getState) => {
-    axios.delete(`http://127.0.0.1:8000/api/students/${id}`).then(() => {
+    axios.delete(`http://127.0.0.1:8000/api/chances/${id}`).then(() => {
       dispatch({
         type:ARCHIVE
       })
     }).then(() => {
-      dispatch(getData(getState().students.params))
+      dispatch(getData(getState().chances.params))
       dispatch(getAllData())
       toast.success(<AlertComponent id = {id}/>,
         { transition: Slide, autoClose: 10000 }
@@ -158,15 +156,15 @@ export const archiveStudent = id => {
     }).catch(err => console.log(err))
   }
 }
-// ** Restore Student
-export const restoreStudent = id => {
+// ** Restore Chance
+export const restoreChance = id => {
   return (dispatch, getState) => {
-    axios.get(`http://127.0.0.1:8000/api/students/${id}/restore`).then(() => {
+    axios.get(`http://127.0.0.1:8000/api/chances/${id}/restore`).then(() => {
       dispatch({
-        type:RESTORE_STUDENT
+        type:RESTORE_CHANCE
       })
     }).then(() => {
-      dispatch(getData(getState().students.params))
+      dispatch(getData(getState().chances.params))
       dispatch(getAllData())
     }).catch(err => console.log(err))
   }
