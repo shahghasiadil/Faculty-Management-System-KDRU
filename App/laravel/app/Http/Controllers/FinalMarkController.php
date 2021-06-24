@@ -10,7 +10,7 @@ class FinalMarkController extends Controller
 
     public function index()
     {
-        return FinalMark::with('student,subject')->latest()->paginate(10);
+        return FinalMark::with(['student','subject'])->latest()->paginate(10);
     }
 
     public function create()
@@ -36,7 +36,7 @@ class FinalMarkController extends Controller
      */
     public function show($id)
     {
-        return FinalMark::with('student,subject')->findOrFail($id);
+        return FinalMark::with(['student'],['subject'])->findOrFail($id);
     }
 
     /**
