@@ -15,6 +15,18 @@ const AppRoutes = [
     }
   },
   {
+    path: '/teachers',
+    exact: true,
+    component: lazy(() => import('../../views/teachers/list'))
+  },
+  {
+    path: '/views/teachers/edit/:id',
+    component: lazy(() => import('../../views/teachers/edit')),
+    meta: {
+      navLink: '/views/teachers/edit'
+    }
+  },
+  {
     path: '/apps/email/:folder',
     exact: true,
     appLayout: true,

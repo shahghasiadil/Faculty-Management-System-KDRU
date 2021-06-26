@@ -12,8 +12,6 @@ const MySwal = withReactContent(Swal)
 // ** ActionTypes Constants
 import { ADD_STUDENT, ARCHIVE, DELETE_STUDENT, GET_ALL_DATA, GET_DATA, GET_STUDENT, RESTORE_STUDENT, UPDATE_STUDENT } from './actionTypes'
 
-
-
 // ** Get all Data
 export const getAllData = () => {
   return async dispatch => {
@@ -33,7 +31,7 @@ export const getData = params => {
     await axios.get(`http://127.0.0.1:8000/api/students`, params).then(response => {
     dispatch({
       type: GET_DATA,
-      data: dat,
+      data:response.data.data,
       totalPages: response.data.total,
       params
     })
