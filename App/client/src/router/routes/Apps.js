@@ -15,42 +15,6 @@ const AppRoutes = [
     }
   },
   {
-    path: '/final-marks',
-    exact: true,
-    component: lazy(() => import('../../views/final-marks/list'))
-  },
-  {
-    path: '/views/final-mark/edit/:id',
-    component: lazy(() => import('../../views/final-marks/edit')),
-    meta: {
-      navLink: '/views/final-mark/edit'
-    }
-  },
-  {
-    path: '/mid-term-marks',
-    exact: true,
-    component: lazy(() => import('../../views/mid-term-marks/list'))
-  },
-  {
-    path: '/views/mid-term-mark/edit/:id',
-    component: lazy(() => import('../../views/mid-term-marks/edit')),
-    meta: {
-      navLink: '/views/mid-term-mark/edit'
-    }
-  },
-  {
-    path: '/chances',
-    exact: true,
-    component: lazy(() => import('../../views/chance/list'))
-  },
-  {
-    path: '/views/chance/edit/:id',
-    component: lazy(() => import('../../views/chance/edit')),
-    meta: {
-      navLink: '/views/chance/edit'
-    }
-  },
-  {
     path: '/apps/email/:folder',
     exact: true,
     appLayout: true,

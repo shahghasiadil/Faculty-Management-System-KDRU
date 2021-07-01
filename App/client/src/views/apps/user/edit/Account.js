@@ -131,7 +131,7 @@ const UserAccountTab = ({ selectedUser }) => {
             <Col md='4' sm='12'>
               <FormGroup>
                 <Label for='role'>Role</Label>
-                <Input type='select' name='role' id='role' defaultValue={userData && userData.role}>
+                <Input type='select' name='role' id='role' className ='form-control' defaultValue={userData && userData.role}>
                   <option value='admin'>Admin</option>
                   <option value='author'>Author</option>
                   <option value='editor'>Editor</option>

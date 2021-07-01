@@ -10,7 +10,7 @@ class SubjectController extends Controller
     /**
      * @author  Shahghasi Adil
      * @date    2021-06-13
-     * 
+     *
      */
 
     // index Method return the data of subjects with semester
@@ -44,7 +44,7 @@ class SubjectController extends Controller
         ]);
         $subject->update($request->all());
     }
-    // softDeletes the students 
+    // softDeletes the students
     public function destroy($id)
     {
         $subject = Subject::findOrFail($id);
@@ -53,7 +53,7 @@ class SubjectController extends Controller
     public function permanentDelete($id)
     {
         $subject = Subject::findOrFail($id);
-        $subject->delete();
+        $subject->forceDelete();
     }
     public function restore($id)
     {

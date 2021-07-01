@@ -12,7 +12,7 @@ class TeacherController extends Controller
     /**
      * @author  Shahghasi Adil
      * @date    2021-06-13
-     * 
+     *
      */
 
     public function index()
@@ -97,7 +97,7 @@ class TeacherController extends Controller
     public function permanentDelete($id)
     {
         $teacher = Teacher::findOrFail($id);
-        $teacher->delete();
+        $teacher->forceDelete();
     }
 
     public function findByEmail(Request $request)

@@ -14,9 +14,13 @@ import calendar from '@src/views/apps/calendar/store/reducer'
 import ecommerce from '@src/views/apps/ecommerce/store/reducer'
 import dataTables from '@src/views/tables/data-tables/store/reducer'
 import students from '@src/views/student/store/reducer'
+<<<<<<< HEAD
 import finalMarks from '@src/views/final-marks/store/reducer'
 import midTermMarks from '@src/views/mid-term-marks/store/reducer'
 import chances from '@src/views/chance/store/reducer'
+=======
+import teachers from '@src/views/teachers/store/reducer'
+>>>>>>> ee2b06aa98d28e0473e4d334482549368f7f9d86
 const rootReducer = combineReducers({
   auth,
   todo,
@@ -26,9 +30,13 @@ const rootReducer = combineReducers({
   navbar,
   layout,
   students,
+<<<<<<< HEAD
   finalMarks,
   midTermMarks,
   chances,
+=======
+  teachers,
+>>>>>>> ee2b06aa98d28e0473e4d334482549368f7f9d86
   invoice,
   calendar,
   ecommerce,
