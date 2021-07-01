@@ -97,15 +97,16 @@ const FinalMarksList = () => {
   const dispatch = useDispatch()
   const store = useSelector(state => state.finalMarks)
 
- console.log(store)
   // ** States
   const [searchTerm, setSearchTerm] = useState('')
   const [currentPage, setCurrentPage] = useState(1)
   const [rowsPerPage, setRowsPerPage] = useState(10)
   const [sidebarOpen, setSidebarOpen] = useState(false)
   
+
   // ** Function to toggle sidebar
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen)
+
   // ** Get data on mount
   useEffect(() => {
     dispatch(getAllData())

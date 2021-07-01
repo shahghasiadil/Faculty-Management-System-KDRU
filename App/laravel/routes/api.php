@@ -59,6 +59,7 @@ Route::get('/find-teacher-by-email', [TeacherController::class, 'findByEmail']);
 Route::apiResource('final-marks', FinalMarkController::class);
 Route::delete('final-marks/final-mark/{id}', [FinalMarkController::class, 'permanentDelete']);
 Route::get('final-marks/{id}/restore', [FinalMarkController::class, 'restore']);
+Route::get('/get_final_student', [FinalMarkController::class, 'finalMarkStudent']);
 
 // **  Midterm Mark Routes
 Route::apiResource('mid-term-marks', MidtermMarkController::class);

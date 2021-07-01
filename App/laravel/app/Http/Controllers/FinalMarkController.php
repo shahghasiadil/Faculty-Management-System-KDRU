@@ -3,19 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Models\FinalMark;
+use App\Models\Student;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class FinalMarkController extends Controller
 {
 
     public function index()
     {
-        return FinalMark::with(['student','subject'])->latest()->paginate(10);
+        return FinalMark::with(['student', 'subject'])->latest()->paginate(10);
     }
 
     public function create()
     {
     }
+
 
     public function store(Request $request)
     {
@@ -36,7 +39,7 @@ class FinalMarkController extends Controller
      */
     public function show($id)
     {
-        return FinalMark::with(['student'],['subject'])->findOrFail($id);
+        return FinalMark::with(['student'], ['subject'])->findOrFail($id);
     }
 
     /**
@@ -92,5 +95,11 @@ class FinalMarkController extends Controller
         if ($finalMark && $finalMark->trashed()) {
             $finalMark->restore();
         }
+    }
+    public function finalMarkStudent()
+    {
+        // $student = Student::get(['id', 'name']);
+        $student = DB::table('students')->select('id', 'name')->get();
+        return response()->json($student);
     }
 }
