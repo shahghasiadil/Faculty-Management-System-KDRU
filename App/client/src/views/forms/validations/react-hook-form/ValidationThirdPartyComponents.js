@@ -60,6 +60,7 @@ const ValidationThirdPartyComponents = () => {
               control={control}
               name='ReactSelect'
               options={colourOptions}
+              onChange = { (e) => { console.log(e.target.value) }}
               className={classnames('react-select', { 'is-invalid': data !== null && data.ReactSelect === null })}
               classNamePrefix='select'
               theme={selectThemeColors}

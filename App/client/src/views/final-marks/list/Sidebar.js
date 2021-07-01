@@ -1,5 +1,5 @@
 // ** React Import
-import { useState, Fragment} from 'react'
+import { useState, Fragment, useEffect} from 'react'
 import Select from 'react-select'
 import AsyncSelect from 'react-select/async'
 
@@ -10,7 +10,7 @@ import * as yup from 'yup'
 // ** Custom Components
 import Sidebar from '@components/sidebar'
 // ** Utils
-import { isObjEmpty } from '@utils'
+import { isObjEmpty, selectThemeColors } from '@utils'
 
 // ** Third Party Components
 import classnames from 'classnames'
@@ -52,29 +52,32 @@ export const  ErrorToast = () => (
 const SidebarNewMarks = ({ open, toggleSidebar }) => {
   const [inputTerm, setInputTerm] = useState('')
   const [visible, setVisible] = useState('')
+  const [students, setStudents] = useState([])
+  const [selectedStudent, setSelectedStudent] = useState('')
   // ** Store Vars
   const dispatch = useDispatch()
   // ** Validations Yup
   const FinalMarkSchema = yup.object().shape({
-    student_id: yup.number().required('Student ID is required field'),
-    subject_id: yup.number().required("Subject ID is required field"),
+    // student_id: yup.number().required('Student ID is required field'),
+    // subject_id: yup.number().required("Subject ID is required field"),
     mark:  yup.number().required("Mark is required field")
   })
   // ** React hook form
   const { register, errors, handleSubmit, watch} = useForm({ mode: 'onChange', resolver: yupResolver(FinalMarkSchema) })
 
-  // Get Student Data For Select Options
-  // const [student, setStudent] = useState({ std: null})
-  // const handleStudent = () => {
-  //         axios.get(`http://127.0.0.1:8000/api/students`)
-  //           .then(response => {
-  //               setStudent({std:response.data.data})
-  //           })
-  //           .catch((error) => {
-  //             console.log(error, "catch the hoop")
-  //           })
-              
-  //     }  
+  const loadStudents = () => {
+      axios.get('http://127.0.0.1:8000/api/get_final_student').then((response) => {
+        for (const data of response.data) {
+           students.push({ value:data.id, label:data.name})
+          // setStudents([{ value:data.id, label:data.name }])
+        }
+      })
+
+  }
+  useEffect(() => {
+      loadStudents() 
+      // console.log("ss", selectedStudent)
+  }, [])
 
   // ** Function to handle form submit
   const onSubmit = (values) => {
@@ -105,17 +108,17 @@ const SidebarNewMarks = ({ open, toggleSidebar }) => {
         <Label for='student_id'>
           Student <span className='text-danger'>*</span>
         </Label>
-        <Input
-          name='student_id'
-          id='student_id'
-          type='number'
-          placeholder='Student ID'
-          autoComplete = "off"
-          invalid={errors.student_id && true}
-          innerRef={register({ required: true })}
-          className={watch('student_id') ? classnames({ 'is-valid': !errors.student_id }) : ''}
-        />
-        {errors && errors.student_id  && <FormFeedback>{errors.student_id.message}</FormFeedback>}
+        <Select
+              theme={selectThemeColors}
+              className='react-select'
+              classNamePrefix='select'
+              defaultValue={students[0]}
+              name='loading'
+              options={students}
+              // isLoading={true}
+              onChange = {(e) => { setSelectedStudent(e.value) } }
+              // isClearable={false}
+            />
       </FormGroup>
       <FormGroup>
         <Label for='subject_id'>

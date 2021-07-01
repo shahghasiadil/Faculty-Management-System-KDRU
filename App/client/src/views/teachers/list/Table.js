@@ -1,14 +1,15 @@
 // ** React Imports
 import { Fragment, useState, useEffect} from 'react'
 
-// ** FinalMark List Sidebar
+// ** Teacher List Sidebar
 import Sidebar from './Sidebar'
 import Avatar from '@components/avatar'
+
 // ** Columns
 import { columns } from './columns'
 
 // ** Store & Actions
-import { getAllData, getData, restoreFinalMark } from '../store/action'
+import { getAllData, getData, restoreTeacher } from '../store/action'
 import { useDispatch, useSelector } from 'react-redux'
 
 // ** Third Party Components
@@ -34,7 +35,7 @@ import { store } from '@store/storeConfig/store'
     </div>
       <div className='toastify-body alert-danger'>
         <span role='img' aria-label='toast-text'>
-        Record deleted  <strong>Oops</strong> <Button.Ripple color='flat-info' onClick = {() => { store.dispatch(restoreFinalMark(id)) }}>Undo</Button.Ripple>
+        Record deleted  <strong>Oops</strong> <Button.Ripple color='flat-info' onClick = {() => { store.dispatch(restoreTeacher(id)) }}>Undo</Button.Ripple>
         </span>
       </div>
     </Fragment>
@@ -84,7 +85,7 @@ const CustomHeader = ({ toggleSidebar, handlePerPage, rowsPerPage, handleFilter,
             />
           </div>
           <Button.Ripple color='primary' onClick={toggleSidebar}>
-            Add Final Mark
+            Add New Teacher
           </Button.Ripple>
         </Col>
       </Row>
@@ -92,10 +93,11 @@ const CustomHeader = ({ toggleSidebar, handlePerPage, rowsPerPage, handleFilter,
   )
 }
 
-const FinalMarksList = () => {
+const TeachersList = () => {
+
   // ** Store Vars
   const dispatch = useDispatch()
-  const store = useSelector(state => state.finalMarks)
+  const store = useSelector(state => state.teachers)
 
   // ** States
   const [searchTerm, setSearchTerm] = useState('')
@@ -103,10 +105,8 @@ const FinalMarksList = () => {
   const [rowsPerPage, setRowsPerPage] = useState(10)
   const [sidebarOpen, setSidebarOpen] = useState(false)
   
-
   // ** Function to toggle sidebar
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen)
-
   // ** Get data on mount
   useEffect(() => {
     dispatch(getAllData())
@@ -128,7 +128,7 @@ const FinalMarksList = () => {
         q: searchTerm
       })
     )
-    //console.log(page)
+    console.log(page)
     setCurrentPage(page.selected + 1)
   }
 
@@ -234,4 +234,4 @@ const FinalMarksList = () => {
 
 }
 
-export default FinalMarksList
+export default TeachersList
