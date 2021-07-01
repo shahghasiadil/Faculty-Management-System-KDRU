@@ -26,6 +26,11 @@ const AppRoutes = [
       navLink: '/views/teachers/edit'
     }
   },
+  // {
+  //   path:'/schedules',
+  //   exact:true,
+  //   component:lazy(() => import('../../views/schedules/list'))
+  // },
   {
     path: '/apps/email/:folder',
     exact: true,

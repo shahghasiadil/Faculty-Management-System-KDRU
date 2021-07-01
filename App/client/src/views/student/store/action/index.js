@@ -5,10 +5,12 @@ import { SuccessProgressToast, ErrorToast } from '../../list/Sidebar'
 import {UpdateProgressToast} from '../../edit/Edit'
 import { toast, Slide } from 'react-toastify'
 import { ErrorToast as AlertComponent } from '../../list/Table'
+
 // ** SweetAlerts
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 const MySwal = withReactContent(Swal)
+
 // ** ActionTypes Constants
 import { ADD_STUDENT, ARCHIVE, DELETE_STUDENT, GET_ALL_DATA, GET_DATA, GET_STUDENT, RESTORE_STUDENT, UPDATE_STUDENT } from './actionTypes'
 
@@ -37,7 +39,8 @@ export const getData = params => {
     })
     })
   }
-} 
+}
+ 
 // ** Get Student
 export const getStudent = id => {
   return async dispatch => {

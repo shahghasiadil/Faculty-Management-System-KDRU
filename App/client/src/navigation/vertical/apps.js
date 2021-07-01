@@ -1,4 +1,4 @@
-import { Mail, MessageSquare, Users, Edit3, Book, CheckSquare, Calendar, FileText, Circle, ShoppingCart, User } from 'react-feather'
+import { Layers, Users, Edit3, Book, CheckSquare, Calendar, FileText, Circle, ShoppingCart, User } from 'react-feather'
 
 export default [
   {
@@ -40,7 +40,12 @@ export default [
     icon: <Edit3 size={20}/>,
     navLink: '/registration'
   },
-  
+  {
+    id:'schedules',
+    title:'Schedules',
+    icon:<Layers size = {20}/>,
+    navLink:'/schedules'
+  },  
   {
     id: 'users',
     title: 'User',
