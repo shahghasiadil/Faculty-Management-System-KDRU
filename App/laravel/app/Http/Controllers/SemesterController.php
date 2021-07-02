@@ -38,7 +38,7 @@ class SemesterController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required|string|min:4|max:7'
+            'name' => 'required|string'
         ]);
 
         Semester::create([
@@ -54,7 +54,7 @@ class SemesterController extends Controller
      */
     public function show($id)
     {
-        //
+        return Semester::findOrFail($id);
     }
 
     /**

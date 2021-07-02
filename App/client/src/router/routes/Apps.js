@@ -26,6 +26,19 @@ const AppRoutes = [
       navLink: '/views/teachers/edit'
     }
   },
+  {
+    path: '/semesters',
+    exact: true,
+    component: lazy(() => import('../../views/semesters/list'))
+  },
+  {
+    path: '/views/semesters/edit/:id',
+    component: lazy(() => import('../../views/semesters/edit')),
+    meta: {
+      navLink: '/views/teachers/edit'
+    }
+  },
+  
   // {
   //   path:'/schedules',
   //   exact:true,
