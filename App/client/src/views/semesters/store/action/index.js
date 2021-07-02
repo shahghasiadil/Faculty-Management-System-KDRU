@@ -12,12 +12,12 @@ import withReactContent from 'sweetalert2-react-content'
 const MySwal = withReactContent(Swal)
 
 // ** ActionTypes Constants
-import { ADD_STUDENT, ARCHIVE, DELETE_STUDENT, GET_ALL_DATA, GET_DATA, GET_STUDENT, RESTORE_STUDENT, UPDATE_STUDENT } from './actionTypes'
+import { ADD_SEMESTER, ARCHIVE, DELETE_SEMESTER, GET_ALL_DATA, GET_DATA, GET_SEMESTER, RESTORE_SEMESTER, UPDATE_SEMESTER } from './actionTypes'
 
 // ** Get all Data
 export const getAllData = () => {
   return async dispatch => {
-    await axios.get('http://127.0.0.1:8000/api/students').then(response => {
+    await axios.get('http://127.0.0.1:8000/api/semesters').then(response => {
       dispatch({
         type: GET_ALL_DATA,
         data: response.data.data
@@ -30,7 +30,7 @@ export const getAllData = () => {
 // ** Get data on page or row change
 export const getData = params => {
   return async dispatch => {
-    await axios.get(`http://127.0.0.1:8000/api/students`, params).then(response => {
+    await axios.get(`http://127.0.0.1:8000/api/semesters`, params).then(response => {
     dispatch({
       type: GET_DATA,
       data:response.data.data,
@@ -41,38 +41,35 @@ export const getData = params => {
   }
 }
  
-// ** Get Student
-export const getStudent = id => {
+// ** Get SEMESTER
+export const getSemester = id => {
   return async dispatch => {
     await axios
-      .get(`http://127.0.0.1:8000/api/students/${id}`)
+      .get(`http://127.0.0.1:8000/api/semesters/${id}`)
       .then(response => {
         dispatch({
-          type: GET_STUDENT,
-          selectedStudent: response.data
+          type: GET_SEMESTER,
+          selectedSemester: response.data
         })
       })
       .catch(err => console.log(err))
   }
 }
 
-// ** Add new student
-export const addStudent = student => {
+// ** Add new SEMESTER
+export const addSemester = semester => {
   return (dispatch, getState) => {
     axios
-      .post('http://127.0.0.1:8000/api/students', student)
+      .post('http://127.0.0.1:8000/api/semesters', semester)
       .then(response => {
         dispatch({
-          type: ADD_STUDENT,
-          student
+          type: ADD_SEMESTER,
+          semester
         })
-        if (response.data) {
-          throw new Error("Duplicate Email or National ID")
-        }
       })
       .then(() => {
-        toast.success(<SuccessProgressToast name={student.name} lastName = {student.last_name}/>)        
-        dispatch(getData(getState().students.params))
+        toast.success(<SuccessProgressToast name={semester.name}/>)        
+        dispatch(getData(getState().semesters.params))
         dispatch(getAllData())
         
       })
@@ -81,29 +78,29 @@ export const addStudent = student => {
       })
     }
   }
-  // ** Update Student
-  export const updateStudent = (student, id) => {
+  // ** Update SEMESTER
+  export const updateSemester = (semester, id) => {
     return (dispatch, getState) => {
       axios
-        .put(`http://127.0.0.1:8000/api/students/${id}`, student)
+        .put(`http://127.0.0.1:8000/api/semesters/${id}`, semester)
         .then(response => {
           dispatch({
-            type: UPDATE_STUDENT,
-            student
+            type: UPDATE_SEMESTER,
+            semester
           })
           
         })
         .then(() => {
           toast.success(<UpdateProgressToast/>)        
-          dispatch(getData(getState().students.params))
+          dispatch(getData(getState().semesters.params))
           dispatch(getAllData())
           
         })
         .catch(err => console.log(err))
       }
     }
-  // ** Delete Student
-  export const deleteStudent = id => {
+  // ** Delete SEMESTER
+  export const deleteSemester = id => {
     return (dispatch, getState) => {
        MySwal.fire({
           title: 'Are you sure?',
@@ -118,10 +115,10 @@ export const addStudent = student => {
           buttonsStyling: false
         }).then(function (result) {
           if (result.value) {
-            axios.delete(`http://127.0.0.1:8000/api/students/student/${id}`)
+            axios.delete(`http://127.0.0.1:8000/api/semesters/semester/${id}`)
             .then(() => {
                 dispatch({
-                type: DELETE_STUDENT
+                type: DELETE_SEMESTER
                 })
                 MySwal.fire({
                   icon: 'success',
@@ -139,20 +136,20 @@ export const addStudent = student => {
           }
         })      
       .then(() => {
-        dispatch(getData(getState().students.params))
+        dispatch(getData(getState().semesters.params))
         dispatch(getAllData())
       }).catch(err => console.log(err))
   }
 }
-// ** Move to Recycle bin student
-export const archiveStudent = id => {
+// ** Move to Recycle bin SEMESTER
+export const archiveSemseter = id => {
   return (dispatch, getState) => {
-    axios.delete(`http://127.0.0.1:8000/api/students/${id}`).then(() => {
+    axios.delete(`http://127.0.0.1:8000/api/semesters/${id}`).then(() => {
       dispatch({
         type:ARCHIVE
       })
     }).then(() => {
-      dispatch(getData(getState().students.params))
+      dispatch(getData(getState().semesters.params))
       dispatch(getAllData())
       toast.success(<AlertComponent id = {id}/>,
         { transition: Slide, autoClose: 10000 }
@@ -161,15 +158,15 @@ export const archiveStudent = id => {
     }).catch(err => console.log(err))
   }
 }
-// ** Restore Student
-export const restoreStudent = id => {
+// ** Restore SEMESTER
+export const restoreSemester = id => {
   return (dispatch, getState) => {
-    axios.get(`http://127.0.0.1:8000/api/students/${id}/restore`).then(() => {
+    axios.get(`http://127.0.0.1:8000/api/semesters/${id}/restore`).then(() => {
       dispatch({
-        type:RESTORE_STUDENT
+        type:RESTORE_SEMESTER
       })
     }).then(() => {
-      dispatch(getData(getState().students.params))
+      dispatch(getData(getState().semesters.params))
       dispatch(getAllData())
     }).catch(err => console.log(err))
   }
