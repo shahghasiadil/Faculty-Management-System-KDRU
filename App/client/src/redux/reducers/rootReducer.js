@@ -16,6 +16,7 @@ import dataTables from '@src/views/tables/data-tables/store/reducer'
 import students from '@src/views/student/store/reducer'
 import teachers from '@src/views/teachers/store/reducer'
 import semesters from '@src/views/semesters/store/reducer'
+import subjects from '@src/views/subjects/store/reducer'
 const rootReducer = combineReducers({
   auth,
   todo,
@@ -26,6 +27,7 @@ const rootReducer = combineReducers({
   layout,
   students,
   teachers,
+  subjects,
   semesters,
   invoice,
   calendar,
