@@ -1,4 +1,4 @@
-import { Mail, MessageSquare, Users, Edit3, Book, CheckSquare, Calendar, FileText, Circle, ShoppingCart, User } from 'react-feather'
+import { Mail, MessageSquare, Edit, List, Users, Edit3, Book, CheckSquare, Calendar, FileText, Circle, ShoppingCart, User } from 'react-feather'
 
 export default [
   {
@@ -27,6 +27,25 @@ export default [
     title: 'Schedules',
     icon: <Calendar size={20} />,
     navLink: '/semesters'
+  },
+  {
+    id: 'ExamSchedules',
+    title: 'Exam Schedule',
+    icon: <Calendar size={20} />,
+    children: [
+      {
+        id: 'list',
+        title: 'List',
+        icon: <List size={12} />,
+        navLink: '/examschedule'
+      },
+      {
+        id: 'edit',
+        title: 'Edit',
+        icon: <Edit size={12} />,
+        navLink: '/examschedule/edit'
+      }
+    ]
   },
   {
     id: 'subjects',
