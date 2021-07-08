@@ -18,6 +18,7 @@ class CreateStudentsTable extends Migration
             $table->integer('national_id')->unique();
             $table->string('name');
             $table->string('last_name');
+            $table->string('father_name');
             $table->string('email')->unique();
             $table->text('password');
             $table->integer('period');

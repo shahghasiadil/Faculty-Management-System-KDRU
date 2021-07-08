@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\MidtermMark;
+use App\Models\Student;
+use App\Models\Subject;
+use Illuminate\Support\Facades\DB;
 
 class MidtermMarkController extends Controller
 {
@@ -113,4 +116,23 @@ class MidtermMarkController extends Controller
             $midtermMark->restore();
         }
     }
+    public function midtermMarkStudent()
+    {
+        // $student = Student::get(['id', 'name']);
+        $student = DB::table('students')->select('id', 'name')->get();
+        return response()->json($student);
+    }
+    public function studentFatherName($name)
+    {
+        // $student = Student::get(['id', 'name']);
+        $student = DB::table('students')->select('id', 'father_name')->where('name', $name)->get();
+        return response()->json($student);
+    }
+    public function studentSubject()
+    {
+        // $student = Student::get(['id', 'name']);
+        $subject = DB::table('subjects')->select('id', 'name')->get();
+        return response()->json($subject);
+    }
+
 }

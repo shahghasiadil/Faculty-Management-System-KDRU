@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Chance;
+use App\Models\Student;
+use App\Models\Subject;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ChanceController extends Controller
 {
@@ -108,5 +111,17 @@ class ChanceController extends Controller
         if ($chance && $chance->trashed()) {
             $chance->restore();
         }
+    }
+    public function chanceMarkStudent()
+    {
+        // $student = Student::get(['id', 'name']);
+        $student = DB::table('students')->select('id', 'name')->get();
+        return response()->json($student);
+    }
+    public function studentSubject()
+    {
+        // $student = Student::get(['id', 'name']);
+        $subject = DB::table('subjects')->select('id', 'name')->get();
+        return response()->json($subject);
     }
 }

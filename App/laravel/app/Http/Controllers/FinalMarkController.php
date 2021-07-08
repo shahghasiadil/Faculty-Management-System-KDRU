@@ -102,4 +102,10 @@ class FinalMarkController extends Controller
         $student = DB::table('students')->select('id', 'name')->get();
         return response()->json($student);
     }
+    public function studentSubject()
+    {
+        // $student = Student::get(['id', 'name']);
+        $subject = DB::table('subjects')->select('id', 'name')->get();
+        return response()->json($subject);
+    }
 }
