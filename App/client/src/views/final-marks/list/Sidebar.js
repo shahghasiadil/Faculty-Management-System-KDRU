@@ -54,12 +54,12 @@ const SidebarNewMarks = ({ open, toggleSidebar }) => {
   const [visible, setVisible] = useState('')
   const [students, setStudents] = useState([])
   const [selectedStudent, setSelectedStudent] = useState('')
+  const [subjects, setSubjects] = useState([])
+  const [selectedSubject, setSelectedSubject] = useState('')
   // ** Store Vars
   const dispatch = useDispatch()
   // ** Validations Yup
   const FinalMarkSchema = yup.object().shape({
-    // student_id: yup.number().required('Student ID is required field'),
-    // subject_id: yup.number().required("Subject ID is required field"),
     mark:  yup.number().required("Mark is required field")
   })
   // ** React hook form
@@ -74,20 +74,29 @@ const SidebarNewMarks = ({ open, toggleSidebar }) => {
       })
 
   }
+  const loadSubjects = () => {
+    axios.get('http://127.0.0.1:8000/api/get_student_subject').then((response) => {
+      for (const data of response.data) {
+         subjects.push({ value:data.id, label:data.name})
+        // setStudents([{ value:data.id, label:data.name }])
+      }
+    })
+  
+  }
   useEffect(() => {
       loadStudents() 
+      loadSubjects()
       // console.log("ss", selectedStudent)
   }, [])
 
   // ** Function to handle form submit
   const onSubmit = (values) => {
-
     if (isObjEmpty(errors)) {
       toggleSidebar()
       dispatch(
         addFinalMark({
-          student_id: values.student_id,
-          subject_id:values.subject_id,
+          student_id: selectedStudent,
+          subject_id: selectedSubject,
           marks:values.mark
         })   
       )
@@ -124,17 +133,17 @@ const SidebarNewMarks = ({ open, toggleSidebar }) => {
         <Label for='subject_id'>
           Subject <span className='text-danger'>*</span>
         </Label>
-        <Input
-          name='subject_id'
-          id='subject_id'
-          type='number'
-          placeholder='subject'
-          autoComplete = "off"
-          invalid={errors.subject_id && true}
-          innerRef={register({ required: true })}
-          className={watch('subject_id') ? classnames({ 'is-valid': !errors.subject_id }) : ''}
-        />
-        {errors && errors.subject_id  && <FormFeedback>{errors.subject_id.message}</FormFeedback>}
+        <Select
+              theme={selectThemeColors}
+              className='react-select'
+              classNamePrefix='select'
+              defaultValue={subjects[0]}
+              name='loading'
+              options={subjects}
+              // isLoading={true}
+              onChange = {(e) => { setSelectedSubject(e.value) } }
+              // isClearable={false}
+            />
       </FormGroup>
       <FormGroup>
         <Label for='mark'>

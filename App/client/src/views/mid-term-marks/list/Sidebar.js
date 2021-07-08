@@ -1,5 +1,5 @@
 // ** React Import
-import { useState, Fragment} from 'react'
+import { useState, Fragment, useEffect} from 'react'
 import Select from 'react-select'
 import AsyncSelect from 'react-select/async'
 
@@ -10,7 +10,7 @@ import * as yup from 'yup'
 // ** Custom Components
 import Sidebar from '@components/sidebar'
 // ** Utils
-import { isObjEmpty } from '@utils'
+import { isObjEmpty, selectThemeColors } from '@utils'
 
 // ** Third Party Components
 import classnames from 'classnames'
@@ -52,40 +52,63 @@ export const  ErrorToast = () => (
 const SidebarNewMidTermMarks = ({ open, toggleSidebar }) => {
   const [inputTerm, setInputTerm] = useState('')
   const [visible, setVisible] = useState('')
+  const [students, setStudents] = useState([])
+  const [selectedStudent, setSelectedStudent] = useState('')
+  const [subjects, setSubjects] = useState([])
+  const [selectedSubject, setSelectedSubject] = useState('')
+  const [studentFathers, setStudentFathers] = useState([])
+  const [selectedStudentFather, setSelectedStudentFather] = useState('')
   // ** Store Vars
   const dispatch = useDispatch()
   // ** Validations Yup
   const MidTermMarkSchema = yup.object().shape({
-    student_id: yup.number().required('Student ID is required field'),
-    subject_id: yup.number().required("Subject ID is required field"),
     mark:  yup.number().required("Mark is required field")
   })
   // ** React hook form
   const { register, errors, handleSubmit, watch} = useForm({ mode: 'onChange', resolver: yupResolver(MidTermMarkSchema) })
 
-  // Get Student Data For Select Options
-  // const [student, setStudent] = useState({ std: null})
-  // const handleStudent = () => {
-  //         axios.get(`http://127.0.0.1:8000/api/students`)
-  //           .then(response => {
-  //               setStudent({std:response.data.data})
-  //           })
-  //           .catch((error) => {
-  //             console.log(error, "catch the hoop")
-  //           })
-              
-  //     }  
-
-  // ** Function to handle form submit
+  const loadStudents = () => {
+    axios.get('http://127.0.0.1:8000/api/get_midterm_mark_student').then((response) => {
+      for (const data of response.data) {
+         students.push({ value:data.id, label:data.name})
+        // setStudents([{ value:data.id, label:data.name }])
+      }
+    })
+}
+// const loadStudentFatherName = (name) => {
+//   setStudentFathers([{}])
+//   axios.get(`http://127.0.0.1:8000/api/get_student_father_name/${name}`)
+//   .then((response) => {
+//     for (const data of response.data) {
+//          studentFathers.push({ value:data.id, label:data.father_name})
+//         // setStudentFathers([{ value:data.id, label:data.father_name }])
+//       }
+//     })
+//     console.log(studentFathers)
+//     studentFathers.splice(0, 1)
+// }
+const loadSubjects = () => {
+  axios.get('http://127.0.0.1:8000/api/get_student_subject').then((response) => {
+    for (const data of response.data) {
+       subjects.push({ value:data.id, label:data.name})
+      // setStudents([{ value:data.id, label:data.name }])
+    }
+  })
+}
+useEffect(() => {
+    loadStudents() 
+    loadSubjects()
+    // console.log("ss", selectedStudent)
+}, [])
   const onSubmit = (values) => {
 
     if (isObjEmpty(errors)) {
       toggleSidebar()
       dispatch(
         addMidTermMark({
-          student_id: values.student_id,
-          subject_id:values.subject_id,
-          marks:values.mark
+          student_id: selectedStudent,
+          subject_id: selectedSubject,
+          marks: values.mark
         })   
       )
     }
@@ -103,39 +126,55 @@ const SidebarNewMidTermMarks = ({ open, toggleSidebar }) => {
     <Form onSubmit={handleSubmit(onSubmit)}>
       <FormGroup>
         <Label for='student_id'>
-          Student <span className='text-danger'>*</span>
+          STUDENT <span className='text-danger'>*</span>
         </Label>
-        <Input
-          name='student_id'
-          id='student_id'
-          type='number'
-          placeholder='Student ID'
-          autoComplete = "off"
-          invalid={errors.student_id && true}
-          innerRef={register({ required: true })}
-          className={watch('student_id') ? classnames({ 'is-valid': !errors.student_id }) : ''}
-        />
-        {errors && errors.student_id  && <FormFeedback>{errors.student_id.message}</FormFeedback>}
+        <Select
+              theme={selectThemeColors}
+              className='react-select'
+              classNamePrefix='select'
+              defaultValue={students[0]}
+              name='loading'
+              options={students}
+              // isLoading={true}
+              onChange = {(e) => { setSelectedStudent(e.value) } }
+              // isClearable={false}
+            />
       </FormGroup>
+      {/* <FormGroup>
+        <Label for='student_id'>
+          FATHER NAME <span className='text-danger'>*</span>
+        </Label>
+        <Select
+              theme={selectThemeColors}
+              className='react-select'
+              classNamePrefix='select'
+              defaultValue='---Select---'
+              name='loading'
+              options={studentFathers}
+              // isLoading={true}
+              onChange = {(e) => { setSelectedStudentFather(e.value) } }
+              // isClearable={false}
+            />
+      </FormGroup> */}
       <FormGroup>
         <Label for='subject_id'>
-          Subject <span className='text-danger'>*</span>
+          SUBJECT <span className='text-danger'>*</span>
         </Label>
-        <Input
-          name='subject_id'
-          id='subject_id'
-          type='number'
-          placeholder='subject'
-          autoComplete = "off"
-          invalid={errors.subject_id && true}
-          innerRef={register({ required: true })}
-          className={watch('subject_id') ? classnames({ 'is-valid': !errors.subject_id }) : ''}
-        />
-        {errors && errors.subject_id  && <FormFeedback>{errors.subject_id.message}</FormFeedback>}
+        <Select
+              theme={selectThemeColors}
+              className='react-select'
+              classNamePrefix='select'
+              defaultValue={subjects[0]}
+              name='loading'
+              options={subjects}
+              // isLoading={true}
+              onChange = {(e) => { setSelectedSubject(e.value) } }
+              // isClearable={false}
+            />
       </FormGroup>
       <FormGroup>
         <Label for='mid_term_mark'>
-          Mid Term Mark <span className='text-danger'>*</span>
+          MID TERM MARK <span className='text-danger'>*</span>
         </Label>
         <Input
           name='mark'

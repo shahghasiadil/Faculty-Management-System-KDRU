@@ -15,8 +15,6 @@ const AppRoutes = [
     }
   },
   {
-<<<<<<< HEAD
-=======
     path: '/final-marks',
     exact: true,
     component: lazy(() => import('../../views/final-marks/list'))
@@ -53,7 +51,6 @@ const AppRoutes = [
     }
   },
   {
->>>>>>> 33dc43707cfa4926c551f5bb2e676d7bbd9a65eb
     path: '/apps/email/:folder',
     exact: true,
     appLayout: true,
