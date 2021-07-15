@@ -53,9 +53,9 @@ const SidebarNewMidTermMarks = ({ open, toggleSidebar }) => {
   const [inputTerm, setInputTerm] = useState('')
   const [visible, setVisible] = useState('')
   const [students, setStudents] = useState([])
-  const [selectedStudent, setSelectedStudent] = useState('')
+  const [selectedStudent, setSelectedStudent] = useState(0)
   const [subjects, setSubjects] = useState([])
-  const [selectedSubject, setSelectedSubject] = useState('')
+  const [selectedSubject, setSelectedSubject] = useState(0)
   const [studentFathers, setStudentFathers] = useState([])
   const [selectedStudentFather, setSelectedStudentFather] = useState('')
   // ** Store Vars
@@ -101,7 +101,6 @@ useEffect(() => {
     // console.log("ss", selectedStudent)
 }, [])
   const onSubmit = (values) => {
-
     if (isObjEmpty(errors)) {
       toggleSidebar()
       dispatch(
@@ -133,12 +132,13 @@ useEffect(() => {
               className='react-select'
               classNamePrefix='select'
               defaultValue={students[0]}
-              name='loading'
+              name='student_name'
               options={students}
               // isLoading={true}
               onChange = {(e) => { setSelectedStudent(e.value) } }
               // isClearable={false}
             />
+            {errors && errors.student_name && <FormFeedback>{errors.student_name.message}</FormFeedback>}
       </FormGroup>
       {/* <FormGroup>
         <Label for='student_id'>
@@ -165,7 +165,7 @@ useEffect(() => {
               className='react-select'
               classNamePrefix='select'
               defaultValue={subjects[0]}
-              name='loading'
+              name='subject_id'
               options={subjects}
               // isLoading={true}
               onChange = {(e) => { setSelectedSubject(e.value) } }

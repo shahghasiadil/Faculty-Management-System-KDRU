@@ -122,12 +122,6 @@ class MidtermMarkController extends Controller
         $student = DB::table('students')->select('id', 'name')->get();
         return response()->json($student);
     }
-    public function studentFatherName($name)
-    {
-        // $student = Student::get(['id', 'name']);
-        $student = DB::table('students')->select('id', 'father_name')->where('name', $name)->get();
-        return response()->json($student);
-    }
     public function studentSubject()
     {
         // $student = Student::get(['id', 'name']);

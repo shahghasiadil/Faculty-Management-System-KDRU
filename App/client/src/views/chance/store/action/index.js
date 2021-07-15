@@ -83,7 +83,7 @@ export const addChance = chance => {
         .put(`http://127.0.0.1:8000/api/chances/${id}`, chance)
         .then(response => {
           dispatch({
-            type: CHANCE,
+            type: UPDATE_CHANCE,
             chance
           })
           
@@ -92,7 +92,6 @@ export const addChance = chance => {
           toast.success(<UpdateProgressToast/>)        
           dispatch(getData(getState().chances.params))
           dispatch(getAllData())
-          
         })
         .catch(err => console.log(err))
       }

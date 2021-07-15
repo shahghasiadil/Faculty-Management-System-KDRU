@@ -1,7 +1,6 @@
 // ** React Imports
 
 import { useState, useEffect, Fragment } from 'react'
-import { isObjEmpty } from '@utils'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
@@ -14,6 +13,10 @@ import { Check } from "react-feather"
 // ** Third Party Components
 import { Media, Row, FormText, Col, Button, Form, FormFeedback, Input, Label, FormGroup, Table, CustomInput } from 'reactstrap'
 import { updateChance } from '../store/action'
+import axios from 'axios'
+import Select from 'react-select'
+// ** Utils
+import { isObjEmpty, selectThemeColors } from '@utils'
 export const UpdateProgressToast = () => (
   <Fragment>
     <div className='toastify-header'>
@@ -34,81 +37,145 @@ const ChanceTab = ({ selectedChance }) => {
   // ** States
   const history = useHistory()
   const [chanceData, setChanceData] = useState(null)
+  const [studentData, setStudentData] = useState([])
+  const [students, setStudents] = useState([])
+  const [selectedStudent, setSelectedStudent] = useState('')
+  const [subjectData, setSubjectData] = useState([])
+  const [subjects, setSubjects] = useState([])
+  const [selectedSubject, setSelectedSubject] = useState('')
   const dispatch = useDispatch()
   // ** Function to change user image
- 
 
   const ChanceSchema = yup.object().shape({
-    student_id: yup.number().required('Student ID is required field'),
-    subject_id: yup.number().required("Subject ID is required field"),
     chanceMark:  yup.number().required("Mark is required field"),
     chanceCount: yup.number().required("Chance Count is required field").max(5)
   })
   
   const { register, errors, handleSubmit, watch} = useForm({ mode: 'onChange', resolver: yupResolver(ChanceSchema) })
   // ** Update user image on mount or change
+  // ** Get Student Data
+  const getStudent = (id) => {
+    axios.get(`http://127.0.0.1:8000/api/students/${id}`).then((response) => {
+      setStudentData([{ value:response.data.id, label:response.data.name }])
+    })
+  }
+  //** Load Students */
+  const loadStudents = () => {
+    axios.get('http://127.0.0.1:8000/api/get_midterm_mark_student').then((response) => {
+      for (const data of response.data) {
+         students.push({ value:data.id, label:data.name})
+      }
+    })
+}
+ // ** Get Subject Data
+ const getSubject = (id) => {
+  axios.get(`http://127.0.0.1:8000/api/subjects/${id}`).then((response) => {
+    setSubjectData([{ value:response.data.id, label:response.data.name }])
+  })
+}
+//** Load Subjects */
+const loadSubjects = () => {
+  axios.get('http://127.0.0.1:8000/api/get_student_subject').then((response) => {
+    for (const data of response.data) {
+       subjects.push({ value:data.id, label:data.name})
+    }
+  })
+}
+  // ** Update user image on mount or change
   useEffect(() => {
-    if (selectedChance !== null || (selectedChance !== null && chanceData !== null && selectedChance.id !== chanceData.id)) {
-      setChanceData(selectedChance)
-     
+    setChanceData(selectedChance)
+    loadStudents()
+    loadSubjects()
+    if (chanceData !== null) {
+      getStudent(selectedChance.student_id)
+      getSubject(selectedChance.subject_id)
     }
   }, [selectedChance])
   
   // ** Renders User
   const onSubmit = values => {
-  
     if (isObjEmpty(errors)) {
-      dispatch(
-        updateChance({
-          student_id: values.student_id,
-          subject_id:values.subject_id,
-          marks:values.chanceMark,
-          chance_count: values.chanceCount
-        }, selectedChance.id)
-      )
-      
+      if (selectedStudent.length === 0 && selectedSubject.length === 0) {
+        dispatch(
+          updateChance({
+            student_id: studentData[0].value,
+            subject_id: subjectData[0].value,
+            marks:values.chanceMark,
+            chance_count: values.chanceCount
+          }, selectedChance.id)
+        )
+      } else if (selectedSubject.length === 0) {
+        dispatch(
+          updateChance({
+            student_id: selectedStudent,
+            subject_id: subjectData[0].value,
+            marks:values.chanceMark,
+            chance_count: values.chanceCount
+          }, selectedChance.id)
+        )
+        console.log('std is not zero but sub is zero')
+      } else if ((selectedStudent.length === 0)) {
+         dispatch(
+          updateChance({
+            student_id: studentData[0].value,
+            subject_id: selectedSubject,
+            marks:values.chanceMark,
+            chance_count: values.chanceCount
+          }, selectedChance.id)
+        )
+      } else {
+        dispatch(
+          updateChance({
+            student_id: selectedStudent,
+            subject_id:selectedSubject,
+            marks:values.chanceMark,
+            chance_count: values.chanceCount
+          }, selectedChance.id)
+        )
+      }
     }
     history.push('/chances')
   }
 
-  return (
+  return (studentData.length === 0 || subjectData.length === 0) ? null : (
     <Row>
       <Col sm='12'>
         <Form onSubmit={handleSubmit(onSubmit)}>
           <Row>
-            <Col md='4' sm='12'>
+          <Col md='4' sm='12'>
               <FormGroup>
-                <Label for='student_id'>STUDENT ID</Label>
-                <Input
-                      name='student_id'
-                      id='student_id'
-                      type='number'
-                      defaultValue={chanceData && chanceData.student_id}
-                      placeholder='STUDENT ID'
-                      innerRef={register({ required: true })}
-                      invalid={errors.student_id && true}
-                      className={watch('student_id') ? classnames({ 'is-valid': !errors.student_id }) : ''}
-                    />
-                    {errors && errors.student_id && <FormFeedback>{errors.student_id.message}</FormFeedback>}
+                <Label>STUDENT</Label>
+                { console.log(studentData) }
+                <Select
+                  theme={selectThemeColors}
+                  className='react-select'
+                  classNamePrefix='select'
+                  defaultValue={ studentData[0] }
+                  name='loading'
+                  options={students}
+                  // isLoading={true}
+                  onChange = {(e) => { setSelectedStudent(e.value) } }
+                  // isClearable={false}
+                />
               </FormGroup>
             </Col>
             <Col md='4' sm='12'>
               <FormGroup>
-              <Label for='subject_id'>
-              SUBJECT ID <span className='text-danger'>*</span>
+              <Label>
+              SUBJECT <span className='text-danger'>*</span>
               </Label>
-          <Input
-            name='subject_id'
-            id='subject_id'
-            type='number'
-            defaultValue={chanceData && chanceData.subject_id}
-            placeholder='SUBJECT ID'
-            invalid={errors.subject_id && true}
-            innerRef={register({ required: true })}
-            className={watch('subject_id') ? classnames({ 'is-valid': !errors.subject_id }) : ''}
-          />
-          {errors && errors.subject_id && <FormFeedback>{errors.subject_id.message}</FormFeedback>}
-        </FormGroup>
+              <Select
+              theme={selectThemeColors}
+              className='react-select'
+              classNamePrefix='select'
+              defaultValue={ subjectData[0] }
+              name='loading'
+              options={subjects}
+              // isLoading={true}
+              onChange = {(e) => { setSelectedSubject(e.value) } }
+              // isClearable={false}
+            />
+            </FormGroup>
             </Col>
             <Col md='4' sm='12'>
               <FormGroup>
