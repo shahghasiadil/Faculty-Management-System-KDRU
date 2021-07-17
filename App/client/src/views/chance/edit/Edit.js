@@ -81,11 +81,14 @@ const loadSubjects = () => {
     }
   })
 }
+
+  useEffect(() => {
+    loadStudents()
+    loadSubjects()
+  }, [])
   // ** Update user image on mount or change
   useEffect(() => {
     setChanceData(selectedChance)
-    loadStudents()
-    loadSubjects()
     if (chanceData !== null) {
       getStudent(selectedChance.student_id)
       getSubject(selectedChance.subject_id)

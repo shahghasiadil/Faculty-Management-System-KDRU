@@ -80,17 +80,19 @@ const loadSubjects = () => {
     }
   })
 }
+
+  useEffect(() => {
+    loadStudents()
+    loadSubjects()
+  }, [])
   // ** Update user image on mount or change
   useEffect(() => {
     setMidTermMarkData(selectedMidTermMark)
-    loadStudents()
-    loadSubjects()
-    if (midTermMarkData !== null) {
-      getStudent(selectedMidTermMark.student_id)
-      getSubject(selectedMidTermMark.subject_id)
-    }
   }, [selectedMidTermMark])
- 
+  useEffect(() => {
+    getStudent(selectedMidTermMark.student_id)
+    getSubject(selectedMidTermMark.subject_id)
+    }, [])
   // ** Renders User
   const onSubmit = values => {
   

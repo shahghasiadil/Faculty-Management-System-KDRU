@@ -81,11 +81,13 @@ const loadSubjects = () => {
     }
   })
 }
+  useEffect(() => {
+    loadStudents()
+    loadSubjects()
+  }, [])
   // ** Update user image on mount or change
   useEffect(() => {
     setFinalMarkData(selectedFinalMark)
-    loadStudents()
-    loadSubjects()
     if (finalMarkData !== null) {
       getStudent(selectedFinalMark.student_id)
       getSubject(selectedFinalMark.subject_id)
