@@ -116,17 +116,5 @@ class MidtermMarkController extends Controller
             $midtermMark->restore();
         }
     }
-    public function midtermMarkStudent()
-    {
-        // $student = Student::get(['id', 'name']);
-        $student = DB::table('students')->select('id', 'name')->get();
-        return response()->json($student);
-    }
-    public function studentSubject()
-    {
-        // $student = Student::get(['id', 'name']);
-        $subject = DB::table('subjects')->select('id', 'name')->get();
-        return response()->json($subject);
-    }
 
 }

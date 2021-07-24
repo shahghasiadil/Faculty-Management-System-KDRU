@@ -37,12 +37,16 @@ const ChanceTab = ({ selectedChance }) => {
   // ** States
   const history = useHistory()
   const [chanceData, setChanceData] = useState(null)
-  const [studentData, setStudentData] = useState([])
+  const [name, setName] = useState([])
+  const [fatherName, setFatherName] = useState([])
+  const [rollNo, setRollNo] = useState([])
   const [students, setStudents] = useState([])
-  const [selectedStudent, setSelectedStudent] = useState('')
   const [subjectData, setSubjectData] = useState([])
   const [subjects, setSubjects] = useState([])
-  const [selectedSubject, setSelectedSubject] = useState('')
+  const [selectedSubject, setSelectedSubject] = useState(0)
+  const [studentFathers, setStudentFathers] = useState([])
+  const [studentRollNo, setStudentRollNo] = useState([])
+  const [selectedStudentRollNo, setSelectedStudentRollNo] = useState(0)
   const dispatch = useDispatch()
   // ** Function to change user image
 
@@ -54,18 +58,43 @@ const ChanceTab = ({ selectedChance }) => {
   const { register, errors, handleSubmit, watch} = useForm({ mode: 'onChange', resolver: yupResolver(ChanceSchema) })
   // ** Update user image on mount or change
   // ** Get Student Data
-  const getStudent = (id) => {
+  const getStudentData = (id) => {
     axios.get(`http://127.0.0.1:8000/api/students/${id}`).then((response) => {
-      setStudentData([{ value:response.data.id, label:response.data.name }])
+      setName([{ value:response.data.name, label:response.data.name }])
+      setFatherName([{ value:response.data.father_name, label:response.data.father_name }])
+      setRollNo([{ value:response.data.id, label:response.data.roll_no }])
     })
   }
   //** Load Students */
   const loadStudents = () => {
-    axios.get('http://127.0.0.1:8000/api/get_midterm_mark_student').then((response) => {
+    students.length = 0
+    axios.get('http://127.0.0.1:8000/api/get_student').then((response) => {
       for (const data of response.data) {
-         students.push({ value:data.id, label:data.name})
+         students.push({ value:data.name, label:data.name})
       }
     })
+}
+// ** load student father names
+const loadStudentFatherName = (name) => {
+  studentFathers.length = 0
+  axios.get(`http://127.0.0.1:8000/api/get_student_father_name/${name}`)
+  .then((response) => {
+    for (const data of response.data) {
+         studentFathers.push({ value:data.father_name, label:data.father_name})
+      }
+    })
+    studentFathers.splice(0, 1)
+}
+// ** load student roll no
+const loadStudentRollNo = (fname) => {
+  studentRollNo.length = 0
+  axios.get(`http://127.0.0.1:8000/api/get_student_roll_no/${fname}`)
+  .then((response) => {
+    for (const data of response.data) {
+         studentRollNo.push({ value:data.id, label:data.roll_no})
+      }
+    })
+    studentFathers.splice(0, 1)
 }
  // ** Get Subject Data
  const getSubject = (id) => {
@@ -75,7 +104,8 @@ const ChanceTab = ({ selectedChance }) => {
 }
 //** Load Subjects */
 const loadSubjects = () => {
-  axios.get('http://127.0.0.1:8000/api/get_student_subject').then((response) => {
+  subjects.length = 0
+  axios.get('http://127.0.0.1:8000/api/get_subject').then((response) => {
     for (const data of response.data) {
        subjects.push({ value:data.id, label:data.name})
     }
@@ -90,7 +120,7 @@ const loadSubjects = () => {
   useEffect(() => {
     setChanceData(selectedChance)
     if (chanceData !== null) {
-      getStudent(selectedChance.student_id)
+      getStudentData(selectedChance.student_id)
       getSubject(selectedChance.subject_id)
     }
   }, [selectedChance])
@@ -98,29 +128,28 @@ const loadSubjects = () => {
   // ** Renders User
   const onSubmit = values => {
     if (isObjEmpty(errors)) {
-      if (selectedStudent.length === 0 && selectedSubject.length === 0) {
+      if (selectedStudentRollNo === 0 && selectedSubject === 0) {
         dispatch(
           updateChance({
-            student_id: studentData[0].value,
+            student_id: rollNo[0].value,
             subject_id: subjectData[0].value,
             marks:values.chanceMark,
             chance_count: values.chanceCount
           }, selectedChance.id)
         )
-      } else if (selectedSubject.length === 0) {
+      } else if (selectedSubject === 0) {
         dispatch(
           updateChance({
-            student_id: selectedStudent,
+            student_id: selectedStudentRollNo,
             subject_id: subjectData[0].value,
             marks:values.chanceMark,
             chance_count: values.chanceCount
           }, selectedChance.id)
         )
-        console.log('std is not zero but sub is zero')
-      } else if ((selectedStudent.length === 0)) {
+      } else if ((selectedStudentRollNo === 0)) {
          dispatch(
           updateChance({
-            student_id: studentData[0].value,
+            student_id: rollNo[0].value,
             subject_id: selectedSubject,
             marks:values.chanceMark,
             chance_count: values.chanceCount
@@ -129,7 +158,7 @@ const loadSubjects = () => {
       } else {
         dispatch(
           updateChance({
-            student_id: selectedStudent,
+            student_id: selectedStudentRollNo,
             subject_id:selectedSubject,
             marks:values.chanceMark,
             chance_count: values.chanceCount
@@ -140,7 +169,7 @@ const loadSubjects = () => {
     history.push('/chances')
   }
 
-  return (studentData.length === 0 || subjectData.length === 0) ? null : (
+  return (rollNo.length === 0 || subjectData.length === 0) ? null : (
     <Row>
       <Col sm='12'>
         <Form onSubmit={handleSubmit(onSubmit)}>
@@ -148,20 +177,55 @@ const loadSubjects = () => {
           <Col md='4' sm='12'>
               <FormGroup>
                 <Label>STUDENT</Label>
-                { console.log(studentData) }
                 <Select
                   theme={selectThemeColors}
                   className='react-select'
                   classNamePrefix='select'
-                  defaultValue={ studentData[0] }
+                  defaultValue={ name[0] }
                   name='loading'
                   options={students}
                   // isLoading={true}
-                  onChange = {(e) => { setSelectedStudent(e.value) } }
+                  onChange = {(e) => { loadStudentFatherName(e.value) } }
                   // isClearable={false}
                 />
               </FormGroup>
             </Col>
+            <Col md='4' sm='12'>
+           <FormGroup>
+            <Label>
+              FATHER NAME <span className='text-danger'>*</span>
+            </Label>
+            <Select
+                  theme={selectThemeColors}
+                  className='react-select'
+                  classNamePrefix='select'
+                  defaultValue={ fatherName[0] }
+                  name='loading'
+                  options={studentFathers}
+                  // isLoading={true}
+                  onChange = {(e) => { loadStudentRollNo(e.value) } }
+                  // isClearable={false}
+                />
+          </FormGroup>
+          </Col>
+          <Col md='4' sm='12'>
+          <FormGroup>
+            <Label>
+              Roll No <span className='text-danger'>*</span>
+            </Label>
+            <Select
+                  theme={selectThemeColors}
+                  className='react-select'
+                  classNamePrefix='select'
+                  defaultValue={ rollNo[0] }
+                  name='loading'
+                  options={studentRollNo}
+                  // isLoading={true}
+                  onChange = {(e) => { setSelectedStudentRollNo(e.value) } }
+                  // isClearable={false}
+                />
+          </FormGroup>
+          </Col>
             <Col md='4' sm='12'>
               <FormGroup>
               <Label>

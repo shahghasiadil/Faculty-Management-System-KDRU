@@ -53,9 +53,11 @@ const SidebarNewChances = ({ open, toggleSidebar }) => {
   const [inputTerm, setInputTerm] = useState('')
   const [visible, setVisible] = useState('')
   const [students, setStudents] = useState([])
-  const [selectedStudent, setSelectedStudent] = useState('')
   const [subjects, setSubjects] = useState([])
-  const [selectedSubject, setSelectedSubject] = useState('')
+  const [selectedSubject, setSelectedSubject] = useState(0)
+  const [studentFathers, setStudentFathers] = useState([])
+  const [studentRollNo, setStudentRollNo] = useState([])
+  const [selectedStudentRollNo, setSelectedStudentRollNo] = useState('')
   // ** Store Vars
   const dispatch = useDispatch()
   // ** Validations Yup
@@ -65,19 +67,38 @@ const SidebarNewChances = ({ open, toggleSidebar }) => {
   })
   // ** React hook form
   const { register, errors, handleSubmit, watch} = useForm({ mode: 'onChange', resolver: yupResolver(ChanceSchema) })
-  //Load Students
+  //Load Students Names
   const loadStudents = () => {
-    axios.get('http://127.0.0.1:8000/api/get_chance_mark_student').then((response) => {
+    students.length = 0
+    axios.get('http://127.0.0.1:8000/api/get_student').then((response) => {
       for (const data of response.data) {
-         students.push({ value:data.id, label:data.name})
-        // setStudents([{ value:data.id, label:data.name }])
+         students.push({ value:data.name, label:data.name})
       }
     })
-
+}
+const loadStudentFatherName = (name) => {
+  studentFathers.length = 0
+  axios.get(`http://127.0.0.1:8000/api/get_student_father_name/${name}`)
+  .then((response) => {
+    for (const data of response.data) {
+         studentFathers.push({ value:data.father_name, label:data.father_name})
+      }
+    })
+    studentFathers.splice(0, 1)
+}
+const loadStudentRollNo = (fname) => {
+  studentRollNo.length = 0
+  axios.get(`http://127.0.0.1:8000/api/get_student_roll_no/${fname}`)
+  .then((response) => {
+    for (const data of response.data) {
+         studentRollNo.push({ value:data.id, label:data.roll_no})
+      }
+    })
+    studentFathers.splice(0, 1)
 }
 // Load Subjects
 const loadSubjects = () => {
-  axios.get('http://127.0.0.1:8000/api/get_student_subject').then((response) => {
+  axios.get('http://127.0.0.1:8000/api/get_subject').then((response) => {
     for (const data of response.data) {
        subjects.push({ value:data.id, label:data.name})
       // setStudents([{ value:data.id, label:data.name }])
@@ -88,9 +109,7 @@ const loadSubjects = () => {
 useEffect(() => {
     loadStudents() 
     loadSubjects()
-    // console.log("ss", selectedStudent)
 }, [])
-
 
   // ** Function to handle form submit
   const onSubmit = (values) => {
@@ -99,7 +118,7 @@ useEffect(() => {
       toggleSidebar()
       dispatch(
         addChance({
-          student_id: selectedStudent,
+          student_id: selectedStudentRollNo,
           subject_id: selectedSubject,
           marks:values.chanceMark,
           chance_count:values.chanceCount
@@ -130,7 +149,39 @@ useEffect(() => {
               name='loading'
               options={students}
               // isLoading={true}
-              onChange = {(e) => { setSelectedStudent(e.value) } }
+              onChange = {(e) => { loadStudentFatherName(e.value) } }
+              // isClearable={false}
+            />
+      </FormGroup>
+      <FormGroup>
+        <Label>
+          FATHER NAME <span className='text-danger'>*</span>
+        </Label>
+        <Select
+              theme={selectThemeColors}
+              className='react-select'
+              classNamePrefix='select'
+              defaultValue='---Select---'
+              name='loading'
+              options={studentFathers}
+              // isLoading={true}
+              onChange = {(e) => { loadStudentRollNo(e.value) } }
+              // isClearable={false}
+            />
+      </FormGroup>
+      <FormGroup>
+        <Label>
+          Roll No <span className='text-danger'>*</span>
+        </Label>
+        <Select
+              theme={selectThemeColors}
+              className='react-select'
+              classNamePrefix='select'
+              defaultValue='---Select---'
+              name='loading'
+              options={studentRollNo}
+              // isLoading={true}
+              onChange = {(e) => { setSelectedStudentRollNo(e.value) } }
               // isClearable={false}
             />
       </FormGroup>

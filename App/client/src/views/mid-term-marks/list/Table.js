@@ -96,8 +96,6 @@ const MidTermMarksList = () => {
   // ** Store Vars
   const dispatch = useDispatch()
   const store = useSelector(state => state.midTermMarks)
-
- console.log(store)
   // ** States
   const [searchTerm, setSearchTerm] = useState('')
   const [currentPage, setCurrentPage] = useState(1)

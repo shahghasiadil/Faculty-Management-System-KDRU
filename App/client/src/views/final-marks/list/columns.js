@@ -17,28 +17,28 @@ export const columns = [
     minWidth: '250px',
     selector: ['student.national_id'],
     sortable: true,
-    cell: row => row.student.national_id
+    cell: row => row.student?.national_id
   },
   {
     name: 'STUDENT',
     minWidth: '250px',
     selector: ['student.name'],
     sortable: true,
-    cell: row => row.student.name
+    cell: row => row.student?.name
   },
   {
     name: 'SUBJECT',
     minWidth: '250px',
     selector: ['subject.name'],
     sortable: true,
-    cell: row => row.subject.name
+    cell: row => row.subject?.name
   },
   {
     name: 'CREDITS',
     minWidth: '250px',
     selector: ['subject.credit'],
     sortable: true,
-    cell: row => row.subject.credit
+    cell: row => row.subject?.credit
   },
   {
     name: 'FINAL MARKS',
