@@ -1,3 +1,4 @@
+
 import axios from 'axios'
 
 // ** Toast Components
@@ -5,18 +6,16 @@ import { SuccessProgressToast, ErrorToast } from '../../list/Sidebar'
 import {UpdateProgressToast} from '../../edit/Edit'
 import { toast, Slide } from 'react-toastify'
 import { ErrorToast as AlertComponent } from '../../list/Table'
-
 // ** SweetAlerts
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 const MySwal = withReactContent(Swal)
-
 // ** ActionTypes Constants
-import { ADD_STUDENT, ARCHIVE, DELETE_STUDENT, GET_ALL_DATA, GET_DATA, GET_STUDENT, RESTORE_STUDENT, UPDATE_STUDENT } from './actionTypes'
+import { ADD_FINAL_MARKS, ARCHIVE, DELETE_FINAL_MARKS, GET_ALL_DATA, GET_DATA, GET_FINAL_MARKS, RESTORE_FINAL_MARKS, UPDATE_FINAL_MARKS } from './actionTypes'
 // ** Get all Data
 export const getAllData = () => {
   return async dispatch => {
-    await axios.get('http://127.0.0.1:8000/api/students').then(response => {
+    await axios.get('http://127.0.0.1:8000/api/final-marks').then(response => {
       dispatch({
         type: GET_ALL_DATA,
         data: response.data.data
@@ -29,50 +28,45 @@ export const getAllData = () => {
 // ** Get data on page or row change
 export const getData = params => {
   return async dispatch => {
-    await axios.get(`http://127.0.0.1:8000/api/students`, params).then(response => {
+    await axios.get(`http://127.0.0.1:8000/api/final-marks`, params).then(response => {
     dispatch({
       type: GET_DATA,
-      data: response.data,
       data: response.data,
       totalPages: response.data.total,
       params
     })
     })
   }
-}
- 
-// ** Get Student
-export const getStudent = id => {
+} 
+// ** Get Final Marks
+export const getFinalMark = id => {
   return async dispatch => {
     await axios
-      .get(`http://127.0.0.1:8000/api/students/${id}`)
+      .get(`http://127.0.0.1:8000/api/final-marks/${id}`)
       .then(response => {
         dispatch({
-          type: GET_STUDENT,
-          selectedStudent: response.data
+          type: GET_FINAL_MARKS,
+          selectedFinalMark: response.data
         })
       })
       .catch(err => console.log(err))
   }
 }
 
-// ** Add new student
-export const addStudent = student => {
+// ** Add new Final Mark
+export const addFinalMark = finalMark => {
   return (dispatch, getState) => {
     axios
-      .post('http://127.0.0.1:8000/api/students', student)
+      .post('http://127.0.0.1:8000/api/final-marks', finalMark)
       .then(response => {
         dispatch({
-          type: ADD_STUDENT,
-          student
+          type: ADD_FINAL_MARKS,
+          finalMark 
         })
-        if (response.data) {
-          throw new Error("Duplicate Email or National ID")
-        }
       })
       .then(() => {
-        toast.success(<SuccessProgressToast name={student.name} lastName = {student.last_name}/>)        
-        dispatch(getData(getState().students.params))
+        toast.success(<SuccessProgressToast  mark = {finalMark.marks} />)        
+        dispatch(getData(getState().finalMarks.params))
         dispatch(getAllData())
         
       })
@@ -80,22 +74,23 @@ export const addStudent = student => {
         toast.success(<ErrorToast/>)        
       })
     }
+    //console.log(finalMark)
   }
   // ** Update Student
-  export const updateStudent = (student, id) => {
+  export const updateFinalMark = (finalMark, id) => {
     return (dispatch, getState) => {
       axios
-        .put(`http://127.0.0.1:8000/api/students/${id}`, student)
+        .put(`http://127.0.0.1:8000/api/final-marks/${id}`, finalMark)
         .then(response => {
           dispatch({
-            type: UPDATE_STUDENT,
-            student
+            type: UPDATE_FINAL_MARKS,
+            finalMark
           })
           
         })
         .then(() => {
           toast.success(<UpdateProgressToast/>)        
-          dispatch(getData(getState().students.params))
+          dispatch(getData(getState().finalMarks.params))
           dispatch(getAllData())
           
         })
@@ -103,7 +98,7 @@ export const addStudent = student => {
       }
     }
   // ** Delete Student
-  export const deleteStudent = id => {
+  export const deleteFinalMark = id => {
     return (dispatch, getState) => {
        MySwal.fire({
           title: 'Are you sure?',
@@ -118,10 +113,10 @@ export const addStudent = student => {
           buttonsStyling: false
         }).then(function (result) {
           if (result.value) {
-            axios.delete(`http://127.0.0.1:8000/api/students/student/${id}`)
+            axios.delete(`http://127.0.0.1:8000/api/final-marks/final-mark/${id}`)
             .then(() => {
                 dispatch({
-                type: DELETE_STUDENT
+                type: DELETE_FINAL_MARKS
                 })
                 MySwal.fire({
                   icon: 'success',
@@ -139,20 +134,20 @@ export const addStudent = student => {
           }
         })      
       .then(() => {
-        dispatch(getData(getState().students.params))
+        dispatch(getData(getState().finalMarks.params))
         dispatch(getAllData())
       }).catch(err => console.log(err))
   }
 }
 // ** Move to Recycle bin student
-export const archiveStudent = id => {
+export const archiveFinalMark = id => {
   return (dispatch, getState) => {
-    axios.delete(`http://127.0.0.1:8000/api/students/${id}`).then(() => {
+    axios.delete(`http://127.0.0.1:8000/api/final-marks/${id}`).then(() => {
       dispatch({
         type:ARCHIVE
       })
     }).then(() => {
-      dispatch(getData(getState().students.params))
+      dispatch(getData(getState().finalMarks.params))
       dispatch(getAllData())
       toast.success(<AlertComponent id = {id}/>,
         { transition: Slide, autoClose: 10000 }
@@ -162,14 +157,14 @@ export const archiveStudent = id => {
   }
 }
 // ** Restore Student
-export const restoreStudent = id => {
+export const restoreFinalMark = id => {
   return (dispatch, getState) => {
-    axios.get(`http://127.0.0.1:8000/api/students/${id}/restore`).then(() => {
+    axios.get(`http://127.0.0.1:8000/api/final-marks/${id}/restore`).then(() => {
       dispatch({
-        type:RESTORE_STUDENT
+        type:RESTORE_FINAL_MARKS
       })
     }).then(() => {
-      dispatch(getData(getState().students.params))
+      dispatch(getData(getState().finalMarks.params))
       dispatch(getAllData())
     }).catch(err => console.log(err))
   }

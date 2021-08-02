@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\FinalMark;
+use App\Models\Student;
 use Illuminate\Http\Request;
 
 class FinalMarkController extends Controller
@@ -10,12 +11,13 @@ class FinalMarkController extends Controller
 
     public function index()
     {
-        return FinalMark::with('student,subject')->latest()->paginate(10);
+        return FinalMark::with(['student', 'subject'])->latest()->paginate(10);
     }
 
     public function create()
     {
     }
+
 
     public function store(Request $request)
     {
@@ -36,7 +38,7 @@ class FinalMarkController extends Controller
      */
     public function show($id)
     {
-        return FinalMark::with('student,subject')->findOrFail($id);
+        return FinalMark::with(['student'], ['subject'])->findOrFail($id);
     }
 
     /**

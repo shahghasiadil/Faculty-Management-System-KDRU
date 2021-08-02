@@ -42,12 +42,16 @@ Route::get('exam-schedules/{id}/restore', [ExamScheduleController::class, 'resto
 Route::apiResource('subjects', SubjectController::class);
 Route::delete('subjects/subject/{id}', [SubjectController::class, 'permanentDelete']);
 Route::get('subjects/{id}/restore', [SubjectController::class, 'restore']);
+Route::get('/get_subject', [SubjectController::class, 'getSubject']);
 
 // **  Student Routes
 Route::apiResource('/students', StudentController::class);
 Route::delete('students/student/{id}', [StudentController::class, 'permanentDelete']);
 Route::get('students/{id}/restore', [StudentController::class, 'restore']);
 Route::get('/find-by-email', [StudentController::class, 'findByEmail']);
+Route::get('/get_student', [StudentController::class, 'getStudent']);
+Route::get('/get_student_father_name/{name}', [StudentController::class, 'studentFatherName']);
+Route::get('/get_student_roll_no/{fname}', [StudentController::class, 'studentRollNo']);
 
 // **  Teacher Routes
 Route::apiResource('teachers', TeacherController::class);

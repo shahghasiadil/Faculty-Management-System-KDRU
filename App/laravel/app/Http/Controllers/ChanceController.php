@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Chance;
+use App\Models\Student;
+use App\Models\Subject;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ChanceController extends Controller
 {
@@ -14,7 +17,7 @@ class ChanceController extends Controller
      */
     public function index()
     {
-        return Chance::with('student, subject')->latest()->paginate(10);
+        return Chance::with('student', 'subject')->latest()->paginate(10);
     }
 
     /**
@@ -53,7 +56,7 @@ class ChanceController extends Controller
      */
     public function show($id)
     {
-        return Chance::with('student, subject')->findOrFail($id);
+        return Chance::with('student', 'subject')->findOrFail($id);
     }
 
     /**
