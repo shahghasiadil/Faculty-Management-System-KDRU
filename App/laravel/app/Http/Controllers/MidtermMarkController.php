@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use APP\Models\MidtermMark;
+use App\Models\MidtermMark;
 
 class MidtermMarkController extends Controller
 {
@@ -14,7 +14,7 @@ class MidtermMarkController extends Controller
      */
     public function index()
     {
-        return MidtermMark::with('student,subject')->latest()->paginate(10);
+        return MidtermMark::with(['student','subject'])->latest()->paginate(10);
     }
 
     /**
@@ -54,7 +54,7 @@ class MidtermMarkController extends Controller
      */
     public function show($id)
     {
-        return MidtermMark::with('student, subject')->findOrFail($id);
+        return MidtermMark::with(['student'],['subject'])->findOrFail($id);
     }
 
     /**
@@ -98,12 +98,12 @@ class MidtermMarkController extends Controller
      */
     public function destroy($id)
     {
-        $midtermMark = MidtermMark::findOrFail($Id);
+        $midtermMark = MidtermMark::findOrFail($id);
         $midtermMark->delete();
     }
     public function permanentDelete($id)
     {
-        $midtermMark = MidtermMark::findOrFail($Id);
+        $midtermMark = MidtermMark::findOrFail($id);
         $midtermMark->forceDelete();
     }
     public function restore($id)

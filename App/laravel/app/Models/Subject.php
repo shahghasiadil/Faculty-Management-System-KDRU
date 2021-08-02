@@ -40,4 +40,8 @@ class Subject extends Model
     {
         return $this->belongsTo(Semester::class);
     }
+    public function finalMarks()
+    {
+        return $this->belongsTo(FinalMark::class);
+    }
 }

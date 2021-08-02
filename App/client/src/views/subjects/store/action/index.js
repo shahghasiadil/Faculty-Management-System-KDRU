@@ -42,7 +42,7 @@ export const getData = params => {
 }
  
 // ** Get subject
-export const getSubjects = id => {
+export const getSubject = id => {
   return async dispatch => {
     await axios
       .get(`http://127.0.0.1:8000/api/subjects/${id}`)
@@ -79,7 +79,7 @@ export const addSubject = subject => {
     }
   }
   // ** Update subject
-  export const updateSubjects = (subject, id) => {
+  export const updateSubject = (subject, id) => {
     return (dispatch, getState) => {
       axios
         .put(`http://127.0.0.1:8000/api/subjects/${id}`, subject)
@@ -161,9 +161,9 @@ export const archiveSubject = id => {
 // ** Restore subject
 export const restoreSubject = id => {
   return (dispatch, getState) => {
-    axios.get(`http://127.0.0.1:8000/api/subject/${id}/restore`).then(() => {
+    axios.get(`http://127.0.0.1:8000/api/subjects/${id}/restore`).then(() => {
       dispatch({
-        type:RESTORE_SUBJECT
+        type:ARCHIVE
       })
     }).then(() => {
       dispatch(getData(getState().subjects.params))

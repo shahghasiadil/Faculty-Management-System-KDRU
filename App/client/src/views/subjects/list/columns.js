@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 
 // ** Store & Actions
-import { getStudent, deleteStudent, archiveStudent } from '../store/action'
+import { archiveSubject, getSubject, deleteSubject } from '../store/action'
 import { store } from '@store/storeConfig/store'
 
 // ** Third Party Components
@@ -29,23 +29,9 @@ export const columns = [
   {
     name: 'Semester',
     minWidth: '250px',
-    selector: '[semester_id.name]',
+    selector: ['semester.name'],
     sortable: true,
-    cell: row => row.semesters.name
-  },
-  {
-    name: 'Email',
-    minWidth: '320px',
-    selector: 'email',
-    sortable: true,
-    cell: row => row.email
-  },
-  {
-    name: 'Period',
-    minWidth: '138px',
-    selector: 'period',
-    sortable: true,
-    cell: row => row.period
+    cell: row => row.semester.name
   },
 
   {
@@ -59,21 +45,21 @@ export const columns = [
         <DropdownMenu right>
           <DropdownItem
             className='w-100'
-            onClick={() => store.dispatch(archiveStudent(row.id))}
+            onClick={() => store.dispatch(archiveSubject(row.id))}
           >
             <Trash2 size={14} className='mr-50' />
             <span className='align-middle'>Archive</span>
           </DropdownItem>
           <DropdownItem
             tag={Link}
-            to={`/views/student/edit/${row.id}`}
+            to={`/views/subject/edit/${row.id}`}
             className='w-100'
-            onClick={() => store.dispatch(getStudent(row.id))}
+            onClick={() => store.dispatch(getSubject(row.id))}
           >
             <Archive size={14} className='mr-50' />
             <span className='align-middle'>Edit</span>
           </DropdownItem>
-          <DropdownItem className='w-100' onClick={() => store.dispatch(deleteStudent(row.id))}>
+          <DropdownItem className='w-100' onClick={() => store.dispatch(deleteSubject(row.id))}>
             <Delete  size={14} className='mr-50' />
             <span className='align-middle'>Delete</span>
           </DropdownItem>

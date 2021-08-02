@@ -15,15 +15,39 @@ const AppRoutes = [
     }
   },
   {
-    path: '/teachers',
+    path: '/final-marks',
     exact: true,
-    component: lazy(() => import('../../views/teachers/list'))
+    component: lazy(() => import('../../views/final-marks/list'))
   },
   {
-    path: '/views/teachers/edit/:id',
-    component: lazy(() => import('../../views/teachers/edit')),
+    path: '/views/final-mark/edit/:id',
+    component: lazy(() => import('../../views/final-marks/edit')),
     meta: {
-      navLink: '/views/teachers/edit'
+      navLink: '/views/final-mark/edit'
+    }
+  },
+  {
+    path: '/mid-term-marks',
+    exact: true,
+    component: lazy(() => import('../../views/mid-term-marks/list'))
+  },
+  {
+    path: '/views/mid-term-mark/edit/:id',
+    component: lazy(() => import('../../views/mid-term-marks/edit')),
+    meta: {
+      navLink: '/views/mid-term-mark/edit'
+    }
+  },
+  {
+    path: '/chances',
+    exact: true,
+    component: lazy(() => import('../../views/chance/list'))
+  },
+  {
+    path: '/views/chance/edit/:id',
+    component: lazy(() => import('../../views/chance/edit')),
+    meta: {
+      navLink: '/views/chance/edit'
     }
   },
   {
@@ -35,7 +59,19 @@ const AppRoutes = [
     path: '/views/semesters/edit/:id',
     component: lazy(() => import('../../views/semesters/edit')),
     meta: {
-      navLink: '/views/teachers/edit'
+      navLink: '/views/semester/edit'
+    }
+  },
+  {
+    path: '/subjects',
+    exact: true,
+    component: lazy(() => import('../../views/subjects/list'))
+  },
+  {
+    path: '/views/subject/edit/:id',
+    component: lazy(() => import('../../views/subjects/edit')),
+    meta: {
+      navLink: '/views/subject/edit'
     }
   },
   

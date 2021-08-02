@@ -8,7 +8,7 @@ import Avatar from '@components/avatar'
 import { columns } from './columns'
 
 // ** Store & Actions
-import { getAllData, getData, restoreStudent } from '../store/action'
+import { getAllData, getData, restoreSubject } from '../store/action'
 import { useDispatch, useSelector } from 'react-redux'
 
 // ** Third Party Components
@@ -34,7 +34,7 @@ import { store } from '@store/storeConfig/store'
     </div>
       <div className='toastify-body alert-danger'>
         <span role='img' aria-label='toast-text'>
-        Record deleted  <strong>Oops</strong> <Button.Ripple color='flat-info' onClick = {() => { store.dispatch(restoreStudent(id)) }}>Undo</Button.Ripple>
+        Record deleted  <strong>Oops</strong> <Button.Ripple color='flat-info' onClick = {() => { store.dispatch(restoreSubject(id)) }}>Undo</Button.Ripple>
         </span>
       </div>
     </Fragment>
@@ -84,7 +84,7 @@ const CustomHeader = ({ toggleSidebar, handlePerPage, rowsPerPage, handleFilter,
             />
           </div>
           <Button.Ripple color='primary' onClick={toggleSidebar}>
-            Add New Student
+            Add New Subject
           </Button.Ripple>
         </Col>
       </Row>
@@ -92,10 +92,10 @@ const CustomHeader = ({ toggleSidebar, handlePerPage, rowsPerPage, handleFilter,
   )
 }
 
-const StudentsList = () => {
+const SubjectsList = () => {
   // ** Store Vars
   const dispatch = useDispatch()
-  const store = useSelector(state => state.students)
+  const store = useSelector(state => state.subjects)
 
   // ** States
   const [searchTerm, setSearchTerm] = useState('')
@@ -126,7 +126,7 @@ const StudentsList = () => {
         q: searchTerm
       })
     )
-    console.log(page)
+    // console.log(page)
     setCurrentPage(page.selected + 1)
   }
 
@@ -232,4 +232,4 @@ const StudentsList = () => {
 
 }
 
-export default StudentsList
+export default SubjectsList
