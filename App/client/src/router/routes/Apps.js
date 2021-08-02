@@ -14,6 +14,19 @@ const AppRoutes = [
       navLink: '/views/student/edit'
     }
   },
+
+  // exam schedule route
+  {
+    path: '/examschedule',
+    exact: true,
+    component: lazy(() => import('../../views/examschedule/list'))
+  },
+  {
+    path: '/examschedule/edit',
+    exact: true,
+    component: lazy(() => import('../../views/examschedule/edit'))
+  },
+
   {
     path: '/final-marks',
     exact: true,
