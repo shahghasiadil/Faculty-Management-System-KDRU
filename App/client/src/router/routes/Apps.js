@@ -59,7 +59,19 @@ const AppRoutes = [
     path: '/views/semesters/edit/:id',
     component: lazy(() => import('../../views/semesters/edit')),
     meta: {
-      navLink: '/views/teachers/edit'
+      navLink: '/views/semester/edit'
+    }
+  },
+  {
+    path: '/subjects',
+    exact: true,
+    component: lazy(() => import('../../views/subjects/list'))
+  },
+  {
+    path: '/views/subject/edit/:id',
+    component: lazy(() => import('../../views/subjects/edit')),
+    meta: {
+      navLink: '/views/subject/edit'
     }
   },
   

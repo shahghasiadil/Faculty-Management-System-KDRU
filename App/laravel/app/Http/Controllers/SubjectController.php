@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Semester;
 use App\Models\Subject;
 use Illuminate\Http\Request;
 
@@ -18,7 +19,14 @@ class SubjectController extends Controller
     {
         return Subject::with('semester')->latest()->paginate(10);
     }
-
+    public function getSemesters()
+    {
+        return Semester::get(['id', 'name']);
+    }
+    public function show($id)
+    {
+        return Subject::with('semester')->findOrFail($id);
+    }
     public function store(Request $request)
     {
         $this->validate($request, [

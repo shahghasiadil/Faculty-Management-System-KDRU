@@ -9,6 +9,7 @@ use App\Http\Controllers\ExamScheduleController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\ChanceController;
 use App\Http\Controllers\FinalMarkController;
+use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\TeacherController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -43,6 +44,7 @@ Route::apiResource('subjects', SubjectController::class);
 Route::delete('subjects/subject/{id}', [SubjectController::class, 'permanentDelete']);
 Route::get('subjects/{id}/restore', [SubjectController::class, 'restore']);
 Route::get('/get_subject', [SubjectController::class, 'getSubject']);
+Route::get('/get-semesters', [SubjectController::class, 'getSemesters']);
 
 // **  Student Routes
 Route::apiResource('/students', StudentController::class);
@@ -84,3 +86,6 @@ Route::apiResource('semesters', SemesterController::class);
 Route::delete('semesters/semester/{id}', [SemesterController::class, 'permanentDelete']);
 Route::get('semesters/{id}/restore', [SemesterController::class, 'restore']);
 Route::get('/find-semester-by-number', [SemesterController::class, 'findByNumber']);
+
+// ** Registration Routes
+Route::apiResource('registrations', RegistrationController::class);
