@@ -33,6 +33,7 @@ const rootReducer = combineReducers({
   users,
   navbar,
   layout,
+  subjects,
   students,
   finalMarks,
   midTermMarks,

@@ -41,11 +41,6 @@ class SubjectController extends Controller
             'semester_id' => $request->semester_id
         ]);
     }
-     // ** show method for showing single record
-     public function show($id)
-     {
-         return Subject::findOrFail($id);
-     }
     // This method updates Subject
     public function update(Request $request, $id)
     {

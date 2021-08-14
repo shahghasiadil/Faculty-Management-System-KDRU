@@ -27,7 +27,7 @@ export default [
     id: 'schedules',
     title: 'Schedules',
     icon: <Calendar size={20} />,
-    navLink: '/semesters'
+    navLink: '/schedules'
   },
   {
     id: 'ExamSchedules',

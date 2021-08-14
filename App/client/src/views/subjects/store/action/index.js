@@ -27,6 +27,7 @@ export const getAllData = () => {
   }
 }
 
+
 // ** Get data on page or row change
 export const getData = params => {
   return async dispatch => {

@@ -31,7 +31,7 @@ export const columns = [
     minWidth: '250px',
     selector: ['semester.name'],
     sortable: true,
-    cell: row => row.semester.name
+    cell: row => row.semester?.name
   },
 
   {

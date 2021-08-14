@@ -17,6 +17,7 @@ import { Check } from "react-feather"
 // ** Third Party Components
 import { Media, Row, FormText, Col, Button, Form, FormFeedback, Input, Label, FormGroup, Table, CustomInput } from 'reactstrap'
 import { updateSubject } from '../store/action'
+import AsyncSelect from 'react-select/async'
 import axios from 'axios'
 export const UpdateProgressToast = () => (
   <Fragment>
@@ -39,36 +40,43 @@ const SubjectTab = ({ selectedSubject}) => {
   const history = useHistory()
   const [subjectData, setSubjectData] = useState(null)
   const [semesters, setSemesters] = useState([])
-  const [values, setValue] = useState('')
+  const [value, setValue] = useState('')
   const dispatch = useDispatch()
   // ** Function to change user image
 
   const options = []
-  const loadSemesters = () => {
+  function loadSemesters () {
     axios.get('http://127.0.0.1:8000/api/get-semesters').then((res) => {
-      for (const data of res.data) {
-          options.push({values:data.id, label:data.name})
-          // console.log(data)
-      }
+      // for (const data of res.data) {
+      //     setSemesters(...s)
+      //     // console.log(data)
+      // }
+      setSemesters(res.data)
+    
+
     })
   }
   const SubjectSchema = yup.object().shape({
     name: yup.string().required().min(3).label('Name'),
     credit: yup.string().required().label("Credit")
   })
+  const dx = semesters.filter(ndx => ndx.id !== subjectData.semester.id)
+  const opt = dx.map((item, i) => {
+    return (<option value = {item.id} key = {i}>{item.name}</option>)
+   })
   
   const { register, errors, handleSubmit, watch} = useForm({ mode: 'onChange', resolver: yupResolver(SubjectSchema) })
   // ** Update user image on mount or change
   useEffect(() => {
-    loadSemesters()
+   
     if (selectedSubject !== null || (selectedSubject !== null && subjectData !== null && selectedSubject.id !== teacherData.id)) {
-      setSubjectData(selectedSubject)
-     
+        setSubjectData(selectedSubject)
+        loadSemesters()
+
     }
-  })
-  console.log(options)
-  const index = options.findIndex(ndx => ndx.values === subjectData.semester_id)
-  console.log(index)
+
+  }, [selectedSubject])
+
   // ** Renders User
   const onSubmit = values => {
   
@@ -77,7 +85,7 @@ const SubjectTab = ({ selectedSubject}) => {
         updateSubject({
           name: values.name,
           credit:values.credit,
-          semester_id:values
+          semester_id:value
         }, selectedSubject.id)
       )
       
@@ -134,17 +142,17 @@ const SubjectTab = ({ selectedSubject}) => {
           <Label for='semesters'>
           Semester <span className='text-danger'>*</span>
         </Label>
-        <Select
-              theme={selectThemeColors}
-              className='react-select'
-              classNamePrefix='select'
-              defaultValue={options[0]}
-              name='loading'
-              options={options}
-              isLoading={true}
-              onChange = {(e) => { setValue(e.value) } }
-              // isClearable={false}
-            />
+        <Input type='select'
+         name='select'
+          id='select-basic'
+          // invalid={errors.credit && true}
+          // className={watch('credit') ? classnames({ 'is-valid': !errors.credit }) : ''}
+            onChange = { (e) => { setValue(e.target.value) }}>
+            <option selected value = {selectedSubject.semester_id} >{selectedSubject.semester.name}</option>
+            {
+              opt
+            }
+          </Input>
           </FormGroup>
         </Col>
             <Col className='d-flex flex-sm-row flex-column mt-2' sm='12'>

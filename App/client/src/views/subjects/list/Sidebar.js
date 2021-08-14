@@ -73,6 +73,7 @@ const SidebarNewSubjects = ({ open, toggleSidebar }) => {
   
   const loadSemesters = () => {
     axios.get('http://127.0.0.1:8000/api/get-semesters').then((res) => {
+      // alert(res)
       for (const data of res.data) {
           semesters.push({value:data.id, label:data.name})
       }
@@ -100,7 +101,7 @@ const SidebarNewSubjects = ({ open, toggleSidebar }) => {
     <Sidebar
       size='lg'
       open={open}
-      title='New Student'
+      title='New Subject'
       headerClassName='mb-1'
       contentClassName='pt-0'
       toggleSidebar={toggleSidebar}
@@ -145,7 +146,7 @@ const SidebarNewSubjects = ({ open, toggleSidebar }) => {
               theme={selectThemeColors}
               className='react-select'
               classNamePrefix='select'
-              defaultValue={''}
+              defaultValue={semesters[0]}
               name='loading'
               // value = {selectedSemester}
               options={semesters}
