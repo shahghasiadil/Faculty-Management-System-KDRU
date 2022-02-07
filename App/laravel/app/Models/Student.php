@@ -10,7 +10,7 @@ class Student extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['national_id', 'name', 'last_name', 'email', 'password', 'period'];
+    protected $fillable = ['national_id', 'roll_no', 'name', 'last_name',  'father_name', 'grand_father_name','email', 'password', 'period'];
     public function subject()
     {
         return $this->belongsToMany(Student::class);
