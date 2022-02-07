@@ -73,10 +73,10 @@ export default [
     navLink: '/chances'
   },
   {
-    id: 'registration',
-    title: 'Registration',
+    id: 'registrations',
+    title: 'Registrations',
     icon: <Edit3 size={20}/>,
-    navLink: '/registration'
+    navLink: '/registrations'
   },
   {
     id:'schedules',

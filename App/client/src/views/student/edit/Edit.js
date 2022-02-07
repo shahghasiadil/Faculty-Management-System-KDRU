@@ -119,6 +119,64 @@ const StudentTab = ({ selectedStudent }) => {
           {errors && errors.lastName && <FormFeedback>{errors.lastName.message}</FormFeedback>}
         </FormGroup>
             </Col>
+           
+        <FormGroup>
+          <Label for='father_name'>
+            Grand Father Name <span className='text-danger'>*</span>
+          </Label>
+          <Input
+            name='grand_father_name'
+            id='grand_father_name'
+            placeholder='Doe'
+            autoComplete = "off"
+            invalid={errors.grand_father_name && true}
+            innerRef={register({ required: true })}
+            className={watch('grand_father_name') ? classnames({ 'is-valid': !errors.grand_father_name }) : ''}
+          />
+          {errors && errors.grand_father_name  && <FormFeedback>{errors.grand_father_name.message}</FormFeedback>}
+        </FormGroup>
+        <FormGroup>
+          <Label for='roll_no'>
+            Roll No <span className='text-danger'>*</span>
+          </Label>
+          <Input
+            name='roll_no'
+            id='roll_no'
+            type ="number"
+            placeholder='Doe'
+            autoComplete = "off"
+            invalid={errors.roll_no && true}
+            innerRef={register({ required: true })}
+            className={watch('roll_no') ? classnames({ 'is-valid': !errors.roll_no }) : ''}
+          />
+          {errors && errors.roll_no  && <FormFeedback>{errors.roll_no.message}</FormFeedback>}
+        </FormGroup>
+            <Col md ='4' sm = '12'>
+            <FormGroup>
+          <Label for='father_name'>
+            Father Name <span className='text-danger'>*</span>
+          </Label>
+          <Input
+            name='father_name'
+            id='father_name'
+            placeholder='Doe'
+            autoComplete = "off"
+            invalid={errors.father_name && true}
+            innerRef={register({ required: true })}
+            className={watch('father_name') ? classnames({ 'is-valid': !errors.father_name }) : ''}
+          />
+          {errors && errors.father_name  && <FormFeedback>{errors.father_name.message}</FormFeedback>}
+        </FormGroup>
+            </Col>
+            <Col md ='4' sm = '12'>
+
+            </Col>
+            <Col md ='4' sm = '12'>
+              
+            </Col>
+            <Col md ='4' sm = '12'>
+
+            </Col>
             <Col md='4' sm='12'>
               <FormGroup>
               <Label for='email'>

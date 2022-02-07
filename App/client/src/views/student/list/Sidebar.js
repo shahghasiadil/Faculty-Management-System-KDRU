@@ -8,8 +8,8 @@ import * as yup from 'yup'
 // ** Custom Components
 import Sidebar from '@components/sidebar'
 // ** Utils
-import { isObjEmpty } from '@utils'
-
+import { isObjEmpty, selectThemeColors } from '@utils'
+import Select from 'react-select'
 // ** Third Party Components
 import classnames from 'classnames'
 import { useForm } from 'react-hook-form'
@@ -55,6 +55,7 @@ export const  ErrorToast = () => (
 const SidebarNewStudents = ({ open, toggleSidebar }) => {
   const [inputTerm, setInputTerm] = useState('')
   const [visible, setVisible] = useState('')
+  const [address, setAddress] = useState('')
   // ** Store Vars
   const dispatch = useDispatch()
   // ** Validations Yup
@@ -64,11 +65,22 @@ const SidebarNewStudents = ({ open, toggleSidebar }) => {
     nid:  yup.string().required("National ID is required field").min(4, "National ID must be at least 4 characters"),
     period: yup.string().required("Period is required field"),
     email: yup.string().email().required(),
+    father_name:yup.string().required().label("Father Name"),
+    grand_father_name:yup.string().required().label("Grand Father Name"),
+    roll_no: yup.string().required().label('Roll No'),
     password: yup.string().min(6).required()
   })
   // ** React hook form
   const { register, errors, handleSubmit, watch} = useForm({ mode: 'onChange', resolver: yupResolver(StudentSchema) })
-  
+  const Address = [
+    { value: 1, label: 'Kandahar' },
+    { value: 2, label: 'Helmand' },
+    { value: 3, label: 'Ghazni' },
+    { value: 4, label: 'Farah'},
+    { value: 5, label: 'Kabul'},
+    { value: 6, label: 'Nangrahar'}
+    // { value: 4, label: 'Farah'},
+  ]
   // ** Check if user Exists Validation
   const  handleInputChange = (value) => {
     setInputTerm(value)
@@ -95,7 +107,11 @@ const SidebarNewStudents = ({ open, toggleSidebar }) => {
           national_id:values.nid,
           period: values.period,
           password: values.password,
-          email: values.email
+          email: values.email,
+          address_id:address,
+          father_name:values.father_name,
+          grand_father_name:values.grand_father_name,
+          roll_no:values.roll_no
         })
       )
     }
@@ -140,6 +156,52 @@ const SidebarNewStudents = ({ open, toggleSidebar }) => {
             className={watch('lastName') ? classnames({ 'is-valid': !errors.lastName }) : ''}
           />
           {errors && errors.lastName  && <FormFeedback>{errors.lastName.message}</FormFeedback>}
+        </FormGroup>
+        <FormGroup>
+          <Label for='father_name'>
+            Father Name <span className='text-danger'>*</span>
+          </Label>
+          <Input
+            name='father_name'
+            id='father_name'
+            placeholder='Doe'
+            autoComplete = "off"
+            invalid={errors.father_name && true}
+            innerRef={register({ required: true })}
+            className={watch('father_name') ? classnames({ 'is-valid': !errors.father_name }) : ''}
+          />
+          {errors && errors.father_name  && <FormFeedback>{errors.father_name.message}</FormFeedback>}
+        </FormGroup>
+        <FormGroup>
+          <Label for='father_name'>
+            Grand Father Name <span className='text-danger'>*</span>
+          </Label>
+          <Input
+            name='grand_father_name'
+            id='grand_father_name'
+            placeholder='Doe'
+            autoComplete = "off"
+            invalid={errors.grand_father_name && true}
+            innerRef={register({ required: true })}
+            className={watch('grand_father_name') ? classnames({ 'is-valid': !errors.grand_father_name }) : ''}
+          />
+          {errors && errors.grand_father_name  && <FormFeedback>{errors.grand_father_name.message}</FormFeedback>}
+        </FormGroup>
+        <FormGroup>
+          <Label for='roll_no'>
+            Roll No <span className='text-danger'>*</span>
+          </Label>
+          <Input
+            name='roll_no'
+            id='roll_no'
+            type ="number"
+            placeholder='Doe'
+            autoComplete = "off"
+            invalid={errors.roll_no && true}
+            innerRef={register({ required: true })}
+            className={watch('roll_no') ? classnames({ 'is-valid': !errors.roll_no }) : ''}
+          />
+          {errors && errors.roll_no  && <FormFeedback>{errors.roll_no.message}</FormFeedback>}
         </FormGroup>
         <FormGroup>
           <Label for='email'>
@@ -211,6 +273,20 @@ const SidebarNewStudents = ({ open, toggleSidebar }) => {
             
           />
           {errors && errors.period && <FormFeedback>{errors.period.message}</FormFeedback>}
+        </FormGroup>
+        <FormGroup>
+        <Label for = "address">Address<span className='text-danger'>*</span></Label>
+            <Select
+              theme={selectThemeColors}
+              // className={classnames('react-select', { 'is-invalid': !degree})}
+              classNamePrefix='select'
+              defaultValue={''}
+              name = 'address'
+              id = 'addres'
+              options={Address}
+              onChange = { (e) => { setAddress(e.value) }}
+              isLoading
+            />
         </FormGroup>
         <Button type='submit' className='mr-1' color='primary' disabled = {visible}>
           Submit

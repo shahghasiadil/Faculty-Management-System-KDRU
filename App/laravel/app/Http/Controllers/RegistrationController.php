@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Registration;
 use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+// use Illuminate\View\View;
 
 class RegistrationController extends Controller
 {
@@ -13,7 +15,7 @@ class RegistrationController extends Controller
      * @date    2021-06-13
      *
      */
-
+    // return View
     /**
      * Display a listing of the resource.
      *
@@ -21,9 +23,7 @@ class RegistrationController extends Controller
      */
     public function index()
     {
-        return DB::table('student_subject')
-            ->join('students', 'student_id', '=', 'students.id')
-            ->join('subjects', 'subject_id', '=', 'subject_id')->latest()->paginate(10);
+        return Registration::with(['subjects', 'students'])->get();
     }
 
     /**
@@ -44,14 +44,11 @@ class RegistrationController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
+        $validated = $this->validate($request, [
             'student_id' => 'required',
             'subject_id' => 'required'
         ]);
-        DB::table('student_subject')->insert([
-            'student_id' => $request->student_id,
-            'subject_id' => $request->subject_id
-        ]);
+        Registration::create($validated);
     }
 
     /**
@@ -62,7 +59,7 @@ class RegistrationController extends Controller
      */
     public function show($id)
     {
-        return DB::table('student_subject')->where('id', $id);
+        return Registration::findOrFail($id);
     }
 
     /**
@@ -85,11 +82,12 @@ class RegistrationController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request, [
+        $registration = Registration::findOrFail($id);
+        $validated = $this->validate($request, [
             'student_id' => 'required',
             'subject_id' => 'required'
         ]);
-        DB::table('student_subject')->where('id', $id)->update(['subject_id' => $request->subject_id, 'student_id' => $request->student_id]);
+        $registration->update($validated);
     }
 
     /**
@@ -100,6 +98,19 @@ class RegistrationController extends Controller
      */
     public function destroy($id)
     {
-        DB::table('student_subject')->where('id', $id)->delete();
+        $registration = Registration::destroy($id);
+    }
+
+    public function restore($id)
+    {
+        $registration = Registration::withTrashed()->find($id);
+        if ($registration && $registration->trashed()) {
+            $registration->restore();
+        }
+    }
+
+    public function permanentDelete($id)
+    {
+        $registration = Registration::findOrFail($id)->forceDelete();
     }
 }

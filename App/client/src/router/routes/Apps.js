@@ -15,6 +15,20 @@ const AppRoutes = [
     }
   },
 
+  {
+    path: '/registrations',
+    exact: true,
+    component: lazy(() => import('../../views/registrations/list'))
+  },
+  {
+    path: '/views/registrations/edit/:id',
+    component: lazy(() => import('../../views/registrations/edit')),
+    meta: {
+      navLink: '/views/registrations/edit'
+    }
+  },
+
+
   // exam schedule route
   {
     path: '/examschedule',

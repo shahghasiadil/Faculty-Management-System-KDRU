@@ -62,6 +62,7 @@ const SidebarNewTeachers = ({ open, toggleSidebar }) => {
   const [visible, setVisible] = useState('')
   const [value, setValue] = useState('')
   const [degree, setDegree] = useState(null)
+  const [address, setAddress] = useState('')
 
   // ** Store Vars
   const dispatch = useDispatch()
@@ -110,7 +111,8 @@ const SidebarNewTeachers = ({ open, toggleSidebar }) => {
             degree,
             password: values.password,
             email: values.email,
-            bio:value
+            bio:value,
+            address_id:address
           })
         )
       }
@@ -124,6 +126,15 @@ const SidebarNewTeachers = ({ open, toggleSidebar }) => {
     { value: 'PhD', label: 'PhD' }
   ]
 
+  const Address = [
+    { value: 1, label: 'Kandahar' },
+    { value: 2, label: 'Helmand' },
+    { value: 3, label: 'Ghazni' },
+    { value: 4, label: 'Farah'},
+    { value: 5, label: 'Kabul'},
+    { value: 6, label: 'Nangrahar'}
+    // { value: 4, label: 'Farah'},
+  ]
   return (
     <Sidebar
       size='lg'
@@ -228,6 +239,20 @@ const SidebarNewTeachers = ({ open, toggleSidebar }) => {
               id = 'degree'
               options={degrees}
               onChange = { (e) => { setDegree(e.value) }}
+              isLoading
+            />
+        </FormGroup>
+        <FormGroup>
+        <Label for = "address">Address<span className='text-danger'>*</span></Label>
+            <Select
+              theme={selectThemeColors}
+              // className={classnames('react-select', { 'is-invalid': !degree})}
+              classNamePrefix='select'
+              defaultValue={''}
+              name = 'address'
+              id = 'addres'
+              options={Address}
+              onChange = { (e) => { setAddress(e.value) }}
               isLoading
             />
         </FormGroup>
