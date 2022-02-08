@@ -89,3 +89,5 @@ Route::get('/find-semester-by-number', [SemesterController::class, 'findByNumber
 
 // ** Registration Routes
 Route::apiResource('registrations', RegistrationController::class);
+Route::delete('registrations/registration/{id}', [RegistrationController::class, 'permanentDelete']);
+Route::get('registrations/{id}/restore', [RegistrationController::class, 'restore']);
