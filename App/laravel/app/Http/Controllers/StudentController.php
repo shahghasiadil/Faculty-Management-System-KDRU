@@ -72,19 +72,25 @@ class StudentController extends Controller
     {
         $students = Student::findOrFail($id);
 
-        $this->validate($request, [
-            'national_id' => 'required|integer',
-            'name' => 'required|string|min:3|max:100',
-            'last_name' => 'required|string|min:3|max:100',
-            'email' => 'required|email',
-            'password' => 'required',
-            'period' => 'required|integer'
+        $this->validate($request,[
+        'national_id' => 'required|integer',
+        'name' => 'required|string|min:3|max:100',
+        'last_name' => 'required|string|min:3|max:100',
+        'father_name' => 'required|string|min:3|max:100',
+        'grand_father_name' => 'required|string|min:3|max:100',
+        'roll_no' => 'required|string|min:1|max:100',
+        'email' => 'required|email',
+        'password' => 'required',
+        'period' => 'required|integer'
         ]);
         if ($request['password']) {
             $students->update([
                 'national_id' => $request->national_id,
                 'name' => $request->name,
                 'last_name' => $request->last_name,
+                'father_name' => $request->father_name,
+                'grand_father_name' => $request->grand_father_name,
+                'roll_no' => $request->roll_no,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
                 'period' => $request->period
@@ -94,6 +100,9 @@ class StudentController extends Controller
                 'national_id' => $request->national_id,
                 'name' => $request->name,
                 'last_name' => $request->last_name,
+                'father_name' => $request->father_name,
+                'grand_father_name' => $request->grand_father_name,
+                'roll_no' => $request->roll_no,
                 'email' => $request->email,
                 'period' => $request->period
             ]);
