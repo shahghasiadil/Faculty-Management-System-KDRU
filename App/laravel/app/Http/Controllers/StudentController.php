@@ -22,7 +22,11 @@ class StudentController extends Controller
     {
         return Student::with(['user', 'address'])->latest()->paginate(10);
     }
-    // ** This method is for Sever Side Search
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
     public function search()
     {
         if ($search = request()->get('q')) {
@@ -37,7 +41,12 @@ class StudentController extends Controller
             return Student::latest()->paginate(10);
         }
     }
-    // ** store method for storing data
+    /**
+     * Undocumented function
+     *
+     * @param Request $request
+     * @return void
+     */
     public function store(Request $request)
     {
         $validated = $this->validate($request, [
@@ -88,7 +97,13 @@ class StudentController extends Controller
         }
         // return
     }
-    // ** update method for updating data
+    /**
+     * Undocumented function
+     *
+     * @param Request $request
+     * @param [type] $id
+     * @return void
+     */
     public function update(Request $request, $id)
     {
         $students = Student::findOrFail($id);
