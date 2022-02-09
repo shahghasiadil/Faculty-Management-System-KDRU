@@ -31,8 +31,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 // **  Schedule Routes
 Route::apiResource('schedules', ScheduleController::class);
-Route::delete('schedules/schedule/{id}', [SemesterController::class, 'permanentDelete']);
-Route::get('schedules/{id}/restore', [SemesterController::class, 'restore']);
+Route::delete('schedules/schedule/{id}', [ScheduleController::class, 'permanentDelete']);
+Route::get('schedules/{id}/restore', [ScheduleController::class, 'restore']);
 
 // **  Exam_Schedule Routes
 Route::apiResource('exam-schedules', ExamScheduleController::class);

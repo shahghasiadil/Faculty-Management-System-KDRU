@@ -78,8 +78,13 @@ class ScheduleController extends Controller
     // ** permanentDelete method for forceDelete
     public function permanentDelete($id)
     {
-        $schedule = Schedule::findOrFail($id);
-        $schedule->forceDelete();
+        $schedule = Schedule::onlyTrashed()->find($id);
+        if(!is_null($schedule)){
+            $schedule->forceDelete();
+        }
+        else{
+            return response()->json(['error'=>"Trashed Object Not Found"], 404);
+        }
     }
     // ** restore method for restoring softDeletes records
     public function restore($id)
