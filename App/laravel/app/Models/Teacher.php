@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Teacher extends Model
 {
     use HasFactory, SoftDeletes;
-    protected $fillable = ['national_id', 'name', 'last_name', 'degree', 'email', 'password', 'bio'];
+    protected $fillable = ['national_id', 'name', 'last_name', 'degree', 'bio', 'address_id', 'user_id'];
 
     public function schedules()
     {
@@ -18,5 +18,14 @@ class Teacher extends Model
     public function examSchedules()
     {
         return $this->hasMany(ExamSchedule::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+    public function address()
+    {
+        return $this->belongsTo(Address::class);
     }
 }

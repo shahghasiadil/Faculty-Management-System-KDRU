@@ -10,10 +10,10 @@ class Student extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['national_id', 'roll_no', 'name', 'last_name',  'father_name', 'grand_father_name','email', 'password', 'period'];
-    public function subject()
+    protected $fillable = ['national_id', 'name', 'last_name', 'email', 'password', 'period','user_id','father_name','grand_father_name','roll_no','address_id'];
+    public function registrations()
     {
-        return $this->belongsToMany(Student::class);
+        return $this->belongsToMany(Registration::class);
     }
 
     public function attendances()
@@ -39,5 +39,15 @@ class Student extends Model
     public function midtermMarks()
     {
         return $this->hasMany(MidtermMark::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function address()
+    {
+        return $this->belongsTo(Address::class);
     }
 }

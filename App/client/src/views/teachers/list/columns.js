@@ -39,7 +39,7 @@ export const columns = [
     selector: 'email',
     sortable: true,
     searchable:true,
-    cell: row => row.email
+    cell: row => row.user?.email
   },
   {
     name: 'Degree',
@@ -47,6 +47,14 @@ export const columns = [
     selector: 'degree',
     sortable: true,
     cell: row => row.degree
+  },
+  {
+    name: 'Address',
+    minWidth: '100px',
+    selector: 'address',
+    sortable: true,
+    // searchable:true,
+    cell: row => row.address?.city
   },
   {
     name: 'Bio',

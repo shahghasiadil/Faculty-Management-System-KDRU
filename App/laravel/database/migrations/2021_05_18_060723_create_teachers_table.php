@@ -19,9 +19,9 @@ class CreateTeachersTable extends Migration
             $table->string('name');
             $table->string('last_name');
             $table->string('degree');
-            $table->string('email')->unique();
-            $table->text('password');
             $table->text('bio');
+            $table->foreignId('address_id');
+            $table->foreignId('user_id');
             $table->timestamps();
         });
     }
