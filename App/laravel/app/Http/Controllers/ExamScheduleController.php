@@ -83,13 +83,8 @@ class ExamScheduleController extends Controller
     // ** permanentDelete method for forceDelete
     public function permanentDelete($id)
     {
-        $examSchedule = ExamSchedule::onlyTrashed()->find($id);
-        if(!is_null($examSchedule)){
-            $examSchedule->forceDelete();
-        }
-        else{
-            return response()->json(['error'=>"Trashed Object Not Found"], 404);
-        }
+        $examSchedule = ExamSchedule::findOrFail($id);
+        $examSchedule->forceDelete();
     }
     // ** restore method for restoring softDeletes records
     public function restore($id)
