@@ -172,16 +172,18 @@ class StudentController extends Controller
             $student->restore();
         }
     }
+    
     public function getStudent()
     {
-
         return Student::get(['id', 'name']);
     }
+
     public function studentFatherName($name)
     {
         $studentFather = Student::select('father_name')->where('name', '=', $name)->groupBy('father_name')->get();
         return $studentFather;
     }
+
     public function studentRollNo($fname)
     {
         return Student::select('id', 'roll_no')->where('father_name', '=', $fname)->get();

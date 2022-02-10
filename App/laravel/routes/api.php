@@ -80,6 +80,7 @@ Route::get('chances/{id}/restore', [ChanceController::class, 'restore']);
 Route::apiResource('attendances', AttendanceController::class);
 Route::delete('attendances/attendance/{id}', [AttendanceController::class, 'permanentDelete']);
 Route::get('attendances/{id}/restore', [AttendanceController::class, 'restore']);
+Route::get('attendances/find-by-subject/{id}', [AttendanceController::class, 'searchBySubject']);
 
 // **  Semester Routes
 Route::apiResource('semesters', SemesterController::class);

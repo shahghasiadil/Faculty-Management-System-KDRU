@@ -25,23 +25,23 @@ class AttendanceController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'state' => 'required|in:PRESENT,ABSENT',
-            'date' => 'required|date',
-            'start_time' => 'required|regex:/(\d+\:\d+)/',
-            'end_time' => 'required|regex:/(\d+\:\d+)/',
-            'student_id' => 'required|integer',
-            'subject_id' => 'required|integer',
-        ]);
-
-        Attendance::create([
-            'state' => $request->state,
-            'date' => $request->date,
-            'start_time' => $request->start_time,
-            'end_time' => $request->end_time,
-            'student_id' => $request->student_id,
-            'subject_id' => $request->subject_id
-        ]);
+            $this->validate($request, [
+                'state' => 'required|in:PRESENT,ABSENT',
+                'date' => 'required|date',
+                'start_time' => 'required|regex:/(\d+\:\d+)/',
+                'end_time' => 'required|regex:/(\d+\:\d+)/',
+                'student_id' => 'required|integer',
+                'subject_id' => 'required|integer',
+            ]);
+    
+            Attendance::create([
+                'state' => $request->state,
+                'date' => $request->date,
+                'start_time' => $request->start_time,
+                'end_time' => $request->end_time,
+                'student_id' => $request->student_id,
+                'subject_id' => $request->subject_id
+            ]);
     }
 
     /**
@@ -52,7 +52,18 @@ class AttendanceController extends Controller
      */
     public function show($id)
     {
-        return Attendance::findOrFail($id);
+        return Attendance::with(['student', 'subject'])->findOrFail($id);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function searchBySubject($id)
+    {
+        return Attendance::with(['student',])->where('subject_id', $id)->get();
     }
 
     /**
