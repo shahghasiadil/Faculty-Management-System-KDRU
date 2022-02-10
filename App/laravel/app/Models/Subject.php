@@ -27,6 +27,7 @@ class Subject extends Model
     {
         return $this->hasMany(Schedule::class);
     }
+
     public function examSchedules()
     {
         return $this->hasMany(ExamSchedule::class);
@@ -36,12 +37,24 @@ class Subject extends Model
     {
         return $this->hasMany(Chance::class);
     }
+
     public function semester()
     {
         return $this->belongsTo(Semester::class);
     }
+
     public function finalMarks()
     {
         return $this->belongsTo(FinalMark::class);
+    }
+
+    /**
+     * The students that belong to the Subject
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function students()
+    {
+        return $this->belongsToMany(Student::class);
     }
 }

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Address;
 use App\Models\Student;
 use App\Models\User;
+use App\Models\Subject;
+use App\Models\Semester;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -49,39 +51,27 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $this->validate($request, [
-            'national_id' => 'required|integer',
-            'name' => 'required|string|min:3|max:100',
-            'last_name' => 'required|string|min:3|max:100',
-            'father_name' => 'required|string|min:3|max:100',
-            'grand_father_name' => 'required|string|min:3|max:100',
-            'roll_no' => 'required|string|min:1|max:100',
-            'email' => 'required|email',
-            'password' => 'required',
-            'period' => 'required|integer',
-            'address_id' => 'required',
-            'user_id' => 'required',
-            'father_name' => 'required',
-            'grand_father_name' => 'required',
-            'roll_no' => 'required'
-        ]);
-        if(User::where('email',$request->email)->Exists()){
-                $user = User::Where('email',$request->email)->first();
-                $user->name = $request->name . ' ' . $request->last_name;
-                $user->email = $request->email;
-                $user->password =  Hash::make($request->password);
-                $user->type = 'student';
-                $user->save();
-        }
-        else{
-            $user = new User;
-            $user->name = $request->name . ' ' . $request->last_name;
-            $user->email = $request->email;
-            $user->password =  Hash::make($request->password);
-            $user->type = 'student';
-            $user->save();
-        }
         try {
+            $validated = $this->validate($request, [
+                'national_id' => 'required|integer',
+                'username' => 'required|string|min:3|max:100',
+                'name' => 'required|string|min:3|max:100',
+                'last_name' => 'required|string|min:3|max:100',
+                'father_name' => 'required|string|min:3|max:100',
+                'grand_father_name' => 'required|string|min:3|max:100',
+                'roll_no' => 'required|string|min:1|max:100',
+                'email' => 'required|email',
+                'password' => 'required',
+                'period' => 'required|integer',
+                'address_id' => 'required|integer',
+            ]);
+            $user = User::create([
+                'name' => $request->username,
+                'email' => $request->email,
+                'role' => 'STUDENT',
+                'password' => Hash::make($request->password),
+            ]);
+
             Student::create([
                 'national_id' => $request->national_id,
                 'name' => $request->name,
@@ -98,66 +88,99 @@ class StudentController extends Controller
                 return ("Duplicate Entry");
             }
         }
-        // return
     }
+    
     /**
-     * Undocumented function
-     *
-     * @param Request $request
-     * @param [type] $id
-     * @return void
+     * @param int student_id
+     * @param int semester_id
+     * this funciton adds a student to a specified semester
      */
+    public function addStudentToSemester(Request $request)
+    {
+        $this->validate($request, [
+            'student_id' => 'required|integer',
+            'semester_id' => 'required|integer'
+        ]);
+        $semester = Semester::findOrFail($request->semester_id);
+        $semester->students()->attach($request->student_id);
+    }
+
+    /**
+     * @param int id (subject id)
+     * this function add a students to a particular subject
+     */
+    public function addStudentToSubject(Request $request)
+    {
+        $this->validate($request, [
+            'student_id' => 'required|integer',
+            'subject_id' => 'required|integer'
+        ]);
+        $subject = Subject::findOrFail($request->subject_id);
+        $subject->students()->attach($request->student_id);
+    }
+
+    // the update function never updates user_id as it is only set once!
     public function update(Request $request, $id)
     {
-        $students = Student::findOrFail($id);
+        $student = Student::findOrFail($id);
 
         $validated = $this->validate($request, [
             'national_id' => 'required|integer',
+            'username' => 'required|string|min:3|max:100',
             'name' => 'required|string|min:3|max:100',
             'last_name' => 'required|string|min:3|max:100',
             'email' => 'required|email',
-            'password' => 'required',
+            'password' => 'min:3|max:100',
             'period' => 'required|integer',
             'address_id' => 'required',
-            'user_id' => 'required',
             'father_name' => 'required',
             'grand_father_name' => 'required',
             'roll_no' => 'required'
         ]);
-        $user = User::findOrFail($students->user_id);
-        $user->name = $request->name . ' ' . $request->last_name;
+
+        $user = User::findOrFail($student->user_id);
+        $user->name = $request->username;
         $user->email = $request->email;
-        $user->password =  Hash::make($request->password);
+        if ($request->password){
+            $user->password =  Hash::make($request->password);
+        }
         $user->save();
 
-        $students->update([
+        $student->update([
             'national_id' => $request->national_id,
             'name' => $request->name,
             'last_name' => $request->last_name,
-            'user_id' => $user->id,
             'address_id' => $request->address_id,
-            'period' => $request->period
+            'period' => $request->period,
+            'father_name' => $request->father_name,
+            'grand_father_name'=> $request->grand_father_name,
+            'roll_no' => $request->roll_no
         ]);
     }
+
     // ** destroy method for softDeletes
     public function destroy($id)
     {
         $students = Student::findOrFail($id);
         $students->delete();
     }
+
     // ** show method for showing single record
     public function show($id)
     {
         return Student::with(['user', 'address'])->findOrFail($id);
     }
+
     // ** findByEmail method for Duplicate emails, check if student exists
-    public function findByEmail(Request $request)
+    public function getStudentByEmail(Request $request)
     {
-        $student = User::where('email', '=', $request->email)->get();
-        if (sizeof($student) > 0) {
-            return response()->json(["email already exists", "status" => 200]);
-        } else return response()->json(['status' => 203]);
+        $student = User::where('email', $request->email)->first();
+        if ($student) {
+            return $student;
+        } 
+        else return response()->json(['No user with the given email found.' => 204]);
     }
+
     // ** permanentDelete method for forceDelete
     public function permanentDelete($id)
     {
@@ -172,18 +195,38 @@ class StudentController extends Controller
             $student->restore();
         }
     }
+    
     public function getStudent()
     {
-
         return Student::get(['id', 'name']);
     }
+
     public function studentFatherName($name)
     {
         $studentFather = Student::select('father_name')->where('name', '=', $name)->groupBy('father_name')->get();
         return $studentFather;
     }
+
     public function studentRollNo($fname)
     {
         return Student::select('id', 'roll_no')->where('father_name', '=', $fname)->get();
     }
+
+    /**
+     * @param int id (subject id)
+     * this function returns all students related to a particular subject
+     */
+    public function getStudentsBySubject($id)
+    {
+        return Subject::where('id',$id)->first()->students;
+    }
+
+    /** @param int id (semester id)
+    * this function returns all students related to a particular semester
+    */
+   public function getStudentsBySemester($id)
+   {
+       return Semester::where('id',$id)->first()->students;
+   }
+
 }
