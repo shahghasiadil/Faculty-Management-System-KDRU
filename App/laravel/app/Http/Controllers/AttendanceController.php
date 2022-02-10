@@ -110,7 +110,7 @@ class AttendanceController extends Controller
     public function restore($id)
     {
         $attendance = Attendance::withTrashed()->find($id);
-        if ($attendance && $attendance->trashed()) {
+        if ($attendance) {
             $attendance->restore();
         }
     }

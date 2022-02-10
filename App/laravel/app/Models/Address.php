@@ -4,11 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 
 class Address extends Model
 {
-    use HasFactory;
-    // protected $table = '';
+    use HasFactory, SoftDeletes;
+    protected $fillable = ['city', 'district'];
+
 
     public function students()
     {
