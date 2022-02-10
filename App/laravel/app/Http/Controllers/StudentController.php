@@ -51,29 +51,25 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $this->validate($request, [
-            'national_id' => 'required|integer',
-            'username' => 'required|string|min:3|max:100',
-            'name' => 'required|string|min:3|max:100',
-            'last_name' => 'required|string|min:3|max:100',
-            'father_name' => 'required|string|min:3|max:100',
-            'grand_father_name' => 'required|string|min:3|max:100',
-            'roll_no' => 'required|string|min:1|max:100',
-            'email' => 'required|email',
-            'password' => 'required',
-            'period' => 'required|integer',
-            'address_id' => 'required|integer',
-            'user_id' => 'required|integer',
-            'father_name' => 'required',
-            'grand_father_name' => 'required',
-            'roll_no' => 'required'
-        ]);
         try {
+            $validated = $this->validate($request, [
+                'national_id' => 'required|integer',
+                'username' => 'required|string|min:3|max:100',
+                'name' => 'required|string|min:3|max:100',
+                'last_name' => 'required|string|min:3|max:100',
+                'father_name' => 'required|string|min:3|max:100',
+                'grand_father_name' => 'required|string|min:3|max:100',
+                'roll_no' => 'required|string|min:1|max:100',
+                'email' => 'required|email',
+                'password' => 'required',
+                'period' => 'required|integer',
+                'address_id' => 'required|integer',
+            ]);
             $user = User::create([
                 'name' => $request->username,
                 'email' => $request->email,
+                'role' => 'STUDENT',
                 'password' => Hash::make($request->password),
-                'type' => 'student'
             ]);
 
             Student::create([
@@ -150,7 +146,7 @@ class StudentController extends Controller
         }
         $user->save();
 
-        $students->update([
+        $student->update([
             'national_id' => $request->national_id,
             'name' => $request->name,
             'last_name' => $request->last_name,
