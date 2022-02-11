@@ -220,7 +220,7 @@ class StudentController extends Controller
      */
     public function getStudentsBySubject($id)
     {
-        return Subject::where('id',$id)->first()->students;
+        return Subject::find($id)->students;
     }
 
     /** @param int id (semester id)
