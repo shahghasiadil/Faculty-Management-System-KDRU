@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Address;
 use App\Models\Student;
 use App\Models\User;
 use App\Models\Subject;
@@ -10,7 +9,6 @@ use App\Models\Semester;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Symfony\Component\CssSelector\Node\FunctionNode;
 
 class StudentController extends Controller
 {
@@ -85,6 +83,7 @@ class StudentController extends Controller
                 'grand_father_name'=> $request->grand_father_name,
                 'roll_no' => $request->roll_no
             ]);
+
         } catch (QueryException $e) {
             if ($e->errorInfo[1] === 1062) {
                 return ("Duplicate Entry");

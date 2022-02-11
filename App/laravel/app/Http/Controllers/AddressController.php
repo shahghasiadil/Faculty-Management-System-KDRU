@@ -35,15 +35,7 @@ class AddressController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'city' => 'required|string',
-            'district' => 'required|string',
-        ]);
-
-        Address::create([
-            'city' => $request->city,
-            'district' => $request->district
-        ]);
+        Address::create($this->validateData($request));
     }
 
     /**
@@ -77,12 +69,9 @@ class AddressController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request, [
-            'city' => 'required|string',
-            'district' => 'required|string',
-        ]);
+
         $address = Address::findOrFail($id);
-        $address->update($request->all());
+        $address->update($this->validateData($request));
     }
 
     /**
@@ -122,4 +111,11 @@ class AddressController extends Controller
             $address->restore();
         }
     }
+
+  private function validateData($request){
+    return $this->validate($request, [
+        'city' => 'required|string',
+        'district' => 'required|string',
+    ]);
+  }
 }
