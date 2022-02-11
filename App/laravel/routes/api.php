@@ -11,6 +11,7 @@ use App\Http\Controllers\ChanceController;
 use App\Http\Controllers\FinalMarkController;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\TeacherController;
+use App\Http\Controllers\AddressController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -29,10 +30,15 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+// **  Address Routes
+Route::apiResource('addresses', AddressController::class);
+Route::delete('addresses/address/{id}', [AddressController::class, 'permanentDelete']);
+Route::get('addresses/{id}/restore', [AddressController::class, 'restore']);
+
 // **  Schedule Routes
 Route::apiResource('schedules', ScheduleController::class);
-Route::delete('schedules/schedule/{id}', [SemesterController::class, 'permanentDelete']);
-Route::get('schedules/{id}/restore', [SemesterController::class, 'restore']);
+Route::delete('schedules/schedule/{id}', [ScheduleController::class, 'permanentDelete']);
+Route::get('schedules/{id}/restore', [ScheduleController::class, 'restore']);
 
 // **  Exam_Schedule Routes
 Route::apiResource('exam-schedules', ExamScheduleController::class);
@@ -50,10 +56,14 @@ Route::get('/get-semesters', [SubjectController::class, 'getSemesters']);
 Route::apiResource('/students', StudentController::class);
 Route::delete('students/student/{id}', [StudentController::class, 'permanentDelete']);
 Route::get('students/{id}/restore', [StudentController::class, 'restore']);
-Route::get('/find-by-email', [StudentController::class, 'findByEmail']);
-Route::get('/get_student', [StudentController::class, 'getStudent']);
-Route::get('/get_student_father_name/{name}', [StudentController::class, 'studentFatherName']);
-Route::get('/get_student_roll_no/{fname}', [StudentController::class, 'studentRollNo']);
+Route::get('students/find-by-email', [StudentController::class, 'findByEmail']);
+Route::get('students/get-student', [StudentController::class, 'getStudent']);
+Route::get('students/get-student-father-name/{name}', [StudentController::class, 'studentFatherName']);
+Route::get('students/get-student-roll-no/{fname}', [StudentController::class, 'studentRollNo']);
+Route::get('students/find-by-subject/{id}', [StudentController::class, 'getStudentsBySubject']);
+Route::get('students/find-by-semester/{id}', [StudentController::class, 'getStudentsBySemester']);
+Route::post('students/add-to-semester', [StudentController::class, 'addStudentToSemester']);
+Route::post('students/add-to-subject', [StudentController::class, 'addStudentToSubject']);
 
 // **  Teacher Routes
 Route::apiResource('teachers', TeacherController::class);
@@ -80,6 +90,7 @@ Route::get('chances/{id}/restore', [ChanceController::class, 'restore']);
 Route::apiResource('attendances', AttendanceController::class);
 Route::delete('attendances/attendance/{id}', [AttendanceController::class, 'permanentDelete']);
 Route::get('attendances/{id}/restore', [AttendanceController::class, 'restore']);
+Route::get('attendances/find-by-subject/{id}', [AttendanceController::class, 'searchBySubject']);
 
 // **  Semester Routes
 Route::apiResource('semesters', SemesterController::class);

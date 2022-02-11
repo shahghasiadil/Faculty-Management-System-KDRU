@@ -30,9 +30,9 @@ class TeacherController extends Controller
     public function store(Request $request)
 
     {
-        // return $request;
         $this->validate($request, [
             'national_id' => 'required|integer',
+            'username' => 'required|string|min:3|max:100',
             'name' => 'required|string|min:3|max:100',
             'last_name' => 'required|string|min:3|max:100',
             'email' => 'required|email',
@@ -42,10 +42,10 @@ class TeacherController extends Controller
             'bio' => 'required|string'
         ]);
         $user = new User;
-        $user->name = $request->name . ' ' . $request->last_name;
+        $user->name = $request->username;
         $user->email = $request->email;
         $user->password =  Hash::make($request->password);
-        $user->type = 'teacher';
+        $user->role = 'TEACHER';
         $user->save();
         try {
             Teacher::create([
