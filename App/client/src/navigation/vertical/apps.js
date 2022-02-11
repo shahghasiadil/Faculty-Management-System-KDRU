@@ -2,9 +2,7 @@ import { Layers, Users, Edit3, Book, CheckSquare, Calendar, FileText, Circle, Sh
 
 
 export default [
-  {
-    header: 'Apps & Pages'
-  },
+
   {
     id: 'students', 
     title: 'Students', 
