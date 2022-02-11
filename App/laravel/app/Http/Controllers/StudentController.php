@@ -228,7 +228,7 @@ class StudentController extends Controller
     */
    public function getStudentsBySemester($id)
    {
-       return Semester::where('id',$id)->first()->students;
+       return Semester::find($id)->students;
    }
 
 }
