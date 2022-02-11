@@ -52,7 +52,6 @@ class StudentController extends Controller
     {
         $validated = $this->validate($request, [
             'national_id' => 'required|integer',
-            'username' => 'required|string|min:3|max:100',
             'name' => 'required|string|min:3|max:100',
             'last_name' => 'required|string|min:3|max:100',
             'father_name' => 'required|string|min:3|max:100',
@@ -66,7 +65,7 @@ class StudentController extends Controller
         try {
 
             $user = User::create([
-                'name' => $request->username,
+                'name' => $request->name,
                 'email' => $request->email,
                 'role' => 'STUDENT',
                 'password' => Hash::make($request->password),
@@ -127,7 +126,6 @@ class StudentController extends Controller
 
         $validated = $this->validate($request, [
             'national_id' => 'required|integer',
-            'username' => 'required|string|min:3|max:100',
             'name' => 'required|string|min:3|max:100',
             'last_name' => 'required|string|min:3|max:100',
             'father_name' => 'required|string|min:3|max:100',
@@ -140,7 +138,7 @@ class StudentController extends Controller
         ]);
 
         $user = User::findOrFail($student->user_id);
-        $user->name = $request->username;
+        $user->name = $request->name;
         $user->email = $request->email;
         if ($request->password){
             $user->password =  Hash::make($request->password);
