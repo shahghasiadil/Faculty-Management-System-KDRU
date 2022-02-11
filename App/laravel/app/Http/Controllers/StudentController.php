@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Address;
 use App\Models\Student;
 use App\Models\User;
 use App\Models\Subject;
@@ -51,20 +50,21 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
+        $validated = $this->validate($request, [
+            'national_id' => 'required|integer',
+            'username' => 'required|string|min:3|max:100',
+            'name' => 'required|string|min:3|max:100',
+            'last_name' => 'required|string|min:3|max:100',
+            'father_name' => 'required|string|min:3|max:100',
+            'grand_father_name' => 'required|string|min:3|max:100',
+            'roll_no' => 'required|string|min:1|max:100',
+            'email' => 'required|email',
+            'password' => 'required',
+            'period' => 'required|integer',
+            'address_id' => 'required|integer',
+        ]);
         try {
-            $validated = $this->validate($request, [
-                'national_id' => 'required|integer',
-                'username' => 'required|string|min:3|max:100',
-                'name' => 'required|string|min:3|max:100',
-                'last_name' => 'required|string|min:3|max:100',
-                'father_name' => 'required|string|min:3|max:100',
-                'grand_father_name' => 'required|string|min:3|max:100',
-                'roll_no' => 'required|string|min:1|max:100',
-                'email' => 'required|email',
-                'password' => 'required',
-                'period' => 'required|integer',
-                'address_id' => 'required|integer',
-            ]);
+
             $user = User::create([
                 'name' => $request->username,
                 'email' => $request->email,
@@ -83,6 +83,7 @@ class StudentController extends Controller
                 'grand_father_name'=> $request->grand_father_name,
                 'roll_no' => $request->roll_no
             ]);
+
         } catch (QueryException $e) {
             if ($e->errorInfo[1] === 1062) {
                 return ("Duplicate Entry");
@@ -129,13 +130,13 @@ class StudentController extends Controller
             'username' => 'required|string|min:3|max:100',
             'name' => 'required|string|min:3|max:100',
             'last_name' => 'required|string|min:3|max:100',
+            'father_name' => 'required|string|min:3|max:100',
+            'grand_father_name' => 'required|string|min:3|max:100',
+            'roll_no' => 'required|string|min:1|max:100',
             'email' => 'required|email',
-            'password' => 'min:3|max:100',
+            'password' => 'required',
             'period' => 'required|integer',
-            'address_id' => 'required',
-            'father_name' => 'required',
-            'grand_father_name' => 'required',
-            'roll_no' => 'required'
+            'address_id' => 'required|integer'
         ]);
 
         $user = User::findOrFail($student->user_id);
@@ -218,7 +219,7 @@ class StudentController extends Controller
      */
     public function getStudentsBySubject($id)
     {
-        return Subject::where('id',$id)->first()->students;
+        return Subject::find($id)->students;
     }
 
     /** @param int id (semester id)
@@ -226,7 +227,7 @@ class StudentController extends Controller
     */
    public function getStudentsBySemester($id)
    {
-       return Semester::where('id',$id)->first()->students;
+       return Semester::find($id)->students;
    }
 
 }

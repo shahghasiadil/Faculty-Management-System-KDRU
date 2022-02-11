@@ -22,6 +22,7 @@ export const getData = params => {
         totalPages: response.data.total,
         params
       })
+      console.log(response.data.users)
     })
   }
 }
@@ -36,6 +37,7 @@ export const getUser = id => {
           type: 'GET_USER',
           selectedUser: response.data.user
         })
+        console.log(response.data)
       })
       .catch(err => console.log(err))
   }

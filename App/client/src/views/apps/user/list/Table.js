@@ -5,7 +5,7 @@ import { Fragment, useState, useEffect } from 'react'
 import Sidebar from './Sidebar'
 
 // ** Columns
-import { columns } from './columns'
+import { columns } from '../../../student/list/columns'
 
 // ** Store & Actions
 import { getAllData, getData } from '../store/action'
