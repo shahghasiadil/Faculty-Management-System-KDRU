@@ -10,6 +10,7 @@ use App\Models\Semester;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Symfony\Component\CssSelector\Node\FunctionNode;
 
 class StudentController extends Controller
 {
@@ -51,20 +52,21 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
+        $validated = $this->validate($request, [
+            'national_id' => 'required|integer',
+            'username' => 'required|string|min:3|max:100',
+            'name' => 'required|string|min:3|max:100',
+            'last_name' => 'required|string|min:3|max:100',
+            'father_name' => 'required|string|min:3|max:100',
+            'grand_father_name' => 'required|string|min:3|max:100',
+            'roll_no' => 'required|string|min:1|max:100',
+            'email' => 'required|email',
+            'password' => 'required',
+            'period' => 'required|integer',
+            'address_id' => 'required|integer',
+        ]);
         try {
-            $validated = $this->validate($request, [
-                'national_id' => 'required|integer',
-                'username' => 'required|string|min:3|max:100',
-                'name' => 'required|string|min:3|max:100',
-                'last_name' => 'required|string|min:3|max:100',
-                'father_name' => 'required|string|min:3|max:100',
-                'grand_father_name' => 'required|string|min:3|max:100',
-                'roll_no' => 'required|string|min:1|max:100',
-                'email' => 'required|email',
-                'password' => 'required',
-                'period' => 'required|integer',
-                'address_id' => 'required|integer',
-            ]);
+
             $user = User::create([
                 'name' => $request->username,
                 'email' => $request->email,
@@ -129,13 +131,13 @@ class StudentController extends Controller
             'username' => 'required|string|min:3|max:100',
             'name' => 'required|string|min:3|max:100',
             'last_name' => 'required|string|min:3|max:100',
+            'father_name' => 'required|string|min:3|max:100',
+            'grand_father_name' => 'required|string|min:3|max:100',
+            'roll_no' => 'required|string|min:1|max:100',
             'email' => 'required|email',
-            'password' => 'min:3|max:100',
+            'password' => 'required',
             'period' => 'required|integer',
-            'address_id' => 'required',
-            'father_name' => 'required',
-            'grand_father_name' => 'required',
-            'roll_no' => 'required'
+            'address_id' => 'required|integer'
         ]);
 
         $user = User::findOrFail($student->user_id);
