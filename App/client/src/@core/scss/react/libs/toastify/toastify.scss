@@ -1,0 +1,135 @@
+@import '~react-toastify/dist/ReactToastify.css';
+@import '../../../base/bootstrap-extended/include';
+@import '../../../base/components/include';
+@import '../../../base/core/colors/palette-variables';
+
+.Toastify__toast {
+  background-color: $white;
+  border-radius: $toast-border-radius;
+  box-shadow: $toast-box-shadow;
+  padding: 1rem;
+  .Toastify__toast-body,
+  .Toastify__close-button {
+    color: $body-color;
+  }
+
+  .toastify-header {
+    padding-bottom: 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .title-wrapper {
+      display: flex;
+      align-items: center;
+
+      .avatar svg {
+        height: 0.85rem;
+        width: 0.85rem;
+      }
+    }
+    .toast-title {
+      color: $headings-color;
+      font-weight: 600;
+      margin-left: 0.75rem;
+      margin-bottom: 0;
+    }
+  }
+
+  .toastify-body {
+    color: $body-color;
+    padding-left: 2.3rem;
+    font-size: 0.85rem;
+    font-family: $font-family-sans-serif;
+  }
+
+  .Toastify__close-button {
+    opacity: 1;
+    margin-top: 1px;
+    margin-left: 0.5rem;
+    svg {
+      height: 0.85rem;
+      width: 0.85rem;
+      fill: $headings-color;
+    }
+    &:hover svg {
+      fill: $headings-color;
+    }
+    &:focus {
+      outline: 0;
+    }
+  }
+
+  &.Toastify__toast--default {
+    .toast-title {
+      color: $primary;
+    }
+  }
+
+  &.Toastify__toast--error {
+    .toast-title {
+      color: $danger;
+    }
+    .Toastify__progress-bar {
+      background-color: $danger;
+    }
+  }
+
+  @each $color_name, $color in $colors {
+    @each $color_type, $color_value in $color {
+      @if $color_type== 'base' {
+        &.Toastify__toast--#{$color_name} {
+          .toast-title {
+            color: $color_value;
+          }
+          .Toastify__progress-bar {
+            background-color: $color_value;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Progress Bar
+.Toastify__progress-bar {
+  bottom: 0;
+  border-top-right-radius: $border-radius;
+  border-bottom-right-radius: $border-radius;
+  &.Toastify__progress-bar--default {
+    background: $primary;
+  }
+}
+
+// Dark Layout
+.dark-layout {
+  .Toastify__toast {
+    background-color: $theme-dark-card-bg;
+    box-shadow: 0 2px 20px 0 rgba($black, 0.3);
+    .Toastify__toast-body,
+    .Toastify__close-button {
+      color: $theme-dark-body-color;
+    }
+
+    .toastify-body {
+      color: $theme-dark-body-color;
+    }
+
+    .Toastify__close-button {
+      svg {
+        fill: $theme-dark-body-color;
+      }
+      &:hover svg {
+        fill: $headings-color;
+      }
+    }
+  }
+}
+
+// Media Queries
+@media (max-width: 480px) {
+  .Toastify__toast-container {
+    .Toastify__toast + .Toastify__toast {
+      margin-top: 1rem;
+    }
+  }
+}
