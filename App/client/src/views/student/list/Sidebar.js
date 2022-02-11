@@ -84,7 +84,7 @@ const SidebarNewStudents = ({ open, toggleSidebar }) => {
   // ** Check if user Exists Validation
   const  handleInputChange = (value) => {
     setInputTerm(value)
-      const res = axios.get(`http://127.0.0.1:8000/api/find-by-email?email=${value}`).then(response => {
+      const res = axios.get(`http://127.0.0.1:8000/api/students/find-by-email?email=${value}`).then(response => {
         if (response.data.status === 200) {
           setVisible(true)
           console.log(visible)

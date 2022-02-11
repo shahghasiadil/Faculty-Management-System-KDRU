@@ -228,4 +228,5 @@ class StudentController extends Controller
        return Semester::find($id)->students;
    }
 
+
 }
