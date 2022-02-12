@@ -10,12 +10,12 @@ class Subject extends Model
 {
     use HasFactory, SoftDeletes;
 
-    // Mass Assignment 
+    // Mass Assignment
     protected $fillable = ['name', 'credit', 'semester_id'];
 
-    public function students()
+    public function registrations()
     {
-        return $this->belongsToMany(Student::class);
+        return $this->belongsToMany(Registration::class);
     }
 
     public function attendances()
@@ -43,5 +43,15 @@ class Subject extends Model
     public function finalMarks()
     {
         return $this->belongsTo(FinalMark::class);
+    }
+
+    /**
+     * The students that belong to the Subject
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function students()
+    {
+        return $this->belongsToMany(Student::class);
     }
 }

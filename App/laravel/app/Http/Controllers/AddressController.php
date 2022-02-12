@@ -2,20 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Registration;
-use App\Models\Student;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-// use Illuminate\View\View;
+use App\Models\Address;
 
-class RegistrationController extends Controller
+class AddressController extends Controller
 {
-    /**
-     * @author  Shahghasi Adil
-     * @date    2021-06-13
-     *
-     */
-    // return View
     /**
      * Display a listing of the resource.
      *
@@ -23,7 +14,7 @@ class RegistrationController extends Controller
      */
     public function index()
     {
-        return Registration::with(['subjects', 'students'])->get();
+        //
     }
 
     /**
@@ -44,11 +35,7 @@ class RegistrationController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $this->validate($request, [
-            'student_id' => 'required',
-            'subject_id' => 'required'
-        ]);
-        Registration::create($validated);
+        Address::create($this->validateData($request));
     }
 
     /**
@@ -59,7 +46,7 @@ class RegistrationController extends Controller
      */
     public function show($id)
     {
-        return Registration::findOrFail($id);
+        return Address::findOrFail($id);
     }
 
     /**
@@ -82,12 +69,9 @@ class RegistrationController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $registration = Registration::findOrFail($id);
-        $validated = $this->validate($request, [
-            'student_id' => 'required',
-            'subject_id' => 'required'
-        ]);
-        $registration->update($validated);
+
+        $address = Address::findOrFail($id);
+        $address->update($this->validateData($request));
     }
 
     /**
@@ -98,19 +82,40 @@ class RegistrationController extends Controller
      */
     public function destroy($id)
     {
-        $registration = Registration::destroy($id);
+        $address = Address::findOrFail($id);
+        $address->delete();
     }
 
+    /**
+     * Remove the specified resource from storage permanentally.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function permanentDelete($id)
+    {
+        $address = Address::findOrFail($id);
+        $address->forceDelete();
+    }
+
+    /**
+     * Restore the specified resource from soft delete.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function restore($id)
     {
-        $registration = Registration::withTrashed()->find($id);
-        if ($registration && $registration->trashed()) {
-            $registration->restore();
+        $address = Address::withTrashed()->find($id);
+        if($address){
+            $address->restore();
         }
     }
 
-    public function permanentDelete($id)
-    {
-        $registration = Registration::findOrFail($id)->forceDelete();
-    }
+  private function validateData($request){
+    return $this->validate($request, [
+        'city' => 'required|string',
+        'district' => 'required|string',
+    ]);
+  }
 }

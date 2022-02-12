@@ -110,9 +110,12 @@ const AnalyticsDashboard = () => {
   return (
     <div id='dashboard-analytics'>
       <Row className='match-height'>
-        <Col lg='6' sm='12'>
-          <CardCongratulations />
-        </Col>
+      <Col lg='3' sm='6'>
+          <SubscribersGained kFormatter={kFormatter} />
+      </Col>
+      <Col lg='3' sm='6'>
+          <SubscribersGained kFormatter={kFormatter} />
+      </Col>
         <Col lg='3' sm='6'>
           <SubscribersGained kFormatter={kFormatter} />
         </Col>
@@ -128,32 +131,8 @@ const AnalyticsDashboard = () => {
           <SupportTracker primary={colors.primary.main} danger={colors.danger.main} />
         </Col>
       </Row>
-      <Row className='match-height'>
-        <Col lg='4' xs='12'>
-          <Card className='card-user-timeline'>
-            <CardHeader>
-              <div className='d-flex align-items-center'>
-                <List className='user-timeline-title-icon' />
-                <CardTitle tag='h4'>User Timeline</CardTitle>
-              </div>
-            </CardHeader>
-            <CardBody>
-              <Timeline className='ml-50 mb-0' data={data} />
-            </CardBody>
-          </Card>
-        </Col>
-        <Col lg='4' md='6' xs='12'>
-          <Sales primary={colors.primary.main} info={colors.info.main} />
-        </Col>
-        <Col lg='4' md='6' xs='12'>
-          <CardAppDesign />
-        </Col>
-      </Row>
-      <Row className='match-height'>
-        <Col xs='12'>
-          <InvoiceList />
-        </Col>
-      </Row>
+
+
     </div>
   )
 }

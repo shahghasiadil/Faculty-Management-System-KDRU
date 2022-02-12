@@ -1,31 +1,44 @@
 // ** React Imports
-import { Fragment, useState, useEffect } from 'react'
+import { Fragment, useState, useEffect} from 'react'
 
-// ** Invoice List Sidebar
+// ** FinalMark List Sidebar
 import Sidebar from './Sidebar'
-
+import Avatar from '@components/avatar'
 // ** Columns
-<<<<<<< HEAD
 import { columns } from './columns'
-=======
-import { columns } from '../../../student/list/columns'
->>>>>>> df3f393260d273b15f526a8272aaf8044f8c05bd
 
 // ** Store & Actions
-import { getAllData, getData } from '../store/action'
+import { getAllData, getData} from '../store/action'
 import { useDispatch, useSelector } from 'react-redux'
 
 // ** Third Party Components
-import Select from 'react-select'
 import ReactPaginate from 'react-paginate'
-import { ChevronDown } from 'react-feather'
+import { ChevronDown, Check} from 'react-feather'
 import DataTable from 'react-data-table-component'
-import { selectThemeColors } from '@utils'
-import { Card, CardHeader, CardTitle, CardBody, Input, Row, Col, Label, CustomInput, Button } from 'reactstrap'
+import { Card, Input, Row, Col, Label, CustomInput, Button } from 'reactstrap'
 
 // ** Styles
 import '@styles/react/libs/react-select/_react-select.scss'
 import '@styles/react/libs/tables/react-dataTable-component.scss'
+import { store } from '@store/storeConfig/store'
+
+// ** ErrorToast Component for Undo Records
+  export const  ErrorToast = ({id}) => (
+    <Fragment>
+         <div className='toastify-header'>
+      <div className='title-wrapper'>
+        <Avatar size='sm' color='success' icon={<Check size={12} />} />
+        <h6 className='toast-title'>Success</h6>
+      </div>
+      <small className='text-muted'>3 secondes Ago</small>
+    </div>
+      <div className='toastify-body alert-danger'>
+        <span role='img' aria-label='toast-text'>
+        Record deleted  <strong>Oops</strong> <Button.Ripple color='flat-info' onClick = {() => { }}>Undo</Button.Ripple>
+        </span>
+      </div>
+    </Fragment>
+  )
 
 // ** Table Header
 const CustomHeader = ({ toggleSidebar, handlePerPage, rowsPerPage, handleFilter, searchTerm }) => {
@@ -71,7 +84,7 @@ const CustomHeader = ({ toggleSidebar, handlePerPage, rowsPerPage, handleFilter,
             />
           </div>
           <Button.Ripple color='primary' onClick={toggleSidebar}>
-            Add New User
+            Add Mid Term Mark
           </Button.Ripple>
         </Col>
       </Row>
@@ -79,23 +92,18 @@ const CustomHeader = ({ toggleSidebar, handlePerPage, rowsPerPage, handleFilter,
   )
 }
 
-const UsersList = () => {
+const  RegistrationsList = () => {
   // ** Store Vars
   const dispatch = useDispatch()
-  const store = useSelector(state => state.users)
-
+  const store = useSelector(state => state.registrations)
   // ** States
   const [searchTerm, setSearchTerm] = useState('')
   const [currentPage, setCurrentPage] = useState(1)
   const [rowsPerPage, setRowsPerPage] = useState(10)
   const [sidebarOpen, setSidebarOpen] = useState(false)
-  const [currentRole, setCurrentRole] = useState({ value: '', label: 'Select Role' })
-  const [currentPlan, setCurrentPlan] = useState({ value: '', label: 'Select Plan' })
-  const [currentStatus, setCurrentStatus] = useState({ value: '', label: 'Select Status', number: 0 })
-
+  
   // ** Function to toggle sidebar
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen)
-
   // ** Get data on mount
   useEffect(() => {
     dispatch(getAllData())
@@ -103,51 +111,21 @@ const UsersList = () => {
       getData({
         page: currentPage,
         perPage: rowsPerPage,
-        role: currentRole.value,
-        currentPlan: currentPlan.value,
-        status: currentStatus.value,
         q: searchTerm
       })
     )
-  }, [dispatch, store.data.length])
-
-  // ** User filter options
-  const roleOptions = [
-    { value: '', label: 'Select Role' },
-    { value: 'admin', label: 'Admin' },
-    { value: 'author', label: 'Author' },
-    { value: 'editor', label: 'Editor' },
-    { value: 'maintainer', label: 'Maintainer' },
-    { value: 'subscriber', label: 'Subscriber' }
-  ]
-
-  const planOptions = [
-    { value: '', label: 'Select Plan' },
-    { value: 'basic', label: 'Basic' },
-    { value: 'company', label: 'Company' },
-    { value: 'enterprise', label: 'Enterprise' },
-    { value: 'team', label: 'Team' }
-  ]
-
-  const statusOptions = [
-    { value: '', label: 'Select Status', number: 0 },
-    { value: 'pending', label: 'Pending', number: 1 },
-    { value: 'active', label: 'Active', number: 2 },
-    { value: 'inactive', label: 'Inactive', number: 3 }
-  ]
-
+    
+  }, [dispatch, store.data.length])  
   // ** Function in get data on page change
   const handlePagination = page => {
     dispatch(
       getData({
         page: page.selected + 1,
         perPage: rowsPerPage,
-        role: currentRole.value,
-        currentPlan: currentPlan.value,
-        status: currentStatus.value,
         q: searchTerm
       })
     )
+    //console.log(page)
     setCurrentPage(page.selected + 1)
   }
 
@@ -158,9 +136,6 @@ const UsersList = () => {
       getData({
         page: currentPage,
         perPage: value,
-        role: currentRole.value,
-        currentPlan: currentPlan.value,
-        status: currentStatus.value,
         q: searchTerm
       })
     )
@@ -174,9 +149,6 @@ const UsersList = () => {
       getData({
         page: currentPage,
         perPage: rowsPerPage,
-        role: currentRole.value,
-        currentPlan: currentPlan.value,
-        status: currentStatus.value,
         q: val
       })
     )
@@ -201,113 +173,33 @@ const UsersList = () => {
         previousLinkClassName={'page-link'}
         pageLinkClassName={'page-link'}
         containerClassName={'pagination react-paginate justify-content-end my-2 pr-1'}
-      />
+    />
     )
   }
 
   // ** Table data to render
   const dataToRender = () => {
     const filters = {
-      role: currentRole.value,
-      currentPlan: currentPlan.value,
-      status: currentStatus.value,
       q: searchTerm
     }
 
     const isFiltered = Object.keys(filters).some(function (k) {
       return filters[k].length > 0
     })
-
+  
     if (store.data.length > 0) {
+ 
       return store.data
     } else if (store.data.length === 0 && isFiltered) {
       return []
     } else {
+
       return store.allData.slice(0, rowsPerPage)
     }
   }
 
   return (
     <Fragment>
-      <Card>
-        <CardHeader>
-          <CardTitle tag='h4'>Search Filter</CardTitle>
-        </CardHeader>
-        <CardBody>
-          <Row>
-            <Col md='4'>
-              <Select
-                isClearable={false}
-                theme={selectThemeColors}
-                className='react-select'
-                classNamePrefix='select'
-                options={roleOptions}
-                value={currentRole}
-                onChange={data => {
-                  setCurrentRole(data)
-                  dispatch(
-                    getData({
-                      page: currentPage,
-                      perPage: rowsPerPage,
-                      role: data.value,
-                      currentPlan: currentPlan.value,
-                      status: currentStatus.value,
-                      q: searchTerm
-                    })
-                  )
-                }}
-              />
-            </Col>
-            <Col className='my-md-0 my-1' md='4'>
-              <Select
-                theme={selectThemeColors}
-                isClearable={false}
-                className='react-select'
-                classNamePrefix='select'
-                options={planOptions}
-                value={currentPlan}
-                onChange={data => {
-                  setCurrentPlan(data)
-                  dispatch(
-                    getData({
-                      page: currentPage,
-                      perPage: rowsPerPage,
-                      role: currentRole.value,
-                      currentPlan: data.value,
-                      status: currentStatus.value,
-                      q: searchTerm
-                    })
-                  )
-                }}
-              />
-            </Col>
-            <Col md='4'>
-              <Select
-                theme={selectThemeColors}
-                isClearable={false}
-                className='react-select'
-                classNamePrefix='select'
-                options={statusOptions}
-                value={currentStatus}
-                onChange={data => {
-                  setCurrentStatus(data)
-                  dispatch(
-                    getData({
-                      page: currentPage,
-                      perPage: rowsPerPage,
-                      role: currentRole.value,
-                      currentPlan: currentPlan.value,
-                      status: data.value,
-                      q: searchTerm
-                    })
-                  )
-                }}
-              />
-            </Col>
-          </Row>
-        </CardBody>
-      </Card>
-
       <Card>
         <DataTable
           noHeader
@@ -335,6 +227,8 @@ const UsersList = () => {
       <Sidebar open={sidebarOpen} toggleSidebar={toggleSidebar} />
     </Fragment>
   )
+
+
 }
 
-export default UsersList
+export default RegistrationsList
