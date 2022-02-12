@@ -21,9 +21,10 @@ class AuthenticationController extends Controller
             return $this->error('Credentials not match', 401);
         }
 
-        return $this->success([
-            'token' => auth()->user()->createToken('API Token')->plainTextToken
-        ]);
+        return response()->json([
+            'access_token' => auth()->user()->createToken('Auth_Token')->plainTextToken,
+            'token_type' => 'Bearer']);
+
     }
 
     // this method signs out users by removing tokens
@@ -31,8 +32,6 @@ class AuthenticationController extends Controller
     {
         auth()->user()->tokens()->delete();
 
-        return [
-            'message' => 'Tokens Revoked'
-        ];
+        return response()->json([ 'valid' => auth()->check() ]);
     }
 }

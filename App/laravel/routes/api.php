@@ -29,24 +29,18 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::post('/login', [AuthenticationController::class, 'login']);
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 
 
 //using middleware
 Route::group(['middleware' => ['auth:sanctum']], function () {
-    Route::get('/profile', function(Request $request) {
-        return auth()->user();
-    });
     Route::post('/logout', [AuthenticationController::class, 'logout']);
 });
 
 // ** Dashboard Routes
 Route::get('/dashboard', DashboardController::class);
-
-
-
 
 // **  Address Routes
 Route::apiResource('addresses', AddressController::class);
