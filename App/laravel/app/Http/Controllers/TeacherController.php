@@ -32,22 +32,22 @@ class TeacherController extends Controller
     {
         $this->validate($request, [
             'national_id' => 'required|integer',
-            'username' => 'required|string|min:3|max:100',
             'name' => 'required|string|min:3|max:100',
             'last_name' => 'required|string|min:3|max:100',
             'email' => 'required|email',
             'password' => 'required',
             'degree' => 'required|string',
-            'address_id' => 'required',
+            'address_id' => 'required|integer',
             'bio' => 'required|string'
         ]);
-        $user = new User;
-        $user->name = $request->username;
-        $user->email = $request->email;
-        $user->password =  Hash::make($request->password);
-        $user->role = 'TEACHER';
-        $user->save();
         try {
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'role' => 'TEACHER',
+                'password' => Hash::make($request->password),
+            ]);
+
             Teacher::create([
                 'national_id' => $request->national_id,
                 'name' => $request->name,
@@ -79,22 +79,26 @@ class TeacherController extends Controller
 
     public function update(Request $request, $id)
     {
-        // return $request;
         $teacher = Teacher::findOrFail($id);
+
         $this->validate($request, [
             'national_id' => 'required|integer',
             'name' => 'required|string|min:3|max:100',
             'last_name' => 'required|string|min:3|max:100',
             'email' => 'required|email',
-            'password' => 'required',
+            'password' => 'min:3|max:100',
             'degree' => 'required|string',
+            'address_id' => 'required|integer',
             'bio' => 'required|string'
         ]);
-        // return Teacher::with('user')->findOrFail($id);
+
         $user = User::findOrFail($teacher->user_id);
-        $user->name = $request->name . ' ' . $request->last_name;
+        $user->name = $request->name;
         $user->email = $request->email;
-        $user->password =  Hash::make($request->password);
+        if($request->password)
+        {
+            $user->password =  Hash::make($request->password);
+        }
         $user->save();
 
         $teacher->update([
@@ -106,7 +110,6 @@ class TeacherController extends Controller
             'degree' => $request->degree,
             'bio' => $request->bio
         ]);
-        // return $request . "ABD";
     }
 
     public function destroy($id)
@@ -114,6 +117,7 @@ class TeacherController extends Controller
         $teacher = Teacher::findOrFail($id);
         $teacher->delete();
     }
+
     public function restore($id)
     {
         $teacherData = Teacher::withTrashed()->find($id);
@@ -129,9 +133,11 @@ class TeacherController extends Controller
 
     public function findByEmail(Request $request)
     {
-        $teacher = User::where('email', '=', $request->email)->get();
-        if (sizeof($teacher) > 0) {
-            return response()->json(["email already exists", "status" => 200]);
-        } else return response()->json(['status' => 203]);
+        $teacherUser = User::with(['teacher'])->where('email',$request->email)->first();
+        if ($teacherUser)
+        {
+            return $teacherUser;
+        } 
+        else return response()->json(['No Teacher with the given email found.' => 204]);
     }
 }

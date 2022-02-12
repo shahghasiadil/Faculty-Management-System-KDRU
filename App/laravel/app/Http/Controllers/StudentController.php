@@ -171,13 +171,13 @@ class StudentController extends Controller
     }
 
     // ** findByEmail method for Duplicate emails, check if student exists
-    public function getStudentByEmail(Request $request)
+    public function findByEmail(Request $request)
     {
-        $student = User::where('email', $request->email)->first();
-        if ($student) {
-            return $student;
+        $studentUser = User::with(['student'])->where('email', $request->email)->first();
+        if ($studentUser) {
+            return $studentUser;
         } 
-        else return response()->json(['No user with the given email found.' => 204]);
+        else return response()->json(['No Student with the given email found.' => 204]);
     }
 
     // ** permanentDelete method for forceDelete
@@ -227,6 +227,4 @@ class StudentController extends Controller
    {
        return Semester::find($id)->students;
    }
-
-
 }

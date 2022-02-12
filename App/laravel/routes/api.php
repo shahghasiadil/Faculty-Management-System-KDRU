@@ -68,10 +68,10 @@ Route::get('/get-semesters', [SubjectController::class, 'getSemesters']);
 Route::apiResource('/students', StudentController::class);
 Route::delete('students/student/{id}', [StudentController::class, 'permanentDelete']);
 Route::get('students/{id}/restore', [StudentController::class, 'restore']);
-Route::get('students/find-by-email', [StudentController::class, 'findByEmail']);
 Route::get('students/get-student', [StudentController::class, 'getStudent']);
-Route::get('students/get-student-father-name/{name}', [StudentController::class, 'studentFatherName']);
-Route::get('students/get-student-roll-no/{fname}', [StudentController::class, 'studentRollNo']);
+Route::get('students/get-father-name/{name}', [StudentController::class, 'studentFatherName']);
+Route::get('students/get-roll-no/{fname}', [StudentController::class, 'studentRollNo']);
+Route::post('students/find-by-email', [StudentController::class, 'findByEmail']);
 Route::get('students/find-by-subject/{id}', [StudentController::class, 'getStudentsBySubject']);
 Route::get('students/find-by-semester/{id}', [StudentController::class, 'getStudentsBySemester']);
 Route::post('students/add-to-semester', [StudentController::class, 'addStudentToSemester']);
@@ -81,7 +81,7 @@ Route::post('students/add-to-subject', [StudentController::class, 'addStudentToS
 Route::apiResource('teachers', TeacherController::class);
 Route::delete('teachers/teacher/{id}', [TeacherController::class, 'permanentDelete']);
 Route::get('teachers/{id}/restore', [TeacherController::class, 'restore']);
-Route::get('/find-teacher-by-email', [TeacherController::class, 'findByEmail']);
+Route::post('teachers/find-by-email', [TeacherController::class, 'findByEmail']);
 
 // **  Final Mark Routes
 Route::apiResource('final-marks', FinalMarkController::class);
