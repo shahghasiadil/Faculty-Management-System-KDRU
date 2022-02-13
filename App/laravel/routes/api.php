@@ -116,3 +116,9 @@ Route::get('/find-semester-by-number', [SemesterController::class, 'findByNumber
 Route::apiResource('registrations', RegistrationController::class);
 Route::delete('registrations/registration/{id}', [RegistrationController::class, 'permanentDelete']);
 Route::get('registrations/{id}/restore', [RegistrationController::class, 'restore']);
+
+// ** Dashboard Routes
+Route::get('top-students-of-first-semester/{name}', [DashboardController::class, 'topStudentsOfSemester']);
+Route::get('male-students-count', [DashboardController::class, 'maleStudentsCount']);
+Route::get('female-students-count', [DashboardController::class, 'femaleStudentsCount']);
+
