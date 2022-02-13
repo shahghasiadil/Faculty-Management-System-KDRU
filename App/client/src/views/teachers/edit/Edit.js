@@ -52,14 +52,9 @@ const TeacherTab = ({ selectedTeacher }) => {
   
   // ** States
   const [teacherData, setTeacherData] = useState(null)
-<<<<<<< HEAD
-  const [degree, setDegree] = useState('')
-  const [value, setValue] = useState('')
-=======
   const [degree, setDegree] = useState(selectedTeacher.degree)
   const [value, setValue] = useState('')
   const [address, setAddress] = useState(selectedTeacher.address_id)
->>>>>>> df3f393260d273b15f526a8272aaf8044f8c05bd
 
    // ** Validations Yup
    const TeacherSchema = yup.object().shape({
@@ -80,12 +75,6 @@ const TeacherTab = ({ selectedTeacher }) => {
     { value: 'Master', label: 'Master' },
     { value: 'PhD', label: 'PhD' }
   ]
-<<<<<<< HEAD
-  // ** Finding index of degree { Master , PhD , Bacholer }
-  const index = degrees.findIndex(ndx => ndx.label === selectedTeacher.degree)
-
-    // ** Update teacher on mount or change
-=======
   const Address = [
     { value: 1, label: 'Kandahar' },
     { value: 2, label: 'Helmand' },
@@ -101,7 +90,6 @@ const TeacherTab = ({ selectedTeacher }) => {
   const ndx = Address.findIndex(ndx => ndx.value === selectedTeacher.address_id)
     // ** Update teacher on mount or change
   
->>>>>>> df3f393260d273b15f526a8272aaf8044f8c05bd
   useEffect(() => {
   
     if (selectedTeacher !== null || (selectedTeacher !== null && teacherData !== null && selectedTeacher.id !== teacherData.id)) {
@@ -111,15 +99,10 @@ const TeacherTab = ({ selectedTeacher }) => {
 
   // ** Renders Teacher
   const onSubmit = values => {
-<<<<<<< HEAD
-    if (isObjEmpty(errors)) {
-      if (degree) {
-=======
     
     if (isObjEmpty(errors)) {
       if (degree) {
         // console.log(values)
->>>>>>> df3f393260d273b15f526a8272aaf8044f8c05bd
         dispatch(
           updateTeacher({
             name: values.name,
@@ -128,12 +111,8 @@ const TeacherTab = ({ selectedTeacher }) => {
             degree,
             password: values.password,
             email: values.email,
-<<<<<<< HEAD
-            bio: values.bio
-=======
             bio: values.bio,
             address_id:address
->>>>>>> df3f393260d273b15f526a8272aaf8044f8c05bd
           }, selectedTeacher.id)
         )
       }
@@ -197,11 +176,7 @@ const TeacherTab = ({ selectedTeacher }) => {
             autocomplete ='off'
             placeholder='john@example.com'
             invalid={errors.email && true}
-<<<<<<< HEAD
-            defaultValue={teacherData && teacherData.email}
-=======
             defaultValue={teacherData && teacherData.user?.email}
->>>>>>> df3f393260d273b15f526a8272aaf8044f8c05bd
             innerRef={register({ required: true })}
             className={watch('email') ? classnames({ 'is-valid': !errors.email }) : ''}
           />
@@ -219,10 +194,7 @@ const TeacherTab = ({ selectedTeacher }) => {
             name='password'
             id='password'
             placeholder=''
-<<<<<<< HEAD
-=======
             // defaultValue={teacherData && teacherData.user?.password}
->>>>>>> df3f393260d273b15f526a8272aaf8044f8c05bd
             invalid={errors.password && true}
             innerRef={register({ required: true })}
             className={watch('password') ? classnames({ 'is-valid': !errors.password }) : ''}
@@ -268,8 +240,6 @@ const TeacherTab = ({ selectedTeacher }) => {
         </FormGroup>
       </Col>
       <Col md = '4' sm = '12'>
-<<<<<<< HEAD
-=======
         <FormGroup>
         <Label for = "address">Address<span className='text-danger'>*</span></Label>
             <Select
@@ -286,7 +256,6 @@ const TeacherTab = ({ selectedTeacher }) => {
         </FormGroup>
       </Col>
       <Col md = '4' sm = '12'>
->>>>>>> df3f393260d273b15f526a8272aaf8044f8c05bd
       <FormGroup className= 'mt-2'>
         <div className='form-label-group mb-0'>
           <Input

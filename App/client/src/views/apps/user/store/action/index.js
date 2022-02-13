@@ -37,10 +37,7 @@ export const getUser = id => {
           type: 'GET_USER',
           selectedUser: response.data.user
         })
-<<<<<<< HEAD
-=======
         console.log(response.data)
->>>>>>> df3f393260d273b15f526a8272aaf8044f8c05bd
       })
       .catch(err => console.log(err))
   }

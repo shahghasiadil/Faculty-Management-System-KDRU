@@ -16,6 +16,15 @@ class FinalMarkController extends Controller
         return FinalMark::with(['student', 'subject'])->latest()->paginate(10);
     }
 
+    public function searchByStudent($id)
+    {
+        return FinalMark::with(['student'])->where('student_id', $id)->get();
+    }
+
+    public function searchBySubject($id)
+    {
+        return FinalMark::with(['subject'])->where('subject_id', $id)->get();
+    }
     public function create()
     {
     }

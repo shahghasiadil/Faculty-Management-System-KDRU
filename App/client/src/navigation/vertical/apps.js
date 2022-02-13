@@ -2,13 +2,6 @@ import { Layers, Users, Edit3, Book, CheckSquare, Calendar, FileText, Circle, Sh
 
 
 export default [
-<<<<<<< HEAD
-  {
-    header: 'Apps & Pages'
-  },
-=======
-
->>>>>>> df3f393260d273b15f526a8272aaf8044f8c05bd
   {
     id: 'students', 
     title: 'Students', 
@@ -77,17 +70,10 @@ export default [
     navLink: '/chances'
   },
   {
-<<<<<<< HEAD
-    id: 'registration',
-    title: 'Registration',
-    icon: <Edit3 size={20}/>,
-    navLink: '/registration'
-=======
     id: 'registrations',
     title: 'Registrations',
     icon: <Edit3 size={20}/>,
     navLink: '/registrations'
->>>>>>> df3f393260d273b15f526a8272aaf8044f8c05bd
   },
   {
     id:'schedules',

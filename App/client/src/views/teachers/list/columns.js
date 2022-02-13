@@ -39,11 +39,7 @@ export const columns = [
     selector: 'email',
     sortable: true,
     searchable:true,
-<<<<<<< HEAD
-    cell: row => row.email
-=======
     cell: row => row.user?.email
->>>>>>> df3f393260d273b15f526a8272aaf8044f8c05bd
   },
   {
     name: 'Degree',
@@ -53,8 +49,6 @@ export const columns = [
     cell: row => row.degree
   },
   {
-<<<<<<< HEAD
-=======
     name: 'Address',
     minWidth: '100px',
     selector: 'address',
@@ -63,7 +57,6 @@ export const columns = [
     cell: row => row.address?.city
   },
   {
->>>>>>> df3f393260d273b15f526a8272aaf8044f8c05bd
     name: 'Bio',
     minWidth: '200px',
     selector: 'bio',

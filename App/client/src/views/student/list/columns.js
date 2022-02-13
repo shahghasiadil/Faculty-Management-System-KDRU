@@ -27,8 +27,6 @@ export const columns = [
     cell: row => row.last_name
   },
   {
-<<<<<<< HEAD
-=======
     name: 'Father Name',
     minWidth: '200px',
     selector: 'father_name',
@@ -50,7 +48,6 @@ export const columns = [
     cell: row => row.roll_no
   },
   {
->>>>>>> df3f393260d273b15f526a8272aaf8044f8c05bd
     name: 'NID',
     minWidth: '100px',
     selector: 'national_id',
@@ -71,10 +68,6 @@ export const columns = [
     sortable: true,
     cell: row => row.period
   },
-<<<<<<< HEAD
-
-=======
->>>>>>> df3f393260d273b15f526a8272aaf8044f8c05bd
   {
     name: 'Actions',
     minWidth: '100px',
