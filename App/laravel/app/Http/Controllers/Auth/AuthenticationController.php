@@ -18,10 +18,11 @@ class AuthenticationController extends Controller
         ]);
 
         if (!Auth::attempt($validated)) {
-            return $this->error('Credentials not match', 401);
+            return response()->json('Credentials not match', 401);
         }
 
         return response()->json([
+            'user' => auth()->user(),
             'access_token' => auth()->user()->createToken('Auth_Token')->plainTextToken,
             'token_type' => 'Bearer']);
 
