@@ -12,6 +12,7 @@ use App\Http\Controllers\FinalMarkController;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\AddressController;
+use App\Http\Controllers\RelativeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -29,6 +30,8 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+// there should be a route for inserting user photo aswell
 
 // **  Address Routes
 Route::apiResource('addresses', AddressController::class);
@@ -64,6 +67,7 @@ Route::get('students/find-by-subject/{id}', [StudentController::class, 'getStude
 Route::get('students/find-by-semester/{id}', [StudentController::class, 'getStudentsBySemester']);
 Route::post('students/add-to-semester', [StudentController::class, 'addStudentToSemester']);
 Route::post('students/add-to-subject', [StudentController::class, 'addStudentToSubject']);
+Route::get('students/get-relatives/{id}', [StudentController::class, 'getStudentRelatives']);
 
 // **  Teacher Routes
 Route::apiResource('teachers', TeacherController::class);
@@ -102,3 +106,8 @@ Route::get('/find-semester-by-number', [SemesterController::class, 'findByNumber
 Route::apiResource('registrations', RegistrationController::class);
 Route::delete('registrations/registration/{id}', [RegistrationController::class, 'permanentDelete']);
 Route::get('registrations/{id}/restore', [RegistrationController::class, 'restore']);
+
+// ** Relative Routes
+Route::apiResource('relatives', RelativeController::class);
+Route::delete('relatives/relative/{id}', [RelativeController::class, 'permanentDelete']);
+Route::get('relatives/{id}/restore', [RelativeController::class, 'restore']);
