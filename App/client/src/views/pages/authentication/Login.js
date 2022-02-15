@@ -48,8 +48,8 @@ const Login = props => {
   const ability = useContext(AbilityContext)
   const dispatch = useDispatch()
   const history = useHistory()
-  const [email, setEmail] = useState('admin@demo.com')
-  const [password, setPassword] = useState('admin')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
 
   const { register, errors, handleSubmit } = useForm()
   const illustration = skin === 'dark' ? 'login-v2-dark.svg' : 'login-v2.svg',
@@ -60,6 +60,7 @@ const Login = props => {
       useJwt
         .login({ email, password })
         .then(res => {
+          console.log(res)
           const data = { ...res.data.userData, accessToken: res.data.accessToken, refreshToken: res.data.refreshToken }
           dispatch(handleLogin(data))
           ability.update(res.data.userData.ability)
