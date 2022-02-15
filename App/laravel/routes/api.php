@@ -12,6 +12,8 @@ use App\Http\Controllers\FinalMarkController;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\AddressController;
+use App\Http\Controllers\Auth\AuthenticationController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -26,9 +28,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::post('/login', [AuthenticationController::class, 'login']);
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
+
+//using middleware
+Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::post('/logout', [AuthenticationController::class, 'logout']);
 });
+
+// ** Dashboard Routes
+Route::get('/dashboard', DashboardController::class);
 
 // **  Address Routes
 Route::apiResource('addresses', AddressController::class);
