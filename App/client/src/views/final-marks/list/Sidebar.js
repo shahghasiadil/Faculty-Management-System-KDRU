@@ -144,7 +144,7 @@ const SidebarNewMarks = ({ open, toggleSidebar }) => {
               defaultValue={students[0]}
               name='loading'
               options={students}
-              // isLoading={true}
+              isLoading={true}
               onChange = {(e) => { loadStudentFatherName(e.value) } }
               // isClearable={false}
             />

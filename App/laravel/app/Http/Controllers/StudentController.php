@@ -197,7 +197,8 @@ class StudentController extends Controller
     
     public function getStudent()
     {
-        return Student::get(['id', 'name']);
+        // return Student::get(['id', 'name']);
+        return 'hello';
     }
 
     public function studentFatherName($name)
