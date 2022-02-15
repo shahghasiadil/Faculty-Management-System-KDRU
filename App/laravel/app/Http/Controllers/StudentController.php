@@ -6,6 +6,7 @@ use App\Models\Student;
 use App\Models\User;
 use App\Models\Subject;
 use App\Models\Semester;
+use App\Models\Relative;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -50,7 +51,7 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $this->validate($request, [
+        $this->validate($request, [
             'national_id' => 'required|integer',
             'name' => 'required|string|min:3|max:100',
             'last_name' => 'required|string|min:3|max:100',
@@ -61,6 +62,18 @@ class StudentController extends Controller
             'password' => 'required',
             'period' => 'required|integer',
             'address_id' => 'required|integer',
+            'native_tongue' => 'string',
+            'tazkira_page' => 'int',
+            'tazkira_volume' => 'int',
+            'tazkira_registration_number' => 'int',
+            'birth_year' => 'int',
+            'marital_status' => 'string',
+            'school_name' => 'string',
+            'graduation_year' => 'int',
+            'kankor_year' => 'int',
+            'kankor_score' => 'between:0,355.99',
+            'kankor_id' => 'string',
+            'phone' => 'string'
         ]);
         try {
 
@@ -80,7 +93,19 @@ class StudentController extends Controller
                 'period' => $request->period,
                 'father_name' => $request->father_name,
                 'grand_father_name'=> $request->grand_father_name,
-                'roll_no' => $request->roll_no
+                'roll_no' => $request->roll_no,
+                'native_tongue' => $request->native_tongue,
+                'tazkira_page' => $request->tazkira_page,
+                'tazkira_volume' => $request->tazkira_volume,
+                'tazkira_registration_number' => $request->tazkira_registration_number,
+                'birth_year' => $request->birth_year,
+                'marital_status' => $request->marital_status,
+                'school_name' => $request->school_name,
+                'graduation_year' => $request->graduation_year,
+                'kankor_year' => $request->kankor_year,
+                'kankor_score' => $request->kankor_score,
+                'kankor_id' => $request->kankor_id,
+                'phone' => $request->phone
             ]);
 
         } catch (QueryException $e) {
@@ -124,7 +149,7 @@ class StudentController extends Controller
     {
         $student = Student::findOrFail($id);
 
-        $validated = $this->validate($request, [
+        $this->validate($request, [
             'national_id' => 'required|integer',
             'name' => 'required|string|min:3|max:100',
             'last_name' => 'required|string|min:3|max:100',
@@ -134,7 +159,19 @@ class StudentController extends Controller
             'email' => 'required|email',
             'password' => 'required',
             'period' => 'required|integer',
-            'address_id' => 'required|integer'
+            'address_id' => 'required|integer',
+            'native_tongue' => 'string',
+            'tazkira_page' => 'int',
+            'tazkira_volume' => 'int',
+            'tazkira_registration_number' => 'int',
+            'birth_year' => 'int',
+            'marital_status' => 'string',
+            'school_name' => 'string',
+            'graduation_year' => 'int',
+            'kankor_year' => 'int',
+            'kankor_score' => 'between:0,355.99',
+            'kankor_id' => 'string',
+            'phone' => 'string'
         ]);
 
         $user = User::findOrFail($student->user_id);
@@ -149,11 +186,24 @@ class StudentController extends Controller
             'national_id' => $request->national_id,
             'name' => $request->name,
             'last_name' => $request->last_name,
+            'user_id' => $user->id,
             'address_id' => $request->address_id,
             'period' => $request->period,
             'father_name' => $request->father_name,
             'grand_father_name'=> $request->grand_father_name,
-            'roll_no' => $request->roll_no
+            'roll_no' => $request->roll_no,
+            'native_tongue' => $request->native_tongue,
+            'tazkira_page' => $request->tazkira_page,
+            'tazkira_volume' => $request->tazkira_volume,
+            'tazkira_registration_number' => $request->tazkira_registration_number,
+            'birth_year' => $request->birth_year,
+            'marital_status' => $request->marital_status,
+            'school_name' => $request->school_name,
+            'graduation_year' => $request->graduation_year,
+            'kankor_year' => $request->kankor_year,
+            'kankor_score' => $request->kankor_score,
+            'kankor_id' => $request->kankor_id,
+            'phone' => $request->phone
         ]);
     }
 
@@ -167,7 +217,7 @@ class StudentController extends Controller
     // ** show method for showing single record
     public function show($id)
     {
-        return Student::with(['user', 'address'])->findOrFail($id);
+        return Student::with(['user', 'address', 'relatives'])->findOrFail($id);
     }
 
     // ** findByEmail method for Duplicate emails, check if student exists
@@ -225,6 +275,11 @@ class StudentController extends Controller
     */
    public function getStudentsBySemester($id)
    {
-       return Semester::find($id)->students;
+       return Semester::findOrFail($id)->students;
+   }
+
+   public function getStudentRelatives($id)
+   {
+       return Student::findOrFail($id)->relatives;
    }
 }
