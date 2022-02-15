@@ -21,7 +21,7 @@ class CreateStudentsTable extends Migration
             $table->string('father_name');
             $table->string('grand_father_name');
             $table->string('roll_no');
-            $table->foreignId('address_id')->constrained('addresses');;
+            $table->foreignId('address_id')->constrained('addresses');
             $table->foreignId('user_id')->constrained('users');
             $table->integer('period');
             $table->timestamps();
