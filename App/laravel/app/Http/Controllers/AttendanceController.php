@@ -114,4 +114,6 @@ class AttendanceController extends Controller
             $attendance->restore();
         }
     }
+
+
 }
