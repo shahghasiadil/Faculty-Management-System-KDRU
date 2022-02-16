@@ -31,20 +31,7 @@ export default [
     id: 'ExamSchedules',
     title: 'Exam Schedule',
     icon: <Calendar size={20} />,
-    children: [
-      {
-        id: 'list',
-        title: 'List',
-        icon: <List size={12} />,
-        navLink: '/examschedule'
-      },
-      {
-        id: 'edit',
-        title: 'Edit',
-        icon: <Edit size={12} />,
-        navLink: '/examschedule/edit'
-      }
-    ]
+    navLink: '/exam-schedule'
   },
   {
     id: 'subjects',
