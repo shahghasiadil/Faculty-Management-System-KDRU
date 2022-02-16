@@ -22,7 +22,8 @@ class DashboardController extends Controller
     {
         // ... Code
 
-    }public function maleStudentsCount(){
+    }
+    public function maleStudentsCount(){
          // count of male students
         return $maleStudents = Student::where('gender', 'male')->count();
     }
