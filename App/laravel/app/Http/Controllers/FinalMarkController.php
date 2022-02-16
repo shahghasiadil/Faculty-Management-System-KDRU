@@ -40,7 +40,7 @@ class FinalMarkController extends Controller
         
         if($mid_term_record === null){
             
-            $mid_term_marks = $final_marks * 20 / 80;
+            $mid_term_marks = ($final_marks * 20 / 80) - 6;
             $total_marks = $final_marks + $mid_term_marks;
             
             $final_marks_record = ['student_id' => $student_id, 'subject_id' => $subject_id, 'mid_term_marks' => $mid_term_marks, 'marks' => $final_marks];

@@ -69,7 +69,7 @@ const SidebarNewMarks = ({ open, toggleSidebar }) => {
 
   const loadStudents = () => {
     students.length = 0
-      axios.get('http://127.0.0.1:8000/api/get_student').then((response) => {
+      axios.get('http://127.0.0.1:8000/api/students/get-student').then((response) => {
         for (const data of response.data) {
            students.push({ value:data.name, label:data.name})
         }
