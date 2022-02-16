@@ -61,8 +61,8 @@ const Login = props => {
   const auth = useSelector(state => state.auth)
   const { loading } = auth
   const history = useHistory()
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [email, setEmail] = useState('admin@demo.com')
+  const [password, setPassword] = useState('admin')
 
   const { register, errors, handleSubmit } = useForm()
   const illustration = skin === 'dark' ? 'login-v2-dark.svg' : 'login-v2.svg',
@@ -70,31 +70,22 @@ const Login = props => {
 
   const onSubmit = data => {
     if (isObjEmpty(errors)) {
-      dispatch({ type: 'LOGIN_REQUEST' })
       useJwt
         .login({ email, password })
         .then(res => {
-          const can = [{ action: 'manage', subject: 'all' }]
-          console.log(res)
-          const data = {
-            ...res.data,
-            accessToken: res.data.access_token,
-            refreshToken: res.data.access_token
-          }
+          const data = { ...res.data.userData, accessToken: res.data.accessToken, refreshToken: res.data.refreshToken }
           dispatch(handleLogin(data))
-          ability.update(can)
-          history.push(getHomeRouteForLoggedInUser('admin'))
+          ability.update(res.data.userData.ability)
+          history.push(getHomeRouteForLoggedInUser(data.role))
           toast.success(
-            <ToastContent
-              name={res.data.name | 'John Doe'}
-              role={data.user.role || 'admin'}
-            />,
+            <ToastContent name={data.fullName || data.username || 'John Doe'} role={data.role || 'admin'} />,
             { transition: Slide, hideProgressBar: true, autoClose: 2000 }
           )
         })
         .catch(err => console.log(err))
     }
   }
+
 
   return (
     <div className="auth-wrapper auth-v2">
