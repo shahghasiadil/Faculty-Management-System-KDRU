@@ -18,7 +18,6 @@ class SemesterController extends Controller
     public function index()
     {
         return new SemesterResource(Semester::latest()->get());
-        // return response()->json();
     }
 
     /**
