@@ -114,8 +114,11 @@ class AddressController extends Controller
 
   private function validateData($request){
     return $this->validate($request, [
-        'city' => 'required|string',
+        'province' => 'required|string',
         'district' => 'required|string',
+        'area' => 'required|string',
+        'house_number' => 'required|int',
+        'street_number' => 'required|int',
     ]);
   }
 }

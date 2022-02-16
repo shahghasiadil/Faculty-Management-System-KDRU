@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Address extends Model
 {
     use HasFactory, SoftDeletes;
-    protected $fillable = ['city', 'district'];
+    protected $fillable = ['province', 'district', 'area', 'street_number', 'house_number'];
 
 
     public function students()
