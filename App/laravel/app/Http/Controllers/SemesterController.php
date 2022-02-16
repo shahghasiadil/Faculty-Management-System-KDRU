@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\SemesterResource;
 use App\Models\Semester;
 use App\Models\Student;
 
@@ -16,7 +17,7 @@ class SemesterController extends Controller
      */
     public function index()
     {
-        return Semester::latest()->paginate(10);
+        return new SemesterResource(Semester::latest()->get());
     }
 
     /**

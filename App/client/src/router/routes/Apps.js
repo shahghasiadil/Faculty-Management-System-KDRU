@@ -31,12 +31,12 @@ const AppRoutes = [
 
   // exam schedule route
   {
-    path: '/examschedule',
+    path: '/exam-schedule',
     exact: true,
     component: lazy(() => import('../../views/examschedule/list'))
   },
   {
-    path: '/examschedule/edit',
+    path: '/exam-schedule/edit',
     exact: true,
     component: lazy(() => import('../../views/examschedule/edit'))
   },
