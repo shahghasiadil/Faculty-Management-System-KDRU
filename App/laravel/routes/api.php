@@ -29,44 +29,90 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
+// **  Attendance Routes
+Route::apiResource('attendances', AttendanceController::class);
+Route::delete('attendances/attendance/{id}', [AttendanceController::class, 'permanentDelete']);
+Route::get('attendances/{id}/restore', [AttendanceController::class, 'restore']);
+Route::get('attendances/find-by-subject/{id}', [AttendanceController::class, 'searchBySubject']);
+Route::get('attendances/find-by-subject-period/{subject_id}/{period}', [AttendanceController::class, 'getStudentsBySubjectPeriod']);
+
+
+// ** Address Routes
+Route::apiResource('addresses', AddressController::class);
+Route::delete('addresses/address/{id}', [AddressController::class, 'permanentDelete']);
+Route::get('addresses/{id}/restore', [AddressController::class, 'restore']);
+
+
+// ** Chance Routes
+Route::apiResource('chances', ChanceController::class);
+Route::delete('chances/chance/{id}', [ChanceController::class, 'permanentDelete']);
+Route::get('chances/{id}/restore', [ChanceController::class, 'restore']);
+
+
+// ** Dashboard Routes
+Route::get('/dashboard', DashboardController::class);
+// there should be a route for inserting user photo aswell
+
+
+// ** Exam_Schedule Routes
+Route::apiResource('exam-schedules', ExamScheduleController::class);
+Route::delete('exam-schedules/exam-schedule/{id}', [ExamScheduleController::class, 'permanentDelete']);
+Route::get('exam-schedules/{id}/restore', [ExamScheduleController::class, 'restore']);
+
+
+// ** Final Mark Routes
+Route::apiResource('final-marks', FinalMarkController::class);
+Route::delete('final-marks/final-mark/{id}', [FinalMarkController::class, 'permanentDelete']);
+Route::get('final-marks/{id}/restore', [FinalMarkController::class, 'restore']);
+
+
+// ** Login
 Route::post('/login', [AuthenticationController::class, 'login']);
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();
 // });
 
 
-//using middleware
+// ** Midterm Mark Routes
+Route::apiResource('mid-term-marks', MidtermMarkController::class);
+Route::delete('mid-term-marks/mid-term-mark/{id}', [MidtermMarkController::class, 'permanentDelete']);
+Route::get('mid-term-marks/{id}/restore', [MidtermMarkController::class, 'restore']);
+
+
+// ** Using middleware
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/logout', [AuthenticationController::class, 'logout']);
 });
 
-// ** Dashboard Routes
-Route::get('/dashboard', DashboardController::class);
-// there should be a route for inserting user photo aswell
 
-// **  Address Routes
-Route::apiResource('addresses', AddressController::class);
-Route::delete('addresses/address/{id}', [AddressController::class, 'permanentDelete']);
-Route::get('addresses/{id}/restore', [AddressController::class, 'restore']);
+// ** Registration Routes
+Route::apiResource('registrations', RegistrationController::class);
+Route::delete('registrations/registration/{id}', [RegistrationController::class, 'permanentDelete']);
+Route::get('registrations/{id}/restore', [RegistrationController::class, 'restore']);
 
-// **  Schedule Routes
+
+// ** Relative Routes
+Route::apiResource('relatives', RelativeController::class);
+Route::delete('relatives/relative/{id}', [RelativeController::class, 'permanentDelete']);
+Route::get('relatives/{id}/restore', [RelativeController::class, 'restore']);
+
+
+// ** Schedule Routes
 Route::apiResource('schedules', ScheduleController::class);
 Route::delete('schedules/schedule/{id}', [ScheduleController::class, 'permanentDelete']);
 Route::get('schedules/{id}/restore', [ScheduleController::class, 'restore']);
 
-// **  Exam_Schedule Routes
-Route::apiResource('exam-schedules', ExamScheduleController::class);
-Route::delete('exam-schedules/exam-schedule/{id}', [ExamScheduleController::class, 'permanentDelete']);
-Route::get('exam-schedules/{id}/restore', [ExamScheduleController::class, 'restore']);
 
-// **  Subject routes
+// ** Subject routes
 Route::apiResource('subjects', SubjectController::class);
 Route::delete('subjects/subject/{id}', [SubjectController::class, 'permanentDelete']);
 Route::get('subjects/{id}/restore', [SubjectController::class, 'restore']);
 Route::get('/get_subject', [SubjectController::class, 'getSubject']);
 Route::get('/get-semesters', [SubjectController::class, 'getSemesters']);
 
-// **  Student Routes
+
+// ** Student Routes
 Route::apiResource('/students', StudentController::class);
 Route::delete('students/student/{id}', [StudentController::class, 'permanentDelete']);
 Route::get('students/{id}/restore', [StudentController::class, 'restore']);
@@ -80,45 +126,16 @@ Route::post('students/add-to-semester', [StudentController::class, 'addStudentTo
 Route::post('students/add-to-subject', [StudentController::class, 'addStudentToSubject']);
 Route::get('students/get-relatives/{id}', [StudentController::class, 'getStudentRelatives']);
 
-// **  Teacher Routes
-Route::apiResource('teachers', TeacherController::class);
-Route::delete('teachers/teacher/{id}', [TeacherController::class, 'permanentDelete']);
-Route::get('teachers/{id}/restore', [TeacherController::class, 'restore']);
-Route::post('teachers/find-by-email', [TeacherController::class, 'findByEmail']);
 
-// **  Final Mark Routes
-Route::apiResource('final-marks', FinalMarkController::class);
-Route::delete('final-marks/final-mark/{id}', [FinalMarkController::class, 'permanentDelete']);
-Route::get('final-marks/{id}/restore', [FinalMarkController::class, 'restore']);
-
-// **  Midterm Mark Routes
-Route::apiResource('mid-term-marks', MidtermMarkController::class);
-Route::delete('mid-term-marks/mid-term-mark/{id}', [MidtermMarkController::class, 'permanentDelete']);
-Route::get('mid-term-marks/{id}/restore', [MidtermMarkController::class, 'restore']);
-
-// **  Chance Routes
-Route::apiResource('chances', ChanceController::class);
-Route::delete('chances/chance/{id}', [ChanceController::class, 'permanentDelete']);
-Route::get('chances/{id}/restore', [ChanceController::class, 'restore']);
-
-// **  Attendance Routes
-Route::apiResource('attendances', AttendanceController::class);
-Route::delete('attendances/attendance/{id}', [AttendanceController::class, 'permanentDelete']);
-Route::get('attendances/{id}/restore', [AttendanceController::class, 'restore']);
-Route::get('attendances/find-by-subject/{id}', [AttendanceController::class, 'searchBySubject']);
-
-// **  Semester Routes
+// ** Semester Routes
 Route::apiResource('semesters', SemesterController::class);
 Route::delete('semesters/semester/{id}', [SemesterController::class, 'permanentDelete']);
 Route::get('semesters/{id}/restore', [SemesterController::class, 'restore']);
 Route::get('/find-semester-by-number', [SemesterController::class, 'findByNumber']);
 
-// ** Registration Routes
-Route::apiResource('registrations', RegistrationController::class);
-Route::delete('registrations/registration/{id}', [RegistrationController::class, 'permanentDelete']);
-Route::get('registrations/{id}/restore', [RegistrationController::class, 'restore']);
 
-// ** Relative Routes
-Route::apiResource('relatives', RelativeController::class);
-Route::delete('relatives/relative/{id}', [RelativeController::class, 'permanentDelete']);
-Route::get('relatives/{id}/restore', [RelativeController::class, 'restore']);
+// ** Teacher Routes
+Route::apiResource('teachers', TeacherController::class);
+Route::delete('teachers/teacher/{id}', [TeacherController::class, 'permanentDelete']);
+Route::get('teachers/{id}/restore', [TeacherController::class, 'restore']);
+Route::post('teachers/find-by-email', [TeacherController::class, 'findByEmail']);
