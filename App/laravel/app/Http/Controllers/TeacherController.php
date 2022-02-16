@@ -28,7 +28,6 @@ class TeacherController extends Controller
     }
 
     public function store(Request $request)
-
     {
         $this->validate($request, [
             'national_id' => 'required|integer',
@@ -117,7 +116,6 @@ class TeacherController extends Controller
         $teacher = Teacher::findOrFail($id);
         $teacher->delete();
     }
-
     public function restore($id)
     {
         $teacherData = Teacher::withTrashed()->find($id);

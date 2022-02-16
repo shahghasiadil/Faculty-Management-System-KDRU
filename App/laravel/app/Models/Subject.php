@@ -27,7 +27,6 @@ class Subject extends Model
     {
         return $this->hasMany(Schedule::class);
     }
-
     public function examSchedules()
     {
         return $this->hasMany(ExamSchedule::class);
@@ -37,12 +36,10 @@ class Subject extends Model
     {
         return $this->hasMany(Chance::class);
     }
-
     public function semester()
     {
         return $this->belongsTo(Semester::class);
     }
-
     public function finalMarks()
     {
         return $this->belongsTo(FinalMark::class);
