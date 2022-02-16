@@ -120,7 +120,7 @@ class AttendanceController extends Controller
         else return response()->json(['message' => 'Resource not found', 'status' => 204]);
     }
 
-    public function getStudentsBySubjectPeriod($subject_id, $period){
-        return Subject::findOrFail($subject_id)->students->where('period', $period)->all();
+    public function getStudentsBySubjectPeriod(Request $request){
+        return Subject::findOrFail($request->subject_id)->students->where('period', $request->period)->all();
     }
 }

@@ -11,7 +11,7 @@ class Subject extends Model
     use HasFactory, SoftDeletes;
 
     // Mass Assignment
-    protected $fillable = ['name', 'credit', 'semester_id'];
+    protected $fillable = ['name', 'credit', 'semester_id', 'code'];
 
     public function registrations()
     {

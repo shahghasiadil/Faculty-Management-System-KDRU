@@ -35,7 +35,7 @@ Route::apiResource('attendances', AttendanceController::class);
 Route::delete('attendances/attendance/{id}', [AttendanceController::class, 'permanentDelete']);
 Route::get('attendances/{id}/restore', [AttendanceController::class, 'restore']);
 Route::get('attendances/find-by-subject/{id}', [AttendanceController::class, 'searchBySubject']);
-Route::get('attendances/find-by-subject-period/{subject_id}/{period}', [AttendanceController::class, 'getStudentsBySubjectPeriod']);
+Route::post('attendances/find-by-subject-period/', [AttendanceController::class, 'getStudentsBySubjectPeriod']);
 
 
 // ** Address Routes
@@ -108,8 +108,6 @@ Route::get('schedules/{id}/restore', [ScheduleController::class, 'restore']);
 Route::apiResource('subjects', SubjectController::class);
 Route::delete('subjects/subject/{id}', [SubjectController::class, 'permanentDelete']);
 Route::get('subjects/{id}/restore', [SubjectController::class, 'restore']);
-Route::get('/get_subject', [SubjectController::class, 'getSubject']);
-Route::get('/get-semesters', [SubjectController::class, 'getSemesters']);
 
 
 // ** Student Routes
@@ -131,7 +129,7 @@ Route::get('students/get-relatives/{id}', [StudentController::class, 'getStudent
 Route::apiResource('semesters', SemesterController::class);
 Route::delete('semesters/semester/{id}', [SemesterController::class, 'permanentDelete']);
 Route::get('semesters/{id}/restore', [SemesterController::class, 'restore']);
-Route::get('/find-semester-by-number', [SemesterController::class, 'findByNumber']);
+Route::get('semesters/find-by-name', [SemesterController::class, 'findByNumber']);
 
 
 // ** Teacher Routes
