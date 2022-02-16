@@ -90,6 +90,8 @@ Route::post('teachers/find-by-email', [TeacherController::class, 'findByEmail'])
 Route::apiResource('final-marks', FinalMarkController::class);
 Route::delete('final-marks/final-mark/{id}', [FinalMarkController::class, 'permanentDelete']);
 Route::get('final-marks/{id}/restore', [FinalMarkController::class, 'restore']);
+Route::get('final-marks/find-by-student/{id}', [FinalMarkController::class, 'searchByStudent']);
+Route::get('final-marks/find-by-subject/{id}', [FinalMarkController::class, 'searchBySubject']);
 
 // **  Midterm Mark Routes
 Route::apiResource('mid-term-marks', MidtermMarkController::class);
@@ -118,7 +120,13 @@ Route::apiResource('registrations', RegistrationController::class);
 Route::delete('registrations/registration/{id}', [RegistrationController::class, 'permanentDelete']);
 Route::get('registrations/{id}/restore', [RegistrationController::class, 'restore']);
 
+// ** Dashboard Routes
+Route::get('dashboard', DashboardController::class);
+
+
+
 // ** Relative Routes
 Route::apiResource('relatives', RelativeController::class);
 Route::delete('relatives/relative/{id}', [RelativeController::class, 'permanentDelete']);
 Route::get('relatives/{id}/restore', [RelativeController::class, 'restore']);
+
