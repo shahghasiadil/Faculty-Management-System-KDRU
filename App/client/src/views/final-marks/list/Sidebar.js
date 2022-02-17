@@ -1,3 +1,4 @@
+
 // ** React Import
 import { useState, Fragment, useEffect} from 'react'
 import Select from 'react-select'
@@ -145,7 +146,7 @@ const SidebarNewMarks = ({ open, toggleSidebar }) => {
               defaultValue={students[0]}
               name='loading'
               options={students}
-              isLoading={true}
+              // isLoading={true}
               onChange = {(e) => { loadStudentFatherName(e.value) } }
               // isClearable={false}
             />
@@ -228,3 +229,4 @@ const SidebarNewMarks = ({ open, toggleSidebar }) => {
 }
 
 export default SidebarNewMarks
+ 

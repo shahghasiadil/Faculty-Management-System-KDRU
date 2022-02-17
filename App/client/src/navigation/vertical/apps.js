@@ -1,7 +1,8 @@
+
 import { Layers, Users, Edit3, Book, CheckSquare, Calendar, FileText, Circle, ShoppingCart, User, Mail, MessageSquare, Edit, List} from 'react-feather'
 
-
 export default [
+
   {
     id: 'students', 
     title: 'Students', 
@@ -107,3 +108,4 @@ export default [
     ]
   }
 ]
+
