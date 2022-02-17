@@ -32,6 +32,11 @@ class Student extends Model
         return $this->belongsToMany(Semester::class);
     }
 
+    public function subjects()
+    {
+        return $this->belongsToMany(Semester::class);
+    }
+
     public function finalMarks()
     {
         return $this->hasMany(FinalMark::class);

@@ -64,7 +64,7 @@ class StudentController extends Controller
             'address_id' => 'required|integer',
             'native_tongue' => 'string',
             'tazkira_page' => 'int',
-            'tazkira_volume' => 'int',
+            'tazkira_volume' => 'required',
             'tazkira_registration_number' => 'int',
             'birth_year' => 'int',
             'marital_status' => 'string',
@@ -109,9 +109,10 @@ class StudentController extends Controller
             ]);
 
         } catch (QueryException $e) {
-            if ($e->errorInfo[1] === 1062) {
-                return ("Duplicate Entry");
-            }
+            // if ($e->errorInfo[1] === 1062) {
+            //     return ("Duplicate Entry");
+            // }
+            echo($e);
         }
     }
     
@@ -162,7 +163,7 @@ class StudentController extends Controller
             'address_id' => 'required|integer',
             'native_tongue' => 'string',
             'tazkira_page' => 'int',
-            'tazkira_volume' => 'int',
+            'tazkira_volume' => 'required',
             'tazkira_registration_number' => 'int',
             'birth_year' => 'int',
             'marital_status' => 'string',
@@ -244,13 +245,6 @@ class StudentController extends Controller
             $student->restore();
         }
     }
-    
-    public function getStudent()
-    {
-        // return Student::get(['id', 'name']);
-        return 'hello';
-
-    }
 
     public function studentFatherName($name)
     {
@@ -269,16 +263,16 @@ class StudentController extends Controller
      */
     public function getStudentsBySubject($id)
     {
-        return Subject::find($id)->students;
+        return Subject::findOrFail($id)->students;
     }
 
     /** @param int id (semester id)
     * this function returns all students related to a particular semester
     */
-   public function getStudentsBySemester($id)
-   {
-       return Semester::findOrFail($id)->students;
-   }
+    public function getStudentsBySemester($id)
+    {
+        return Semester::findOrFail($id)->students;
+    }
 
    public function getStudentRelatives($id)
    {
