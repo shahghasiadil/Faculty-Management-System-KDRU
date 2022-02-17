@@ -27,32 +27,27 @@ class SubjectController extends Controller
 
     public function store(Request $request)
     {
-        $this->validate($request, [
+        $data =$this->validate($request, [
             'name' => 'required|string|max:80',
             'credit' => 'required|integer',
             'semester_id' => 'required',
             'code' => 'required'
         ]);
 
-        Subject::create([
-            'name' => $request->name,
-            'credit' => $request->credit,
-            'semester_id' => $request->semester_id,
-            'code' => $request->code
-        ]);
+        Subject::create($data);
     }
 
     // This method updates Subject
     public function update(Request $request, $id)
     {
         $subject = Subject::findOrFail($id);
-        $this->validate($request, [
+        $data = $this->validate($request, [
             'name' => 'required|string|max:80',
             'credit' => 'required|integer',
             'semester_id' => 'required',
             'code' => 'required'
         ]);
-        $subject->update($request->all());
+        $subject->update($data);
     }
 
     // softDeletes the students

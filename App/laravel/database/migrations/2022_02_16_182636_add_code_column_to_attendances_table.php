@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('attendances', function (Blueprint $table) {
+        Schema::table('subjects', function (Blueprint $table) {
             $table->string('code')->unique();
         });
     }
