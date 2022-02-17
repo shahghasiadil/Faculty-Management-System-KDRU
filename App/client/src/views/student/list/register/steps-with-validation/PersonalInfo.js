@@ -18,32 +18,31 @@ const PersonalInfo = ({ stepper, type }) => {
     }
   }
 
-  const countryOptions = [
-    { value: 'UK', label: 'UK' },
-    { value: 'USA', label: 'USA' },
-    { value: 'Spain', label: 'Spain' },
-    { value: 'France', label: 'France' },
-    { value: 'Italy', label: 'Italy' },
-    { value: 'Australia', label: 'Australia' }
+  const genderOptions = [
+    { value: 'M', label: 'Male' },
+    { value: 'F', label: 'Female' }
+  ]
+  const languageOptions = [
+    { value: 'Pashto', label: 'Pashto' },
+    { value: 'Dari', label: 'Dari' },
+    { value: 'English', label: 'English' }
   ]
 
-  const languageOptions = [
-    { value: 'English', label: 'English' },
-    { value: 'French', label: 'French' },
-    { value: 'Spanish', label: 'Spanish' },
-    { value: 'Italian', label: 'Italian' },
-    { value: 'Japanese', label: 'Japanese' }
+   const maritalStateOptions = [
+    { value: 'Single', label: 'Single' },
+    { value: 'Married', label: 'Married' },
+    { value: 'Divorced', label: 'Divorced' }
   ]
 
   return (
     <Fragment>
       <div className='content-header'>
         <h5 className='mb-0'>Personal Info</h5>
-        <small>Enter Your Personal Info.</small>
+        <small>Enter Student's Personal Info.</small>
       </div>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Row>
-          <FormGroup tag={Col} md='6'>
+          <FormGroup tag={Col} md='2'>
             <Label className='form-label' for={`first-name-${type}`}>
               First Name
             </Label>
@@ -56,7 +55,7 @@ const PersonalInfo = ({ stepper, type }) => {
               className={classnames({ 'is-invalid': errors[`first-name-${type}`] })}
             />
           </FormGroup>
-          <FormGroup tag={Col} md='6'>
+          <FormGroup tag={Col} md='2'>
             <Label className='form-label' for={`last-name-${type}`}>
               Last Name
             </Label>
@@ -69,36 +68,144 @@ const PersonalInfo = ({ stepper, type }) => {
               className={classnames({ 'is-invalid': errors[`last-name-${type}`] })}
             />
           </FormGroup>
+            <FormGroup tag={Col} md='2'>
+            <Label className='form-label' for={`father-name-${type}`}>
+              Father Name
+            </Label>
+            <Input
+              type='text'
+              name={`father-name-${type}`}
+              id={`father-name-${type}`}
+              placeholder='Doe'
+              innerRef={register({ required: true })}
+              className={classnames({ 'is-invalid': errors[`father-name-${type}`] })}
+            />
+          </FormGroup>
+            <FormGroup tag={Col} md='2'>
+            <Label className='form-label' for={`grand-father-name-${type}`}>
+              Grand Father Name
+            </Label>
+            <Input
+              type='text'
+              name={`grand-father-name-${type}`}
+              id={`grand-father-name-${type}`}
+              placeholder='Doe'
+              innerRef={register({ required: true })}
+              className={classnames({ 'is-invalid': errors[`grand-father-name-${type}`] })}
+            />
+          </FormGroup>
+           <FormGroup tag={Col} md='2'>
+            <Label className='form-label' for={`phone-${type}`}>
+              Phone Number
+            </Label>
+            <Input
+              type='number'
+              name={`phone-${type}`}
+              id={`phone-${type}`}
+              placeholder='1234567890'
+              innerRef={register({ required: true })}
+              className={classnames({ 'is-invalid': errors[`phone-${type}`] })}
+            />
+          </FormGroup>
+          <FormGroup tag={Col} md='2'>
+            <Label className='form-label' for={`birth-date-${type}`}>
+              Birth Date
+            </Label>
+            <Input
+              type='date'
+              name={`birth-date-${type}`}
+              id={`birth-date-${type}`}
+              placeholder='Doe'
+              innerRef={register({ required: true })}
+              className={classnames({ 'is-invalid': errors[`birth-date-${type}`] })}
+            />
+          </FormGroup>
+          
         </Row>
         <Row>
-          <FormGroup tag={Col} md='6'>
-            <Label className='form-label' for={`country-${type}`}>
-              Country
+             <FormGroup tag={Col} md='2'>
+         <Label className='form-label' for={`gender-${type}`}>
+              Gender
             </Label>
             <Select
               theme={selectThemeColors}
               isClearable={false}
-              id={`country-${type}`}
+              id={`gender-${type}`}
               className='react-select'
               classNamePrefix='select'
-              options={countryOptions}
-              defaultValue={countryOptions[0]}
+              options={genderOptions}
+              defaultValue={genderOptions[0]}
             />
           </FormGroup>
-          <FormGroup tag={Col} md='6'>
+          <FormGroup tag={Col} md='2'>
             <Label className='form-label' for={`language-${type}`}>
-              Language
+             Native Language
             </Label>
             <Select
-              isMulti
-              isClearable={false}
               theme={selectThemeColors}
+              isClearable={false}
               id={`language-${type}`}
-              options={languageOptions}
               className='react-select'
               classNamePrefix='select'
+              options={languageOptions}
+              defaultValue={languageOptions[0]}
             />
           </FormGroup>
+          <FormGroup tag={Col} md='2'>
+            <Label className='form-label' for={`marital-state-${type}`}>
+              Marital State
+            </Label>
+            <Select
+              theme={selectThemeColors}
+              isClearable={false}
+              id={`marital-state-${type}`}
+              className='react-select'
+              classNamePrefix='select'
+              options={maritalStateOptions}
+              defaultValue={maritalStateOptions[0]}
+            />
+          </FormGroup>
+          <FormGroup tag={Col} md='2'>
+            <Label className='form-label' for={`role-no-${type}`}>
+              Role No 
+            </Label>
+            <Input
+              type='number'
+              name={`role-no-${type}`}
+              id={`role-no-${type}`}
+              placeholder='12'
+              innerRef={register({ required: true })}
+              className={classnames({ 'is-invalid': errors[`role-no-${type}`] })}
+            />
+          </FormGroup>
+           <FormGroup tag={Col} md='2'>
+            <Label className='form-label' for={`period-${type}`}>
+              Period 
+            </Label>
+            <Input
+              type='number'
+              name={`period-${type}`}
+              id={`period-${type}`}
+              placeholder='43'
+              innerRef={register({ required: true })}
+              className={classnames({ 'is-invalid': errors[`period-${type}`] })}
+            />
+          </FormGroup>
+           <FormGroup tag={Col} md='2'>
+            <Label className='form-label' for={`graduation-date-${type}`}>
+              Graduation Year 
+            </Label>
+            <Input
+              type='number'
+              name={`graduation-date-${type}`}
+              id={`graduation-date-${type}`}
+              placeholder='1401'
+              innerRef={register({ required: true })}
+              className={classnames({ 'is-invalid': errors[`graduation-date-${type}`] })}
+            />
+          </FormGroup>
+     
+          
         </Row>
         <div className='d-flex justify-content-between'>
           <Button.Ripple color='primary' className='btn-prev' onClick={() => stepper.previous()}>

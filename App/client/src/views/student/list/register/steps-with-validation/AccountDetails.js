@@ -33,7 +33,7 @@ const AccountDetails = ({ stepper, type }) => {
     <Fragment>
       <div className='content-header'>
         <h5 className='mb-0'>Account Details</h5>
-        <small className='text-muted'>Enter Your Account Details.</small>
+        <small className='text-muted'>Enter Student's Account Details.</small>
       </div>
       <Form onSubmit={handleSubmit(onSubmit)} >
         <Row>

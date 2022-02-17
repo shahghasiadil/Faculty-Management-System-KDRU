@@ -1,9 +1,9 @@
-import React, { useRef, useState, Fragment } from 'react'
+import React, { useRef, useState } from 'react'
 import Wizard from '@components/wizard'
-import { ArrowRight } from 'react-feather'
-import Avatar from '@components/avatar'
 import Address from './steps-with-validation/Address'
-import SocialLinks from './steps-with-validation/SocialLinks'
+import Relatives from './steps-with-validation/Relatives'
+import KankorInfo from './steps-with-validation/KankorInfo'
+import TazkiraInfo from './steps-with-validation/TazkiraInfo'
 import PersonalInfo from './steps-with-validation/PersonalInfo'
 import AccountDetails from './steps-with-validation/AccountDetails'
 
@@ -21,14 +21,14 @@ export const UpdateProgressToast = () => (
     </div>
     <div className='toastify-body'>
       <span role='img' aria-label='toast-text'>
-         Record Successfully Updated
+        Record Successfully Updated
       </span>
     </div>
   </Fragment>
 )
 
 const Edit = () => {
-     
+
   const [stepper, setStepper] = useState(null)
   const ref = useRef(null)
 
@@ -36,32 +36,45 @@ const Edit = () => {
     {
       id: 'account-details',
       title: 'Account Details',
-      subtitle: 'Enter Your Account Details.',
+      subtitle: 'Student Account Details.',
       content: <AccountDetails stepper={stepper} type='wizard-horizontal' />
     },
     {
       id: 'personal-info',
       title: 'Personal Info',
-      subtitle: 'Add Personal Info',
+      subtitle: 'Student Personal Info',
       content: <PersonalInfo stepper={stepper} type='wizard-horizontal' />
     },
     {
-      id: 'step-address',
-      title: 'Address',
-      subtitle: 'Add Address',
+      id: 'tazkira-info',
+      title: 'Tazkira Info',
+      subtitle: 'Student Tazkira Info',
+      content: <TazkiraInfo stepper={stepper} type='wizard-horizontal' />
+    },
+    {
+      id: 'address-info',
+      title: 'Address Info',
+      subtitle: 'Student Address Info',
       content: <Address stepper={stepper} type='wizard-horizontal' />
     },
     {
-      id: 'social-links',
-      title: 'Social Links',
-      subtitle: 'Add Social Links',
-      content: <SocialLinks stepper={stepper} type='wizard-horizontal' />
+      id: 'relatives-info',
+      title: 'Relative Info',
+      subtitle: 'Student Relatives Info',
+      content: <Relatives stepper={stepper} type='wizard-horizontal' />
+    },
+    {
+      id: 'kankor-info',
+      title: 'Kankor Info',
+      subtitle: 'Student Kankor Info',
+      content: <KankorInfo stepper={stepper} type='wizard-horizontal' />
     }
   ]
 
   return (
     <div className='horizontal-wizard'>
-      
+
+
       <Breadcrumb>
         <BreadcrumbItem>
           <Link to='/students'> Students </Link>

@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form'
 import { ArrowLeft } from 'react-feather'
 import { Label, FormGroup, Row, Col, Button, Form, Input } from 'reactstrap'
 
-const SocialLinks = ({ stepper, type }) => {
+const KankorInfo = ({ stepper, type }) => {
   const { register, errors, handleSubmit, trigger } = useForm()
 
   const onSubmit = () => {
@@ -18,66 +18,56 @@ const SocialLinks = ({ stepper, type }) => {
   return (
     <Fragment>
       <div className='content-header'>
-        <h5 className='mb-0'>Social Links</h5>
-        <small>Enter Your Social Links.</small>
+        <h5 className='mb-0'>Kankor</h5>
+        <small>Enter Student's Kankor Info.</small>
       </div>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Row>
+
           <FormGroup tag={Col} md='6'>
-            <Label className='form-label' for={`twitter-${type}`}>
-              Twitter
+            <Label className='form-label' for={`kankor-id-${type}`}>
+              Kankor ID
             </Label>
             <Input
               type='text'
-              id={`twitter-${type}`}
-              name={`twitter-${type}`}
-              placeholder='https://twitter.com/abc'
+              name={`kankor-id-${type}`}
+              id={`kankor-id-${type}`}
+              placeholder='1401334'
               innerRef={register({ required: true })}
-              className={classnames({ 'is-invalid': errors[`twitter-${type}`] })}
+              className={classnames({ 'is-invalid': errors[`kankor-id-${type}`] })}
             />
           </FormGroup>
           <FormGroup tag={Col} md='6'>
-            <Label className='form-label' for={`facebook-${type}`}>
-              Facebook
+            <Label className='form-label' for={`kankor-year-${type}`}>
+              Kankor Year
             </Label>
             <Input
-              type='text'
-              id={`facebook-${type}`}
-              name={`facebook-${type}`}
-              placeholder='https://facebook.com/abc'
+              type='number'
+              name={`kankor-year-${type}`}
+              id={`kankor-year-${type}`}
+              placeholder='1398'
               innerRef={register({ required: true })}
-              className={classnames({ 'is-invalid': errors[`facebook-${type}`] })}
+              className={classnames({ 'is-invalid': errors[`kankor-year-${type}`] })}
             />
           </FormGroup>
         </Row>
         <Row>
+
           <FormGroup tag={Col} md='6'>
-            <Label className='form-label' for={`google-${type}`}>
-              Google+
+            <Label className='form-label' for={`kankor-score-${type}`}>
+              Kankor Score
             </Label>
             <Input
               type='text'
-              id={`google-${type}`}
-              name={`google-${type}`}
-              placeholder='https://plus.google.com/abc'
+              name={`kankor-score-${type}`}
+              id={`kankor-score-${type}`}
+              placeholder='2343'
               innerRef={register({ required: true })}
-              className={classnames({ 'is-invalid': errors[`google-${type}`] })}
-            />
-          </FormGroup>
-          <FormGroup tag={Col} md='6'>
-            <Label className='form-label' for='linkedin'>
-              Linkedin
-            </Label>
-            <Input
-              type='text'
-              id={`linkedin-${type}`}
-              name={`linkedin-${type}`}
-              placeholder='https://linkedin.com/abc'
-              innerRef={register({ required: true })}
-              className={classnames({ 'is-invalid': errors[`linkedin-${type}`] })}
+              className={classnames({ 'is-invalid': errors[`kankor-score-${type}`] })}
             />
           </FormGroup>
         </Row>
+
         <div className='d-flex justify-content-between'>
           <Button.Ripple color='primary' className='btn-prev' onClick={() => stepper.previous()}>
             <ArrowLeft size={14} className='align-middle mr-sm-25 mr-0'></ArrowLeft>
@@ -87,9 +77,11 @@ const SocialLinks = ({ stepper, type }) => {
             Submit
           </Button.Ripple>
         </div>
+
+
       </Form>
     </Fragment>
   )
 }
 
-export default SocialLinks
+export default KankorInfo

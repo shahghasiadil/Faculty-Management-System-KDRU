@@ -19,67 +19,80 @@ const Address = ({ stepper, type }) => {
     <Fragment>
       <div className='content-header'>
         <h5 className='mb-0'>Address</h5>
-        <small>Enter Your Address.</small>
+        <small>Enter Student's Address.</small>
       </div>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Row>
-          <FormGroup tag={Col} md='6'>
-            <Label className='form-label' for={`address-${type}`}>
-              Address
+          <FormGroup tag={Col} md='4'>
+            <Label className='form-label' for={`province-${type}`}>
+              Province
             </Label>
             <Input
               type='text'
-              id={`address-${type}`}
-              name={`address-${type}`}
-              placeholder='98  Borough bridge Road, Birmingham'
+              id={`province-${type}`}
+              name={`province-${type}`}
+              placeholder='Kabul'
               innerRef={register({ required: true })}
-              className={classnames({ 'is-invalid': errors[`address-${type}`] })}
+              className={classnames({ 'is-invalid': errors[`province-${type}`] })}
             />
           </FormGroup>
-          <FormGroup tag={Col} md='6'>
-            <Label className='form-label' for={`landmark-${type}`}>
-              Landmark
+          <FormGroup tag={Col} md='4'>
+            <Label className='form-label' for={`district-${type}`}>
+              District
             </Label>
             <Input
               type='text'
-              name={`landmark-${type}`}
-              id={`landmark-${type}`}
-              placeholder='Borough bridge'
+              name={`district-${type}`}
+              id={`district-${type}`}
+              placeholder='Paghman'
               innerRef={register({ required: true })}
-              className={classnames({ 'is-invalid': errors[`landmark-${type}`] })}
+              className={classnames({ 'is-invalid': errors[`district-${type}`] })}
+            />
+          </FormGroup>
+          <FormGroup tag={Col} md='4'>
+            <Label className='form-label' for={`area-${type}`}>
+              Area
+            </Label>
+            <Input
+              type='text'
+              name={`area-${type}`}
+              id={`area-${type}`}
+              placeholder='Area'
+              innerRef={register({ required: true })}
+              className={classnames({ 'is-invalid': errors[`area-${type}`] })}
             />
           </FormGroup>
         </Row>
         <Row>
           <FormGroup tag={Col} md='6'>
-            <Label className='form-label' for={`pincode-${type}`}>
-              Pincode
+            <Label className='form-label' for={`street-no-${type}`}>
+              Street No
             </Label>
             <Input
-              type='text'
-              name={`pincode-${type}`}
-              id={`pincode-${type}`}
-              placeholder='658921'
+              type='number'
+              name={`street-no-${type}`}
+              id={`street-no-${type}`}
+              placeholder='12'
               innerRef={register({ required: true })}
-              className={classnames({ 'is-invalid': errors[`pincode-${type}`] })}
+              className={classnames({ 'is-invalid': errors[`street-no-${type}`] })}
             />
           </FormGroup>
           <FormGroup tag={Col} md='6'>
-            <Label className='form-label' for={`city-${type}`}>
-              City
+            <Label className='form-label' for={`house-no-${type}`}>
+              House No
             </Label>
             <Input
-              type='text'
-              name={`city-${type}`}
-              id={`city-${type}`}
-              placeholder='Birmingham'
+              type='number'
+              name={`house-no-${type}`}
+              id={`house-no-${type}`}
+              placeholder='4'
               innerRef={register({ required: true })}
-              className={classnames({ 'is-invalid': errors[`city-${type}`] })}
+              className={classnames({ 'is-invalid': errors[`house-no-${type}`] })}
             />
           </FormGroup>
         </Row>
         <div className='d-flex justify-content-between'>
-          <Button.Ripple color='primary' className='btn-prev'>
+          <Button.Ripple color='primary' className='btn-prev' onClick={() => stepper.previous()}>
             <ArrowLeft size={14} className='align-middle mr-sm-25 mr-0'></ArrowLeft>
             <span className='align-middle d-sm-inline-block d-none'>Previous</span>
           </Button.Ripple>
