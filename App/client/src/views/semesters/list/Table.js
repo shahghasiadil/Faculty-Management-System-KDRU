@@ -111,7 +111,7 @@ const SemestersList = () => {
   // ** Store Vars
   const dispatch = useDispatch()
   const { allData } = useSelector(state => state.semesters)
-  console.log(allData)
+
   // ** States
   const [searchTerm, setSearchTerm] = useState('')
   const [currentPage, setCurrentPage] = useState(1)
