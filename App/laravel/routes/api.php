@@ -109,7 +109,7 @@ Route::apiResource('subjects', SubjectController::class);
 Route::delete('subjects/subject/{id}', [SubjectController::class, 'permanentDelete']);
 Route::get('subjects/{id}/restore', [SubjectController::class, 'restore']);
 
-Route::get('/get-semesters', [SubjectController::class, 'getSemesters']);
+// Route::get('get-semesters', [SubjectController::class, 'getSemesters']);
 
 // ** Student Routes
 Route::apiResource('/students', StudentController::class);
