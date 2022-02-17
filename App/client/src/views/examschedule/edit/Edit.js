@@ -13,7 +13,7 @@ import classnames from 'classnames'
 import { Check } from "react-feather"
 // ** Third Party Components
 import { Media, Row, FormText, Col, Button, Form, FormFeedback, Input, Label, FormGroup, Table, CustomInput } from 'reactstrap'
-import { updateStudent } from '../store/action'
+import { updateExamSchedule, updateStudent } from '../store/action'
 export const UpdateProgressToast = () => (
   <Fragment>
     <div className='toastify-header'>
@@ -30,49 +30,39 @@ export const UpdateProgressToast = () => (
     </div>
   </Fragment>
 )
-const StudentTab = ({ selectedStudent }) => {
+const StudentTab = ({ selectedExamSchedule }) => {
   // ** States
   const history = useHistory()
-  const [studentData, setStudentData] = useState(null)
+  const [ScheduleData, setScheduleData] = useState(null)
   const dispatch = useDispatch()
   // ** Function to change user image
  
 
   const StudentSchema = yup.object().shape({
-    name: yup.string().required('First Name is required field').min(3, 'First Name must be at least 3 characters'),
-    lastName: yup.string().required("Last Name is required field").min(3, 'Last Name must be at least 3 characters'),
-    nid:  yup.string().required("National ID is required field").min(4, "National ID must be at least 4 characters"),
-    period: yup.string().required("Period is required field"),
-    email: yup.string().email().required(),
-    password: yup.string().min(6).required()
+
   })
   
   const { register, errors, handleSubmit, watch} = useForm({ mode: 'onChange', resolver: yupResolver(StudentSchema) })
   // ** Update user image on mount or change
   useEffect(() => {
-    if (selectedStudent !== null || (selectedStudent !== null && studentData !== null && selectedStudent.id !== StudentData.id)) {
-      setStudentData(selectedStudent)
+    if (selectedExamSchedule !== null || (selectedExamSchedule !== null && ScheduleData !== null && selectedExamSchedule.id !== ScheduleData.id)) {
+      setStudentData(selectedExamSchedule)
      
     }
-  }, [selectedStudent])
+  }, [selectedExamSchedule])
   
   // ** Renders User
   const onSubmit = values => {
   
     if (isObjEmpty(errors)) {
       dispatch(
-        updateStudent({
-          name: values.name,
-          last_name:values.lastName,
-          national_id:values.nid,
-          period: values.period,
-          password: values.password,
-          email: values.email
-        }, selectedStudent.id)
+        updateExamSchedule({
+
+        }, selectedExamSchedule.id)
       )
       
     }
-    history.push('/students')
+    history.push('/examschedules')
   }
 
   return (
@@ -80,7 +70,7 @@ const StudentTab = ({ selectedStudent }) => {
       <Col sm='12'>
         <Media className='mb-2'>
           <Media className='mt-50' body>
-            <h4>{selectedStudent.name} </h4>
+            <h4>{selectedExamSchedule.name} </h4>
           </Media>
         </Media>
       </Col>
@@ -93,107 +83,16 @@ const StudentTab = ({ selectedStudent }) => {
                 <Input
                       name='name'
                       id='name'
-                      defaultValue={studentData && studentData.name}
+                      defaultValue={ScheduleData && ScheduleData.date}
                       placeholder='John'
                       innerRef={register({ required: true })}
-                      invalid={errors.name && true}
-                      className={watch('name') ? classnames({ 'is-valid': !errors.name }) : ''}
+                      invalid={errors.date && true}
+                      className={watch('date') ? classnames({ 'is-valid': !errors.date }) : ''}
                     />
-                    {errors && errors.name && <FormFeedback>{errors.name.message}</FormFeedback>}
+                    {errors && errors.date && <FormFeedback>{errors.date.message}</FormFeedback>}
               </FormGroup>
             </Col>
-            <Col md='4' sm='12'>
-              <FormGroup>
-              <Label for='lastName'>
-              Last Name <span className='text-danger'>*</span>
-              </Label>
-          <Input
-            name='lastName'
-            id='lastName'
-            defaultValue={studentData && studentData.last_name}
-            placeholder='Doe'
-            invalid={errors.lastName && true}
-            innerRef={register({ required: true })}
-            className={watch('lastName') ? classnames({ 'is-valid': !errors.lastName }) : ''}
-          />
-          {errors && errors.lastName && <FormFeedback>{errors.lastName.message}</FormFeedback>}
-        </FormGroup>
-            </Col>
-            <Col md='4' sm='12'>
-              <FormGroup>
-              <Label for='email'>
-            Email <span className='text-danger'>*</span>
-          </Label>
-          <Input
-            type='email'
-            name='email'
-            id='email'
-            autocomplete ='off'
-            placeholder='john.doe@example.com'
-            invalid={errors.email && true}
-            defaultValue={studentData && studentData.email}
-            innerRef={register({ required: true })}
-            className={watch('email') ? classnames({ 'is-valid': !errors.email }) : ''}
-          />
-          {errors && errors.email && <FormFeedback>{errors.email.message}</FormFeedback>}
-          <FormText color='muted'>You can use letters, numbers & periods</FormText>
-        </FormGroup>
-            </Col>
-            <Col md ='4' sm="12">
-            <FormGroup>
-          <Label for='password'>
-            Password <span className='text-danger'>*</span>
-          </Label>
-          <Input
-            type='password'
-            name='password'
-            id='password'
-            placeholder=''
-            invalid={errors.password && true}
-            innerRef={register({ required: true })}
-            className={watch('password') ? classnames({ 'is-valid': !errors.password }) : ''}
-          />
-          {errors && errors.password && <FormFeedback>{errors.password.message}</FormFeedback>}
-          <FormText color='muted'>You can use letters, numbers & periods</FormText>
-          </FormGroup>
-            </Col>
 
-            <Col md = '4' sm ='12'>
-            <FormGroup>
-          <Label for='nid'>
-            NID <span className='text-danger'>*</span>
-          </Label>
-          <Input
-            name='nid'
-            id='nid'
-            type='number'
-            defaultValue={studentData && studentData.national_id}
-            placeholder='National Identity'
-            invalid={errors.nid && true}
-            innerRef={register({ required: true })}
-            className={watch('nid') ? classnames({ 'is-valid': !errors.nid }) : ''}
-          />
-          {errors && errors.nid && <FormFeedback>{errors.nid.message}</FormFeedback>}
-        </FormGroup>
-            </Col>
-            <Col md = '4' sm ='12'>
-            <FormGroup>
-          <Label for='period'>
-            Period <span className='text-danger'>*</span>
-          </Label>
-          <Input
-            name='period'
-            id='period'
-            type='number'
-            placeholder=''
-            invalid={errors.period && true}
-            innerRef={register({ required: true })}
-            className={watch('period') ? classnames({ 'is-valid': !errors.period }) : ''}
-            defaultValue={studentData && studentData.period}
-          />
-          {errors && errors.period && <FormFeedback>{errors.period.message}</FormFeedback>}
-        </FormGroup>
-            </Col>
             <Col className='d-flex flex-sm-row flex-column mt-2' sm='12'>
               <Button.Ripple className='mb-1 mb-sm-0 mr-0 mr-sm-1' type='submit' color='primary'>
                 Save Changes

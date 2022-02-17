@@ -1,15 +1,14 @@
-import { ADD_STUDENT, ARCHIVE, DELETE_STUDENT, GET_ALL_DATA, GET_DATA, GET_STUDENT, RESTORE_STUDENT, UPDATE_STUDENT } from "../action/actionTypes"
+import { ADD_EXAM_SCHEDULE, ARCHIVE, DELETE_EXAM_SCHEDULE, GET_ALL_DATA, GET_DATA, GET_EXAM_SCHEDULE, RESTORE_EXAM_SCHEDULE, UPDATE_STUDENT } from "../action/actionTypes"
 
 // ** Initial State
 const initialState = {
   allData: [],
   data: [],
-  total: 1,
   params: {},
-  selectedStudent: null
+  selectedExamSchedule: null
 }
 
-const students = (state = initialState, action) => {
+const ExamSchedules = (state = initialState, action) => {
   switch (action.type) {
     case GET_ALL_DATA:
       return { ...state, allData: action.data }
@@ -17,23 +16,22 @@ const students = (state = initialState, action) => {
       return {
         ...state,
         data: action.data,
-        total: action.totalPages,
         params:action.params
       }
-    case GET_STUDENT:
-      return { ...state, selectedStudent: action.selectedStudent }
-    case ADD_STUDENT:
+    case GET_EXAM_SCHEDULE:
+      return { ...state, selectedExamSchedule: action.selectedExamSchedule }
+    case ADD_EXAM_SCHEDULE:
       return { ...state  }
-    case UPDATE_STUDENT:
+    case UPDATE_EXAM_SCHEDULE:
         return { ...state }
-    case DELETE_STUDENT:
+    case DELETE_EXAM_SCHEDULE:
       return { ...state }
     case ARCHIVE:
       return { ...state }
-    case RESTORE_STUDENT:
+    case RESTORE_EXAM_SCHEDULE:
       return { ...state}
     default:
       return { ...state }
   }
 }
-export default students
+export default ExamSchedules
