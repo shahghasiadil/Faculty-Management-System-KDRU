@@ -70,9 +70,4 @@ class SubjectController extends Controller
             $subject->restore();
         }
     }
-    public function getSubject()
-    {
-        $subjects = Subject::select('id', 'name')->get();
-        return response()->json($subjects);
-    }
 }

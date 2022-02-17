@@ -69,15 +69,15 @@ const SidebarNewMidTermMarks = ({ open, toggleSidebar }) => {
 
   const loadStudents = () => {
     students.length = 0
-    axios.get('http://127.0.0.1:8000/api/get_student').then((response) => {
-      for (const data of response.data) {
+    axios.get('http://127.0.0.1:8000/api/students').then((response) => {
+      for (const data of response.data.data) {
          students.push({ value:data.name, label:data.name})
       }
     })
 }
 const loadStudentFatherName = (name) => {
   studentFathers.length = 0
-  axios.get(`http://127.0.0.1:8000/api/get_student_father_name/${name}`)
+  axios.get(`http://127.0.0.1:8000/api/students/get-father-name/${name}`)
   .then((response) => {
     for (const data of response.data) {
          studentFathers.push({ value:data.father_name, label:data.father_name})
@@ -87,7 +87,7 @@ const loadStudentFatherName = (name) => {
 }
 const loadStudentRollNo = (fname) => {
   studentRollNo.length = 0
-  axios.get(`http://127.0.0.1:8000/api/get_student_roll_no/${fname}`)
+  axios.get(`http://127.0.0.1:8000/api/students/get-roll-no/${fname}`)
   .then((response) => {
     for (const data of response.data) {
          studentRollNo.push({ value:data.id, label:data.roll_no})
@@ -97,8 +97,8 @@ const loadStudentRollNo = (fname) => {
 }
 const loadSubjects = () => {
   subjects.length = 0
-  axios.get('http://127.0.0.1:8000/api/get_subject').then((response) => {
-    for (const data of response.data) {
+  axios.get('http://127.0.0.1:8000/api/subjects').then((response) => {
+    for (const data of response.data.data) {
        subjects.push({ value:data.id, label:data.name})
     }
   })
