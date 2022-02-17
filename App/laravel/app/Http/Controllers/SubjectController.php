@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\SubjectResource;
 use App\Models\Semester;
 use App\Models\Subject;
 use Illuminate\Http\Request;
@@ -17,7 +18,7 @@ class SubjectController extends Controller
     // index Method return the data of subjects with semester
     public function index()
     {
-        return Subject::with('semester')->latest()->paginate(10);
+        return new SubjectResource(Subject::with('semester')->latest()->get());
     }
 
     public function show($id)

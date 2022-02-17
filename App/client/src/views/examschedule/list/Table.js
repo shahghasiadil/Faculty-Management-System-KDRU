@@ -207,7 +207,7 @@ const StudentsList = () => {
           pagination
           subHeader
           responsive
-          paginationServer
+          // paginationServer
           columns={columns}
           sortIcon={<ChevronDown />}
           className='react-dataTable'

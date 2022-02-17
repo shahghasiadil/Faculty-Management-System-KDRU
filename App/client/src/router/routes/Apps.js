@@ -36,9 +36,12 @@ const AppRoutes = [
     component: lazy(() => import('../../views/examschedule/list'))
   },
   {
-    path: '/exam-schedule/edit',
+    path: '/views/exam-schedule/edit/:id',
     exact: true,
-    component: lazy(() => import('../../views/examschedule/edit'))
+    component: lazy(() => import('../../views/examschedule/edit')),
+    meta: {
+      navLink: '/views/examschedule/edit'
+    }
   },
 
   {

@@ -20,6 +20,7 @@ import chances from '@src/views/chance/store/reducer'
 import teachers from '@src/views/teachers/store/reducer'
 import semesters from '@src/views/semesters/store/reducer'
 import registrations from '@src/views/registrations/store/reducer'
+import ExamSchedules from '@src/views/examschedule/store/reducer'
 // import semesters from '@src/views/semesters/store/reducer'
 import subjects from '@src/views/subjects/store/reducer'
 // import finalMarks from '@src/views/final-marks/store/reducer'
@@ -34,6 +35,7 @@ const rootReducer = combineReducers({
   navbar,
   layout,
   registrations,
+  ExamSchedules,
   subjects,
   students,
   finalMarks,

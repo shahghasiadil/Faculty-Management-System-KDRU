@@ -1,7 +1,10 @@
 // ** React Imports
 
-import { useState, useEffect, Fragment } from 'react'
-import { isObjEmpty } from '@utils'
+import { useState, useEffect, Fragment, useLayoutEffect } from 'react'
+import { isObjEmpty, selectThemeColors } from '@utils'
+
+import Flatpickr from 'react-flatpickr'
+import '@styles/react/libs/flatpickr/flatpickr.scss'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
@@ -12,8 +15,11 @@ import Avatar from '@components/avatar'
 import classnames from 'classnames'
 import { Check } from "react-feather"
 // ** Third Party Components
+import axios from 'axios'
+import Select from 'react-select'
+
 import { Media, Row, FormText, Col, Button, Form, FormFeedback, Input, Label, FormGroup, Table, CustomInput } from 'reactstrap'
-import { updateExamSchedule, updateStudent } from '../store/action'
+
 export const UpdateProgressToast = () => (
   <Fragment>
     <div className='toastify-header'>
@@ -31,12 +37,33 @@ export const UpdateProgressToast = () => (
   </Fragment>
 )
 const StudentTab = ({ selectedExamSchedule }) => {
+  // console.log(selectedExamSchedule)
   // ** States
   const history = useHistory()
   const [ScheduleData, setScheduleData] = useState(null)
+  const [value, setVaules] = useState(0)
+  const [picker, setPicker] = useState(selectedExamSchedule.date)
+  const [subjects, setSubject] = useState([])
+  const [teachers, setTeacher] = useState([])
+  const [teacher, setTeachers] = useState(0)
   const dispatch = useDispatch()
   // ** Function to change user image
  
+  const loadSubjects = () => {
+    axios.get('http://127.0.0.1:8000/api/subjects').then((res) => {
+      for (const data of res.data.data) {
+          subjects.push({value:data.id, label:data.name})
+      }
+    })
+  }
+
+  const loadTeachers = () => {
+    axios.get('http://127.0.0.1:8000/api/teachers').then((res) => {
+      for (const data of res.data.data) {
+          teachers.push({value:data.id, label:data.name})
+      }
+    })
+  }
 
   const StudentSchema = yup.object().shape({
 
@@ -46,11 +73,18 @@ const StudentTab = ({ selectedExamSchedule }) => {
   // ** Update user image on mount or change
   useEffect(() => {
     if (selectedExamSchedule !== null || (selectedExamSchedule !== null && ScheduleData !== null && selectedExamSchedule.id !== ScheduleData.id)) {
-      setStudentData(selectedExamSchedule)
+      setScheduleData(selectedExamSchedule)
      
     }
+
   }, [selectedExamSchedule])
   
+  useLayoutEffect(() => {
+    loadSubjects()
+    loadTeachers()
+  })
+  const Selectedteacher =  teachers.findIndex(ndx => ndx.id !== selectedExamSchedule.teacher_id)
+  // console.log(teachers[Selectedteacher])
   // ** Renders User
   const onSubmit = values => {
   
@@ -70,7 +104,7 @@ const StudentTab = ({ selectedExamSchedule }) => {
       <Col sm='12'>
         <Media className='mb-2'>
           <Media className='mt-50' body>
-            <h4>{selectedExamSchedule.name} </h4>
+            <h4> Exam Schedule </h4>
           </Media>
         </Media>
       </Col>
@@ -78,19 +112,41 @@ const StudentTab = ({ selectedExamSchedule }) => {
         <Form onSubmit={handleSubmit(onSubmit)}>
           <Row>
             <Col md='4' sm='12'>
-              <FormGroup>
-                <Label for='name'>Name</Label>
-                <Input
-                      name='name'
-                      id='name'
-                      defaultValue={ScheduleData && ScheduleData.date}
-                      placeholder='John'
-                      innerRef={register({ required: true })}
-                      invalid={errors.date && true}
-                      className={watch('date') ? classnames({ 'is-valid': !errors.date }) : ''}
-                    />
-                    {errors && errors.date && <FormFeedback>{errors.date.message}</FormFeedback>}
-              </FormGroup>
+            <FormGroup>
+            <Label>Subject</Label>
+            <Select
+              theme={selectThemeColors}
+              className='react-select'
+              classNamePrefix='select'
+              defaultValue={''}
+              name='clear'
+              options={subjects}
+
+              onChange = {(e) => { setVaules(e.value) } }
+            />
+          </FormGroup>
+          </Col>
+          <Col md='4' sm='12'>
+          <FormGroup>
+          <Label>Teacher</Label>
+            <Select
+              theme={selectThemeColors}
+              className='react-select'
+              classNamePrefix='select'
+              defaultValue={teachers[Selectedteacher]}
+              name='clear'
+              options={teachers}
+
+              onChange = {(e) => { setTeachers(e.value) } }
+            />
+        </FormGroup>
+          </Col>
+
+          <Col md='4' sm='12'>
+        <FormGroup>
+        <Label for='default-picker'>Date</Label>
+        <Flatpickr className='form-control' value={picker} onChange={date => setPicker(date)} id='default-picker' />
+        </FormGroup>
             </Col>
 
             <Col className='d-flex flex-sm-row flex-column mt-2' sm='12'>

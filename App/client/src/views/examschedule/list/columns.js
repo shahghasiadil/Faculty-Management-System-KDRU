@@ -51,7 +51,7 @@ export const columns = [
           </DropdownItem>
           <DropdownItem
             tag={Link}
-            to={`/views/examschedule/edit/${row.id}`}
+            to={`/views/exam-schedule/edit/${row.id}`}
             className='w-100'
             onClick={() => store.dispatch(getExamSchedule(row.id))}
           >

@@ -21,15 +21,16 @@ const StudentEdit = () => {
   // ** States & Vars
   const [activeTab, setActiveTab] = useState('1'),
     store = useSelector(state => state.ExamSchedules),
+
     dispatch = useDispatch(),
     { id } = useParams()
-
+    console.log(store)
   // ** Function to toggle tabs
   const toggle = tab => setActiveTab(tab)
 
   // ** Function to get student on mount
   useEffect(() => {
-    dispatch(getExamSchedules(parseInt(id)))
+    dispatch(getExamSchedule(parseInt(id)))
   }, [dispatch])
 
   return store.selectedExamSchedule !== null && store.selectedExamSchedule !== undefined ? (
@@ -47,7 +48,7 @@ const StudentEdit = () => {
             </Nav>
             <TabContent activeTab={activeTab}>
               <TabPane tabId='1'>
-                <StudentTab selectedStudent={store.selectedExamSchedule} />
+                <StudentTab selectedExamSchedule={store.selectedExamSchedule} />
               </TabPane>
 
             </TabContent>

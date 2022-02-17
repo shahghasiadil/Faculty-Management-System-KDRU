@@ -20,6 +20,13 @@ export const columns = [
     cell: row => row.name
   },
   {
+    name: 'Code',
+    minWidth: '250px',
+    selector: 'name',
+    sortable: true,
+    cell: row => row.code
+  },
+  {
     name: 'Credit',
     minWidth: '250px',
     selector: 'credit',

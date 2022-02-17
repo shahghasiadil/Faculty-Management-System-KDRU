@@ -58,7 +58,7 @@ Route::get('/dashboard', DashboardController::class);
 // ** Exam_Schedule Routes
 Route::apiResource('exam-schedules', ExamScheduleController::class);
 Route::delete('exam-schedules/exam-schedule/{id}', [ExamScheduleController::class, 'permanentDelete']);
-Route::get('exam-schedules/{id}/restore', [ExamScheduleController::class, 'restore']);
+Route::get('exam-schedule/{id}/restore', [ExamScheduleController::class, 'restore']);
 
 
 // ** Final Mark Routes

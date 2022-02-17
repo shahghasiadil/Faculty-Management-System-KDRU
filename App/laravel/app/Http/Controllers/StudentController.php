@@ -24,25 +24,7 @@ class StudentController extends Controller
     {
         return Student::with(['user', 'address'])->latest()->paginate(10);
     }
-    /**
-     * Undocumented function
-     *
-     * @return void
-     */
-    public function search()
-    {
-        if ($search = request()->get('q')) {
-            return Student::where(function ($query) use ($search) {
-                $query->where('name', 'LIKE', "%$search%")
-                    ->orWhere('last_name', 'LIKE', "%$search%")
-                    ->orWhere('email', 'LIKE', "%$search%")
-                    ->orWhere('national_id', 'LIKE', "%$search%")
-                    ->orWhere('period', 'LIKE', "%$search%");
-            })->paginate(10);
-        } else {
-            return Student::latest()->paginate(10);
-        }
-    }
+
     /**
      * Undocumented function
      *
@@ -74,6 +56,7 @@ class StudentController extends Controller
             'kankor_score' => 'between:0,355.99',
             'kankor_id' => 'string',
             'phone' => 'string'
+
         ]);
         try {
 
@@ -84,7 +67,9 @@ class StudentController extends Controller
                 'password' => Hash::make($request->password),
             ]);
 
-            Student::create([
+
+
+            $student = Student::create([
                 'national_id' => $request->national_id,
                 'name' => $request->name,
                 'last_name' => $request->last_name,
@@ -107,6 +92,8 @@ class StudentController extends Controller
                 'kankor_id' => $request->kankor_id,
                 'phone' => $request->phone
             ]);
+
+
 
         } catch (QueryException $e) {
             // if ($e->errorInfo[1] === 1062) {
@@ -172,7 +159,13 @@ class StudentController extends Controller
             'kankor_year' => 'int',
             'kankor_score' => 'between:0,355.99',
             'kankor_id' => 'string',
-            'phone' => 'string'
+            'phone' => 'string',
+            'relationship' => 'required|string',
+            'name' => 'required|string',
+            'father_name' => 'required|string',
+            'job' => 'required|string',
+            'phone' => 'required|string',
+
         ]);
 
         $user = User::findOrFail($student->user_id);
@@ -206,6 +199,7 @@ class StudentController extends Controller
             'kankor_id' => $request->kankor_id,
             'phone' => $request->phone
         ]);
+
     }
 
     // ** destroy method for softDeletes

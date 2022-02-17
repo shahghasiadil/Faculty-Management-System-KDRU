@@ -1,5 +1,5 @@
 // ** React Import
-import { useState, Fragment} from 'react'
+import { useState, Fragment, useLayoutEffect, useEffect} from 'react'
 import '@styles/react/libs/flatpickr/flatpickr.scss'
 import Avatar from '@components/avatar'
 import { Check, X} from 'react-feather'
@@ -15,7 +15,7 @@ import Flatpickr from 'react-flatpickr'
 import classnames from 'classnames'
 import { useForm } from 'react-hook-form'
 import {Button, FormGroup, Label, FormText, Form, Input, FormFeedback } from 'reactstrap'
-
+import moment from 'moment'
 // ** Store & Actions
 import { addExamSchedule } from '../store/action'
 import { useDispatch } from 'react-redux'
@@ -42,20 +42,43 @@ export const SuccessProgressToast = () => (
 const SidebarNewExamSchedule = ({ open, toggleSidebar }) => {
   const [inputTerm, setInputTerm] = useState('')
   const [visible, setVisible] = useState('')
+  const [value, setVaules] = useState(0)
   const [picker, setPicker] = useState(new Date())
+  const [subjects, setSubject] = useState([])
+  const [teachers, setTeacher] = useState([])
+  const [teacher, setTeachers] = useState(0)
   // ** Store Vars
   const dispatch = useDispatch()
   // ** Validations Yup
   const StudentSchema = yup.object().shape({
-    date:yup.date().required()
+    // date:yup.date().required()
   })
-  const colourOptions = [
-    { value: 'ocean', label: 'Ocean' },
-    { value: 'blue', label: 'Blue' },
-    { value: 'purple', label: 'Purple' },
-    { value: 'red', label: 'Red' },
-    { value: 'orange', label: 'Orange' }
-  ]
+
+
+  const loadSubjects = () => {
+    axios.get('http://127.0.0.1:8000/api/subjects').then((res) => {
+      for (const data of res.data.data) {
+          subjects.push({value:data.id, label:data.name})
+      }
+    })
+  }
+
+  const loadTeachers = () => {
+    axios.get('http://127.0.0.1:8000/api/teachers').then((res) => {
+      for (const data of res.data.data) {
+          teachers.push({value:data.id, label:data.name})
+      }
+    })
+  }
+
+  // useEffect(() => {
+  //   loadSubjects()
+  // }, [])
+
+  useEffect(() => {
+    loadSubjects()
+    loadTeachers()
+  }, [])
 
   // ** React hook form
   const { register, errors, handleSubmit, watch} = useForm({ mode: 'onChange', resolver: yupResolver(StudentSchema) })
@@ -64,14 +87,15 @@ const SidebarNewExamSchedule = ({ open, toggleSidebar }) => {
   // ** Function to handle form submit
   const onSubmit = (values) => {
 
-    if (isObjEmpty(errors)) {
       toggleSidebar()
       dispatch(
         addExamSchedule({
-
+          date:picker,
+          subject_id:value,
+          teacher_id:teacher
         })
       )
-    }
+
   }
 
   return (
@@ -90,17 +114,31 @@ const SidebarNewExamSchedule = ({ open, toggleSidebar }) => {
               theme={selectThemeColors}
               className='react-select'
               classNamePrefix='select'
-              defaultValue={colourOptions[1]}
+              defaultValue={''}
               name='clear'
-              options={colourOptions}
-              isClearable
+              options={subjects}
+
+              onChange = {(e) => { setVaules(e.value) } }
+            />
+        </FormGroup>
+        <FormGroup>
+        <Label>Teacher</Label>
+            <Select
+              theme={selectThemeColors}
+              className='react-select'
+              classNamePrefix='select'
+              defaultValue={''}
+              name='clear'
+              options={teachers}
+
+              onChange = {(e) => { setTeachers(e.value) } }
             />
         </FormGroup>
         <FormGroup>
         <Label for='default-picker'>Date</Label>
         <Flatpickr className='form-control' value={picker} onChange={date => setPicker(date)} id='default-picker' />
         </FormGroup>
-        <Button type='submit' className='mr-1' color='primary' disabled = {visible}>
+        <Button type='submit' className='mr-1' color='primary'>
           Submit
         </Button>
         <Button type='reset' color='secondary' outline onClick={toggleSidebar}>
