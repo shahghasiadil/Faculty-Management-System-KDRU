@@ -245,12 +245,6 @@ class StudentController extends Controller
             $student->restore();
         }
     }
-    
-    public function getStudent()
-    {
-        // return Student::get(['id', 'name']);
-        return 'hello';
-    }
 
     public function studentFatherName($name)
     {

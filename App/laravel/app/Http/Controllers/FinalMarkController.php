@@ -40,18 +40,18 @@ class FinalMarkController extends Controller
         
         if($mid_term_record === null){
             
-            $mid_term_marks = $final_marks * 20 / 80;
+            $mid_term_marks = (($final_marks * 20 / 80) - 6);
             $total_marks = $final_marks + $mid_term_marks;
             
             $final_marks_record = ['student_id' => $student_id, 'subject_id' => $subject_id, 'mid_term_marks' => $mid_term_marks, 'marks' => $final_marks];
             
             $chance_count = Chance::where(['student_id' => $student_id, 'subject_id' => $subject_id])->count();
-            $chance_record =  ['student_id' => $student_id, 'subject_id' => $subject_id, 'chance_count' => $chance_count + 1, 'marks' => $final_marks];
+            $chance_record =  ['student_id' => $student_id, 'subject_id' => $subject_id, 'chance_count' => $chance_count + 1, 'marks' => $mid_term_marks];
            
             $mid_term_marks_record = ['marks' =>$mid_term_marks, 'student_id' => $student_id, 'subject_id' => $subject_id];  
             MidtermMark::create($mid_term_marks_record);
 
-                if($total_marks < 55){
+                if($total_marks <= 54){
                     Chance::create($chance_record);
                 } 
 
@@ -62,7 +62,7 @@ class FinalMarkController extends Controller
             $final_marks_record = ['student_id' => $student_id, 'subject_id' => $subject_id, 'mid_term_marks' => $mid_term_marks, 'marks' => $final_marks];
             
             $chance_count = Chance::where(['student_id' => $student_id, 'subject_id' => $subject_id])->count();
-            $chance_record =  ['student_id' => $student_id, 'subject_id' => $subject_id, 'chance_count' => $chance_count + 1, 'marks' => $final_marks];
+            $chance_record =  ['student_id' => $student_id, 'subject_id' => $subject_id, 'chance_count' => $chance_count + 1, 'marks' => $mid_term_marks];
             
             $mid_term_marks_record = ['marks' =>$mid_term_marks, 'student_id' => $student_id, 'subject_id' => $subject_id];  
             MidtermMark::create($mid_term_marks_record);
@@ -79,7 +79,6 @@ class FinalMarkController extends Controller
         // ]);
         FinalMark::create($final_marks_record);
         
-       
         
     }
 
