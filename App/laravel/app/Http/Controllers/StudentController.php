@@ -249,6 +249,7 @@ class StudentController extends Controller
     {
         // return Student::get(['id', 'name']);
         return 'hello';
+
     }
 
     public function studentFatherName($name)
