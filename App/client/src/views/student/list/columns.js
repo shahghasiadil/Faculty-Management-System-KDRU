@@ -86,9 +86,9 @@ export const columns = [
           </DropdownItem>
           <DropdownItem
             tag={Link}
-            to={`/views/student/edit/${row.id}`}
+            to={`/students/edit/${row.id}`}
             className='w-100'
-            onClick={() => store.dispatch(getStudent(row.id))}
+            // onClick={() => store.dispatch(getStudent(row.id))}
           >
             <Archive size={14} className='mr-50' />
             <span className='align-middle'>Edit</span>
