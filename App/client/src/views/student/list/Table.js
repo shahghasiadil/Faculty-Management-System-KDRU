@@ -1,5 +1,8 @@
 // ** React Imports
-import { Fragment, useState, useEffect} from 'react'
+import { Fragment, useState, useEffect } from 'react'
+
+// ** for navigation
+import { useHistory } from 'react-router-dom'
 
 // ** Student List Sidebar
 import Sidebar from './Sidebar'
@@ -40,8 +43,42 @@ import { store } from '@store/storeConfig/store'
     </Fragment>
   )
 
+const StudentsList = () => {
+  // ** Store Vars
+  const dispatch = useDispatch()
+  const history = useHistory()
+  const store = useSelector(state => state.students)
+
+  // ** States
+  const [searchTerm, setSearchTerm] = useState('')
+  const [currentPage, setCurrentPage] = useState(1)
+  const [rowsPerPage, setRowsPerPage] = useState(10)
+
+  const [sidebarOpen, setSidebarOpen] = useState(false)
+  
+  // ** Function to toggle sidebar
+  const toggleSidebar = () => setSidebarOpen(!sidebarOpen)
+  // ** Get data on mount
+  useEffect(() => {
+    dispatch(getAllData())
+    dispatch(
+      getData({
+        page: currentPage,
+        perPage: rowsPerPage,
+        q: searchTerm
+      })
+    )
+    
+  }, [dispatch, store.data.length])  
+
+
+  // ** navigation to student registration view
+  const registerStudent = () => {
+   history.push('/students/add')
+  }
+
 // ** Table Header
-const CustomHeader = ({ toggleSidebar, handlePerPage, rowsPerPage, handleFilter, searchTerm }) => {
+  const CustomHeader = ({ handlePerPage, rowsPerPage, handleFilter, searchTerm }) => {
   return (
     <div className='invoice-list-table-header w-100 mr-1 ml-50 mt-2 mb-75'>
       <Row>
@@ -83,7 +120,7 @@ const CustomHeader = ({ toggleSidebar, handlePerPage, rowsPerPage, handleFilter,
               onChange={e => handleFilter(e.target.value)}
             />
           </div>
-          <Button.Ripple color='primary' onClick={toggleSidebar}>
+          <Button.Ripple color='primary' onClick={registerStudent}>
             Add New Student
           </Button.Ripple>
         </Col>
@@ -92,31 +129,6 @@ const CustomHeader = ({ toggleSidebar, handlePerPage, rowsPerPage, handleFilter,
   )
 }
 
-const StudentsList = () => {
-  // ** Store Vars
-  const dispatch = useDispatch()
-  const store = useSelector(state => state.students)
-
-  // ** States
-  const [searchTerm, setSearchTerm] = useState('')
-  const [currentPage, setCurrentPage] = useState(1)
-  const [rowsPerPage, setRowsPerPage] = useState(10)
-  const [sidebarOpen, setSidebarOpen] = useState(false)
-  
-  // ** Function to toggle sidebar
-  const toggleSidebar = () => setSidebarOpen(!sidebarOpen)
-  // ** Get data on mount
-  useEffect(() => {
-    dispatch(getAllData())
-    dispatch(
-      getData({
-        page: currentPage,
-        perPage: rowsPerPage,
-        q: searchTerm
-      })
-    )
-    
-  }, [dispatch, store.data.length])  
   // ** Function in get data on page change
   const handlePagination = page => {
     dispatch(
@@ -225,7 +237,7 @@ const StudentsList = () => {
         />
       </Card>
 
-      <Sidebar open={sidebarOpen} toggleSidebar={toggleSidebar} />
+      {/* <Sidebar open={sidebarOpen} toggleSidebar={toggleSidebar} /> */}
     </Fragment>
   )
 
