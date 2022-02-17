@@ -51,7 +51,7 @@ class FinalMarkController extends Controller
             $mid_term_marks_record = ['marks' =>$mid_term_marks, 'student_id' => $student_id, 'subject_id' => $subject_id];  
             MidtermMark::create($mid_term_marks_record);
 
-                if($total_marks < 55){
+                if($total_marks <= 54){
                     Chance::create($chance_record);
                 } 
 
