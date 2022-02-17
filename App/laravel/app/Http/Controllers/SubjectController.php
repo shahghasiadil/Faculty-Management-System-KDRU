@@ -19,28 +19,29 @@ class SubjectController extends Controller
     {
         return Subject::with('semester')->latest()->paginate(10);
     }
-    public function getSemesters()
-    {
-        return Semester::get(['id', 'name']);
-    }
+
     public function show($id)
     {
         return Subject::with('semester')->findOrFail($id);
     }
+
     public function store(Request $request)
     {
         $this->validate($request, [
             'name' => 'required|string|max:80',
             'credit' => 'required|integer',
             'semester_id' => 'required',
+            'code' => 'required'
         ]);
 
         Subject::create([
             'name' => $request->name,
             'credit' => $request->credit,
-            'semester_id' => $request->semester_id
+            'semester_id' => $request->semester_id,
+            'code' => $request->code
         ]);
     }
+
     // This method updates Subject
     public function update(Request $request, $id)
     {
@@ -49,20 +50,24 @@ class SubjectController extends Controller
             'name' => 'required|string|max:80',
             'credit' => 'required|integer',
             'semester_id' => 'required',
+            'code' => 'required'
         ]);
         $subject->update($request->all());
     }
+
     // softDeletes the students
     public function destroy($id)
     {
         $subject = Subject::findOrFail($id);
         $subject->delete();
     }
+
     public function permanentDelete($id)
     {
         $subject = Subject::findOrFail($id);
         $subject->forceDelete();
     }
+
     public function restore($id)
     {
         $subject = Subject::withTrashed()->find($id);

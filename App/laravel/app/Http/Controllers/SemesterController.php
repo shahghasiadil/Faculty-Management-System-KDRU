@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\SemesterResource;
 use App\Models\Semester;
 use App\Models\Student;
 
@@ -16,7 +17,7 @@ class SemesterController extends Controller
      */
     public function index()
     {
-        return Semester::latest()->paginate(10);
+        return new SemesterResource(Semester::latest()->get());
     }
 
     /**
@@ -111,11 +112,13 @@ class SemesterController extends Controller
         }
     }
 
-    public function findByNumber(Request $request)
+    // ** find a semester by name
+    public function findByName(Request $request)
     {
-        $semester = Semester::where('name', '=', $request->name)->get();
-        if (sizeof($semester) > 0) {
-            return response()->json(["semester already exists", "status" => 200]);
-        } else return response()->json(['status' => 203]);
+        $semester = Semester::where('name', $request->name)->get();
+        if ($semester) {
+            return $semester;
+        } 
+        else return response()->json(['message' => 'Resource Not Found', 'status' => 204]);
     }
 }

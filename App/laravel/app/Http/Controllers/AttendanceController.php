@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Attendance;
+use App\Models\Subject;
+use App\Models\Semester;
+use App\Models\Student;
 
 class AttendanceController extends Controller
 {
@@ -25,23 +28,23 @@ class AttendanceController extends Controller
      */
     public function store(Request $request)
     {
-            $this->validate($request, [
-                'state' => 'required|in:PRESENT,ABSENT',
-                'date' => 'required|date',
-                'start_time' => 'required|regex:/(\d+\:\d+)/',
-                'end_time' => 'required|regex:/(\d+\:\d+)/',
-                'student_id' => 'required|integer',
-                'subject_id' => 'required|integer',
-            ]);
-    
-            Attendance::create([
-                'state' => $request->state,
-                'date' => $request->date,
-                'start_time' => $request->start_time,
-                'end_time' => $request->end_time,
-                'student_id' => $request->student_id,
-                'subject_id' => $request->subject_id
-            ]);
+        $this->validate($request, [
+            'state' => 'required|in:PRESENT,ABSENT',
+            'date' => 'required|date',
+            'start_time' => 'required|regex:/(\d+\:\d+)/',
+            'end_time' => 'required|regex:/(\d+\:\d+)/',
+            'student_id' => 'required|integer',
+            'subject_id' => 'required|integer',
+        ]);
+
+        Attendance::create([
+            'state' => $request->state,
+            'date' => $request->date,
+            'start_time' => $request->start_time,
+            'end_time' => $request->end_time,
+            'student_id' => $request->student_id,
+            'subject_id' => $request->subject_id
+        ]);
     }
 
     /**
@@ -110,8 +113,14 @@ class AttendanceController extends Controller
     public function restore($id)
     {
         $attendance = Attendance::withTrashed()->find($id);
-        if ($attendance) {
+        if ($attendance)
+        {
             $attendance->restore();
         }
+        else return response()->json(['message' => 'Resource not found', 'status' => 204]);
+    }
+
+    public function getStudentsBySubjectPeriod(Request $request){
+        return Subject::findOrFail($request->subject_id)->students->where('period', $request->period)->all();
     }
 }
