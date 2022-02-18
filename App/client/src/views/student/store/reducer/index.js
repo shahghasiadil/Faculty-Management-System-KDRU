@@ -4,6 +4,14 @@ import { ADD_STUDENT, ARCHIVE, DELETE_STUDENT, GET_ALL_DATA, GET_DATA, GET_STUDE
 const initialState = {
   allData: [],
   data: [],
+  studentInfo: {
+    account: {},
+    personal: {},
+    tazkira: {},
+    address: {},
+    relative: {},
+    kankor: {}
+  },
   total: 1,
   params: {},
   selectedStudent: null
@@ -18,20 +26,20 @@ const students = (state = initialState, action) => {
         ...state,
         data: action.data,
         total: action.totalPages,
-        params:action.params
+        params: action.params
       }
     case GET_STUDENT:
       return { ...state, selectedStudent: action.selectedStudent }
     case ADD_STUDENT:
-      return { ...state  }
+      return { ...state }
     case UPDATE_STUDENT:
-        return { ...state }
+      return { ...state }
     case DELETE_STUDENT:
       return { ...state }
     case ARCHIVE:
       return { ...state }
     case RESTORE_STUDENT:
-      return { ...state}
+      return { ...state }
     default:
       return { ...state }
   }

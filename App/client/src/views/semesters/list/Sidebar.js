@@ -85,7 +85,7 @@ const SidebarNewSemesters = ({ open, toggleSidebar }) => {
       contentClassName='pt-0'
       toggleSidebar={toggleSidebar}
     >
-      <Form onSubmit={handleSubmit(onSubmit)} autoComplete = "new-password">
+      <Form onSubmit={handleSubmit(onSubmit)} >
         <FormGroup>
           <Label for='first-name'>
             Name <span className='text-danger'>*</span>
@@ -93,7 +93,6 @@ const SidebarNewSemesters = ({ open, toggleSidebar }) => {
           <Input
             name='name'
             id='name'
-            autoComplete = "off"
             placeholder='John'
             innerRef={register({ required: true })}
             invalid={errors.name && true}

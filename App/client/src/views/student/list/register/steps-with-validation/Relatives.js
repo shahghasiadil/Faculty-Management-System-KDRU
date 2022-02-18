@@ -1,21 +1,43 @@
+import * as yup from 'yup'
 import { Fragment, useState } from 'react'
+import { useSelector } from 'react-redux'
 import classnames from 'classnames'
 import { isObjEmpty } from '@utils'
 import { useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
 import { ArrowLeft, ArrowRight, X, Plus } from 'react-feather'
 
 import Repeater from '@components/repeater'
 import { SlideDown } from 'react-slidedown'
 
-import { Label, Card, CardBody, FormGroup, Row, Col, Button, Form, Input } from 'reactstrap'
+import { Label, Card, CardBody, FormGroup, Row, Col, Button, Form, Input, FormFeedback } from 'reactstrap'
 
 const Relatives = ({ stepper, type }) => {
-  const { register, errors, handleSubmit, trigger } = useForm()
 
+  const StudentSchema = yup.object().shape({
+    relationship: yup.string().required('Relationship is required field').min(4, 'Relationship must be at least 3 characters'),
+    name: yup.string().required("Name is required field").min(3, 'Name must be at least 3 characters'),
+    fatherName: yup.string().required("Father Name is required field").min(3, 'Father Name must be at least 3 characters'),
+    job: yup.string().required("Job is required field").min(3, 'Job must be at least 3 characters'),
+    academicTransfer: yup.string().required("Academic transfer is required field").min(4, 'Academic transfer must be at least 3 characters'),
+    phone: yup.string().required("Phone Number is required field")
+  })
+  // ** React hook form
+  const { register, errors, handleSubmit, watch, trigger } = useForm({ mode: 'onChange', resolver: yupResolver(StudentSchema) })
 
-  const onSubmit = () => {
+  const { studentInfo } = useSelector(state => state.students)
+  const { relative } = studentInfo
+
+  const onSubmit = (value) => {
     trigger()
     if (isObjEmpty(errors)) {
+      relative.relationship = value.relationship
+      relative.name = value.name
+      relative.fathername = value.fatherName
+      relative.job = value.job
+      relative.academictransfer = value.academicTransfer
+      relative.phone = value.phone
+
       stepper.next()
     }
   }
@@ -59,89 +81,102 @@ const Relatives = ({ stepper, type }) => {
                           <Row>
 
                             <FormGroup tag={Col} md='4'>
-                              <Label className='form-label' for={`relationship-${type}`}>
-                                Relationship
+                              <Label for='relationship'>
+                                Relationship  <span className='text-danger'>*</span>
                               </Label>
                               <Input
-                                type='text'
-                                id={`relationship-${type}`}
-                                name={`relationship-${type}`}
+                                name='relationship'
+                                id='relationship'
+                                autoComplete="off"
                                 placeholder='Uncle'
                                 innerRef={register({ required: true })}
-                                className={classnames({ 'is-invalid': errors[`relationship-${type}`] })}
+                                invalid={errors.relationship && true}
+                                className={watch('relationship') ? classnames({ 'is-valid': !errors.relationship }) : ''}
                               />
+                              {errors && errors.relationship && <FormFeedback>{errors.relationship.message}</FormFeedback>}
                             </FormGroup>
 
                             <FormGroup tag={Col} md='4'>
-                              <Label className='form-label' for={`name-${type}`}>
-                                Name
+                              <Label for='name'>
+                                Name  <span className='text-danger'>*</span>
                               </Label>
                               <Input
-                                type='text'
-                                id={`name-${type}`}
-                                name={`name-${type}`}
-                                placeholder='Doe'
+                                name='name'
+                                id='name'
+                                autoComplete="off"
+                                placeholder='john'
                                 innerRef={register({ required: true })}
-                                className={classnames({ 'is-invalid': errors[`name-${type}`] })}
+                                invalid={errors.name && true}
+                                className={watch('name') ? classnames({ 'is-valid': !errors.name }) : ''}
                               />
+                              {errors && errors.name && <FormFeedback>{errors.name.message}</FormFeedback>}
                             </FormGroup>
 
+
                             <FormGroup tag={Col} md='4'>
-                              <Label className='form-label' for={`father-name-${type}`}>
-                                Father Name
+                              <Label for='fatherName'>
+                                Father Name  <span className='text-danger'>*</span>
                               </Label>
                               <Input
-                                type='text'
-                                id={`father-name-${type}`}
-                                name={`father-name-${type}`}
+                                name='fatherName'
+                                id='fatherName'
+                                autoComplete="off"
                                 placeholder='Doe'
                                 innerRef={register({ required: true })}
-                                className={classnames({ 'is-invalid': errors[`father-name-${type}`] })}
+                                invalid={errors.fatherName && true}
+                                className={watch('fatherName') ? classnames({ 'is-valid': !errors.fatherName }) : ''}
                               />
+                              {errors && errors.fatherName && <FormFeedback>{errors.fatherName.message}</FormFeedback>}
                             </FormGroup>
                           </Row>
 
                           <Row>
                             <FormGroup tag={Col} md='4'>
-                              <Label className='form-label' for={`job-${type}`}>
-                                Job
+                              <Label for='job'>
+                                Job  <span className='text-danger'>*</span>
                               </Label>
                               <Input
-                                type='text'
-                                id={`job-${type}`}
-                                name={`job-${type}`}
-                                placeholder='Web Developer'
+                                name='job'
+                                id='job'
+                                autoComplete="off"
+                                placeholder='Web developer'
                                 innerRef={register({ required: true })}
-                                className={classnames({ 'is-invalid': errors[`job-${type}`] })}
+                                invalid={errors.job && true}
+                                className={watch('job') ? classnames({ 'is-valid': !errors.job }) : ''}
                               />
+                              {errors && errors.job && <FormFeedback>{errors.job.message}</FormFeedback>}
                             </FormGroup>
 
                             <FormGroup tag={Col} md='4'>
-                              <Label className='form-label' for={`academic-transfer-${type}`}>
-                                Academic Transfer
+                              <Label for='academicTransfer'>
+                                Academic Transfer  <span className='text-danger'>*</span>
                               </Label>
                               <Input
-                                type='text'
-                                id={`academic-transfer-${type}`}
-                                name={`academic-transfer-${type}`}
-                                placeholder=' '
+                                name='academicTransfer'
+                                id='academicTransfer'
+                                autoComplete="off"
+                                placeholder='Academic Transfer'
                                 innerRef={register({ required: true })}
-                                className={classnames({ 'is-invalid': errors[`academic-transfer-${type}`] })}
+                                invalid={errors.academicTransfer && true}
+                                className={watch('academicTransfer') ? classnames({ 'is-valid': !errors.academicTransfer }) : ''}
                               />
+                              {errors && errors.academicTransfer && <FormFeedback>{errors.academicTransfer.message}</FormFeedback>}
                             </FormGroup>
 
                             <FormGroup tag={Col} md='4'>
-                              <Label className='form-label' for={`phone-${type}`}>
-                                Phone
+                              <Label for='phone'>
+                                Phone Number  <span className='text-danger'>*</span>
                               </Label>
                               <Input
-                                type='text'
-                                id={`phone-${type}`}
-                                name={`phone-${type}`}
+                                name='phone'
+                                id='phone'
+                                autoComplete="off"
                                 placeholder='1234567890'
                                 innerRef={register({ required: true })}
-                                className={classnames({ 'is-invalid': errors[`phone-${type}`] })}
+                                invalid={errors.phone && true}
+                                className={watch('phone') ? classnames({ 'is-valid': !errors.phone }) : ''}
                               />
+                              {errors && errors.phone && <FormFeedback>{errors.phone.message}</FormFeedback>}
                             </FormGroup>
                           </Row>
                         </Col>
