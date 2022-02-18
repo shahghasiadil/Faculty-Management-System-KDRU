@@ -1,9 +1,8 @@
 // ** React Imports
 import { Link } from 'react-router-dom'
 
-
 // ** Store & Actions
-import { getStudent, deleteStudent, archiveStudent } from '../store/action'
+import { getExamSchedule, deleteExamSchedule, archiveExamSchedule } from '../store/action'
 import { store } from '@store/storeConfig/store'
 
 // ** Third Party Components
@@ -13,39 +12,25 @@ import { MoreVertical, Delete, Trash2, Archive } from 'react-feather'
 
 export const columns = [
   {
-    name: 'Name',
+    name: 'date',
     minWidth: '250px',
-    selector: 'name',
+    selector: 'date',
     sortable: true,
-    cell: row => row.name
+    cell: row => row.date
   },
   {
-    name: 'Last Name',
-    minWidth: '250px',
-    selector: 'last_name',
-    sortable: true,
-    cell: row => row.last_name
-  },
-  {
-    name: 'NID',
+    name: 'Subject',
     minWidth: '100px',
-    selector: 'national_id',
+    selector: 'subject',
     sortable: true,
-    cell: row => row.national_id
+    cell: row => row.subject.name
   },
   {
-    name: 'Email',
-    minWidth: '320px',
-    selector: 'email',
+    name: 'Teacher',
+    minWidth: '250px',
+    selector: '',
     sortable: true,
-    cell: row => row.email
-  },
-  {
-    name: 'Period',
-    minWidth: '138px',
-    selector: 'period',
-    sortable: true,
-    cell: row => row.period
+    cell: row => row.teacher.name
   },
 
   {
@@ -59,21 +44,21 @@ export const columns = [
         <DropdownMenu right>
           <DropdownItem
             className='w-100'
-            onClick={() => store.dispatch(archiveStudent(row.id))}
+            onClick={() => store.dispatch(archiveExamSchedule(row.id))}
           >
             <Trash2 size={14} className='mr-50' />
             <span className='align-middle'>Archive</span>
           </DropdownItem>
           <DropdownItem
             tag={Link}
-            to={`/views/student/edit/${row.id}`}
+            to={`/views/exam-schedule/edit/${row.id}`}
             className='w-100'
-            onClick={() => store.dispatch(getStudent(row.id))}
+            onClick={() => store.dispatch(getExamSchedule(row.id))}
           >
             <Archive size={14} className='mr-50' />
             <span className='align-middle'>Edit</span>
           </DropdownItem>
-          <DropdownItem className='w-100' onClick={() => store.dispatch(deleteStudent(row.id))}>
+          <DropdownItem className='w-100' onClick={() => store.dispatch(deleteExamSchedule(row.id))}>
             <Delete  size={14} className='mr-50' />
             <span className='align-middle'>Delete</span>
           </DropdownItem>

@@ -6,6 +6,7 @@ use App\Models\Teacher;
 use App\Models\User;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Hash;
 
 class TeacherController extends Controller
@@ -18,7 +19,7 @@ class TeacherController extends Controller
 
     public function index()
     {
-        return Teacher::with(['user', 'address'])->latest()->paginate(10);
+        return new JsonResource(Teacher::with(['user', 'address'])->latest()->get());
     }
 
 

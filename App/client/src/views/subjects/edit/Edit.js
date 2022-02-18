@@ -47,10 +47,7 @@ const SubjectTab = ({ selectedSubject}) => {
   const options = []
   function loadSemesters () {
     axios.get('http://127.0.0.1:8000/api/get-semesters').then((res) => {
-      // for (const data of res.data) {
-      //     setSemesters(...s)
-      //     // console.log(data)
-      // }
+
       setSemesters(res.data)
     
 
@@ -58,7 +55,8 @@ const SubjectTab = ({ selectedSubject}) => {
   }
   const SubjectSchema = yup.object().shape({
     name: yup.string().required().min(3).label('Name'),
-    credit: yup.string().required().label("Credit")
+    credit: yup.string().required().label("Credit"),
+    code: yup.string().required().label("Code")
   })
   const dx = semesters.filter(ndx => ndx.id !== subjectData.semester.id)
   const opt = dx.map((item, i) => {
@@ -85,7 +83,8 @@ const SubjectTab = ({ selectedSubject}) => {
         updateSubject({
           name: values.name,
           credit:values.credit,
-          semester_id:value
+          semester_id:value,
+          code:values.code
         }, selectedSubject.id)
       )
       
@@ -118,6 +117,21 @@ const SubjectTab = ({ selectedSubject}) => {
                       className={watch('name') ? classnames({ 'is-valid': !errors.name }) : ''}
                     />
                     {errors && errors.name && <FormFeedback>{errors.name.message}</FormFeedback>}
+              </FormGroup>
+            </Col>
+            <Col md='4' sm='12'>
+              <FormGroup>
+                <Label for='code'>Code</Label>
+                <Input
+                      name='code'
+                      id='code'
+                      defaultValue={subjectData && subjectData.name}
+                      placeholder='Code'
+                      innerRef={register({ required: true })}
+                      invalid={errors.code && true}
+                      className={watch('code') ? classnames({ 'is-valid': !errors.code }) : ''}
+                    />
+                    {errors && errors.code && <FormFeedback>{errors.code.message}</FormFeedback>}
               </FormGroup>
             </Col>
             <Col md='4' sm='12'>
