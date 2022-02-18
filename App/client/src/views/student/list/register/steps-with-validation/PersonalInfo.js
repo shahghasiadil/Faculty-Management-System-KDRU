@@ -1,19 +1,55 @@
+import * as yup from 'yup'
 import { Fragment } from 'react'
+import { useSelector } from 'react-redux'
 import Select from 'react-select'
 import classnames from 'classnames'
 import { useForm } from 'react-hook-form'
 import { ArrowLeft, ArrowRight } from 'react-feather'
 import { selectThemeColors, isObjEmpty } from '@utils'
-import { Label, FormGroup, Row, Col, Button, Form, Input } from 'reactstrap'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { Label, FormGroup, Row, Col, Button, Form, Input, FormFeedback } from 'reactstrap'
 
 import '@styles/react/libs/react-select/_react-select.scss'
 
 const PersonalInfo = ({ stepper, type }) => {
-  const { register, errors, handleSubmit, trigger } = useForm()
 
-  const onSubmit = () => {
+  const StudentSchema = yup.object().shape({
+    firstName: yup.string().required('First Name is required field').min(3, 'First Name must be at least 3 characters'),
+    lastName: yup.string().required("Last Name is required field").min(3, 'Last Name must be at least 3 characters'),
+    fatherName: yup.string().required("Father Name is required field").min(3, 'Father Name must be at least 3 characters'),
+    gFatherName: yup.string().required("Grand Father Name is required field").min(3, 'Grand Father Name must be at least 3 characters'),
+    phone: yup.string().required("Phone Number is required field"),
+    birthDate: yup.string().required("Birth Date is required field"),
+    //gender: yup.string().required("Gender is required field"),
+    //language: yup.string().required("Native Language is required field"),
+    //maritalstate: yup.string().required("Marital State is required field"),
+    roleNo: yup.string().required("Role Number is required field").max(2, "Role number must be 2 digits"),
+    period: yup.string().required("Period is required field"),
+    graduationYear: yup.string().required("Graduation year is required field").max(4)
+  })
+  // ** React hook form
+  const { register, errors, handleSubmit, watch, trigger } = useForm({ mode: 'onChange', resolver: yupResolver(StudentSchema) })
+
+  const { studentInfo } = useSelector(state => state.students)
+  const { personal } = studentInfo
+
+  const onSubmit = (value) => {
     trigger()
     if (isObjEmpty(errors)) {
+
+      personal.firstname = value.firstName
+      personal.lastname = value.lastName
+      personal.fathername = value.fatherName
+      personal.gfathername = value.gFatherName
+      personal.phone = value.phone
+      personal.birthdate = value.birthDate
+      personal.gender = value.gender
+      personal.language = value.language
+      personal.maritalstate = value.maritalState
+      personal.roleno = value.roleNo
+      personal.period = value.period
+      personal.graduationyear = value.graduationYear
+
       stepper.next()
     }
   }
@@ -22,13 +58,14 @@ const PersonalInfo = ({ stepper, type }) => {
     { value: 'M', label: 'Male' },
     { value: 'F', label: 'Female' }
   ]
+
   const languageOptions = [
     { value: 'Pashto', label: 'Pashto' },
     { value: 'Dari', label: 'Dari' },
     { value: 'English', label: 'English' }
   ]
 
-   const maritalStateOptions = [
+  const maritalStateOptions = [
     { value: 'Single', label: 'Single' },
     { value: 'Married', label: 'Married' },
     { value: 'Divorced', label: 'Divorced' }
@@ -41,172 +78,219 @@ const PersonalInfo = ({ stepper, type }) => {
         <small>Enter Student's Personal Info.</small>
       </div>
       <Form onSubmit={handleSubmit(onSubmit)}>
+
         <Row>
           <FormGroup tag={Col} md='2'>
-            <Label className='form-label' for={`first-name-${type}`}>
-              First Name
+            <Label for='firstName'>
+              First Name <span className='text-danger'>*</span>
             </Label>
             <Input
-              type='text'
-              name={`first-name-${type}`}
-              id={`first-name-${type}`}
+              name='firstName'
+              id='firstName'
+              autoComplete="off"
               placeholder='John'
               innerRef={register({ required: true })}
-              className={classnames({ 'is-invalid': errors[`first-name-${type}`] })}
+              invalid={errors.firstName && true}
+              className={watch('firstName') ? classnames({ 'is-valid': !errors.firstName }) : ''}
             />
+            {errors && errors.firstName && <FormFeedback>{errors.firstName.message}</FormFeedback>}
           </FormGroup>
+
           <FormGroup tag={Col} md='2'>
-            <Label className='form-label' for={`last-name-${type}`}>
-              Last Name
+            <Label for='lastName'>
+              Last Name <span className='text-danger'>*</span>
             </Label>
             <Input
-              type='text'
-              name={`last-name-${type}`}
-              id={`last-name-${type}`}
-              placeholder='Doe'
+              name='lastName'
+              id='lastName'
+              autoComplete="off"
+              placeholder='John'
               innerRef={register({ required: true })}
-              className={classnames({ 'is-invalid': errors[`last-name-${type}`] })}
+              invalid={errors.lastName && true}
+              className={watch('lastName') ? classnames({ 'is-valid': !errors.lastName }) : ''}
             />
+            {errors && errors.lastName && <FormFeedback>{errors.lastName.message}</FormFeedback>}
           </FormGroup>
-            <FormGroup tag={Col} md='2'>
-            <Label className='form-label' for={`father-name-${type}`}>
-              Father Name
+
+          <FormGroup tag={Col} md='2'>
+            <Label for='fatherName'>
+              Father Name <span className='text-danger'>*</span>
             </Label>
             <Input
-              type='text'
-              name={`father-name-${type}`}
-              id={`father-name-${type}`}
-              placeholder='Doe'
+              name='fatherName'
+              id='fatherName'
+              autoComplete="off"
+              placeholder='John'
               innerRef={register({ required: true })}
-              className={classnames({ 'is-invalid': errors[`father-name-${type}`] })}
+              invalid={errors.fatherName && true}
+              className={watch('fatherName') ? classnames({ 'is-valid': !errors.fatherName }) : ''}
             />
+            {errors && errors.fatherName && <FormFeedback>{errors.fatherName.message}</FormFeedback>}
           </FormGroup>
-            <FormGroup tag={Col} md='2'>
-            <Label className='form-label' for={`grand-father-name-${type}`}>
-              Grand Father Name
+
+          <FormGroup tag={Col} md='2'>
+            <Label for='gFatherName'>
+              Grand Father Name <span className='text-danger'>*</span>
             </Label>
             <Input
-              type='text'
-              name={`grand-father-name-${type}`}
-              id={`grand-father-name-${type}`}
-              placeholder='Doe'
+              name='gFatherName'
+              id='gFatherName'
+              autoComplete="off"
+              placeholder='John'
               innerRef={register({ required: true })}
-              className={classnames({ 'is-invalid': errors[`grand-father-name-${type}`] })}
+              invalid={errors.gFatherName && true}
+              className={watch('gFatherName') ? classnames({ 'is-valid': !errors.gFatherName }) : ''}
             />
+            {errors && errors.gFatherName && <FormFeedback>{errors.gFatherName.message}</FormFeedback>}
           </FormGroup>
-           <FormGroup tag={Col} md='2'>
-            <Label className='form-label' for={`phone-${type}`}>
-              Phone Number
+
+          <FormGroup tag={Col} md='2'>
+            <Label for='phone'>
+              Phone No <span className='text-danger'>*</span>
             </Label>
             <Input
+              name='phone'
+              id='phone'
               type='number'
-              name={`phone-${type}`}
-              id={`phone-${type}`}
+              autoComplete="off"
               placeholder='1234567890'
               innerRef={register({ required: true })}
-              className={classnames({ 'is-invalid': errors[`phone-${type}`] })}
+              invalid={errors.phone && true}
+              className={watch('phone') ? classnames({ 'is-valid': !errors.phone }) : ''}
             />
+            {errors && errors.phone && <FormFeedback>{errors.phone.message}</FormFeedback>}
           </FormGroup>
+
           <FormGroup tag={Col} md='2'>
-            <Label className='form-label' for={`birth-date-${type}`}>
-              Birth Date
+            <Label for='birthDate'>
+              Birth Date <span className='text-danger'>*</span>
             </Label>
             <Input
+              name='birthDate'
+              id='birthDate'
               type='date'
-              name={`birth-date-${type}`}
-              id={`birth-date-${type}`}
-              placeholder='Doe'
+              autoComplete="off"
+              placeholder='1234567890'
               innerRef={register({ required: true })}
-              className={classnames({ 'is-invalid': errors[`birth-date-${type}`] })}
+              invalid={errors.birthDate && true}
+              className={watch('birthDate') ? classnames({ 'is-valid': !errors.birthDate }) : ''}
             />
+            {errors && errors.birthDate && <FormFeedback>{errors.birthDate.message}</FormFeedback>}
           </FormGroup>
-          
+
         </Row>
+
         <Row>
-             <FormGroup tag={Col} md='2'>
-         <Label className='form-label' for={`gender-${type}`}>
-              Gender
+
+          <FormGroup tag={Col} md='2'>
+            <Label for='gender'>
+              Gender <span className='text-danger'>*</span>
             </Label>
             <Select
               theme={selectThemeColors}
               isClearable={false}
-              id={`gender-${type}`}
-              className='react-select'
+              id='gender'
+              name='gender'
               classNamePrefix='select'
               options={genderOptions}
               defaultValue={genderOptions[0]}
+              innerRef={register({ required: true })}
+              invalid={errors.gender && true}
+              className={watch('gender') ? classnames({ 'is-valid': !errors.gender }) : ''}
             />
+            {errors && errors.gender && <FormFeedback>{errors.gender.message}</FormFeedback>}
           </FormGroup>
+
           <FormGroup tag={Col} md='2'>
-            <Label className='form-label' for={`language-${type}`}>
-             Native Language
+            <Label for='language'>
+              Native Language <span className='text-danger'>*</span>
             </Label>
             <Select
               theme={selectThemeColors}
               isClearable={false}
-              id={`language-${type}`}
-              className='react-select'
+              id='language'
+              name='language'
               classNamePrefix='select'
               options={languageOptions}
               defaultValue={languageOptions[0]}
+              innerRef={register({ required: true })}
+              invalid={errors.language && true}
+              className={watch('language') ? classnames({ 'is-valid': !errors.language }) : ''}
             />
+            {errors && errors.language && <FormFeedback>{errors.language.message}</FormFeedback>}
           </FormGroup>
+
           <FormGroup tag={Col} md='2'>
-            <Label className='form-label' for={`marital-state-${type}`}>
-              Marital State
+            <Label for='maritalState'>
+              Marital State <span className='text-danger'>*</span>
             </Label>
             <Select
               theme={selectThemeColors}
               isClearable={false}
-              id={`marital-state-${type}`}
-              className='react-select'
+              id='maritalState'
+              name='maritalState'
               classNamePrefix='select'
               options={maritalStateOptions}
               defaultValue={maritalStateOptions[0]}
+              innerRef={register({ required: true })}
+              invalid={errors.maritalState && true}
+              className={watch('maritalState') ? classnames({ 'is-valid': !errors.maritalState }) : ''}
             />
+            {errors && errors.maritalState && <FormFeedback>{errors.maritalState.message}</FormFeedback>}
           </FormGroup>
+
           <FormGroup tag={Col} md='2'>
-            <Label className='form-label' for={`role-no-${type}`}>
-              Role No 
+            <Label for='roleNo'>
+              Role No <span className='text-danger'>*</span>
             </Label>
             <Input
+              name='roleNo'
+              id='roleNo'
               type='number'
-              name={`role-no-${type}`}
-              id={`role-no-${type}`}
-              placeholder='12'
+              autoComplete="off"
+              placeholder='1'
               innerRef={register({ required: true })}
-              className={classnames({ 'is-invalid': errors[`role-no-${type}`] })}
+              invalid={errors.roleNo && true}
+              className={watch('roleNo') ? classnames({ 'is-valid': !errors.roleNo }) : ''}
             />
+            {errors && errors.roleNo && <FormFeedback>{errors.roleNo.message}</FormFeedback>}
           </FormGroup>
-           <FormGroup tag={Col} md='2'>
-            <Label className='form-label' for={`period-${type}`}>
-              Period 
+
+          <FormGroup tag={Col} md='2'>
+            <Label for='period'>
+              Period  <span className='text-danger'>*</span>
             </Label>
             <Input
+              name='period'
+              id='period'
               type='number'
-              name={`period-${type}`}
-              id={`period-${type}`}
-              placeholder='43'
+              autoComplete="off"
+              placeholder='1'
               innerRef={register({ required: true })}
-              className={classnames({ 'is-invalid': errors[`period-${type}`] })}
+              invalid={errors.period && true}
+              className={watch('period') ? classnames({ 'is-valid': !errors.period }) : ''}
             />
+            {errors && errors.period && <FormFeedback>{errors.period.message}</FormFeedback>}
           </FormGroup>
-           <FormGroup tag={Col} md='2'>
-            <Label className='form-label' for={`graduation-date-${type}`}>
-              Graduation Year 
+
+          <FormGroup tag={Col} md='2'>
+            <Label for='graduationYear'>
+              Graduation Year  <span className='text-danger'>*</span>
             </Label>
             <Input
-              type='number'
-              name={`graduation-date-${type}`}
-              id={`graduation-date-${type}`}
-              placeholder='1401'
+              name='graduationYear'
+              id='graduationYear'
+              autoComplete="off"
+              placeholder='1398'
               innerRef={register({ required: true })}
-              className={classnames({ 'is-invalid': errors[`graduation-date-${type}`] })}
+              invalid={errors.graduationYear && true}
+              className={watch('graduationYear') ? classnames({ 'is-valid': !errors.graduationYear }) : ''}
             />
+            {errors && errors.graduationYear && <FormFeedback>{errors.graduationYear.message}</FormFeedback>}
           </FormGroup>
-     
-          
+
         </Row>
+
         <div className='d-flex justify-content-between'>
           <Button.Ripple color='primary' className='btn-prev' onClick={() => stepper.previous()}>
             <ArrowLeft size={14} className='align-middle mr-sm-25 mr-0'></ArrowLeft>
