@@ -1,30 +1,39 @@
 import * as yup from 'yup'
 import { Fragment } from 'react'
+import { useSelector } from 'react-redux'
 import classnames from 'classnames'
 import { isObjEmpty } from '@utils'
 import { useForm } from 'react-hook-form'
 import { ArrowLeft, ArrowRight } from 'react-feather'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Form, Label, Input, FormGroup, Row, Col, Button } from 'reactstrap'
+import { Form, Label, Input, FormGroup, Row, Col, Button, FormFeedback } from 'reactstrap'
 
 const AccountDetails = ({ stepper, type }) => {
+
+
   const SignupSchema = yup.object().shape({
-    [`username-${type}`]: yup.string().required(),
-    [`email-${type}`]: yup.string().email().required(),
-    [`password-val-${type}`]: yup.string().required(),
-    'confirm-password-val': yup
-      .string()
-      .required()
-      .oneOf([yup.ref(`password-val-${type}`), null], 'Passwords must match')
+    username: yup.string().required().min(3, 'Username must be at least 3 characters'),
+    email: yup.string().email().required(),
+    password: yup.string().required().min(4, "Password must be at least 4 characters")
+    // confirm_password: yup
+    //   .string()
+    //   .required()
+    //   .oneOf([yup.ref(`password`), null], 'Passwords must match')
   })
 
-  const { register, errors, handleSubmit, trigger } = useForm({
+  const { studentInfo } = useSelector(state => state.students)
+  const { account } = studentInfo
+
+  const { register, errors, handleSubmit, trigger, watch } = useForm({
     resolver: yupResolver(SignupSchema)
   })
 
-  const onSubmit = () => {
+  const onSubmit = (value) => {
     trigger()
     if (isObjEmpty(errors)) {
+      account.username = value.username
+      account.email = value.email
+      account.password = value.password
       stepper.next()
     }
   }
@@ -38,56 +47,66 @@ const AccountDetails = ({ stepper, type }) => {
       <Form onSubmit={handleSubmit(onSubmit)} >
         <Row>
           <FormGroup tag={Col} md='6'>
-            <Label className='form-label' for={`username-${type}`}>
-              Username
+            <Label for='username'>
+              Username <span className='text-danger'>*</span>
             </Label>
             <Input
-              name={`username-${type}`}
-              id={`username-${type}`}
-              placeholder='johndoe'
+              name='username'
+              id='username'
+              placeholder='John'
               innerRef={register({ required: true })}
-              className={classnames({ 'is-invalid': errors[`username-${type}`] })}
+              invalid={errors.username && true}
+              className={watch('username') ? classnames({ 'is-valid': !errors.username }) : ''}
             />
+            {errors && errors.username && <FormFeedback>{errors.username.message}</FormFeedback>}
           </FormGroup>
           <FormGroup tag={Col} md='6'>
-            <Label className='form-label' for={`email-${type}`}>
-              Email
+            <Label for='email'>
+              Email <span className='text-danger'>*</span>
             </Label>
             <Input
-              type='email'
-              name={`email-${type}`}
-              id={`email-${type}`}
-              placeholder='john.doe@email.com'
+              name='email'
+              id='email'
+              autoComplete="off"
+              placeholder='John@gmail.com'
               innerRef={register({ required: true })}
-              className={classnames({ 'is-invalid': errors[`email-${type}`] })}
+              invalid={errors.email && true}
+              className={watch('email') ? classnames({ 'is-valid': !errors.email }) : ''}
             />
+            {errors && errors.email && <FormFeedback>{errors.email.message}</FormFeedback>}
           </FormGroup>
         </Row>
         <Row>
-          <div className='form-group form-password-toggle col-md-6'>
-            <Label className='form-label' for={`password-val-${type}`}>
-              Password
+          <FormGroup tag={Col} md='6'>
+            <Label for='passwrod'>
+              Password <span className='text-danger'>*</span>
             </Label>
             <Input
+              name='password'
+              id='password'
               type='password'
-              name={`password-val-${type}`}
-              id={`password-val-${type}`}
+              autoComplete="off"
               innerRef={register({ required: true })}
-              className={classnames({ 'is-invalid': errors[`password-val-${type}`] })}
+              invalid={errors.password && true}
+              className={watch('password') ? classnames({ 'is-valid': !errors.password }) : ''}
             />
-          </div>
-          <div className='form-group form-password-toggle col-md-6'>
-            <Label className='form-label' for='confirm-password-val'>
-              Confirm Password
+            {errors && errors.password && <FormFeedback>{errors.password.message}</FormFeedback>}
+          </FormGroup>
+          {/* <FormGroup tag={Col} md='6'>
+            <Label for='confirm_passwrod'>
+              Confirm Password <span className='text-danger'>*</span>
             </Label>
             <Input
+              name='confirm_passwrod'
+              id='confirm_passwrod'
               type='password'
-              name='confirm-password-val'
-              id='confirm-password-val'
+              autoComplete="off"
               innerRef={register({ required: true })}
-              className={classnames({ 'is-invalid': errors['confirm-password-val'] })}
+              invalid={errors.confirm_passwrod && true}
+              className={watch('confirm_passwrod') ? classnames({ 'is-valid': !errors.confirm_passwrod }) : ''}
             />
-          </div>
+            {errors && errors.confirm_passwrod && <FormFeedback>{errors.confirm_passwrod.message}</FormFeedback>}
+          </FormGroup> */}
         </Row>
         <div className='d-flex justify-content-between'>
           <Button.Ripple color='secondary' className='btn-prev' outline disabled>

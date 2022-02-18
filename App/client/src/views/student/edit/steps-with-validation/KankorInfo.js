@@ -1,17 +1,36 @@
+import * as yup from 'yup'
 import { Fragment } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import classnames from 'classnames'
 import { isObjEmpty } from '@utils'
 import { useForm } from 'react-hook-form'
 import { ArrowLeft } from 'react-feather'
-import { Label, FormGroup, Row, Col, Button, Form, Input } from 'reactstrap'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { Label, FormGroup, Row, Col, Button, Form, Input, FormFeedback } from 'reactstrap'
+import { addStudent } from '../../store/action'
 
 const KankorInfo = ({ stepper, type }) => {
-  const { register, errors, handleSubmit, trigger } = useForm()
 
-  const onSubmit = () => {
+  const StudentSchema = yup.object().shape({
+    kankorId: yup.string().required('Kankor ID is required field'),
+    kankorYear: yup.string().required("Kankor Year is required field"),
+    kankorScore: yup.string().required("Kankor Score Number is required field")
+  })
+  // ** React hook form
+  const { register, errors, handleSubmit, watch, trigger } = useForm({ mode: 'onChange', resolver: yupResolver(StudentSchema) })
+
+  const { studentInfo } = useSelector(state => state.students)
+  const { kankor } = studentInfo
+  const dispatch = useDispatch()
+
+  const onSubmit = (value) => {
     trigger()
     if (isObjEmpty(errors)) {
-      alert('submitted')
+      kankor.kankorid = value.kankorId
+      kankor.kankoryear = value.kankorYear
+      kankor.kankorscore = value.kankorScore
+
+      dispatch(addStudent(studentInfo))
     }
   }
 
@@ -25,46 +44,53 @@ const KankorInfo = ({ stepper, type }) => {
         <Row>
 
           <FormGroup tag={Col} md='6'>
-            <Label className='form-label' for={`kankor-id-${type}`}>
-              Kankor ID
+            <Label for='kankorId'>
+              Kankor ID  <span className='text-danger'>*</span>
             </Label>
             <Input
-              type='text'
-              name={`kankor-id-${type}`}
-              id={`kankor-id-${type}`}
-              placeholder='1401334'
+              name='kankorId'
+              id='kankorId'
+              autoComplete="off"
+              placeholder='PH12243'
               innerRef={register({ required: true })}
-              className={classnames({ 'is-invalid': errors[`kankor-id-${type}`] })}
+              invalid={errors.kankorId && true}
+              className={watch('kankorId') ? classnames({ 'is-valid': !errors.kankorId }) : ''}
             />
+            {errors && errors.kankorId && <FormFeedback>{errors.kankorId.message}</FormFeedback>}
           </FormGroup>
+
           <FormGroup tag={Col} md='6'>
-            <Label className='form-label' for={`kankor-year-${type}`}>
-              Kankor Year
+            <Label for='kankorYear'>
+              Kankor Year <span className='text-danger'>*</span>
             </Label>
             <Input
-              type='number'
-              name={`kankor-year-${type}`}
-              id={`kankor-year-${type}`}
+              name='kankorYear'
+              id='kankorYear'
+              autoComplete="off"
               placeholder='1398'
               innerRef={register({ required: true })}
-              className={classnames({ 'is-invalid': errors[`kankor-year-${type}`] })}
+              invalid={errors.kankorYear && true}
+              className={watch('kankorYear') ? classnames({ 'is-valid': !errors.kankorYear }) : ''}
             />
+            {errors && errors.kankorYear && <FormFeedback>{errors.kankorYear.message}</FormFeedback>}
           </FormGroup>
         </Row>
         <Row>
 
           <FormGroup tag={Col} md='6'>
-            <Label className='form-label' for={`kankor-score-${type}`}>
-              Kankor Score
+            <Label for='kankorScore'>
+              Kankor Score <span className='text-danger'>*</span>
             </Label>
             <Input
-              type='text'
-              name={`kankor-score-${type}`}
-              id={`kankor-score-${type}`}
-              placeholder='2343'
+              name='kankorScore'
+              id='kankorScore'
+              autoComplete="off"
+              placeholder='340'
               innerRef={register({ required: true })}
-              className={classnames({ 'is-invalid': errors[`kankor-score-${type}`] })}
+              invalid={errors.kankorScore && true}
+              className={watch('kankorScore') ? classnames({ 'is-valid': !errors.kankorScore }) : ''}
             />
+            {errors && errors.kankorScore && <FormFeedback>{errors.kankorScore.message}</FormFeedback>}
           </FormGroup>
         </Row>
 
