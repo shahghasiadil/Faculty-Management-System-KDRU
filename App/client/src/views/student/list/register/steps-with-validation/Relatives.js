@@ -67,7 +67,7 @@ const handleChange = (i, e) => {
           <CardBody>
           { formValues.map((element, index) => (
 
-                    <Form>
+
                       <Row className='justify-content-between align-items-center'>
                         <Col md='10'>
 
@@ -198,9 +198,6 @@ const handleChange = (i, e) => {
                         }
 
                       </Row>
-                    </Form>
-
-
                 ))}
             {/* </Repeater> */}
             <Button.Ripple className='btn-icon' color='primary' onClick={increaseCount}>

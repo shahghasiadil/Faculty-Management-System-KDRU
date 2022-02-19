@@ -1,6 +1,7 @@
 import * as yup from 'yup'
 import { Fragment } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import { useHistory} from 'react-router-dom'
 import classnames from 'classnames'
 import { isObjEmpty } from '@utils'
 import { useForm } from 'react-hook-form'
@@ -11,6 +12,7 @@ import { addStudent } from '../../../store/action'
 
 const KankorInfo = ({ stepper, type }) => {
 
+  const history = useHistory()
   const StudentSchema = yup.object().shape({
     kankorId: yup.string().required('Kankor ID is required field'),
     kankorYear: yup.string().required("Kankor Year is required field"),
@@ -23,7 +25,6 @@ const KankorInfo = ({ stepper, type }) => {
   const { studentInfo } = useSelector(state => state.students)
   const { kankor } = studentInfo
   const dispatch = useDispatch()
-
   const onSubmit = (value) => {
     trigger()
     if (isObjEmpty(errors)) {
@@ -31,8 +32,8 @@ const KankorInfo = ({ stepper, type }) => {
       kankor.kankor_year = value.kankorYear
       kankor.kankor_score = value.kankorScore
       kankor.school_name = value.school_name
-
       dispatch(addStudent(studentInfo))
+      history.push('/students')
     }
   }
 

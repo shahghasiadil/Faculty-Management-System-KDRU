@@ -159,8 +159,6 @@ const SubjectTab = ({ selectedSubject}) => {
         <Input type='select'
          name='select'
           id='select-basic'
-          // invalid={errors.credit && true}
-          // className={watch('credit') ? classnames({ 'is-valid': !errors.credit }) : ''}
             onChange = { (e) => { setValue(e.target.value) }}>
             <option selected value = {selectedSubject.semester_id} >{selectedSubject.semester.name}</option>
             {

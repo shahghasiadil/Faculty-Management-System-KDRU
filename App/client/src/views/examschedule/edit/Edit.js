@@ -60,7 +60,7 @@ const StudentTab = ({ selectedExamSchedule }) => {
   const loadTeachers = () => {
     axios.get('http://127.0.0.1:8000/api/teachers').then((res) => {
       for (const data of res.data.data) {
-          teachers.push({value:data.id, label:data.name})
+        setTeacher([...teachers, {value:data.id, label:data.name}])
       }
     })
   }
@@ -74,17 +74,15 @@ const StudentTab = ({ selectedExamSchedule }) => {
   useEffect(() => {
     if (selectedExamSchedule !== null || (selectedExamSchedule !== null && ScheduleData !== null && selectedExamSchedule.id !== ScheduleData.id)) {
       setScheduleData(selectedExamSchedule)
-     
+      loadSubjects()
+      loadTeachers()
     }
 
   }, [selectedExamSchedule])
   
-  useLayoutEffect(() => {
-    loadSubjects()
-    loadTeachers()
-  })
+
   const Selectedteacher =  teachers.findIndex(ndx => ndx.id !== selectedExamSchedule.teacher_id)
-  // console.log(teachers[Selectedteacher])
+  console.log(teachers[0])
   // ** Renders User
   const onSubmit = values => {
   
