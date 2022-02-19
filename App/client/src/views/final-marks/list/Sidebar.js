@@ -112,7 +112,6 @@ const SidebarNewMarks = ({ open, toggleSidebar }) => {
 
   // ** Function to handle form submit
   const onSubmit = (values) => {
-
     if (isObjEmpty(errors)) {
       toggleSidebar()
       dispatch(

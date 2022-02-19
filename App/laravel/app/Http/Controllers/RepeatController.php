@@ -19,7 +19,16 @@ class RepeatController extends Controller
      */
     public function index()
     {
-       
+        return $students_chance_credits_sum = DB::table('final_marks')
+        ->leftJoin('students', 'students.id', '=', 'final_marks.student_id')
+        ->leftJoin('subjects', 'subjects.id', '=', 'final_marks.subject_id')
+        ->select('final_marks.student_id',  DB::raw('sum(subjects.credit) as total_chance_credit'))
+        ->where('final_marks.year', '=', 2019)
+        ->where('semester_id', '=', 1)
+        ->where('final_marks.marks', '<', 55)
+        ->groupBy('student_id')
+        ->get();
+        
     }
 
     /**
@@ -51,7 +60,7 @@ class RepeatController extends Controller
         $students_chance_credits_sum = DB::table('final_marks')
         ->leftJoin('students', 'students.id', '=', 'final_marks.student_id')
         ->leftJoin('subjects', 'subjects.id', '=', 'final_marks.subject_id')
-        ->select('final_marks.student_id', DB::raw('sum(subjects.credit) as total_chance_credit'))
+        ->select('final_marks.student_id',  DB::raw('sum(subjects.credit) as total_chance_credit'))
         ->where('final_marks.year', '=', $request->year)
         ->where('semester_id', '=', $request->semester_id)
         ->where('final_marks.marks', '<', 55)
@@ -60,15 +69,31 @@ class RepeatController extends Controller
 
        // is used for inserting repeated students to repeat table
         foreach($students_chance_credits_sum as $std_credit_sum){
-            if( $std_credit_sum->total_chance_credit > ($sem_total_credits/2) ){
-                Repeat::create([
-                    'student_id' => $std_credit_sum->student_id,
-                    'semester_id' => $request->semester_id,
-                    'repeat_year' => $request->year
-                ]);
-                 }
-            }
-    }
+            
+            // if the secific record is exist do not add student to semester
+            $sem_student_exist = DB::table('semester_student')
+            ->where('semester_id', $request->semester_id)
+            ->where('student_id', $std_credit_sum->student_id)->doesntExist();
+             
+                if($sem_student_exist){
+                    $semester = Semester::find($request->semester_id);
+                    $semester->students()->attach($std_credit_sum->student_id);
+                }
+                if( $std_credit_sum->total_chance_credit > ($sem_total_credits/2) ){
+                    Repeat::create([
+                        'student_id' => $std_credit_sum->student_id,
+                        'semester_id' => $request->semester_id,
+                        'repeat_year' => $request->year
+                    ]);
+                
+                }else {
+                    // if student is not repeat so increment his semester in semester_student table
+                    $next_semester = $request->semester_id + 1;
+                    $semester = Semester::find($next_semester);
+                    $semester->students()->attach($std_credit_sum->student_id);
+                        }
+                    }
+        }
 
     /**
      * Display the specified resource.
@@ -114,4 +139,6 @@ class RepeatController extends Controller
     {
         //
     }
+    
+
 }
