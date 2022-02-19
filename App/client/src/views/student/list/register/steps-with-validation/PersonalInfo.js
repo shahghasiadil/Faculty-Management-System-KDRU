@@ -1,5 +1,5 @@
 import * as yup from 'yup'
-import { Fragment } from 'react'
+import { Fragment, useState } from 'react'
 import { useSelector } from 'react-redux'
 import Select from 'react-select'
 import classnames from 'classnames'
@@ -12,7 +12,9 @@ import { Label, FormGroup, Row, Col, Button, Form, Input, FormFeedback } from 'r
 import '@styles/react/libs/react-select/_react-select.scss'
 
 const PersonalInfo = ({ stepper, type }) => {
-
+  const [language, setLanguage] = useState('')
+  const [gender, setGender] = useState('')
+  const [status, setStatus] = useState('')
   const StudentSchema = yup.object().shape({
     firstName: yup.string().required('First Name is required field').min(3, 'First Name must be at least 3 characters'),
     lastName: yup.string().required("Last Name is required field").min(3, 'Last Name must be at least 3 characters'),
@@ -37,26 +39,26 @@ const PersonalInfo = ({ stepper, type }) => {
     trigger()
     if (isObjEmpty(errors)) {
 
-      personal.firstname = value.firstName
-      personal.lastname = value.lastName
-      personal.fathername = value.fatherName
-      personal.gfathername = value.gFatherName
+      personal.name = value.firstName
+      personal.last_name = value.lastName
+      personal.father_name = value.fatherName
+      personal.grand_father_name = value.gFatherName
       personal.phone = value.phone
-      personal.birthdate = value.birthDate
-      personal.gender = value.gender
-      personal.language = value.language
-      personal.maritalstate = value.maritalState
-      personal.roleno = value.roleNo
+      personal.birth_year = value.birthDate
+      personal.gender = gender
+      personal.native_tongue = language
+      personal.marital_status = status
+      personal.roll_no = value.roleNo
       personal.period = value.period
-      personal.graduationyear = value.graduationYear
+      personal.graduation_year = value.graduationYear
 
       stepper.next()
     }
   }
 
   const genderOptions = [
-    { value: 'M', label: 'Male' },
-    { value: 'F', label: 'Female' }
+    { value: 'Male', label: 'Male' },
+    { value: 'Female', label: 'Female' }
   ]
 
   const languageOptions = [
@@ -168,9 +170,9 @@ const PersonalInfo = ({ stepper, type }) => {
             <Input
               name='birthDate'
               id='birthDate'
-              type='date'
+              type='text'
               autoComplete="off"
-              placeholder='1234567890'
+              placeholder='123'
               innerRef={register({ required: true })}
               invalid={errors.birthDate && true}
               className={watch('birthDate') ? classnames({ 'is-valid': !errors.birthDate }) : ''}
@@ -193,9 +195,10 @@ const PersonalInfo = ({ stepper, type }) => {
               name='gender'
               classNamePrefix='select'
               options={genderOptions}
-              defaultValue={genderOptions[0]}
+              defaultValue={''}
               innerRef={register({ required: true })}
               invalid={errors.gender && true}
+              onChange={(e) => setGender(e.value) }
               className={watch('gender') ? classnames({ 'is-valid': !errors.gender }) : ''}
             />
             {errors && errors.gender && <FormFeedback>{errors.gender.message}</FormFeedback>}
@@ -212,9 +215,10 @@ const PersonalInfo = ({ stepper, type }) => {
               name='language'
               classNamePrefix='select'
               options={languageOptions}
-              defaultValue={languageOptions[0]}
+              defaultValue={''}
               innerRef={register({ required: true })}
               invalid={errors.language && true}
+              onChange={(e) => setLanguage(e.value) }
               className={watch('language') ? classnames({ 'is-valid': !errors.language }) : ''}
             />
             {errors && errors.language && <FormFeedback>{errors.language.message}</FormFeedback>}
@@ -231,9 +235,10 @@ const PersonalInfo = ({ stepper, type }) => {
               name='maritalState'
               classNamePrefix='select'
               options={maritalStateOptions}
-              defaultValue={maritalStateOptions[0]}
+              defaultValue={''}
               innerRef={register({ required: true })}
               invalid={errors.maritalState && true}
+              onChange={(e) => setStatus(e.value) }
               className={watch('maritalState') ? classnames({ 'is-valid': !errors.maritalState }) : ''}
             />
             {errors && errors.maritalState && <FormFeedback>{errors.maritalState.message}</FormFeedback>}

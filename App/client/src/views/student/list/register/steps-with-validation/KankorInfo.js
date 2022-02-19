@@ -14,7 +14,8 @@ const KankorInfo = ({ stepper, type }) => {
   const StudentSchema = yup.object().shape({
     kankorId: yup.string().required('Kankor ID is required field'),
     kankorYear: yup.string().required("Kankor Year is required field"),
-    kankorScore: yup.string().required("Kankor Score Number is required field")
+    kankorScore: yup.string().required("Kankor Score Number is required field"),
+    school_name: yup.string().required().label('School Name')
   })
   // ** React hook form
   const { register, errors, handleSubmit, watch, trigger } = useForm({ mode: 'onChange', resolver: yupResolver(StudentSchema) })
@@ -26,9 +27,10 @@ const KankorInfo = ({ stepper, type }) => {
   const onSubmit = (value) => {
     trigger()
     if (isObjEmpty(errors)) {
-      kankor.kankorid = value.kankorId
-      kankor.kankoryear = value.kankorYear
-      kankor.kankorscore = value.kankorScore
+      kankor.kankor_id = value.kankorId
+      kankor.kankor_year = value.kankorYear
+      kankor.kankor_score = value.kankorScore
+      kankor.school_name = value.school_name
 
       dispatch(addStudent(studentInfo))
     }
@@ -41,6 +43,24 @@ const KankorInfo = ({ stepper, type }) => {
         <small>Enter Student's Kankor Info.</small>
       </div>
       <Form onSubmit={handleSubmit(onSubmit)}>
+      <Row>
+
+<FormGroup tag={Col} md='6'>
+  <Label for='school_name'>
+    School Name <span className='text-danger'>*</span>
+  </Label>
+  <Input
+    name='school_name'
+    id='school_name'
+    autoComplete="off"
+    placeholder='340'
+    innerRef={register({ required: true })}
+    invalid={errors.school_name && true}
+    className={watch('school_name') ? classnames({ 'is-valid': !errors.school_name }) : ''}
+  />
+  {errors && errors.school_name && <FormFeedback>{errors.school_name.message}</FormFeedback>}
+</FormGroup>
+</Row>
         <Row>
 
           <FormGroup tag={Col} md='6'>
