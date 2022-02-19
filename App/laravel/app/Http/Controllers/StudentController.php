@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Address;
 use App\Models\Student;
 use App\Models\User;
 use App\Models\Subject;
 use App\Models\Semester;
 use App\Models\Relative;
+use Carbon\Carbon;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Hash;
 
 class StudentController extends Controller
@@ -22,7 +25,7 @@ class StudentController extends Controller
     // ** index method for getting data
     public function index()
     {
-        return Student::with(['user', 'address'])->latest()->paginate(10);
+        return new JsonResource(Student::with(['user', 'address','relatives'])->get());
     }
 
     /**
@@ -33,73 +36,91 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'national_id' => 'required|integer',
-            'name' => 'required|string|min:3|max:100',
-            'last_name' => 'required|string|min:3|max:100',
-            'father_name' => 'required|string|min:3|max:100',
-            'grand_father_name' => 'required|string|min:3|max:100',
-            'roll_no' => 'required|string|min:1|max:100',
-            'email' => 'required|email',
-            'password' => 'required',
-            'period' => 'required|integer',
-            'address_id' => 'required|integer',
-            'native_tongue' => 'string',
-            'tazkira_page' => 'int',
-            'tazkira_volume' => 'required',
-            'tazkira_registration_number' => 'int',
-            'birth_year' => 'int',
-            'marital_status' => 'string',
-            'school_name' => 'string',
-            'graduation_year' => 'int',
-            'kankor_year' => 'int',
-            'kankor_score' => 'between:0,355.99',
-            'kankor_id' => 'string',
-            'phone' => 'string'
-
+        $data = $this->validate($request, [
+            'personal.name' => 'required|string|min:3|max:100',
+            'personal.last_name' => 'required|string|min:3|max:100',
+            'personal.father_name' => 'required|string|min:3|max:100',
+            'personal.grand_father_name' => 'required|string|min:3|max:100',
+            'personal.roll_no' => 'required|string|min:1|max:100',
+            'account.email' => 'required|email',
+            'account.password' => 'required',
+            'account.username' => 'required',
+            'personal.period' => 'required|integer',
+            'personal.native_tongue' => 'string',
+            'tazkira.tazkira_page' => 'int',
+            'tazkira.tazkira_volume' => 'required',
+            'tazkira.tazkira_registration_number' => 'int',
+            'personal.birth_year' => 'string',
+            'personal.marital_status' => 'string',
+            'kankor.school_name' => 'string',
+            'personal.graduation_year' => 'int',
+            'kankor.kankor_year' => 'int',
+            'kankor.kankor_score' => 'between:0,355.99',
+            'kankor.kankor_id' => 'string',
+            'personal.phone' => 'string',
+            'personal.gender' => 'required'
         ]);
+
         try {
 
             $user = User::create([
-                'name' => $request->name,
-                'email' => $request->email,
+                'name' =>   $data['account']['username'],
+                'email' => $data['account']['email'],
                 'role' => 'STUDENT',
-                'password' => Hash::make($request->password),
+                'password' => Hash::make($data['account']['password']),
             ]);
 
-
+           $address =  Address::create([
+                'province' => $request['address']['province'],
+                'district' => $request['address']['district'],
+                'area' => $request['address']['area'],
+                'house_number' => $request['address']['house_no'],
+                'street_number' => $request['address']['street_no']
+            ]);
 
             $student = Student::create([
-                'national_id' => $request->national_id,
-                'name' => $request->name,
-                'last_name' => $request->last_name,
+                'name' => $data['personal']['name'],
+                'last_name' => $data['personal']['last_name'],
                 'user_id' => $user->id,
-                'address_id' => $request->address_id,
-                'period' => $request->period,
-                'father_name' => $request->father_name,
-                'grand_father_name'=> $request->grand_father_name,
-                'roll_no' => $request->roll_no,
-                'native_tongue' => $request->native_tongue,
-                'tazkira_page' => $request->tazkira_page,
-                'tazkira_volume' => $request->tazkira_volume,
-                'tazkira_registration_number' => $request->tazkira_registration_number,
-                'birth_year' => $request->birth_year,
-                'marital_status' => $request->marital_status,
-                'school_name' => $request->school_name,
-                'graduation_year' => $request->graduation_year,
-                'kankor_year' => $request->kankor_year,
-                'kankor_score' => $request->kankor_score,
-                'kankor_id' => $request->kankor_id,
-                'phone' => $request->phone
+                'address_id' => $address->id,
+                'period' => $data['personal']['period'],
+                'father_name' => $data['personal']['father_name'],
+                'grand_father_name'=>$data['personal']['grand_father_name'],
+                'roll_no' => $data['personal']['roll_no'],
+                'native_tongue' =>$data['personal']['native_tongue'],
+                'tazkira_page' => $data['tazkira']['tazkira_page'],
+                'tazkira_volume' => $data['tazkira']['tazkira_page'],
+                'tazkira_registration_number' => $data['tazkira']['tazkira_registration_number'],
+                'birth_year' => $data['personal']['birth_year'],
+                'marital_status' => $data['personal']['marital_status'],
+                'school_name' =>  $data['kankor']['school_name'],
+                'graduation_year' =>  $data['personal']['graduation_year'],
+                'kankor_year' => $data['kankor']['kankor_year'],
+                'kankor_score' => $data['kankor']['kankor_score'],
+                'kankor_id' => $data['kankor']['kankor_id'],
+                'phone' => $data['personal']['phone'],
+                'gender' => $data['personal']['gender']
             ]);
+
+            foreach($request->relative as $relative){
+                Relative::create([
+                    'relationship' => $relative['relationship'],
+                    'name' => $relative['name'],
+                    'father_name' => $relative['fathername'],
+                    'job' => $relative['job'],
+                    'phone' => $relative['phone'],
+                    'student_id' => $student->id,
+                    'academic_transfer'=> $relative['academicTransfer']
+                ]);
+            }
 
 
 
         } catch (QueryException $e) {
-            // if ($e->errorInfo[1] === 1062) {
-            //     return ("Duplicate Entry");
-            // }
-            echo($e);
+            if ($e->errorInfo[1] === 1062) {
+                return ("Duplicate Entry");
+            }
+
         }
     }
     
@@ -137,36 +158,31 @@ class StudentController extends Controller
     {
         $student = Student::findOrFail($id);
 
-        $this->validate($request, [
-            'national_id' => 'required|integer',
-            'name' => 'required|string|min:3|max:100',
-            'last_name' => 'required|string|min:3|max:100',
-            'father_name' => 'required|string|min:3|max:100',
-            'grand_father_name' => 'required|string|min:3|max:100',
-            'roll_no' => 'required|string|min:1|max:100',
-            'email' => 'required|email',
-            'password' => 'required',
-            'period' => 'required|integer',
-            'address_id' => 'required|integer',
-            'native_tongue' => 'string',
-            'tazkira_page' => 'int',
-            'tazkira_volume' => 'required',
-            'tazkira_registration_number' => 'int',
-            'birth_year' => 'int',
-            'marital_status' => 'string',
-            'school_name' => 'string',
-            'graduation_year' => 'int',
-            'kankor_year' => 'int',
-            'kankor_score' => 'between:0,355.99',
-            'kankor_id' => 'string',
-            'phone' => 'string',
-            'relationship' => 'required|string',
-            'name' => 'required|string',
-            'father_name' => 'required|string',
-            'job' => 'required|string',
-            'phone' => 'required|string',
-
+        $data = $this->validate($request, [
+            'personal.name' => 'required|string|min:3|max:100',
+            'personal.last_name' => 'required|string|min:3|max:100',
+            'personal.father_name' => 'required|string|min:3|max:100',
+            'personal.grand_father_name' => 'required|string|min:3|max:100',
+            'personal.roll_no' => 'required|string|min:1|max:100',
+            'account.email' => 'required|email',
+            'account.password' => 'required',
+            'account.username' => 'required',
+            'personal.period' => 'required|integer',
+            'personal.native_tongue' => 'string',
+            'tazkira.tazkira_page' => 'int',
+            'tazkira.tazkira_volume' => 'required',
+            'tazkira.tazkira_registration_number' => 'int',
+            'personal.birth_year' => 'string',
+            'personal.marital_status' => 'string',
+            'kankor.school_name' => 'string',
+            'personal.graduation_year' => 'int',
+            'kankor.kankor_year' => 'int',
+            'kankor.kankor_score' => 'between:0,355.99',
+            'kankor.kankor_id' => 'string',
+            'personal.phone' => 'string',
+            'personal.gender' => 'required'
         ]);
+
 
         $user = User::findOrFail($student->user_id);
         $user->name = $request->name;
@@ -175,30 +191,52 @@ class StudentController extends Controller
             $user->password =  Hash::make($request->password);
         }
         $user->save();
+        $address = Address::find($student->address_id);
+
+        $address->update([
+            'province' => $request['address']['province'],
+            'district' => $request['address']['district'],
+            'area' => $request['address']['area'],
+            'house_number' => $request['address']['house_no'],
+            'street_number' => $request['address']['street_no']
+        ]);
+
 
         $student->update([
-            'national_id' => $request->national_id,
-            'name' => $request->name,
-            'last_name' => $request->last_name,
-            'user_id' => $user->id,
-            'address_id' => $request->address_id,
-            'period' => $request->period,
-            'father_name' => $request->father_name,
-            'grand_father_name'=> $request->grand_father_name,
-            'roll_no' => $request->roll_no,
-            'native_tongue' => $request->native_tongue,
-            'tazkira_page' => $request->tazkira_page,
-            'tazkira_volume' => $request->tazkira_volume,
-            'tazkira_registration_number' => $request->tazkira_registration_number,
-            'birth_year' => $request->birth_year,
-            'marital_status' => $request->marital_status,
-            'school_name' => $request->school_name,
-            'graduation_year' => $request->graduation_year,
-            'kankor_year' => $request->kankor_year,
-            'kankor_score' => $request->kankor_score,
-            'kankor_id' => $request->kankor_id,
-            'phone' => $request->phone
+            'name' => $data['personal']['name'],
+                'last_name' => $data['personal']['last_name'],
+                'user_id' => $user->id,
+                'address_id' => $address->id,
+                'period' => $data['personal']['period'],
+                'father_name' => $data['personal']['father_name'],
+                'grand_father_name'=>$data['personal']['grand_father_name'],
+                'roll_no' => $data['personal']['roll_no'],
+                'native_tongue' =>$data['personal']['native_tongue'],
+                'tazkira_page' => $data['tazkira']['tazkira_page'],
+                'tazkira_volume' => $data['tazkira']['tazkira_page'],
+                'tazkira_registration_number' => $data['tazkira']['tazkira_registration_number'],
+                'birth_year' => $data['personal']['birth_year'],
+                'marital_status' => $data['personal']['marital_status'],
+                'school_name' =>  $data['kankor']['school_name'],
+                'graduation_year' =>  $data['personal']['graduation_year'],
+                'kankor_year' => $data['kankor']['kankor_year'],
+                'kankor_score' => $data['kankor']['kankor_score'],
+                'kankor_id' => $data['kankor']['kankor_id'],
+                'phone' => $data['personal']['phone'],
+                'gender' => $data['personal']['gender']
         ]);
+
+        foreach($request->relative as $relative){
+            Relative::updateOrCreate([
+                'relationship' => $relative['relationship'],
+                'name' => $relative['name'],
+                'father_name' => $relative['fathername'],
+                'job' => $relative['job'],
+                'phone' => $relative['phone'],
+                'student_id' => $student->id,
+                'academic_transfer'=> $relative['academicTransfer']
+            ]);
+        }
 
     }
 
@@ -206,6 +244,7 @@ class StudentController extends Controller
     public function destroy($id)
     {
         $students = Student::findOrFail($id);
+
         $students->delete();
     }
 

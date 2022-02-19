@@ -10,7 +10,7 @@ class Student extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['national_id', 'name', 'last_name', 'email', 'password', 'period','user_id','father_name','grand_father_name','roll_no','address_id', 'native_tongue', 'tazkira_volume', 'tazkira_page', 'tazkira_registration_number', 'birth_date', 'marital_status', 'school_name', 'graduation_year', 'kankor_score', 'kankor_year', 'kankor_id', 'phone'];
+    protected $guarded = [];
 
     public function relatives()
     {
