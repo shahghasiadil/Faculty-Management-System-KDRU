@@ -9,7 +9,6 @@ const initialState = {
     personal: {},
     tazkira: {},
     address: {},
-    relative: {},
     kankor: {}
   },
   total: 1,

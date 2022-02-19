@@ -17,7 +17,7 @@ const Relatives = ({ stepper, type }) => {
   const StudentSchema = yup.object().shape({
     relationship: yup.string().required('Relationship is required field').min(4, 'Relationship must be at least 3 characters'),
     name: yup.string().required("Name is required field").min(3, 'Name must be at least 3 characters'),
-    fatherName: yup.string().required("Father Name is required field").min(3, 'Father Name must be at least 3 characters'),
+    fathername: yup.string().required("Father Name is required field").min(3, 'Father Name must be at least 3 characters'),
     job: yup.string().required("Job is required field").min(3, 'Job must be at least 3 characters'),
     academicTransfer: yup.string().required("Academic transfer is required field").min(4, 'Academic transfer must be at least 3 characters'),
     phone: yup.string().required("Phone Number is required field")
@@ -26,37 +26,33 @@ const Relatives = ({ stepper, type }) => {
   const { register, errors, handleSubmit, watch, trigger } = useForm({ mode: 'onChange', resolver: yupResolver(StudentSchema) })
 
   const { studentInfo } = useSelector(state => state.students)
-  const { relative } = studentInfo
 
+  const [formValues, setFormValues] = useState([{ relationship: "", name: "", fathername:"", job:"", academicTransfer:"", phone:""}])
   const onSubmit = (value) => {
     trigger()
     if (isObjEmpty(errors)) {
-      relative.relationship = value.relationship
-      relative.name = value.name
-      relative.fathername = value.fatherName
-      relative.job = value.job
-      relative.academictransfer = value.academicTransfer
-      relative.phone = value.phone
-
+       studentInfo.relative = formValues
       stepper.next()
     }
   }
 
-  const [count, setCount] = useState(1)
-
   const increaseCount = () => {
-    setCount(count + 1)
+
+    setFormValues([...formValues, { relationship: "", name: "", fathername:"", job:"", academicTransfer:"", phone:""}])
+    // console.log(formValues)
   }
 
-  const deleteForm = e => {
-    e.preventDefault()
-    const slideDownWrapper = e.target.closest('.react-slidedown'),
-      form = e.target.closest('form')
-    if (slideDownWrapper) {
-      slideDownWrapper.remove()
-    } else {
-      form.remove()
-    }
+const handleChange = (i, e) => {
+    const newFormValues = [...formValues]
+    newFormValues[i][e.target.name] = e.target.value
+    setFormValues(newFormValues)
+    console.log(formValues)
+ }
+  const deleteForm = i => {
+    const newFormValues = [...formValues]
+    newFormValues.splice(i, 1)
+    setFormValues(newFormValues)
+
   }
 
   return (
@@ -69,11 +65,8 @@ const Relatives = ({ stepper, type }) => {
 
         <Card>
           <CardBody>
-            <Repeater count={count}>
-              {i => {
-                const Tag = i === 0 ? 'div' : SlideDown
-                return (
-                  <Tag key={i}>
+          { formValues.map((element, index) => (
+
                     <Form>
                       <Row className='justify-content-between align-items-center'>
                         <Col md='10'>
@@ -85,10 +78,12 @@ const Relatives = ({ stepper, type }) => {
                                 Relationship  <span className='text-danger'>*</span>
                               </Label>
                               <Input
+                                onChange={e => handleChange(index, e)}
                                 name='relationship'
-                                id='relationship'
+                                id={`crelationship-${index}`}
                                 autoComplete="off"
                                 placeholder='Uncle'
+                                defaultValue={element.relationship || ''}
                                 innerRef={register({ required: true })}
                                 invalid={errors.relationship && true}
                                 className={watch('relationship') ? classnames({ 'is-valid': !errors.relationship }) : ''}
@@ -102,9 +97,11 @@ const Relatives = ({ stepper, type }) => {
                               </Label>
                               <Input
                                 name='name'
-                                id='name'
+                                id={`name-${index}`}
+                                defaultValue={element.name || ""}
                                 autoComplete="off"
                                 placeholder='john'
+                                onChange={e => handleChange(index, e)}
                                 innerRef={register({ required: true })}
                                 invalid={errors.name && true}
                                 className={watch('name') ? classnames({ 'is-valid': !errors.name }) : ''}
@@ -114,13 +111,15 @@ const Relatives = ({ stepper, type }) => {
 
 
                             <FormGroup tag={Col} md='4'>
-                              <Label for='fatherName'>
+                              <Label for='fathername'>
                                 Father Name  <span className='text-danger'>*</span>
                               </Label>
                               <Input
-                                name='fatherName'
-                                id='fatherName'
+                                name='fathername'
+                                id= {`fatherName-${index}`}
+                                defaultValue={element.fathername || ''}
                                 autoComplete="off"
+                                onChange={e => handleChange(index, e)}
                                 placeholder='Doe'
                                 innerRef={register({ required: true })}
                                 invalid={errors.fatherName && true}
@@ -137,7 +136,9 @@ const Relatives = ({ stepper, type }) => {
                               </Label>
                               <Input
                                 name='job'
-                                id='job'
+                                onChange={e => handleChange(index, e)}
+                                id={`job-${index}`}
+                                defaultValue={element.job}
                                 autoComplete="off"
                                 placeholder='Web developer'
                                 innerRef={register({ required: true })}
@@ -153,8 +154,10 @@ const Relatives = ({ stepper, type }) => {
                               </Label>
                               <Input
                                 name='academicTransfer'
-                                id='academicTransfer'
+                                id={`academicTransfer-${index}`}
                                 autoComplete="off"
+                                onChange={e => handleChange(index, e)}
+                                defaultValue={element.academicTransfer}
                                 placeholder='Academic Transfer'
                                 innerRef={register({ required: true })}
                                 invalid={errors.academicTransfer && true}
@@ -169,8 +172,10 @@ const Relatives = ({ stepper, type }) => {
                               </Label>
                               <Input
                                 name='phone'
-                                id='phone'
+                                id={`phone-${index}`}
                                 autoComplete="off"
+                                defaultValue={element.phone}
+                                onChange={e => handleChange(index, e)}
                                 placeholder='1234567890'
                                 innerRef={register({ required: true })}
                                 invalid={errors.phone && true}
@@ -180,23 +185,24 @@ const Relatives = ({ stepper, type }) => {
                             </FormGroup>
                           </Row>
                         </Col>
-
-                        <Col md='2'>
+                        {
+                          index ? <Col md='2'>
 
                           <FormGroup tag={Col} md='2'>
-                            <Button.Ripple color='danger' className='text-nowrap px-1' onClick={deleteForm} outline>
+                            <Button.Ripple color='danger' className='text-nowrap px-1' onClick={ () => deleteForm(index) } outline>
                               <X size={14} className='mr-50' />
                               <span>Delete</span>
                             </Button.Ripple>
                           </FormGroup>
-                        </Col>
+                        </Col> : null
+                        }
 
                       </Row>
                     </Form>
-                  </Tag>
-                )
-              }}
-            </Repeater>
+
+
+                ))}
+            {/* </Repeater> */}
             <Button.Ripple className='btn-icon' color='primary' onClick={increaseCount}>
               <Plus size={14} />
               <span className='align-middle ml-25'>Add New</span>

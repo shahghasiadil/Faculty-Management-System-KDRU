@@ -30,9 +30,8 @@ const Address = ({ stepper, type }) => {
       address.province = value.province
       address.district = value.district
       address.area = value.area
-      address.streetNo = value.streetNo
-      address.houseNo = value.houseNo
-
+      address.street_no = value.streetNo
+      address.house_no = value.houseNo
       stepper.next()
     }
   }

@@ -26,9 +26,9 @@ const TazkiraInfo = ({ stepper, type }) => {
   const onSubmit = (value) => {
     trigger()
     if (isObjEmpty(errors)) {
-      tazkira.volume = value.tazkiraVolume
-      tazkira.page = value.tazkiraPage
-      tazkira.registerNo = value.registrationNo
+      tazkira.tazkira_volume = value.tazkiraVolume
+      tazkira.tazkira_page = value.tazkiraPage
+      tazkira.tazkira_registration_number = value.registrationNo
       stepper.next()
     }
   }

@@ -10,8 +10,9 @@ const RepeatingForm = () => {
     setCount(count + 1)
   }
 
-  const deleteForm = e => {
+  const deleteForm = (e) => {
     e.preventDefault()
+    // console.log(i)
     e.target.closest('form').remove()
   }
 
@@ -41,7 +42,7 @@ const RepeatingForm = () => {
                 <Col md={2}>
                   <FormGroup>
                     <Label for={`quantity-${i}`}>Quantity</Label>
-                    <Input type='number' id={`quantity-${i}`} placeholder='1' />
+                    <Input type='number' id={`quantity-${i}`} placeholder='1' value={i}/>
                   </FormGroup>
                 </Col>
                 <Col md={2}>
