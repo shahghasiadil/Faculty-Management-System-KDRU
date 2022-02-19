@@ -244,6 +244,7 @@ class StudentController extends Controller
     public function destroy($id)
     {
         $students = Student::findOrFail($id);
+
         $students->delete();
     }
 
