@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 
 // ** Student Edit Components
-import StudentTab from './Edit'
+import ExamSchedualEditView from './Edit'
 
 
 // ** Store & Actions
@@ -17,14 +17,15 @@ import { Card, CardBody, Row, Col, Nav, NavItem, NavLink, TabContent, TabPane, A
 // ** Styles
 import '@styles/react/apps/app-users.scss'
 
-const StudentEdit = () => {
+const ExamSchedualeEdit = () => {
   // ** States & Vars
   const [activeTab, setActiveTab] = useState('1'),
+
     store = useSelector(state => state.ExamSchedules),
 
     dispatch = useDispatch(),
     { id } = useParams()
-    console.log(store)
+  console.log(store)
   // ** Function to toggle tabs
   const toggle = tab => setActiveTab(tab)
 
@@ -48,7 +49,7 @@ const StudentEdit = () => {
             </Nav>
             <TabContent activeTab={activeTab}>
               <TabPane tabId='1'>
-                <StudentTab selectedExamSchedule={store.selectedExamSchedule} />
+                <ExamSchedualEditView selectedExamSchedule={store.selectedExamSchedule} />
               </TabPane>
 
             </TabContent>
@@ -60,9 +61,9 @@ const StudentEdit = () => {
     <Alert color='danger'>
       <h4 className='alert-heading'>ExamSchedule not found</h4>
       <div className='alert-body'>
-      ExamSchedule with id: {id} doesn't exist
+        ExamSchedule with id: {id} doesn't exist
       </div>
     </Alert>
   )
 }
-export default StudentEdit
+export default ExamSchedualeEdit

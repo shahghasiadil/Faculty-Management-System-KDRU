@@ -1,6 +1,6 @@
 
 import * as yup from 'yup'
-import { Fragment } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import classnames from 'classnames'
 import { isObjEmpty } from '@utils'
@@ -21,8 +21,16 @@ const Address = ({ stepper, type }) => {
   // ** React hook form
   const { register, errors, handleSubmit, watch, trigger } = useForm({ mode: 'onChange', resolver: yupResolver(StudentSchema) })
 
-  const { studentInfo } = useSelector(state => state.students)
+  const { studentInfo, selectedStudent } = useSelector(state => state.students)
   const { address } = studentInfo
+
+  const [studentData, setStudentData] = useState(null)
+
+  useEffect(() => {
+    if (selectedStudent !== null || (selectedStudent !== null && studentData !== null && selectedStudent.id !== StudentData.id)) {
+      setStudentData(selectedStudent)
+    }
+  }, [selectedStudent])
 
   const onSubmit = (value) => {
     trigger()
@@ -30,9 +38,8 @@ const Address = ({ stepper, type }) => {
       address.province = value.province
       address.district = value.district
       address.area = value.area
-      address.streetNo = value.streetNo
-      address.houseNo = value.houseNo
-
+      address.street_no = value.streetNo
+      address.house_no = value.houseNo
       stepper.next()
     }
   }
@@ -53,6 +60,7 @@ const Address = ({ stepper, type }) => {
             <Input
               name='province'
               id='province'
+              defaultValue={studentData && studentData.address.province}
               autoComplete="off"
               placeholder='Kabul'
               innerRef={register({ required: true })}
@@ -70,6 +78,7 @@ const Address = ({ stepper, type }) => {
             <Input
               name='district'
               id='district'
+              defaultValue={studentData && studentData.address.district}
               autoComplete="off"
               placeholder='Paghman'
               innerRef={register({ required: true })}
@@ -86,6 +95,7 @@ const Address = ({ stepper, type }) => {
             <Input
               name='area'
               id='area'
+              defaultValue={studentData && studentData.address.area}
               autoComplete="off"
               placeholder='Area'
               innerRef={register({ required: true })}
@@ -105,6 +115,7 @@ const Address = ({ stepper, type }) => {
             <Input
               name='streetNo'
               id='streetNo'
+              defaultValue={studentData && studentData.address.street_number}
               autoComplete="off"
               placeholder='8'
               innerRef={register({ required: true })}
@@ -121,6 +132,7 @@ const Address = ({ stepper, type }) => {
             <Input
               name='houseNo'
               id='houseNo'
+              defaultValue={studentData && studentData.address.house_number}
               autoComplete="off"
               placeholder='3'
               innerRef={register({ required: true })}

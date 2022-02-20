@@ -1,5 +1,5 @@
 import * as yup from 'yup'
-import { Fragment } from 'react'
+import { Fragment, useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import classnames from 'classnames'
 import { isObjEmpty } from '@utils'
@@ -15,18 +15,22 @@ const AccountDetails = ({ stepper, type }) => {
     username: yup.string().required().min(3, 'Username must be at least 3 characters'),
     email: yup.string().email().required(),
     password: yup.string().required().min(4, "Password must be at least 4 characters")
-    // confirm_password: yup
-    //   .string()
-    //   .required()
-    //   .oneOf([yup.ref(`password`), null], 'Passwords must match')
   })
 
-  const { studentInfo } = useSelector(state => state.students)
+  const { studentInfo, selectedStudent } = useSelector(state => state.students)
   const { account } = studentInfo
+
+  const [studentData, setStudentData] = useState(null)
 
   const { register, errors, handleSubmit, trigger, watch } = useForm({
     resolver: yupResolver(SignupSchema)
   })
+
+  useEffect(() => {
+    if (selectedStudent !== null || (selectedStudent !== null && studentData !== null && selectedStudent.id !== StudentData.id)) {
+      setStudentData(selectedStudent)
+    }
+  }, [selectedStudent])
 
   const onSubmit = (value) => {
     trigger()
@@ -53,6 +57,7 @@ const AccountDetails = ({ stepper, type }) => {
             <Input
               name='username'
               id='username'
+              defaultValue={studentData && studentData.user.name}
               placeholder='John'
               innerRef={register({ required: true })}
               invalid={errors.username && true}
@@ -68,6 +73,7 @@ const AccountDetails = ({ stepper, type }) => {
               name='email'
               id='email'
               autoComplete="off"
+              defaultValue={studentData && studentData.user.email}
               placeholder='John@gmail.com'
               innerRef={register({ required: true })}
               invalid={errors.email && true}
@@ -85,6 +91,7 @@ const AccountDetails = ({ stepper, type }) => {
               name='password'
               id='password'
               type='password'
+              defaultValue={studentData && studentData.user.password}
               autoComplete="off"
               innerRef={register({ required: true })}
               invalid={errors.password && true}

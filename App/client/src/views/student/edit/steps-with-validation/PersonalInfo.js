@@ -1,5 +1,5 @@
 import * as yup from 'yup'
-import { Fragment } from 'react'
+import { Fragment, useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import Select from 'react-select'
 import classnames from 'classnames'
@@ -13,6 +13,11 @@ import '@styles/react/libs/react-select/_react-select.scss'
 
 const PersonalInfo = ({ stepper, type }) => {
 
+  const [language, setLanguage] = useState('')
+  const [gender, setGender] = useState('')
+  const [status, setStatus] = useState('')
+  const [studentData, setStudentData] = useState(null)
+
   const StudentSchema = yup.object().shape({
     firstName: yup.string().required('First Name is required field').min(3, 'First Name must be at least 3 characters'),
     lastName: yup.string().required("Last Name is required field").min(3, 'Last Name must be at least 3 characters'),
@@ -20,7 +25,7 @@ const PersonalInfo = ({ stepper, type }) => {
     gFatherName: yup.string().required("Grand Father Name is required field").min(3, 'Grand Father Name must be at least 3 characters'),
     phone: yup.string().required("Phone Number is required field"),
     birthDate: yup.string().required("Birth Date is required field"),
-    //gender: yup.string().required("Gender is required field"),
+    //gender: yup.string().required("Gender is required field").oneOf(genderOptions),
     //language: yup.string().required("Native Language is required field"),
     //maritalstate: yup.string().required("Marital State is required field"),
     roleNo: yup.string().required("Role Number is required field").max(2, "Role number must be 2 digits"),
@@ -30,33 +35,40 @@ const PersonalInfo = ({ stepper, type }) => {
   // ** React hook form
   const { register, errors, handleSubmit, watch, trigger } = useForm({ mode: 'onChange', resolver: yupResolver(StudentSchema) })
 
-  const { studentInfo } = useSelector(state => state.students)
+  const { studentInfo, selectedStudent } = useSelector(state => state.students)
   const { personal } = studentInfo
+
+  useEffect(() => {
+    if (selectedStudent !== null || (selectedStudent !== null && studentData !== null && selectedStudent.id !== StudentData.id)) {
+      setStudentData(selectedStudent)
+      setLanguage(selectedStudent.native_tongue)
+    }
+  }, [selectedStudent])
 
   const onSubmit = (value) => {
     trigger()
     if (isObjEmpty(errors)) {
 
-      personal.firstname = value.firstName
-      personal.lastname = value.lastName
-      personal.fathername = value.fatherName
-      personal.gfathername = value.gFatherName
+      personal.name = value.firstName
+      personal.last_name = value.lastName
+      personal.father_name = value.fatherName
+      personal.grand_father_name = value.gFatherName
       personal.phone = value.phone
-      personal.birthdate = value.birthDate
-      personal.gender = value.gender
-      personal.language = value.language
-      personal.maritalstate = value.maritalState
-      personal.roleno = value.roleNo
+      personal.birth_year = value.birthDate
+      personal.gender = gender
+      personal.native_tongue = language
+      personal.marital_status = status
+      personal.roll_no = value.roleNo
       personal.period = value.period
-      personal.graduationyear = value.graduationYear
+      personal.graduation_year = value.graduationYear
 
       stepper.next()
     }
   }
 
   const genderOptions = [
-    { value: 'M', label: 'Male' },
-    { value: 'F', label: 'Female' }
+    { value: 'Male', label: 'Male' },
+    { value: 'Female', label: 'Female' }
   ]
 
   const languageOptions = [
@@ -80,13 +92,14 @@ const PersonalInfo = ({ stepper, type }) => {
       <Form onSubmit={handleSubmit(onSubmit)}>
 
         <Row>
-          <FormGroup tag={Col} md='2'>
+          <FormGroup tag={Col} md='3'>
             <Label for='firstName'>
               First Name <span className='text-danger'>*</span>
             </Label>
             <Input
               name='firstName'
               id='firstName'
+              defaultValue={studentData && studentData.name}
               autoComplete="off"
               placeholder='John'
               innerRef={register({ required: true })}
@@ -96,13 +109,14 @@ const PersonalInfo = ({ stepper, type }) => {
             {errors && errors.firstName && <FormFeedback>{errors.firstName.message}</FormFeedback>}
           </FormGroup>
 
-          <FormGroup tag={Col} md='2'>
+          <FormGroup tag={Col} md='3'>
             <Label for='lastName'>
               Last Name <span className='text-danger'>*</span>
             </Label>
             <Input
               name='lastName'
               id='lastName'
+              defaultValue={studentData && studentData.last_name}
               autoComplete="off"
               placeholder='John'
               innerRef={register({ required: true })}
@@ -112,13 +126,14 @@ const PersonalInfo = ({ stepper, type }) => {
             {errors && errors.lastName && <FormFeedback>{errors.lastName.message}</FormFeedback>}
           </FormGroup>
 
-          <FormGroup tag={Col} md='2'>
+          <FormGroup tag={Col} md='3'>
             <Label for='fatherName'>
               Father Name <span className='text-danger'>*</span>
             </Label>
             <Input
               name='fatherName'
               id='fatherName'
+              defaultValue={studentData && studentData.father_name}
               autoComplete="off"
               placeholder='John'
               innerRef={register({ required: true })}
@@ -128,13 +143,14 @@ const PersonalInfo = ({ stepper, type }) => {
             {errors && errors.fatherName && <FormFeedback>{errors.fatherName.message}</FormFeedback>}
           </FormGroup>
 
-          <FormGroup tag={Col} md='2'>
+          <FormGroup tag={Col} md='3'>
             <Label for='gFatherName'>
               Grand Father Name <span className='text-danger'>*</span>
             </Label>
             <Input
               name='gFatherName'
               id='gFatherName'
+              defaultValue={studentData && studentData.grand_father_name}
               autoComplete="off"
               placeholder='John'
               innerRef={register({ required: true })}
@@ -144,13 +160,18 @@ const PersonalInfo = ({ stepper, type }) => {
             {errors && errors.gFatherName && <FormFeedback>{errors.gFatherName.message}</FormFeedback>}
           </FormGroup>
 
-          <FormGroup tag={Col} md='2'>
+        </Row>
+
+        <Row>
+
+          <FormGroup tag={Col} md='3'>
             <Label for='phone'>
               Phone No <span className='text-danger'>*</span>
             </Label>
             <Input
               name='phone'
               id='phone'
+              defaultValue={studentData && studentData.phone}
               type='number'
               autoComplete="off"
               placeholder='1234567890'
@@ -161,66 +182,7 @@ const PersonalInfo = ({ stepper, type }) => {
             {errors && errors.phone && <FormFeedback>{errors.phone.message}</FormFeedback>}
           </FormGroup>
 
-          <FormGroup tag={Col} md='2'>
-            <Label for='birthDate'>
-              Birth Date <span className='text-danger'>*</span>
-            </Label>
-            <Input
-              name='birthDate'
-              id='birthDate'
-              type='date'
-              autoComplete="off"
-              placeholder='1234567890'
-              innerRef={register({ required: true })}
-              invalid={errors.birthDate && true}
-              className={watch('birthDate') ? classnames({ 'is-valid': !errors.birthDate }) : ''}
-            />
-            {errors && errors.birthDate && <FormFeedback>{errors.birthDate.message}</FormFeedback>}
-          </FormGroup>
-
-        </Row>
-
-        <Row>
-
-          <FormGroup tag={Col} md='2'>
-            <Label for='gender'>
-              Gender <span className='text-danger'>*</span>
-            </Label>
-            <Select
-              theme={selectThemeColors}
-              isClearable={false}
-              id='gender'
-              name='gender'
-              classNamePrefix='select'
-              options={genderOptions}
-              defaultValue={genderOptions[0]}
-              innerRef={register({ required: true })}
-              invalid={errors.gender && true}
-              className={watch('gender') ? classnames({ 'is-valid': !errors.gender }) : ''}
-            />
-            {errors && errors.gender && <FormFeedback>{errors.gender.message}</FormFeedback>}
-          </FormGroup>
-
-          <FormGroup tag={Col} md='2'>
-            <Label for='language'>
-              Native Language <span className='text-danger'>*</span>
-            </Label>
-            <Select
-              theme={selectThemeColors}
-              isClearable={false}
-              id='language'
-              name='language'
-              classNamePrefix='select'
-              options={languageOptions}
-              defaultValue={languageOptions[0]}
-              innerRef={register({ required: true })}
-              invalid={errors.language && true}
-              className={watch('language') ? classnames({ 'is-valid': !errors.language }) : ''}
-            />
-            {errors && errors.language && <FormFeedback>{errors.language.message}</FormFeedback>}
-          </FormGroup>
-
-          <FormGroup tag={Col} md='2'>
+          <FormGroup tag={Col} md='3'>
             <Label for='maritalState'>
               Marital State <span className='text-danger'>*</span>
             </Label>
@@ -229,17 +191,80 @@ const PersonalInfo = ({ stepper, type }) => {
               isClearable={false}
               id='maritalState'
               name='maritalState'
+              defaultValue={studentData && studentData.marital_status}
               classNamePrefix='select'
               options={maritalStateOptions}
-              defaultValue={maritalStateOptions[0]}
               innerRef={register({ required: true })}
               invalid={errors.maritalState && true}
+              onChange={(e) => setStatus(e.value)}
               className={watch('maritalState') ? classnames({ 'is-valid': !errors.maritalState }) : ''}
             />
             {errors && errors.maritalState && <FormFeedback>{errors.maritalState.message}</FormFeedback>}
           </FormGroup>
 
-          <FormGroup tag={Col} md='2'>
+          <FormGroup tag={Col} md='3'>
+            <Label for='gender'>
+              Gender <span className='text-danger'>*</span>
+            </Label>
+            <Select
+              theme={selectThemeColors}
+              isClearable={false}
+              id='gender'
+              name='gender'
+              defaultValue={' '}
+              classNamePrefix='select'
+              options={genderOptions}
+              innerRef={register({ required: true })}
+              invalid={errors.gender && true}
+              onChange={(e) => setGender(e.value)}
+              className={watch('gender') ? classnames({ 'is-valid': !errors.gender }) : ''}
+            />
+            {errors && errors.gender && <FormFeedback>{errors.gender.message}</FormFeedback>}
+          </FormGroup>
+
+          <FormGroup tag={Col} md='3'>
+            <Label for='language'>
+              Native Language <span className='text-danger'>*</span>
+            </Label>
+            <Select
+              theme={selectThemeColors}
+              isClearable={false}
+              id='language'
+              name='language'
+              // defaultValue={languageOptions[0]}
+              classNamePrefix='select'
+              options={languageOptions}
+              innerRef={register({ required: true })}
+              invalid={errors.language && true}
+              onChange={(e) => setLanguage(e.value)}
+              className={watch('language') ? classnames({ 'is-valid': !errors.language }) : ''}
+            />
+            {errors && errors.language && <FormFeedback>{errors.language.message}</FormFeedback>}
+          </FormGroup>
+
+        </Row>
+
+        <Row>
+
+          <FormGroup tag={Col} md='3'>
+            <Label for='birthDate'>
+              Birth Date <span className='text-danger'>*</span>
+            </Label>
+            <Input
+              name='birthDate'
+              id='birthDate'
+              type='text'
+              defaultValue={studentData && studentData.birth_year}
+              autoComplete="off"
+              placeholder='123'
+              innerRef={register({ required: true })}
+              invalid={errors.birthDate && true}
+              className={watch('birthDate') ? classnames({ 'is-valid': !errors.birthDate }) : ''}
+            />
+            {errors && errors.birthDate && <FormFeedback>{errors.birthDate.message}</FormFeedback>}
+          </FormGroup>
+
+          <FormGroup tag={Col} md='3'>
             <Label for='roleNo'>
               Role No <span className='text-danger'>*</span>
             </Label>
@@ -247,6 +272,7 @@ const PersonalInfo = ({ stepper, type }) => {
               name='roleNo'
               id='roleNo'
               type='number'
+              defaultValue={studentData && studentData.roll_no}
               autoComplete="off"
               placeholder='1'
               innerRef={register({ required: true })}
@@ -256,7 +282,7 @@ const PersonalInfo = ({ stepper, type }) => {
             {errors && errors.roleNo && <FormFeedback>{errors.roleNo.message}</FormFeedback>}
           </FormGroup>
 
-          <FormGroup tag={Col} md='2'>
+          <FormGroup tag={Col} md='3'>
             <Label for='period'>
               Period  <span className='text-danger'>*</span>
             </Label>
@@ -264,6 +290,7 @@ const PersonalInfo = ({ stepper, type }) => {
               name='period'
               id='period'
               type='number'
+              defaultValue={studentData && studentData.period}
               autoComplete="off"
               placeholder='1'
               innerRef={register({ required: true })}
@@ -273,13 +300,14 @@ const PersonalInfo = ({ stepper, type }) => {
             {errors && errors.period && <FormFeedback>{errors.period.message}</FormFeedback>}
           </FormGroup>
 
-          <FormGroup tag={Col} md='2'>
+          <FormGroup tag={Col} md='3'>
             <Label for='graduationYear'>
               Graduation Year  <span className='text-danger'>*</span>
             </Label>
             <Input
               name='graduationYear'
               id='graduationYear'
+              defaultValue={studentData && studentData.graduation_year}
               autoComplete="off"
               placeholder='1398'
               innerRef={register({ required: true })}

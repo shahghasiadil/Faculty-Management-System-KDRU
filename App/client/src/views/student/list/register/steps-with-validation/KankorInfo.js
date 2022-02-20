@@ -1,7 +1,7 @@
 import * as yup from 'yup'
 import { Fragment } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { useHistory} from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import classnames from 'classnames'
 import { isObjEmpty } from '@utils'
 import { useForm } from 'react-hook-form'
@@ -32,7 +32,9 @@ const KankorInfo = ({ stepper, type }) => {
       kankor.kankor_year = value.kankorYear
       kankor.kankor_score = value.kankorScore
       kankor.school_name = value.school_name
+
       dispatch(addStudent(studentInfo))
+      console.log('data is sending', studentInfo)
       history.push('/students')
     }
   }
@@ -44,24 +46,24 @@ const KankorInfo = ({ stepper, type }) => {
         <small>Enter Student's Kankor Info.</small>
       </div>
       <Form onSubmit={handleSubmit(onSubmit)}>
-      <Row>
+        <Row>
 
-<FormGroup tag={Col} md='6'>
-  <Label for='school_name'>
-    School Name <span className='text-danger'>*</span>
-  </Label>
-  <Input
-    name='school_name'
-    id='school_name'
-    autoComplete="off"
-    placeholder='340'
-    innerRef={register({ required: true })}
-    invalid={errors.school_name && true}
-    className={watch('school_name') ? classnames({ 'is-valid': !errors.school_name }) : ''}
-  />
-  {errors && errors.school_name && <FormFeedback>{errors.school_name.message}</FormFeedback>}
-</FormGroup>
-</Row>
+          <FormGroup tag={Col} md='6'>
+            <Label for='school_name'>
+              School Name <span className='text-danger'>*</span>
+            </Label>
+            <Input
+              name='school_name'
+              id='school_name'
+              autoComplete="off"
+              placeholder='340'
+              innerRef={register({ required: true })}
+              invalid={errors.school_name && true}
+              className={watch('school_name') ? classnames({ 'is-valid': !errors.school_name }) : ''}
+            />
+            {errors && errors.school_name && <FormFeedback>{errors.school_name.message}</FormFeedback>}
+          </FormGroup>
+        </Row>
         <Row>
 
           <FormGroup tag={Col} md='6'>

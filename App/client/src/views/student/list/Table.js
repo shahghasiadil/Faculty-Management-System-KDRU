@@ -61,10 +61,9 @@ const StudentsList = () => {
   // ** Get data on mount
   useEffect(() => {
     dispatch(getAllData())
-    dispatch(getData())
+    //dispatch(getData())
 
-  }, [dispatch, store])
-
+  }, [store.allData])
 
   // ** navigation to student registration view
   const registerStudent = () => {
@@ -77,7 +76,7 @@ const StudentsList = () => {
       <div className='invoice-list-table-header w-100 mr-1 ml-50 mt-2 mb-75'>
         <Row>
           <Col xl='6' className='d-flex align-items-center p-0'>
-            <div className='d-flex align-items-center w-100'>
+            {/* <div className='d-flex align-items-center w-100'>
               <Label for='rows-per-page'>Show</Label>
               <CustomInput
                 className='form-control mx-50'
@@ -95,8 +94,8 @@ const StudentsList = () => {
                 <option value='25'>25</option>
                 <option value='50'>50</option>
               </CustomInput>
-              <Label for='rows-per-page'>Entries</Label>
-            </div>
+              <Label for='rows-per-page'>Entries</Label> 
+          </div>*/}
           </Col>
           <Col
             xl='6'
@@ -119,54 +118,23 @@ const StudentsList = () => {
             </Button.Ripple>
           </Col>
         </Row>
-      </div>
+      </div >
     )
-  }
-
-  // ** Function in get data on page change
-  const handlePagination = () => {
-    dispatch(getData())
   }
 
   // ** Function in get data on rows per page
   const handlePerPage = e => {
     const value = parseInt(e.currentTarget.value)
-    dispatch(
-      getData()
-    )
     setRowsPerPage(value)
   }
 
   // ** Function in get data on search query change
   const handleFilter = val => {
     setSearchTerm(val)
-    dispatch(
-      getData()
-    )
   }
 
-  // ** Custom Pagination
-  const CustomPagination = () => {
-    const count = Number(Math.ceil(store.total / rowsPerPage))
-
-    return (
-      <ReactPaginate
-        previousLabel={''}
-        nextLabel={''}
-        pageCount={count || 1}
-        activeClassName='active'
-        forcePage={currentPage !== 0 ? currentPage - 1 : 0}
-        onPageChange={handlePagination}
-        pageClassName={'page-item'}
-        nextLinkClassName={'page-link'}
-        nextClassName={'page-item next'}
-        previousClassName={'page-item prev'}
-        previousLinkClassName={'page-link'}
-        pageLinkClassName={'page-link'}
-        containerClassName={'pagination react-paginate justify-content-end my-2 pr-1'}
-      />
-    )
-  }
+  // ** Search filtering
+  const filteredData = store.allData.filter(item => item.name.toLowerCase().includes(searchTerm))
 
   return (
     <Fragment>
@@ -176,16 +144,15 @@ const StudentsList = () => {
           pagination
           subHeader
           responsive
-          paginationServer
           columns={columns}
           sortIcon={<ChevronDown />}
-          className='react-dataTable'
-          paginationComponent={CustomPagination}
-          //data={dataToRender()}
+          className="react-dataTable"
+          //paginationComponent={CustomPagination}
+          data={filteredData}
           subHeaderComponent={
             <CustomHeader
               toggleSidebar={toggleSidebar}
-              handlePerPage={handlePerPage}
+              handlePerPage="10"
               rowsPerPage={rowsPerPage}
               searchTerm={searchTerm}
               handleFilter={handleFilter}
@@ -197,8 +164,6 @@ const StudentsList = () => {
       {/* <Sidebar open={sidebarOpen} toggleSidebar={toggleSidebar} /> */}
     </Fragment>
   )
-
-
 }
 
 export default StudentsList

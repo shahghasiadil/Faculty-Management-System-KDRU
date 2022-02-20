@@ -1,6 +1,6 @@
 
 import * as yup from 'yup'
-import { Fragment } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import classnames from 'classnames'
 import { isObjEmpty } from '@utils'
@@ -16,19 +16,26 @@ const TazkiraInfo = ({ stepper, type }) => {
     tazkiraPage: yup.string().required("Tazkira Page is required field"),
     registrationNo: yup.string().required("Registration Number is required field")
   })
+
+  const [studentData, setStudentData] = useState(null)
   // ** React hook form
   const { register, errors, handleSubmit, watch, trigger } = useForm({ mode: 'onChange', resolver: yupResolver(StudentSchema) })
 
-  const { studentInfo } = useSelector(state => state.students)
+  const { studentInfo, selectedStudent } = useSelector(state => state.students)
   const { tazkira } = studentInfo
 
+  useEffect(() => {
+    if (selectedStudent !== null || (selectedStudent !== null && studentData !== null && selectedStudent.id !== StudentData.id)) {
+      setStudentData(selectedStudent)
+    }
+  }, [selectedStudent])
 
   const onSubmit = (value) => {
     trigger()
     if (isObjEmpty(errors)) {
-      tazkira.volume = value.tazkiraVolume
-      tazkira.page = value.tazkiraPage
-      tazkira.registerNo = value.registrationNo
+      tazkira.tazkira_volume = value.tazkiraVolume
+      tazkira.tazkira_page = value.tazkiraPage
+      tazkira.tazkira_registration_number = value.registrationNo
       stepper.next()
     }
   }
@@ -49,6 +56,7 @@ const TazkiraInfo = ({ stepper, type }) => {
             <Input
               name='tazkiraVolume'
               id='tazkiraVolume'
+              defaultValue={studentData && studentData.tazkira_volume}
               autoComplete="off"
               placeholder='123-456-789'
               innerRef={register({ required: true })}
@@ -65,6 +73,7 @@ const TazkiraInfo = ({ stepper, type }) => {
             <Input
               name='tazkiraPage'
               id='tazkiraPage'
+              defaultValue={studentData && studentData.tazkira_page}
               autoComplete="off"
               placeholder='12'
               innerRef={register({ required: true })}
@@ -83,6 +92,7 @@ const TazkiraInfo = ({ stepper, type }) => {
             <Input
               name='registrationNo'
               id='registrationNo'
+              defaultValue={studentData && studentData.tazkira_registration_number}
               placeholder='123'
               innerRef={register({ required: true })}
               invalid={errors.registrationNo && true}
