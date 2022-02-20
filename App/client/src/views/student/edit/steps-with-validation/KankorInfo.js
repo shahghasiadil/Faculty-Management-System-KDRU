@@ -1,36 +1,50 @@
 import * as yup from 'yup'
-import { Fragment } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import { useHistory } from 'react-router-dom'
 import classnames from 'classnames'
 import { isObjEmpty } from '@utils'
 import { useForm } from 'react-hook-form'
 import { ArrowLeft } from 'react-feather'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Label, FormGroup, Row, Col, Button, Form, Input, FormFeedback } from 'reactstrap'
-import { addStudent } from '../../store/action'
+import { updateStudent } from '../../store/action'
 
 const KankorInfo = ({ stepper, type }) => {
 
+  const history = useHistory()
   const StudentSchema = yup.object().shape({
     kankorId: yup.string().required('Kankor ID is required field'),
     kankorYear: yup.string().required("Kankor Year is required field"),
-    kankorScore: yup.string().required("Kankor Score Number is required field")
+    kankorScore: yup.string().required("Kankor Score Number is required field"),
+    school_name: yup.string().required().label('School Name')
   })
   // ** React hook form
   const { register, errors, handleSubmit, watch, trigger } = useForm({ mode: 'onChange', resolver: yupResolver(StudentSchema) })
 
-  const { studentInfo } = useSelector(state => state.students)
+  const { studentInfo, selectedStudent } = useSelector(state => state.students)
   const { kankor } = studentInfo
-  const dispatch = useDispatch()
 
+  const [studentData, setStudentData] = useState(null)
+
+  useEffect(() => {
+    if (selectedStudent !== null || (selectedStudent !== null && studentData !== null && selectedStudent.id !== StudentData.id)) {
+      setStudentData(selectedStudent)
+    }
+  }, [selectedStudent])
+
+  const dispatch = useDispatch()
   const onSubmit = (value) => {
     trigger()
     if (isObjEmpty(errors)) {
-      kankor.kankorid = value.kankorId
-      kankor.kankoryear = value.kankorYear
-      kankor.kankorscore = value.kankorScore
+      kankor.kankor_id = value.kankorId
+      kankor.kankor_year = value.kankorYear
+      kankor.kankor_score = value.kankorScore
+      kankor.school_name = value.school_name
 
-      dispatch(addStudent(studentInfo))
+      dispatch(updateStudent(studentInfo, selectedStudent.id))
+
+      history.push('/students')
     }
   }
 
@@ -44,12 +58,32 @@ const KankorInfo = ({ stepper, type }) => {
         <Row>
 
           <FormGroup tag={Col} md='6'>
+            <Label for='school_name'>
+              School Name <span className='text-danger'>*</span>
+            </Label>
+            <Input
+              name='school_name'
+              id='school_name'
+              defaultValue={studentData && studentData.school_name}
+              autoComplete="off"
+              placeholder='340'
+              innerRef={register({ required: true })}
+              invalid={errors.school_name && true}
+              className={watch('school_name') ? classnames({ 'is-valid': !errors.school_name }) : ''}
+            />
+            {errors && errors.school_name && <FormFeedback>{errors.school_name.message}</FormFeedback>}
+          </FormGroup>
+        </Row>
+        <Row>
+
+          <FormGroup tag={Col} md='6'>
             <Label for='kankorId'>
               Kankor ID  <span className='text-danger'>*</span>
             </Label>
             <Input
               name='kankorId'
               id='kankorId'
+              defaultValue={studentData && studentData.kankor_id}
               autoComplete="off"
               placeholder='PH12243'
               innerRef={register({ required: true })}
@@ -66,6 +100,7 @@ const KankorInfo = ({ stepper, type }) => {
             <Input
               name='kankorYear'
               id='kankorYear'
+              defaultValue={studentData && studentData.kankor_year}
               autoComplete="off"
               placeholder='1398'
               innerRef={register({ required: true })}
@@ -84,6 +119,7 @@ const KankorInfo = ({ stepper, type }) => {
             <Input
               name='kankorScore'
               id='kankorScore'
+              defaultValue={studentData && studentData.kankor_score}
               autoComplete="off"
               placeholder='340'
               innerRef={register({ required: true })}

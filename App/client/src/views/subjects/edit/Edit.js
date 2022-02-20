@@ -49,8 +49,7 @@ const SubjectTab = ({ selectedSubject}) => {
     axios.get('http://127.0.0.1:8000/api/get-semesters').then((res) => {
 
       setSemesters(res.data)
-    
-
+      
     })
   }
   const SubjectSchema = yup.object().shape({
@@ -159,8 +158,6 @@ const SubjectTab = ({ selectedSubject}) => {
         <Input type='select'
          name='select'
           id='select-basic'
-          // invalid={errors.credit && true}
-          // className={watch('credit') ? classnames({ 'is-valid': !errors.credit }) : ''}
             onChange = { (e) => { setValue(e.target.value) }}>
             <option selected value = {selectedSubject.semester_id} >{selectedSubject.semester.name}</option>
             {

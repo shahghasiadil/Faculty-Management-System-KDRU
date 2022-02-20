@@ -82,7 +82,7 @@ const PersonalInfo = ({ stepper, type }) => {
       <Form onSubmit={handleSubmit(onSubmit)}>
 
         <Row>
-          <FormGroup tag={Col} md='2'>
+          <FormGroup tag={Col} md='3'>
             <Label for='firstName'>
               First Name <span className='text-danger'>*</span>
             </Label>
@@ -98,7 +98,7 @@ const PersonalInfo = ({ stepper, type }) => {
             {errors && errors.firstName && <FormFeedback>{errors.firstName.message}</FormFeedback>}
           </FormGroup>
 
-          <FormGroup tag={Col} md='2'>
+          <FormGroup tag={Col} md='3'>
             <Label for='lastName'>
               Last Name <span className='text-danger'>*</span>
             </Label>
@@ -114,7 +114,7 @@ const PersonalInfo = ({ stepper, type }) => {
             {errors && errors.lastName && <FormFeedback>{errors.lastName.message}</FormFeedback>}
           </FormGroup>
 
-          <FormGroup tag={Col} md='2'>
+          <FormGroup tag={Col} md='3'>
             <Label for='fatherName'>
               Father Name <span className='text-danger'>*</span>
             </Label>
@@ -130,7 +130,7 @@ const PersonalInfo = ({ stepper, type }) => {
             {errors && errors.fatherName && <FormFeedback>{errors.fatherName.message}</FormFeedback>}
           </FormGroup>
 
-          <FormGroup tag={Col} md='2'>
+          <FormGroup tag={Col} md='3'>
             <Label for='gFatherName'>
               Grand Father Name <span className='text-danger'>*</span>
             </Label>
@@ -146,7 +146,13 @@ const PersonalInfo = ({ stepper, type }) => {
             {errors && errors.gFatherName && <FormFeedback>{errors.gFatherName.message}</FormFeedback>}
           </FormGroup>
 
-          <FormGroup tag={Col} md='2'>
+
+        </Row>
+
+        <Row>
+
+
+          <FormGroup tag={Col} md='3'>
             <Label for='phone'>
               Phone No <span className='text-danger'>*</span>
             </Label>
@@ -163,7 +169,72 @@ const PersonalInfo = ({ stepper, type }) => {
             {errors && errors.phone && <FormFeedback>{errors.phone.message}</FormFeedback>}
           </FormGroup>
 
-          <FormGroup tag={Col} md='2'>
+          <FormGroup tag={Col} md='3'>
+            <Label for='maritalState'>
+              Marital State <span className='text-danger'>*</span>
+            </Label>
+            <Select
+              theme={selectThemeColors}
+              isClearable={false}
+              id='maritalState'
+              name='maritalState'
+              classNamePrefix='select'
+              options={maritalStateOptions}
+              defaultValue={''}
+              innerRef={register({ required: true })}
+              invalid={errors.maritalState && true}
+              onChange={(e) => setStatus(e.value)}
+              className={watch('maritalState') ? classnames({ 'is-valid': !errors.maritalState }) : ''}
+            />
+            {errors && errors.maritalState && <FormFeedback>{errors.maritalState.message}</FormFeedback>}
+          </FormGroup>
+
+
+          <FormGroup tag={Col} md='3'>
+            <Label for='gender'>
+              Gender <span className='text-danger'>*</span>
+            </Label>
+            <Select
+              theme={selectThemeColors}
+              isClearable={false}
+              id='gender'
+              name='gender'
+              classNamePrefix='select'
+              options={genderOptions}
+              defaultValue={''}
+              innerRef={register({ required: true })}
+              invalid={errors.gender && true}
+              onChange={(e) => setGender(e.value)}
+              className={watch('gender') ? classnames({ 'is-valid': !errors.gender }) : ''}
+            />
+            {errors && errors.gender && <FormFeedback>{errors.gender.message}</FormFeedback>}
+          </FormGroup>
+
+          <FormGroup tag={Col} md='3'>
+            <Label for='language'>
+              Native Language <span className='text-danger'>*</span>
+            </Label>
+            <Select
+              theme={selectThemeColors}
+              isClearable={false}
+              id='language'
+              name='language'
+              classNamePrefix='select'
+              options={languageOptions}
+              defaultValue={''}
+              innerRef={register({ required: true })}
+              invalid={errors.language && true}
+              onChange={(e) => setLanguage(e.value)}
+              className={watch('language') ? classnames({ 'is-valid': !errors.language }) : ''}
+            />
+            {errors && errors.language && <FormFeedback>{errors.language.message}</FormFeedback>}
+          </FormGroup>
+
+        </Row>
+
+        <Row>
+
+          <FormGroup tag={Col} md='3'>
             <Label for='birthDate'>
               Birth Date <span className='text-danger'>*</span>
             </Label>
@@ -180,71 +251,7 @@ const PersonalInfo = ({ stepper, type }) => {
             {errors && errors.birthDate && <FormFeedback>{errors.birthDate.message}</FormFeedback>}
           </FormGroup>
 
-        </Row>
-
-        <Row>
-
-          <FormGroup tag={Col} md='2'>
-            <Label for='gender'>
-              Gender <span className='text-danger'>*</span>
-            </Label>
-            <Select
-              theme={selectThemeColors}
-              isClearable={false}
-              id='gender'
-              name='gender'
-              classNamePrefix='select'
-              options={genderOptions}
-              defaultValue={''}
-              innerRef={register({ required: true })}
-              invalid={errors.gender && true}
-              onChange={(e) => setGender(e.value) }
-              className={watch('gender') ? classnames({ 'is-valid': !errors.gender }) : ''}
-            />
-            {errors && errors.gender && <FormFeedback>{errors.gender.message}</FormFeedback>}
-          </FormGroup>
-
-          <FormGroup tag={Col} md='2'>
-            <Label for='language'>
-              Native Language <span className='text-danger'>*</span>
-            </Label>
-            <Select
-              theme={selectThemeColors}
-              isClearable={false}
-              id='language'
-              name='language'
-              classNamePrefix='select'
-              options={languageOptions}
-              defaultValue={''}
-              innerRef={register({ required: true })}
-              invalid={errors.language && true}
-              onChange={(e) => setLanguage(e.value) }
-              className={watch('language') ? classnames({ 'is-valid': !errors.language }) : ''}
-            />
-            {errors && errors.language && <FormFeedback>{errors.language.message}</FormFeedback>}
-          </FormGroup>
-
-          <FormGroup tag={Col} md='2'>
-            <Label for='maritalState'>
-              Marital State <span className='text-danger'>*</span>
-            </Label>
-            <Select
-              theme={selectThemeColors}
-              isClearable={false}
-              id='maritalState'
-              name='maritalState'
-              classNamePrefix='select'
-              options={maritalStateOptions}
-              defaultValue={''}
-              innerRef={register({ required: true })}
-              invalid={errors.maritalState && true}
-              onChange={(e) => setStatus(e.value) }
-              className={watch('maritalState') ? classnames({ 'is-valid': !errors.maritalState }) : ''}
-            />
-            {errors && errors.maritalState && <FormFeedback>{errors.maritalState.message}</FormFeedback>}
-          </FormGroup>
-
-          <FormGroup tag={Col} md='2'>
+          <FormGroup tag={Col} md='3'>
             <Label for='roleNo'>
               Role No <span className='text-danger'>*</span>
             </Label>
@@ -261,7 +268,7 @@ const PersonalInfo = ({ stepper, type }) => {
             {errors && errors.roleNo && <FormFeedback>{errors.roleNo.message}</FormFeedback>}
           </FormGroup>
 
-          <FormGroup tag={Col} md='2'>
+          <FormGroup tag={Col} md='3'>
             <Label for='period'>
               Period  <span className='text-danger'>*</span>
             </Label>
@@ -278,7 +285,7 @@ const PersonalInfo = ({ stepper, type }) => {
             {errors && errors.period && <FormFeedback>{errors.period.message}</FormFeedback>}
           </FormGroup>
 
-          <FormGroup tag={Col} md='2'>
+          <FormGroup tag={Col} md='3'>
             <Label for='graduationYear'>
               Graduation Year  <span className='text-danger'>*</span>
             </Label>

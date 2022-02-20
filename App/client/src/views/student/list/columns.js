@@ -88,13 +88,13 @@ export const columns = [
             tag={Link}
             to={`/students/edit/${row.id}`}
             className='w-100'
-            // onClick={() => store.dispatch(getStudent(row.id))}
+            onClick={() => store.dispatch(getStudent(row.id))}
           >
             <Archive size={14} className='mr-50' />
             <span className='align-middle'>Edit</span>
           </DropdownItem>
           <DropdownItem className='w-100' onClick={() => store.dispatch(deleteStudent(row.id))}>
-            <Delete  size={14} className='mr-50' />
+            <Delete size={14} className='mr-50' />
             <span className='align-middle'>Delete</span>
           </DropdownItem>
         </DropdownMenu>

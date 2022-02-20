@@ -73,7 +73,7 @@ export const addStudent = student => {
 
       })
       .catch(() => {
-        toast.success(<ErrorToast />)
+        toast.error(<ErrorToast />)
       })
   }
 }

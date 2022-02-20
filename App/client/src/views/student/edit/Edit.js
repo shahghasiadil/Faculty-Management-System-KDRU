@@ -84,7 +84,7 @@ const Edit = () => {
         </BreadcrumbItem>
       </Breadcrumb>
 
-      <Wizard instance={el => setStepper(el)} ref={ref} steps={steps} />
+      <Wizard type="modern-vertical" instance={el => setStepper(el)} ref={ref} steps={steps} />
     </div>
   )
 }
