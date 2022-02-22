@@ -14,6 +14,7 @@ import { useHistory } from 'react-router-dom'
 import Avatar from '@components/avatar'
 import classnames from 'classnames'
 import { Check } from "react-feather"
+import { updateExamSchedule } from '../store/action'
 // ** Third Party Components
 import axios from 'axios'
 import Select from 'react-select'
@@ -41,18 +42,18 @@ const ExamSchedualEditView = ({ selectedExamSchedule }) => {
   // ** States
   const history = useHistory()
   const [ScheduleData, setScheduleData] = useState(null)
-  const [value, setVaules] = useState(0)
+  const [value, setVaules] = useState(selectedExamSchedule.subject_id)
   const [picker, setPicker] = useState(selectedExamSchedule.date)
   const [subjects, setSubject] = useState([])
   const [teachers, setTeacher] = useState([])
-  const [teacher, setTeachers] = useState(0)
+  const [teacher, setTeachers] = useState(selectedExamSchedule.teacher_id)
   const dispatch = useDispatch()
   // ** Function to change user image
 
   const loadSubjects = () => {
     axios.get('http://127.0.0.1:8000/api/subjects').then((res) => {
       for (const data of res.data.data) {
-        subjects.push({ value: data.id, label: data.name })
+        subjects.push({ id: data.id, name: data.name })
       }
     })
   }
@@ -60,7 +61,7 @@ const ExamSchedualEditView = ({ selectedExamSchedule }) => {
   const loadTeachers = () => {
     axios.get('http://127.0.0.1:8000/api/teachers').then((res) => {
       for (const data of res.data.data) {
-        setTeacher([...teachers, { value: data.id, label: data.name }])
+        setTeacher([...teachers, { id: data.id, value: data.name }])
       }
     })
   }
@@ -68,6 +69,14 @@ const ExamSchedualEditView = ({ selectedExamSchedule }) => {
   const StudentSchema = yup.object().shape({
 
   })
+
+  const dx = teachers.filter(ndx => ndx.id !== ScheduleData.teacher_id)
+  const sub = subjects.filter(ndx => ndx.id !== ScheduleData.subject_id)
+
+  const opt = dx.map((item, i) => {
+    console.log(item)
+    return (<option defaultValue= {item.id} key = {i}>{item.name}</option>)
+   })
 
   const { register, errors, handleSubmit, watch } = useForm({ mode: 'onChange', resolver: yupResolver(StudentSchema) })
   // ** Update user image on mount or change
@@ -82,23 +91,28 @@ const ExamSchedualEditView = ({ selectedExamSchedule }) => {
 
 
   // if (teachers.length > 0) {
-  //   const Selectedteacher = teachers.findIndex(ndx => ndx.id !== selectedExamSchedule.teacher_id)
+  //
   //   setTeacher(Selectedteacher)
   // }
 
-  // console.log(teachers[0])
+  // const Selectedteacher = subjects.findIndex(ndx => ndx.id === selectedExamSchedule.subject_id)
+  // // console.log(Selectedteacher)
+  // setTeacher(Selectedteacher)
   // ** Renders User
   const onSubmit = values => {
 
     if (isObjEmpty(errors)) {
+      console.log(value)
       dispatch(
         updateExamSchedule({
-
+          date:picker,
+          subject_id:value,
+          teacher_id:teacher
         }, selectedExamSchedule.id)
       )
 
     }
-    history.push('/examschedules')
+    history.push('/exam-schedule')
   }
 
   return (
@@ -116,31 +130,33 @@ const ExamSchedualEditView = ({ selectedExamSchedule }) => {
             <Col md='4' sm='12'>
               <FormGroup>
                 <Label>Subject</Label>
-                <Select
-                  theme={selectThemeColors}
-                  className='react-select'
-                  classNamePrefix='select'
-                  defaultValue={''}
-                  name='clear'
-                  options={subjects}
-
-                  onChange={(e) => { setVaules(e.value) }}
-                />
+                <Input type='select'
+                name='select'
+                id='select-basic'
+                onChange = { (e) => { setTeacher(e.target.value) }}>
+                <option selected defaultValue= {selectedExamSchedule.subject_id} >{selectedExamSchedule.subject.name}</option>
+                {
+                    sub.map((item, i) => {
+                      // console.log(item)
+                      return (<option defaultValue= {item.id} key = {i}>{item.name}</option>)
+                     })
+                }
+            </Input>
               </FormGroup>
             </Col>
             <Col md='4' sm='12'>
               <FormGroup>
                 <Label>Teacher</Label>
-                <Select
-                  theme={selectThemeColors}
-                  className='react-select'
-                  classNamePrefix='select'
-                  defaultValue={teachers[teacher]}
-                  name='clear'
-                  options={teachers}
+                <Input type='select'
+                name='select'
+                id='select-basic'
+                onChange = { (e) => { setVaules(e.target.value) }}>
+                <option selected defaultValue= {selectedExamSchedule.teacher_id} >{selectedExamSchedule.teacher.name}</option>
+                {
+                    opt
+                }
+          </Input>
 
-                  onChange={(e) => { setTeachers(e.value) }}
-                />
               </FormGroup>
             </Col>
 

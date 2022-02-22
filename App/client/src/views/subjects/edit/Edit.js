@@ -47,9 +47,7 @@ const SubjectTab = ({ selectedSubject}) => {
   const options = []
   function loadSemesters () {
     axios.get('http://127.0.0.1:8000/api/get-semesters').then((res) => {
-
       setSemesters(res.data)
-      
     })
   }
   const SubjectSchema = yup.object().shape({
