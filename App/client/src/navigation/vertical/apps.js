@@ -64,12 +64,6 @@ export default [
     navLink: '/registrations'
   },
   {
-    id:'schedules',
-    title:'Schedules',
-    icon:<Layers size = {20}/>,
-    navLink:'/schedules'
-  },  
-  {
     id: 'users',
     title: 'User',
     icon: <User size={20} />,
