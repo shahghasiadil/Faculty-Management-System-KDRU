@@ -36,6 +36,11 @@ const AppRoutes = [
 
   // exam schedule route
   {
+    path: '/attendances',
+    exact: true,
+    component: lazy(() => import('../../views/attendances/list'))
+  },
+  {
     path: '/assign-marks',
     exact: true,
     component: lazy(() => import('../../views/assign-marks/list'))
