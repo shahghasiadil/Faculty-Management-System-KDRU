@@ -81,8 +81,12 @@ const ExamSchedualEditView = ({ selectedExamSchedule }) => {
   }, [selectedExamSchedule])
 
 
-  const Selectedteacher = teachers.findIndex(ndx => ndx.id !== selectedExamSchedule.teacher_id)
-  console.log(teachers[0])
+  // if (teachers.length > 0) {
+  //   const Selectedteacher = teachers.findIndex(ndx => ndx.id !== selectedExamSchedule.teacher_id)
+  //   setTeacher(Selectedteacher)
+  // }
+
+  // console.log(teachers[0])
   // ** Renders User
   const onSubmit = values => {
 
@@ -131,7 +135,7 @@ const ExamSchedualEditView = ({ selectedExamSchedule }) => {
                   theme={selectThemeColors}
                   className='react-select'
                   classNamePrefix='select'
-                  defaultValue={teachers[Selectedteacher]}
+                  defaultValue={teachers[teacher]}
                   name='clear'
                   options={teachers}
 

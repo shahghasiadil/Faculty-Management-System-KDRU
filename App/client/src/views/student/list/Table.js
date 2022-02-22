@@ -63,7 +63,7 @@ const StudentsList = () => {
     dispatch(getAllData())
     //dispatch(getData())
 
-  }, [store.data.length])
+  }, [store.allData.length])
 
   // ** navigation to student registration view
   const registerStudent = () => {
