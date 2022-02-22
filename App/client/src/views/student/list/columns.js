@@ -48,20 +48,6 @@ export const columns = [
     cell: row => row.roll_no
   },
   {
-    name: 'NID',
-    minWidth: '100px',
-    selector: 'national_id',
-    sortable: true,
-    cell: row => row.national_id
-  },
-  {
-    name: 'Email',
-    minWidth: '320px',
-    selector: 'email',
-    sortable: true,
-    cell: row => row.email
-  },
-  {
     name: 'Period',
     minWidth: '138px',
     selector: 'period',
