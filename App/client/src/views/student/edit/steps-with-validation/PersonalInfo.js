@@ -16,6 +16,7 @@ const PersonalInfo = ({ stepper, type }) => {
   const [language, setLanguage] = useState('')
   const [gender, setGender] = useState('')
   const [status, setStatus] = useState('')
+
   const [studentData, setStudentData] = useState(null)
 
   const StudentSchema = yup.object().shape({
@@ -34,10 +35,8 @@ const PersonalInfo = ({ stepper, type }) => {
   })
   // ** React hook form
   const { register, errors, handleSubmit, watch, trigger } = useForm({ mode: 'onChange', resolver: yupResolver(StudentSchema) })
-
   const { studentInfo, selectedStudent } = useSelector(state => state.students)
   const { personal } = studentInfo
-
   useEffect(() => {
     if (selectedStudent !== null || (selectedStudent !== null && studentData !== null && selectedStudent.id !== StudentData.id)) {
       setStudentData(selectedStudent)
@@ -65,11 +64,16 @@ const PersonalInfo = ({ stepper, type }) => {
       stepper.next()
     }
   }
-
+  const [genderIndex, setGenderIndex] = useState(0)
   const genderOptions = [
     { value: 'Male', label: 'Male' },
     { value: 'Female', label: 'Female' }
   ]
+
+    // const d =  genderOptions.findIndex(el => el.value === selectedStudent.gender)
+    // setGenderIndex(d)
+    console.log(selectedStudent)
+
 
   const languageOptions = [
     { value: 'Pashto', label: 'Pashto' },
@@ -211,7 +215,7 @@ const PersonalInfo = ({ stepper, type }) => {
               isClearable={false}
               id='gender'
               name='gender'
-              defaultValue={' '}
+              defaultValue={selectedStudent.gender}
               classNamePrefix='select'
               options={genderOptions}
               innerRef={register({ required: true })}

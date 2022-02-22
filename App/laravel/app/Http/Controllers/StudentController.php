@@ -158,6 +158,7 @@ class StudentController extends Controller
     {
         $student = Student::findOrFail($id);
 
+        // return $request;
         $data = $this->validate($request, [
             'personal.name' => 'required|string|min:3|max:100',
             'personal.last_name' => 'required|string|min:3|max:100',
@@ -185,10 +186,10 @@ class StudentController extends Controller
 
 
         $user = User::findOrFail($student->user_id);
-        $user->name = $request->name;
-        $user->email = $request->email;
+        $user->name = $data['account']['username'];
+        $user->email = $data['account']['email'];
         if ($request->password){
-            $user->password =  Hash::make($request->password);
+            $user->password =  Hash::make($data['account']['password']);
         }
         $user->save();
         $address = Address::find($student->address_id);
@@ -237,6 +238,8 @@ class StudentController extends Controller
                 'academic_transfer'=> $relative['academicTransfer']
             ]);
         }
+
+        return "Done!";
 
     }
 
