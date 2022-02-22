@@ -30,7 +30,7 @@ const StudentEdit = () => {
   // ** Function to get student on mount
   useEffect(() => {
     dispatch(getStudent(parseInt(id)))
-  }, [])
+  }, [dispatch])
 
   return store.selectedStudent !== null && store.selectedStudent !== undefined ? (
     <Row className='app-user-edit'>
