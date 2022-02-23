@@ -38,12 +38,28 @@ const PersonalInfo = ({ stepper, type }) => {
   const { studentInfo, selectedStudent } = useSelector(state => state.students)
   const { personal } = studentInfo
 
+  const [genderIndex, setGenderIndex] = useState(0)
+
   useEffect(() => {
     if (selectedStudent !== null || (selectedStudent !== null && studentData !== null && selectedStudent.id !== StudentData.id)) {
       setStudentData(selectedStudent)
-      setLanguage(selectedStudent.native_tongue)
+
+
+      if (selectedStudent.native_tongue === "Pashto") {
+
+        setGenderIndex(0)
+
+      } else if (selectedStudent.native_tongue === "Dari") {
+
+        setGenderIndex(1)
+
+      } else {
+
+        setGenderIndex(2)
+      }
     }
   }, [selectedStudent])
+
 
   const onSubmit = (value) => {
     trigger()
@@ -211,7 +227,7 @@ const PersonalInfo = ({ stepper, type }) => {
               isClearable={false}
               id='gender'
               name='gender'
-              defaultValue={' '}
+              defaultValue={genderOptions[genderIndex]}
               classNamePrefix='select'
               options={genderOptions}
               innerRef={register({ required: true })}
