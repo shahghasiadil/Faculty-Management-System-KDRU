@@ -49,7 +49,7 @@ export const ErrorToast = ({ id }) => (
 )
 
 // ** Table Header
-const CustomHeader = ({
+const  CustomHeader = ({
   toggleSidebar,
   handlePerPage,
   rowsPerPage,

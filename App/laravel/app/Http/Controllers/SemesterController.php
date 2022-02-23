@@ -121,4 +121,14 @@ class SemesterController extends Controller
         } 
         else return response()->json(['message' => 'Resource Not Found', 'status' => 204]);
     }
+
+    public function find_all_students_of_semester(Request $request)
+    {
+        $period = $request->period;
+        $semester = Semester::with('students')->where('name',$request->semester)->whereHas('students',function($query) use ($period){
+            return $query->where('period', $period);
+        })->get();
+
+        return $semester;
+    }
 }
