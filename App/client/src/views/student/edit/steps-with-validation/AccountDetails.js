@@ -57,7 +57,7 @@ const AccountDetails = ({ stepper, type }) => {
             <Input
               name='username'
               id='username'
-              defaultValue={studentData && studentData.user.name}
+              defaultValue={studentData && studentData.user?.name}
               placeholder='John'
               innerRef={register({ required: true })}
               invalid={errors.username && true}
@@ -73,7 +73,7 @@ const AccountDetails = ({ stepper, type }) => {
               name='email'
               id='email'
               autoComplete="off"
-              defaultValue={studentData && studentData.user.email}
+              defaultValue={studentData && studentData.user?.email}
               placeholder='John@gmail.com'
               innerRef={register({ required: true })}
               invalid={errors.email && true}
@@ -91,7 +91,7 @@ const AccountDetails = ({ stepper, type }) => {
               name='password'
               id='password'
               type='password'
-              defaultValue={studentData && studentData.user.password}
+              defaultValue={studentData && studentData.user?.password}
               autoComplete="off"
               innerRef={register({ required: true })}
               invalid={errors.password && true}

@@ -25,7 +25,7 @@ const ExamSchedualeEdit = () => {
 
     dispatch = useDispatch(),
     { id } = useParams()
-  console.log(store)
+  // console.log(store)
   // ** Function to toggle tabs
   const toggle = tab => setActiveTab(tab)
 

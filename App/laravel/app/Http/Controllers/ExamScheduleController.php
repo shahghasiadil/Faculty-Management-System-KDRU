@@ -27,7 +27,7 @@ class ExamScheduleController extends Controller
      */
     public function show($id)
     {
-        return ExamSchedule::findOrFail($id);
+        return ExamSchedule::with(['teacher','subject'])->findOrFail($id);
     }
 
     /**
