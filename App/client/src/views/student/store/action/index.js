@@ -1,5 +1,5 @@
 import axios from 'axios'
-
+import { Redirect } from 'react-router-dom'
 // ** Toast Components
 import { SuccessProgressToast, ErrorToast } from '../../list/Sidebar'
 import { UpdateProgressToast } from '../../edit/Edit'
@@ -70,6 +70,7 @@ export const addStudent = student => {
         toast.success(<SuccessProgressToast name={student.name} lastName={student.last_name} />)
         dispatch(getData(getState().students.params))
         dispatch(getAllData())
+        return <Redirect to='/student' />
 
       })
       .catch(() => {
@@ -93,7 +94,7 @@ export const updateStudent = (student, id) => {
         toast.success(<UpdateProgressToast />)
         dispatch(getData(getState().students.params))
         dispatch(getAllData())
-
+        return <Redirect to='/student' />
       })
       .catch(err => console.log(err))
   }

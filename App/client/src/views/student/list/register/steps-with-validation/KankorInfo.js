@@ -35,7 +35,8 @@ const KankorInfo = ({ stepper, type }) => {
 
       dispatch(addStudent(studentInfo))
       console.log('data is sending', studentInfo)
-      history.push('/students')
+
+      //history.push('/students')
     }
   }
 
