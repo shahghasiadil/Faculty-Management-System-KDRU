@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\SemesterResource;
+use App\Models\FinalMark;
 use App\Models\Semester;
 use App\Models\Student;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\DB;
 
 class SemesterController extends Controller
 {
@@ -160,15 +162,18 @@ class SemesterController extends Controller
 
         // return all percentages of the students
         return $funded;
+    }
+
     public function find_all_students_of_semester(Request $request)
     {
 
+        $student = FinalMark::where('subject_id',$request->subject_id)->pluck('student_id');
         return new JsonResource(Semester::find($request->id)->students()
         ->with(['midtermMarks' => function($query) use ($request){
-            $query->where('subject_id',$request->subject_id);
+            $query->where('subject_id', $request->subject_id);
         }])
-        ->whereHas('finalMarks', function($query) use ($request){
-            $query->where('subject_id',$request->subject_id);
-        })->where('period', $request->period)->get());
+        ->whereNotIn('students.id',$student)
+        ->where('period', $request->period)
+        ->get());
     }
 }
