@@ -7,6 +7,7 @@ use App\Models\Student;
 use App\Models\MidtermMark;
 use App\Models\Chance;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class FinalMarkController extends Controller
 {
@@ -146,5 +147,22 @@ class FinalMarkController extends Controller
         if ($finalMark && $finalMark->trashed()) {
             $finalMark->restore();
         }
+    }
+
+    /**
+     * Printing marks function
+     *
+     * @param Request $request
+     * @return marks
+     */
+    public function loadMarks(Request $request)
+    {
+        return new JsonResource(FinalMark::with('student.midtermMarks')
+        ->whereRelation('subject','id','=',$request->subject_id)
+        ->whereRelation('student','period','=',$request->period)
+        ->whereHas('student.midtermMarks', function($query) use ($request){
+            $query->where('subject_id',$request->subject_id);
+        })->get());
+
     }
 }
