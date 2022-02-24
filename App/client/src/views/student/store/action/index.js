@@ -67,7 +67,7 @@ export const addStudent = student => {
         }
       })
       .then(() => {
-        toast.success(<SuccessProgressToast name={student.name} lastName={student.last_name} />)
+        toast.success(<SuccessProgressToast name={student.personal.name} lastName={student.personal.last_name} />)
         dispatch(getData(getState().students.params))
         dispatch(getAllData())
         return <Redirect to='/student' />
