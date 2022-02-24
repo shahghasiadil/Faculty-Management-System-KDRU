@@ -14,12 +14,12 @@ return new class extends Migration
     public function up()
     {
         Schema::table('students', function (Blueprint $table) {
-            $table->enum('native_tongue', ['PASHTU', 'DARI', 'UZBAKI', 'TURKMANI', 'BALUCHI', 'PASHAYI']);
+            $table->string('native_tongue');
             $table->string('tazkira_volume');
             $table->integer('tazkira_page');
             $table->integer('tazkira_registration_number');
             $table->integer('birth_year')->nullable();
-            $table->enum('marital_status', ['MARRIED', 'SINGLE'])->nullable();
+            $table->string('marital_status')->nullable();
             $table->string('school_name')->nullable();
             $table->integer('graduation_year')->nullable();
             $table->string('kankor_year')->nullable(); //for example: 1395

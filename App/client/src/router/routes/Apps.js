@@ -2,19 +2,29 @@ import { lazy } from 'react'
 import { Redirect } from 'react-router-dom'
 
 const AppRoutes = [
+
   {
     path: '/students',
     exact: true,
-    component: lazy(() => import('../../views/student/list'))
+    component: lazy(() => import('../../views/student/list/'))
   },
   {
-    path: '/views/student/edit/:id',
-    component: lazy(() => import('../../views/student/edit')),
+    path: '/students/add',
+    exact: true,
+    component: lazy(() => import('../../views/student/list/register/register'))
+  },
+  {
+    path: '/students/edit/:id',
+    component: lazy(() => import('../../views/student/edit/Edit')),
     meta: {
       navLink: '/views/student/edit'
     }
   },
-
+  {
+    path: '/students/info/:id',
+    exact: true,
+    component: lazy(() => import('../../views/student/list/info/'))
+  },
   {
     path: '/registrations',
     exact: true,
@@ -31,14 +41,22 @@ const AppRoutes = [
 
   // exam schedule route
   {
+    path: '/assign-marks',
+    exact: true,
+    component: lazy(() => import('../../views/assign-marks/list'))
+  },
+  {
     path: '/exam-schedule',
     exact: true,
     component: lazy(() => import('../../views/examschedule/list'))
   },
   {
-    path: '/exam-schedule/edit',
+    path: '/views/exam-schedule/edit/:id',
     exact: true,
-    component: lazy(() => import('../../views/examschedule/edit'))
+    component: lazy(() => import('../../views/examschedule/edit')),
+    meta: {
+      navLink: '/views/examschedule/edit'
+    }
   },
 
   {
@@ -113,7 +131,7 @@ const AppRoutes = [
       navLink: '/views/subject/edit'
     }
   },
-  
+
   // {
   //   path:'/schedules',
   //   exact:true,

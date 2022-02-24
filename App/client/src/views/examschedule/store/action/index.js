@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 // ** Toast Components
-import { SuccessProgressToast, ErrorToast } from '../../list/Sidebar'
+import { SuccessProgressToast} from '../../list/Sidebar'
 import {UpdateProgressToast} from '../../edit/Edit'
 import { toast, Slide } from 'react-toastify'
 import { ErrorToast as AlertComponent } from '../../list/Table'
@@ -10,12 +10,12 @@ import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 const MySwal = withReactContent(Swal)
 // ** ActionTypes Constants
-import { ADD_STUDENT, ARCHIVE, DELETE_STUDENT, GET_ALL_DATA, GET_DATA, GET_STUDENT, RESTORE_STUDENT, UPDATE_STUDENT } from './actionTypes'
+import { ADD_EXAM_SCHEDULE, ARCHIVE, DELETE_EXAM_SCHEDULE, GET_ALL_DATA, GET_DATA, GET_EXAM_SCHEDULE, RESTORE_EXAM_SCHEDULE, UPDATE_EXAM_SCHEDULE } from './actionTypes'
 
 // ** Get all Data
 export const getAllData = () => {
   return async dispatch => {
-    await axios.get('http://127.0.0.1:8000/api/students').then(response => {
+    await axios.get('http://127.0.0.1:8000/api/exam-schedules').then(response => {
       dispatch({
         type: GET_ALL_DATA,
         data: response.data.data
@@ -28,25 +28,24 @@ export const getAllData = () => {
 // ** Get data on page or row change
 export const getData = params => {
   return async dispatch => {
-    await axios.get(`http://127.0.0.1:8000/api/students`, params).then(response => {
+    await axios.get(`http://127.0.0.1:8000/api/exam-schedules`, params).then(response => {
     dispatch({
       type: GET_DATA,
       data:response.data.data,
-      totalPages: response.data.total,
       params
     })
     })
   }
 } 
 // ** Get Student
-export const getStudent = id => {
+export const getExamSchedule = id => {
   return async dispatch => {
     await axios
-      .get(`http://127.0.0.1:8000/api/students/${id}`)
+      .get(`http://127.0.0.1:8000/api/exam-schedules/${id}`)
       .then(response => {
         dispatch({
-          type: GET_STUDENT,
-          selectedStudent: response.data
+          type: GET_EXAM_SCHEDULE,
+          selectedExamSchedule: response.data
         })
       })
       .catch(err => console.log(err))
@@ -54,45 +53,43 @@ export const getStudent = id => {
 }
 
 // ** Add new student
-export const addStudent = student => {
+export const addExamSchedule = ExamSchedule => {
   return (dispatch, getState) => {
     axios
-      .post('http://127.0.0.1:8000/api/students', student)
+      .post('http://127.0.0.1:8000/api/exam-schedules', ExamSchedule)
       .then(response => {
         dispatch({
-          type: ADD_STUDENT,
-          student
+          type: ADD_EXAM_SCHEDULE,
+          ExamSchedule
         })
-        if (response.data) {
-          throw new Error("Duplicate Email or National ID")
-        }
+
       })
       .then(() => {
-        toast.success(<SuccessProgressToast name={student.name} lastName = {student.last_name}/>)        
-        dispatch(getData(getState().students.params))
+        toast.success(<SuccessProgressToast/>)
+        dispatch(getData(getState().ExamSchedules.params))
         dispatch(getAllData())
         
       })
       .catch(() => {
-        toast.success(<ErrorToast/>)        
+
       })
     }
   }
   // ** Update Student
-  export const updateStudent = (student, id) => {
+  export const updateExamSchedule = (ExamSchedule, id) => {
     return (dispatch, getState) => {
       axios
-        .put(`http://127.0.0.1:8000/api/students/${id}`, student)
+        .put(`http://127.0.0.1:8000/api/exam-schedules/${id}`, ExamSchedule)
         .then(response => {
           dispatch({
-            type: UPDATE_STUDENT,
-            student
+            type: UPDATE_EXAM_SCHEDULE,
+            ExamSchedule
           })
           
         })
         .then(() => {
           toast.success(<UpdateProgressToast/>)        
-          dispatch(getData(getState().students.params))
+          dispatch(getData(getState().ExamSchedules.params))
           dispatch(getAllData())
           
         })
@@ -100,7 +97,7 @@ export const addStudent = student => {
       }
     }
   // ** Delete Student
-  export const deleteStudent = id => {
+  export const deleteExamSchedule = id => {
     return (dispatch, getState) => {
        MySwal.fire({
           title: 'Are you sure?',
@@ -115,10 +112,10 @@ export const addStudent = student => {
           buttonsStyling: false
         }).then(function (result) {
           if (result.value) {
-            axios.delete(`http://127.0.0.1:8000/api/students/student/${id}`)
+            axios.delete(`http://127.0.0.1:8000/api/exam-schedules/exam-schedule/${id}`)
             .then(() => {
                 dispatch({
-                type: DELETE_STUDENT
+                type: DELETE_EXAM_SCHEDULE
                 })
                 MySwal.fire({
                   icon: 'success',
@@ -136,20 +133,20 @@ export const addStudent = student => {
           }
         })      
       .then(() => {
-        dispatch(getData(getState().students.params))
+        dispatch(getData(getState().ExamSchedules.params))
         dispatch(getAllData())
       }).catch(err => console.log(err))
   }
 }
 // ** Move to Recycle bin student
-export const archiveStudent = id => {
+export const archiveExamSchedule = id => {
   return (dispatch, getState) => {
-    axios.delete(`http://127.0.0.1:8000/api/students/${id}`).then(() => {
+    axios.delete(`http://127.0.0.1:8000/api/exam-schedules/${id}`).then(() => {
       dispatch({
         type:ARCHIVE
       })
     }).then(() => {
-      dispatch(getData(getState().students.params))
+      dispatch(getData(getState().ExamSchedules.params))
       dispatch(getAllData())
       toast.success(<AlertComponent id = {id}/>,
         { transition: Slide, autoClose: 10000 }
@@ -159,14 +156,14 @@ export const archiveStudent = id => {
   }
 }
 // ** Restore Student
-export const restoreStudent = id => {
+export const restoreExamSchedule = id => {
   return (dispatch, getState) => {
-    axios.get(`http://127.0.0.1:8000/api/students/${id}/restore`).then(() => {
+    axios.get(`http://127.0.0.1:8000/api/exam-schedule/${id}/restore`).then(() => {
       dispatch({
-        type:RESTORE_STUDENT
+        type:RESTORE_EXAM_SCHEDULE
       })
     }).then(() => {
-      dispatch(getData(getState().students.params))
+      dispatch(getData(getState().ExamSchedules.params))
       dispatch(getAllData())
     }).catch(err => console.log(err))
   }

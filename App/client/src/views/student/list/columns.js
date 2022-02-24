@@ -8,7 +8,7 @@ import { store } from '@store/storeConfig/store'
 
 // ** Third Party Components
 import { UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
-import { MoreVertical, Delete, Trash2, Archive } from 'react-feather'
+import { MoreVertical, Delete, Trash2, Archive, Info } from 'react-feather'
 
 
 export const columns = [
@@ -86,15 +86,24 @@ export const columns = [
           </DropdownItem>
           <DropdownItem
             tag={Link}
-            to={`/views/student/edit/${row.id}`}
+            to={`/students/edit/${row.id}`}
             className='w-100'
             onClick={() => store.dispatch(getStudent(row.id))}
           >
             <Archive size={14} className='mr-50' />
             <span className='align-middle'>Edit</span>
           </DropdownItem>
+          <DropdownItem
+            tag={Link}
+            to={`/students/info/${row.id}`}
+            className='w-100'
+          // onClick={() => store.dispatch(getStudent(row.id))}
+          >
+            <Info size={14} className='mr-50' />
+            <span className='align-middle'>More Info</span>
+          </DropdownItem>
           <DropdownItem className='w-100' onClick={() => store.dispatch(deleteStudent(row.id))}>
-            <Delete  size={14} className='mr-50' />
+            <Delete size={14} className='mr-50' />
             <span className='align-middle'>Delete</span>
           </DropdownItem>
         </DropdownMenu>

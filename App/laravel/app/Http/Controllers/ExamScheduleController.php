@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\ExamSchedule;
+use Carbon\Carbon;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class ExamScheduleController extends Controller
 {
@@ -14,7 +16,7 @@ class ExamScheduleController extends Controller
      */
     public function index()
     {
-        return ExamSchedule::with(['teacher', 'subject'])->latest()->paginate(10);
+        return new JsonResource(ExamSchedule::with(['teacher', 'subject'])->latest()->get());
     }
 
     /**
@@ -25,7 +27,7 @@ class ExamScheduleController extends Controller
      */
     public function show($id)
     {
-        return ExamSchedule::findOrFail($id);
+        return ExamSchedule::with(['teacher','subject'])->findOrFail($id);
     }
 
     /**
@@ -36,14 +38,17 @@ class ExamScheduleController extends Controller
      */
     public function store(Request $request)
     {
+        // return $request->date;
         $this->validate($request, [
             'date' => 'required|date',
             'teacher_id' => 'required|integer',
             'subject_id' => 'required|integer'
         ]);
-
+        // return $request;
+        $date = Carbon::parse($request->date)->format('Y-m-d');
+        // return $request->date;
         ExamSchedule::create([
-            'date' => $request->date,
+            'date' => $date,
             'teacher_id' => $request->teacher_id,
             'subject_id' => $request->subject_id
         ]);
