@@ -2,8 +2,7 @@
 import '@styles/react/apps/app-users.scss'
 // ** React Imports
 import { Fragment, useState, useEffect } from 'react'
-
-
+import { yupResolver } from '@hookform/resolvers/yup'
 // ** Third Party Components
 import Select from 'react-select'
 import { useForm } from 'react-hook-form'
@@ -18,34 +17,63 @@ import '@styles/react/libs/react-select/_react-select.scss'
 
 const ChancesList = () => {
   const [formValues, setFormValues] = useState([{ relationship: "", name: "", fathername: "", job: "", academicTransfer: "", phone: "" }])
-  const [currentRole, setCurrentRole] = useState({ value: '', label: 'Select Role' })
-  const [currentPlan, setCurrentPlan] = useState({ value: '', label: 'Select Plan' })
-  const [currentStatus, setCurrentStatus] = useState({ value: '', label: 'Select Status', number: 0 })
 
-      // ** User filter options
-  const roleOptions = [
-    { value: '', label: 'Select Role' },
-    { value: 'admin', label: 'Admin' },
-    { value: 'author', label: 'Author' },
-    { value: 'editor', label: 'Editor' },
-    { value: 'maintainer', label: 'Maintainer' },
-    { value: 'subscriber', label: 'Subscriber' }
+  const [currentWeek, setCurrentWeek] = useState({ value: '', label: 'Select Week' })
+  const [currentMonth, setCurrentMonth] = useState({ value: '', label: 'Select Month' })
+  const [currentSemester, setCurrentSemester] = useState({ value: '', label: 'Select Semester' })
+  const [currentPeriod, setCurrentPeriod] = useState({ value: '', label: 'Select Period' })
+  const [currentSubject, setCurrentSubject] = useState({ value: '', label: 'Select Subject', number: 0 })
+
+  // ** User filter options
+  const weeksOptions = [
+    { value: '', label: 'Select Week' },
+    { value: '4', label: '4' },
+    { value: '6', label: '6' }
   ]
 
-  const planOptions = [
-    { value: '', label: 'Select Plan' },
-    { value: 'basic', label: 'Basic' },
-    { value: 'company', label: 'Company' },
-    { value: 'enterprise', label: 'Enterprise' },
-    { value: 'team', label: 'Team' }
+  const monthsOptions = [
+    { value: '', label: 'Select Month' },
+    { value: 'حمل', label: 'حمل' },
+    { value: 'ثور', label: 'ثور' },
+    { value: 'جوزا', label: 'جوزا' },
+    { value: 'سرطان', label: 'سرطان' },
+    { value: 'اسد', label: 'اسد' },
+    { value: 'سنبله', label: 'سنبله' },
+    { value: 'میزان', label: 'میزان' },
+    { value: 'عقرب', label: 'عقرب' },
+    { value: 'قوس', label: 'قوس' },
+    { value: 'جدی', label: 'جدی' },
+    { value: 'دلو', label: 'دلو' },
+    { value: 'حوت', label: 'حوت' }
   ]
 
-  const statusOptions = [
-    { value: '', label: 'Select Status', number: 0 },
-    { value: 'pending', label: 'Pending', number: 1 },
-    { value: 'active', label: 'Active', number: 2 },
+  const subjectsOptions = [
+    { value: '', label: 'Select Subject', number: 0 },
+    { value: 'Math', label: 'Math', number: 1 },
+    { value: 'Network', label: 'Network', number: 2 },
     { value: 'inactive', label: 'Inactive', number: 3 }
   ]
+
+  const semesterOptions = [
+    { value: '', label: 'Select Semester' },
+    { value: 'First', label: 'First' },
+    { value: 'Second', label: 'Second' },
+    { value: 'Third', label: 'Third' },
+    { value: 'Fourth', label: 'Fourth' },
+    { value: 'Fifth', label: 'Fifth' },
+    { value: 'Sixth', label: 'Sixth' },
+    { value: 'Seventh', label: 'Seventh' },
+    { value: 'Eighth', label: 'Eighth' }
+  ]
+
+
+  const periodOptions = [
+    { value: '', label: 'Select Period', number: 0 },
+    { value: '1', label: '1', number: 1 },
+    { value: '2', label: '2', number: 2 },
+    { value: '3', label: '3', number: 3 }
+  ]
+
   const increaseCount = () => {
     setFormValues([...formValues, { relationship: "", name: "", father_name: "", job: "", academic_transfer: "", phone: "" }])
   }
@@ -61,48 +89,96 @@ const ChancesList = () => {
     setFormValues(newFormValues)
 
   }
+
+  const { handleSubmit, trigger } = useForm()
+
+  const onSubmit = () => {
+    trigger()
+    // ** data of selected inputs
+
+    // currentWeek.value
+    // currentMonth.value
+    // currentSemester.value
+    // currentPeriod.value
+    // currentSubject.value
+  }
+
+
   return (
     <div className='app-user-list'>
-        <Card>
+      <Card>
         <CardHeader>
           <CardTitle tag='h4'>Search Filter</CardTitle>
         </CardHeader>
-        <CardBody>
-          <Row>
-            <Col md='4'>
-              <Select
-                isClearable={false}
-                theme={selectThemeColors}
-                className='react-select'
-                classNamePrefix='select'
-                options={roleOptions}
-                value={currentRole}
-              />
-            </Col>
-            <Col className='my-md-0 my-1' md='4'>
-              <Select
-                theme={selectThemeColors}
-                isClearable={false}
-                className='react-select'
-                classNamePrefix='select'
-                options={planOptions}
-                value={currentPlan}
-
-              />
-            </Col>
-            <Col md='4'>
-              <Select
-                theme={selectThemeColors}
-                isClearable={false}
-                className='react-select'
-                classNamePrefix='select'
-                options={statusOptions}
-                value={currentStatus}
-
-              />
-            </Col>
-          </Row>
-        </CardBody>
+        <Form onSubmit={handleSubmit(onSubmit)} >
+          <CardBody>
+            <Row>
+              <Col md='2'>
+                <Select
+                  isClearable={false}
+                  theme={selectThemeColors}
+                  className='react-select'
+                  classNamePrefix='select'
+                  options={weeksOptions}
+                  value={currentWeek}
+                  name='week'
+                  onChange={(e) => setCurrentWeek(e)}
+                />
+              </Col>
+              <Col md='2'>
+                <Select
+                  theme={selectThemeColors}
+                  isClearable={false}
+                  className='react-select'
+                  classNamePrefix='select'
+                  options={monthsOptions}
+                  value={currentMonth}
+                  name='month'
+                  onChange={(e) => setCurrentMonth(e)}
+                />
+              </Col>
+              <Col md='3'>
+                <Select
+                  theme={selectThemeColors}
+                  isClearable={false}
+                  className='react-select'
+                  classNamePrefix='select'
+                  options={subjectsOptions}
+                  value={currentSubject}
+                  name='subject'
+                  onChange={(e) => setCurrentSubject(e)}
+                />
+              </Col>
+              <Col md='2'>
+                <Select
+                  theme={selectThemeColors}
+                  isClearable={false}
+                  className='react-select'
+                  classNamePrefix='select'
+                  options={semesterOptions}
+                  value={currentSemester}
+                  name='semester'
+                  onChange={(e) => setCurrentSemester(e)}
+                />
+              </Col>
+              <Col md='2'>
+                <Select
+                  theme={selectThemeColors}
+                  isClearable={false}
+                  className='react-select'
+                  classNamePrefix='select'
+                  options={periodOptions}
+                  value={currentPeriod}
+                  name='period'
+                  onChange={(e) => setCurrentPeriod(e)}
+                />
+              </Col>
+              <Col md='1'>
+                <Button color='success' className='text-nowrap px-1 d-flex justify-content-center align-items-center'>Submit</Button>
+              </Col>
+            </Row>
+          </CardBody>
+        </Form>
       </Card>
       <Form>
 
@@ -206,10 +282,10 @@ const ChancesList = () => {
                         <span>Save</span>
                       </Button.Ripple>
                     </FormGroup>
-                    </Row>
+                  </Row>
 
 
-                  </Col>
+                </Col>
               </Row>
             ))}
 
