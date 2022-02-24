@@ -16,7 +16,6 @@ class TeacherEmail extends TestCase
     public function testExample()
     {
         $response = $this->get('/find-teacher-by-email');
-
         $response->assertStatus(200);
     }
 }
