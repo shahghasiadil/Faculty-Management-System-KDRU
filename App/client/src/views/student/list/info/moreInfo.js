@@ -54,7 +54,7 @@ const CardActions = ({ selectedStudent }) => {
         </Row>
         <Row >
           <Col md='12' className='text-center'>
-            <Table responsive bordered className='table-info'>
+            <Table responsive bordered className='table-student-info table-bordered'>
               <tr>
                 <td colspan='6'>د محصل پیژند او نښې / شهرت ومشخصات محصل</td>
               </tr>
@@ -124,7 +124,7 @@ const CardActions = ({ selectedStudent }) => {
                 <td colspan='1'>{selectedStudent.address.province}</td>
                 <td colspan='1'>{selectedStudent.address.district}</td>
                 <td colspan='2'>{selectedStudent.address.area} </td>
-                <td colspan='2'>{selectedStudent.address.street_number} - {selectedStudent.address.house_number} </td>
+                <td colspan='2'>کوڅې نمبر {selectedStudent.address.street_number} -  کور نمبر{selectedStudent.address.house_number} </td>
               </tr>
               <tr>
                 <td colspan='6'>د محصل خپلوان او د هغی دندې / اقارت محصل و وظایف آنها</td>
@@ -138,7 +138,7 @@ const CardActions = ({ selectedStudent }) => {
               {selectedStudent.relatives.map((data, index) => (
                 <tr key={index}>
                   <td colspan='1'>{data.relationship}</td>
-                  <td colspan='1'> - {data.father_name}</td>
+                  <td colspan='1'> {data.name} - {data.father_name}</td>
                   <td colspan='2'>{data.job} </td>
                   <td colspan='2'>{data.phone}</td>
                 </tr>
@@ -149,9 +149,9 @@ const CardActions = ({ selectedStudent }) => {
         <Row>
           <Col md='1'></Col>
           <Col md='9' className='' >
-            {/* <Row>
-              زه ({selectedStudent.name}) ولد / بنت ({selectedStudent.father_name})
-            </Row> */}
+            <Row>
+              من / زه ({selectedStudent.name}) ولد / بنت ({selectedStudent.father_name})
+            </Row>
             <Row className='mt-1'>
               <p>پورتنې په فورم کې درج شوې معلومات زما د نښو او تذکرې مطابق دی او د مغایرت په صورت کې مسولیت زما پر غاړه ده</p><br></br>
               <p>معلومات مندرج فورم فوق مطابق مشخصات وتذکره ام بوده و در صورت مغایرت  مسولیت بعدی بدوش بنده میباشد</p>

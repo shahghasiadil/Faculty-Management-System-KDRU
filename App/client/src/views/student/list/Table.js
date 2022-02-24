@@ -118,7 +118,7 @@ const StudentsList = () => {
             </Button.Ripple>
           </Col>
         </Row>
-      </div >
+      </div>
     )
   }
 

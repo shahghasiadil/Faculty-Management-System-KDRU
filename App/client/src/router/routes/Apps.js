@@ -2,7 +2,6 @@ import { lazy } from 'react'
 import { Redirect } from 'react-router-dom'
 
 const AppRoutes = [
-
   {
     path: '/students',
     exact: true,
