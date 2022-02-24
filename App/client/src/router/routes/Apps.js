@@ -2,6 +2,7 @@ import { lazy } from 'react'
 import { Redirect } from 'react-router-dom'
 
 const AppRoutes = [
+
   {
     path: '/students',
     exact: true,
@@ -19,7 +20,11 @@ const AppRoutes = [
       navLink: '/views/student/edit'
     }
   },
-
+  {
+    path: '/students/info/:id',
+    exact: true,
+    component: lazy(() => import('../../views/student/list/info/'))
+  },
   {
     path: '/registrations',
     exact: true,
@@ -131,7 +136,7 @@ const AppRoutes = [
       navLink: '/views/subject/edit'
     }
   },
-  
+
   // {
   //   path:'/schedules',
   //   exact:true,

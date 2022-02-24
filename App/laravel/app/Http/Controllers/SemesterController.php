@@ -7,6 +7,7 @@ use App\Models\Semester;
 use App\Models\Student;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class SemesterController extends Controller
 {
@@ -124,11 +125,13 @@ class SemesterController extends Controller
 
     public function find_all_students_of_semester(Request $request)
     {
-        $period = $request->period;
-        $semester = Semester::with('students')->where('name',$request->semester)->whereHas('students',function($query) use ($period){
-            return $query->where('period', $period);
-        })->get();
 
-        return $semester;
+        return new JsonResource(Semester::find($request->id)->students()
+        ->with(['midtermMarks' => function($query) use ($request){
+            $query->where('subject_id',$request->subject_id);
+        }])
+        ->whereHas('finalMarks', function($query) use ($request){
+            $query->where('subject_id',$request->subject_id);
+        })->where('period', $request->period)->get());
     }
 }

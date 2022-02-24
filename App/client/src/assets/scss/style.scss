@@ -9,3 +9,43 @@ NOTE:
 ------
 PLACE HERE YOUR OWN SCSS CODES AND IF NEEDED, OVERRIDE THE STYLES FROM THE OTHER STYLESHEETS.
 WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BETTER LIKE THIS.  */
+.root-div {
+	font-size: 18px;
+	text-align: right;
+    direction: rtl;
+}
+
+.top-first-div {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.top-center-div {
+	display: flex;
+	flex-flow: column wrap;
+	place-items: center;
+	justify-content: center;
+}
+
+.std-logo {
+	display: flex;
+	flex-flow: column wrap;
+	place-items: center;
+	margin-bottom: -30px;
+}
+
+.student-image {
+	height: 150px;
+	width: 150px;
+	float: left;
+}
+
+.table-info>thead>tr>th {
+	font-size: 17px;
+	text-align: center;
+}
+
+.border {
+	border: 1px solid rgba($color: #080000af, $alpha: 1.0);
+}
