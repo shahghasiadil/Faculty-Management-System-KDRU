@@ -149,6 +149,12 @@ class FinalMarkController extends Controller
         }
     }
 
+    /**
+     * Printing marks function
+     *
+     * @param Request $request
+     * @return marks
+     */
     public function loadMarks(Request $request)
     {
         return new JsonResource(FinalMark::with('student.midtermMarks')
