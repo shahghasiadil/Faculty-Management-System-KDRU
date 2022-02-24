@@ -16,20 +16,20 @@ import { Card, CardHeader, FormGroup, CardTitle, CardBody, Input, Row, Col, Labe
 // ** Styles
 import '@styles/react/libs/react-select/_react-select.scss'
 
-const ChancesList = () => {
+const Marks = () => {
   const [formValues, setFormValues] = useState([{ relationship: "", name: "", fathername: "", job: "", academicTransfer: "", phone: "" }])
-  const [currentRole, setCurrentRole] = useState({ value: '', label: 'Select Role' })
+  const [currentRole, setCurrentRole] = useState()
   const [currentPlan, setCurrentPlan] = useState({ value: '', label: 'Select Plan' })
   const [currentStatus, setCurrentStatus] = useState({ value: '', label: 'Select Status', number: 0 })
 
       // ** User filter options
   const roleOptions = [
-    { value: '', label: 'Select Role' },
-    { value: 'admin', label: 'Admin' },
-    { value: 'author', label: 'Author' },
-    { value: 'editor', label: 'Editor' },
-    { value: 'maintainer', label: 'Maintainer' },
-    { value: 'subscriber', label: 'Subscriber' }
+    { value:  1, label: 1 },
+    { value: 2, label: 2},
+    { value: 3, label: 3 },
+    { value:  4, label: 4 },
+    { value: 5, label: 5 },
+    { value:  6, label: 6 }
   ]
 
   const planOptions = [
@@ -46,9 +46,6 @@ const ChancesList = () => {
     { value: 'active', label: 'Active', number: 2 },
     { value: 'inactive', label: 'Inactive', number: 3 }
   ]
-  const increaseCount = () => {
-    setFormValues([...formValues, { relationship: "", name: "", father_name: "", job: "", academic_transfer: "", phone: "" }])
-  }
 
   const handleChange = (i, e) => {
     const newFormValues = [...formValues]
@@ -70,13 +67,15 @@ const ChancesList = () => {
         <CardBody>
           <Row>
             <Col md='4'>
+            <Label>Period</Label>
               <Select
                 isClearable={false}
                 theme={selectThemeColors}
                 className='react-select'
                 classNamePrefix='select'
                 options={roleOptions}
-                value={currentRole}
+                value={roleOptions[0]}
+                onChange={(e) =>  setCurrentRole(e.value)}
               />
             </Col>
             <Col className='my-md-0 my-1' md='4'>
@@ -91,6 +90,7 @@ const ChancesList = () => {
               />
             </Col>
             <Col md='4'>
+
               <Select
                 theme={selectThemeColors}
                 isClearable={false}
@@ -222,4 +222,4 @@ const ChancesList = () => {
   )
 }
 
-export default ChancesList
+export default Marks
