@@ -6,12 +6,12 @@ import { yupResolver } from '@hookform/resolvers/yup'
 // ** Third Party Components
 import Select from 'react-select'
 import { useForm } from 'react-hook-form'
-import { ArrowLeft, ArrowRight, X, Plus } from 'react-feather'
-
+import { ArrowLeft, ArrowRight, X, Plus, FolderMinus } from 'react-feather'
+import { addFinalMark } from '../../final-marks/store/action'
 import { selectThemeColors } from '@utils'
 import { Card, CardHeader, FormGroup, CardTitle, CardBody, Input, Row, Col, Label, CustomInput, Button, Form } from 'reactstrap'
-
-
+import axios from 'axios'
+import { useDispatch } from 'react-redux'
 // ** Styles
 import '@styles/react/libs/react-select/_react-select.scss'
 
@@ -20,24 +20,21 @@ const Marks = () => {
 
   const [currentSemester, setCurrentSemester] = useState({ value: '', label: 'Select Semester' })
   const [currentPeriod, setCurrentPeriod] = useState({ value: '', label: 'Select Period' })
-  const [currentSubject, setCurrentSubject] = useState({ value: '', label: 'Select Subject', number: 0 })
+  const [currentSubject, setCurrentSubject] = useState()
+  const [subjects, setSubjects] = useState([])
+  const [total, setTotal] = useState(0)
 
-
-  const subjectsOptions = [
-    { value: 'Math', label: 'Math', number: 1 },
-    { value: 'Network', label: 'Network', number: 2 },
-    { value: 'inactive', label: 'Inactive', number: 3 }
-  ]
+  const dispatch = useDispatch()
 
   const semesterOptions = [
-    { value: 'First', label: 'First' },
-    { value: 'Second', label: 'Second' },
-    { value: 'Third', label: 'Third' },
-    { value: 'Fourth', label: 'Fourth' },
-    { value: 'Fifth', label: 'Fifth' },
-    { value: 'Sixth', label: 'Sixth' },
-    { value: 'Seventh', label: 'Seventh' },
-    { value: 'Eighth', label: 'Eighth' }
+    { value: 1, label: 'First' },
+    { value: 2, label: 'Second' },
+    { value: 3, label: 'Third' },
+    { value: 4, label: 'Fourth' },
+    { value:5, label: 'Fifth' },
+    { value: 6, label: 'Sixth' },
+    { value: 7, label: 'Seventh' },
+    { value: 8, label: 'Eighth' }
   ]
 
 
@@ -52,17 +49,47 @@ const Marks = () => {
     newFormValues[i][e.target.name] = e.target.value
     setFormValues(newFormValues)
   }
-  const deleteForm = i => {
-    const newFormValues = [...formValues]
-    newFormValues.splice(i, 1)
-    setFormValues(newFormValues)
+  const saveForm = (i, e) => {
+
+    if (e.marks) {
+      dispatch(addFinalMark({
+        student_id: e.id,
+        subject_id:currentSubject.value,
+        marks:e.marks
+      }))
+      const newFormValues = [...formValues]
+      newFormValues.splice(i, 1)
+      setFormValues(newFormValues)
+    }
+
   }
 
   const { handleSubmit, trigger } = useForm()
 
+  const loadStudents = (params) => {
+    axios.post(`http://127.0.0.1:8000/api/semester/find-all-students-of-semester`, params).then(response => {
+        setFormValues([...response.data.data])
+    })
+  }
+  const loadSubjects = () => {
+    axios.get('http://127.0.0.1:8000/api/subjects').then((res) => {
+      for (const data of res.data.data) {
+        subjects.push({value: data.id, label: data.name })
+      }
+    })
+  }
+
+  useEffect(() => {
+    loadSubjects()
+  }, [])
   const onSubmit = () => {
     trigger()
-    // ** data of selected inputs
+
+    loadStudents({
+      period: currentPeriod.value,
+      id: currentSemester.value,
+      subject_id:currentSubject.value
+    })
   }
 
   return (
@@ -92,7 +119,7 @@ const Marks = () => {
                   isClearable={false}
                   className='react-select'
                   classNamePrefix='select'
-                  options={subjectsOptions}
+                  options={subjects}
                   value={currentSubject}
                   name='subject'
                   onChange={(e) => setCurrentSubject(e)}
@@ -118,12 +145,10 @@ const Marks = () => {
           </CardBody>
         </Form>
       </Card>
-      <Form>
 
         <Card>
           <CardBody>
             {formValues.map((element, index) => (
-
 
               <Row className='justify-content-between align-items-center'>
                 <Col md='12'>
@@ -140,6 +165,7 @@ const Marks = () => {
                         id={`name-${index}`}
                         autoComplete="off"
                         placeholder='Name'
+                        disabled
                         defaultValue={element.name || ''}
                       />
                     </FormGroup>
@@ -155,7 +181,7 @@ const Marks = () => {
                         autoComplete="off"
                         placeholder='Father Name'
                         onChange={e => handleChange(index, e)}
-
+                        disabled
                       />
 
                     </FormGroup>
@@ -170,6 +196,7 @@ const Marks = () => {
                         autoComplete="off"
                         onChange={e => handleChange(index, e)}
                         placeholder='Roll Number'
+                        disabled
                       />
 
                     </FormGroup>
@@ -182,10 +209,10 @@ const Marks = () => {
                         name='mid-marks'
                         onChange={e => handleChange(index, e)}
                         id={`mid-marks-${index}`}
-                        defaultValue={element.job}
+                        defaultValue={element.midterm_marks[0]?.marks || 0 }
                         autoComplete="off"
                         placeholder='Middle Marks'
-
+                        disabled
                       />
                     </FormGroup>
                     <FormGroup tag={Col} md='2'>
@@ -193,29 +220,19 @@ const Marks = () => {
                         Final Marks  <span className='text-danger'>*</span>
                       </Label>
                       <Input
-                        name='final-marks'
-                        onChange={e => handleChange(index, e)}
-                        id={`final-marks-${index}`}
-                        defaultValue={element.marks}
-                        autoComplete="off"
-                        placeholder='Final Marks'
-                      />
-                    </FormGroup>
-                    <FormGroup tag={Col} md='2'>
-                      <Label for='final-marks'>
-                        Total <span className='text-danger'>*</span>
-                      </Label>
-                      <Input
-                        name='final-marks'
+                        name='marks'
                         onChange={e => handleChange(index, e)}
                         id={`final-marks-${index}`}
                         defaultValue={''}
                         autoComplete="off"
                         placeholder='Final Marks'
+                        required
                       />
                     </FormGroup>
+
                     <FormGroup tag={Col} md='2' >
-                      <Button.Ripple color='success' className='text-nowrap px-1 d-flex justify-content-center align-items-center' onClick={() => deleteForm(index)} outline>
+                    <Label></Label>
+                      <Button.Ripple color='success' className='text-nowrap px-1 d-flex justify-content-center align-items-center' onClick={() => saveForm(index, element)} outline>
                         <Plus size={14} className='mr-50' />
                         <span>Save</span>
                       </Button.Ripple>
@@ -230,8 +247,6 @@ const Marks = () => {
           </CardBody>
         </Card>
 
-
-      </Form>
     </div>
   )
 }
