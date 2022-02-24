@@ -23,14 +23,14 @@ export const columns = [
     minWidth: '100px',
     selector: 'subject',
     sortable: true,
-    cell: row => row.subject.name
+    cell: row => row.subject?.name
   },
   {
     name: 'Teacher',
     minWidth: '250px',
     selector: '',
     sortable: true,
-    cell: row => row.teacher.name
+    cell: row => row.teacher?.name
   },
 
   {
