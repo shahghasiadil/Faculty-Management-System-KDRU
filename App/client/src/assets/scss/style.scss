@@ -75,3 +75,17 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
 .std-father-name {
 	word-spacing: normal;
 }
+
+.attendance-top-row {
+	display: flex;
+	flex-direction: row-reverse;
+	margin: auto;
+	padding: 0;
+	margin-bottom: 10px;
+}
+
+.attendance-logo-1 {
+	display: flex;
+	flex-direction: row-reverse;
+	padding: 0;
+}
