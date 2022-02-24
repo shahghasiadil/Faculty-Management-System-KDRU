@@ -45,7 +45,7 @@ export default [
         navLink: '/view-schedule'
       },
       {
-        id: 'view-schedule',
+        id: 'view-exam-schedule',
         title: 'View Exam Schedule',
         icon: <Circle size={12} />,
         navLink: '/view-exam-schedule'
