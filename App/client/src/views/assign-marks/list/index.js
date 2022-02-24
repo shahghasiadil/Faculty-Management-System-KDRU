@@ -18,44 +18,18 @@ import '@styles/react/libs/react-select/_react-select.scss'
 const Marks = () => {
   const [formValues, setFormValues] = useState([{ relationship: "", name: "", fathername: "", job: "", academicTransfer: "", phone: "" }])
 
-  const [currentWeek, setCurrentWeek] = useState({ value: '', label: 'Select Week' })
-  const [currentMonth, setCurrentMonth] = useState({ value: '', label: 'Select Month' })
   const [currentSemester, setCurrentSemester] = useState({ value: '', label: 'Select Semester' })
   const [currentPeriod, setCurrentPeriod] = useState({ value: '', label: 'Select Period' })
   const [currentSubject, setCurrentSubject] = useState({ value: '', label: 'Select Subject', number: 0 })
 
-  // ** User filter options
-  const weeksOptions = [
-    { value: '', label: 'Select Week' },
-    { value: '4', label: '4' },
-    { value: '6', label: '6' }
-  ]
-
-  const monthsOptions = [
-    { value: '', label: 'Select Month' },
-    { value: 'حمل', label: 'حمل' },
-    { value: 'ثور', label: 'ثور' },
-    { value: 'جوزا', label: 'جوزا' },
-    { value: 'سرطان', label: 'سرطان' },
-    { value: 'اسد', label: 'اسد' },
-    { value: 'سنبله', label: 'سنبله' },
-    { value: 'میزان', label: 'میزان' },
-    { value: 'عقرب', label: 'عقرب' },
-    { value: 'قوس', label: 'قوس' },
-    { value: 'جدی', label: 'جدی' },
-    { value: 'دلو', label: 'دلو' },
-    { value: 'حوت', label: 'حوت' }
-  ]
 
   const subjectsOptions = [
-    { value: '', label: 'Select Subject', number: 0 },
     { value: 'Math', label: 'Math', number: 1 },
     { value: 'Network', label: 'Network', number: 2 },
     { value: 'inactive', label: 'Inactive', number: 3 }
   ]
 
   const semesterOptions = [
-    { value: '', label: 'Select Semester' },
     { value: 'First', label: 'First' },
     { value: 'Second', label: 'Second' },
     { value: 'Third', label: 'Third' },
@@ -68,7 +42,6 @@ const Marks = () => {
 
 
   const periodOptions = [
-    { value: '', label: 'Select Period', number: 0 },
     { value: '1', label: '1', number: 1 },
     { value: '2', label: '2', number: 2 },
     { value: '3', label: '3', number: 3 }
@@ -113,28 +86,16 @@ const Marks = () => {
         <Form onSubmit={handleSubmit(onSubmit)} >
           <CardBody>
             <Row>
-              <Col md='2'>
-                <Select
-                  isClearable={false}
-                  theme={selectThemeColors}
-                  className='react-select'
-                  classNamePrefix='select'
-                  options={weeksOptions}
-                  value={currentWeek}
-                  name='week'
-                  onChange={(e) => setCurrentWeek(e)}
-                />
-              </Col>
-              <Col md='2'>
+            <Col md='3'>
                 <Select
                   theme={selectThemeColors}
                   isClearable={false}
                   className='react-select'
                   classNamePrefix='select'
-                  options={monthsOptions}
-                  value={currentMonth}
-                  name='month'
-                  onChange={(e) => setCurrentMonth(e)}
+                  options={semesterOptions}
+                  value={currentSemester}
+                  name='semester'
+                  onChange={(e) => setCurrentSemester(e)}
                 />
               </Col>
               <Col md='3'>
@@ -149,18 +110,7 @@ const Marks = () => {
                   onChange={(e) => setCurrentSubject(e)}
                 />
               </Col>
-              <Col md='2'>
-                <Select
-                  theme={selectThemeColors}
-                  isClearable={false}
-                  className='react-select'
-                  classNamePrefix='select'
-                  options={semesterOptions}
-                  value={currentSemester}
-                  name='semester'
-                  onChange={(e) => setCurrentSemester(e)}
-                />
-              </Col>
+
               <Col md='2'>
                 <Select
                   theme={selectThemeColors}
