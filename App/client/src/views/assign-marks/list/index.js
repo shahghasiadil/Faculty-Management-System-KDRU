@@ -16,7 +16,7 @@ import { Card, CardHeader, FormGroup, CardTitle, CardBody, Input, Row, Col, Labe
 import '@styles/react/libs/react-select/_react-select.scss'
 
 const Marks = () => {
-  const [formValues, setFormValues] = useState([{ relationship: "", name: "", fathername: "", job: "", academicTransfer: "", phone: "" }])
+  const [formValues, setFormValues] = useState([])
 
   const [currentSemester, setCurrentSemester] = useState({ value: '', label: 'Select Semester' })
   const [currentPeriod, setCurrentPeriod] = useState({ value: '', label: 'Select Period' })
@@ -47,10 +47,6 @@ const Marks = () => {
     { value: '3', label: '3', number: 3 }
   ]
 
-  const increaseCount = () => {
-    setFormValues([...formValues, { relationship: "", name: "", father_name: "", job: "", academic_transfer: "", phone: "" }])
-  }
-
   const handleChange = (i, e) => {
     const newFormValues = [...formValues]
     newFormValues[i][e.target.name] = e.target.value
@@ -60,7 +56,6 @@ const Marks = () => {
     const newFormValues = [...formValues]
     newFormValues.splice(i, 1)
     setFormValues(newFormValues)
-
   }
 
   const { handleSubmit, trigger } = useForm()
@@ -68,14 +63,7 @@ const Marks = () => {
   const onSubmit = () => {
     trigger()
     // ** data of selected inputs
-
-    // currentWeek.value
-    // currentMonth.value
-    // currentSemester.value
-    // currentPeriod.value
-    // currentSubject.value
   }
-
 
   return (
     <div className='app-user-list'>
