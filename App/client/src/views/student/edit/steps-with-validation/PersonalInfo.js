@@ -81,7 +81,7 @@ const PersonalInfo = ({ stepper, type }) => {
       stepper.next()
     }
   }
-  const [genderIndex, setGenderIndex] = useState(0)
+
   const genderOptions = [
     { value: 'Male', label: 'Male' },
     { value: 'Female', label: 'Female' }

@@ -93,6 +93,24 @@ export default [
     title: 'Registrations',
     icon: <Edit3 size={20}/>,
     navLink: '/registrations'
+  }, {
+    id: 'attendances',
+    title: 'Attendances',
+    icon: <User size={20} />,
+    children: [
+      {
+        id: 'view',
+        title: 'View',
+        icon: <Circle size={12} />,
+        navLink: '/attendances'
+      },
+      {
+        id: 'report',
+        title: 'Report',
+        icon: <Circle size={12} />,
+        navLink: '/apps/user/view'
+      }
+    ]
   },
   {
     id: 'users',

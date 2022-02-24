@@ -2,7 +2,6 @@ import { lazy } from 'react'
 import { Redirect } from 'react-router-dom'
 
 const AppRoutes = [
-
   {
     path: '/students',
     exact: true,
@@ -40,6 +39,11 @@ const AppRoutes = [
 
 
   // exam schedule route
+  {
+    path: '/attendances',
+    exact: true,
+    component: lazy(() => import('../../views/attendances/list'))
+  },
   {
     path: '/assign-marks',
     exact: true,
