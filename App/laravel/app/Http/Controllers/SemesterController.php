@@ -121,4 +121,43 @@ class SemesterController extends Controller
         } 
         else return response()->json(['message' => 'Resource Not Found', 'status' => 204]);
     }
+
+    /**
+     * @param Request request (semester_id and period)
+     * this function returns all students who are eligible for governmental fund related to a particular semester
+     */
+    public function getFundedStudentsBySemester(Request $request){
+        $students = Semester::findOrFail($request->semester_id)->students->where('period', $request->period)->all();
+        $funded = [];
+
+        foreach($students as $student){
+            // students from 'Kandahar City' won't be counted as funded.
+            if($student->address->province == 'KANDAHAR' && $student->address->district == 'CITY'){
+                continue;
+            }
+            else{
+                // counts the number of subject that the student has enrolled
+                $subjectCount = 0;
+                // sums final marks of all subjects that the student has enrolled
+                $sumOfFinalMarks = 0;
+                foreach($student->finalMarks as $marks){
+                    $subjectCount++;
+                    $sumOfFinalMarks += $marks->marks;
+                }
+                // total marks divided by number of subject that he has enrolled
+                $average = $sumOfFinalMarks/$subjectCount;
+                // resets the variables
+                $sumOfFinalMarks = 0;
+                $subjectCount = 0;
+
+                // adds the student to a global array if the average is above 65
+                if($average > 65){
+                    array_push($funded, $student);
+                }
+            }
+        }
+
+        // return all percentages of the students
+        return $funded;
+    }
 }

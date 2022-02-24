@@ -130,6 +130,7 @@ Route::apiResource('semesters', SemesterController::class);
 Route::delete('semesters/semester/{id}', [SemesterController::class, 'permanentDelete']);
 Route::get('semesters/{id}/restore', [SemesterController::class, 'restore']);
 Route::get('semesters/find-by-name', [SemesterController::class, 'findByNumber']);
+Route::post('semesters/funded-students', [SemesterController::class, 'getFundedStudentsBySemester']);
 
 
 // ** Teacher Routes
