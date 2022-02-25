@@ -21,6 +21,7 @@ import teachers from '@src/views/teachers/store/reducer'
 import semesters from '@src/views/semesters/store/reducer'
 import registrations from '@src/views/registrations/store/reducer'
 import ExamSchedules from '@src/views/examschedule/store/reducer'
+import attendance from '../../views/attendances/store/reducer'
 // import semesters from '@src/views/semesters/store/reducer'
 import subjects from '@src/views/subjects/store/reducer'
 // import finalMarks from '@src/views/final-marks/store/reducer'
@@ -46,7 +47,8 @@ const rootReducer = combineReducers({
   invoice,
   calendar,
   ecommerce,
-  dataTables
+  dataTables,
+  attendance
 })
 
 export default rootReducer
