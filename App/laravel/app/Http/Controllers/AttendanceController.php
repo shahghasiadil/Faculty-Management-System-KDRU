@@ -7,6 +7,7 @@ use App\Models\Attendance;
 use App\Models\Subject;
 use App\Models\Semester;
 use App\Models\Student;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class AttendanceController extends Controller
 {
@@ -121,6 +122,6 @@ class AttendanceController extends Controller
     }
 
     public function getStudentsBySubjectPeriod(Request $request){
-        return Subject::findOrFail($request->subject_id)->students->where('period', $request->period)->all();
+        return new JsonResource(Subject::findOrFail($request->subject_id)->students->where('period', $request->period)->all());
     }
 }
