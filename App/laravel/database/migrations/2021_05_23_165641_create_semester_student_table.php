@@ -17,6 +17,7 @@ class CreateSemesterStudentTable extends Migration
             $table->id();
             $table->foreignId('semester_id')->constrained();
             $table->foreignId('student_id')->constrained();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

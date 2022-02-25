@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('academic_transfer')->nullable();
             $table->string('phone')->nullable();
             $table->foreignId('student_id')->constrained('students');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
