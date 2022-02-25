@@ -7,6 +7,7 @@ use App\Models\Attendance;
 use App\Models\Subject;
 use App\Models\Semester;
 use App\Models\Student;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class AttendanceController extends Controller
 {
@@ -142,5 +143,9 @@ class AttendanceController extends Controller
     public function getAttByStudentMonthYear(Request $request)
     {
         return Attendance::with(['subject'])->where(['student_id'=>$request->student_id, 'month'=>$request->month, 'year'=>$request->year])->get()->all();
+    }
+
+    public function getStudentsBySubjectPeriod(Request $request){
+        return new JsonResource(Subject::findOrFail($request->subject_id)->students->where('period', $request->period)->all());
     }
 }

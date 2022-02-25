@@ -65,7 +65,7 @@ Route::get('exam-schedule/{id}/restore', [ExamScheduleController::class, 'restor
 Route::apiResource('final-marks', FinalMarkController::class);
 Route::delete('final-marks/final-mark/{id}', [FinalMarkController::class, 'permanentDelete']);
 Route::get('final-marks/{id}/restore', [FinalMarkController::class, 'restore']);
-
+Route::post('mark/final-marks-print',[FinalMarkController::class, 'loadMarks']);
 
 // ** Login
 Route::post('/login', [AuthenticationController::class, 'login']);

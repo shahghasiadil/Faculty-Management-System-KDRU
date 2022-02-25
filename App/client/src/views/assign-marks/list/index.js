@@ -2,114 +2,153 @@
 import '@styles/react/apps/app-users.scss'
 // ** React Imports
 import { Fragment, useState, useEffect } from 'react'
-
-
+import { yupResolver } from '@hookform/resolvers/yup'
 // ** Third Party Components
 import Select from 'react-select'
 import { useForm } from 'react-hook-form'
-import { ArrowLeft, ArrowRight, X, Plus } from 'react-feather'
-
+import { ArrowLeft, ArrowRight, X, Plus, FolderMinus } from 'react-feather'
+import { addFinalMark } from '../../final-marks/store/action'
 import { selectThemeColors } from '@utils'
 import { Card, CardHeader, FormGroup, CardTitle, CardBody, Input, Row, Col, Label, CustomInput, Button, Form } from 'reactstrap'
-
-
+import axios from 'axios'
+import { useDispatch } from 'react-redux'
 // ** Styles
 import '@styles/react/libs/react-select/_react-select.scss'
 
-const ChancesList = () => {
-  const [formValues, setFormValues] = useState([{ relationship: "", name: "", fathername: "", job: "", academicTransfer: "", phone: "" }])
-  const [currentRole, setCurrentRole] = useState({ value: '', label: 'Select Role' })
-  const [currentPlan, setCurrentPlan] = useState({ value: '', label: 'Select Plan' })
-  const [currentStatus, setCurrentStatus] = useState({ value: '', label: 'Select Status', number: 0 })
+const Marks = () => {
+  const [formValues, setFormValues] = useState([])
 
-      // ** User filter options
-  const roleOptions = [
-    { value: '', label: 'Select Role' },
-    { value: 'admin', label: 'Admin' },
-    { value: 'author', label: 'Author' },
-    { value: 'editor', label: 'Editor' },
-    { value: 'maintainer', label: 'Maintainer' },
-    { value: 'subscriber', label: 'Subscriber' }
+  const [currentSemester, setCurrentSemester] = useState({ value: '', label: 'Select Semester' })
+  const [currentPeriod, setCurrentPeriod] = useState({ value: '', label: 'Select Period' })
+  const [currentSubject, setCurrentSubject] = useState()
+  const [subjects, setSubjects] = useState([])
+  const [total, setTotal] = useState(0)
+
+  const dispatch = useDispatch()
+
+  const semesterOptions = [
+    { value: 1, label: 'First' },
+    { value: 2, label: 'Second' },
+    { value: 3, label: 'Third' },
+    { value: 4, label: 'Fourth' },
+    { value:5, label: 'Fifth' },
+    { value: 6, label: 'Sixth' },
+    { value: 7, label: 'Seventh' },
+    { value: 8, label: 'Eighth' }
   ]
 
-  const planOptions = [
-    { value: '', label: 'Select Plan' },
-    { value: 'basic', label: 'Basic' },
-    { value: 'company', label: 'Company' },
-    { value: 'enterprise', label: 'Enterprise' },
-    { value: 'team', label: 'Team' }
-  ]
 
-  const statusOptions = [
-    { value: '', label: 'Select Status', number: 0 },
-    { value: 'pending', label: 'Pending', number: 1 },
-    { value: 'active', label: 'Active', number: 2 },
-    { value: 'inactive', label: 'Inactive', number: 3 }
+  const periodOptions = [
+    { value: '1', label: '1', number: 1 },
+    { value: '2', label: '2', number: 2 },
+    { value: '3', label: '3', number: 3 }
   ]
-  const increaseCount = () => {
-    setFormValues([...formValues, { relationship: "", name: "", father_name: "", job: "", academic_transfer: "", phone: "" }])
-  }
 
   const handleChange = (i, e) => {
     const newFormValues = [...formValues]
     newFormValues[i][e.target.name] = e.target.value
     setFormValues(newFormValues)
   }
-  const deleteForm = i => {
-    const newFormValues = [...formValues]
-    newFormValues.splice(i, 1)
-    setFormValues(newFormValues)
+  const saveForm = (i, e) => {
+
+    if (e.marks) {
+      dispatch(addFinalMark({
+        student_id: e.id,
+        subject_id:currentSubject.value,
+        marks:e.marks
+      }))
+      const newFormValues = [...formValues]
+      newFormValues.splice(i, 1)
+      setFormValues(newFormValues)
+    }
 
   }
+
+  const { handleSubmit, trigger } = useForm()
+
+  const loadStudents = (params) => {
+    axios.post(`http://127.0.0.1:8000/api/semester/find-all-students-of-semester`, params).then(response => {
+        setFormValues([...response.data.data])
+    })
+  }
+  const loadSubjects = () => {
+    axios.get('http://127.0.0.1:8000/api/subjects').then((res) => {
+      for (const data of res.data.data) {
+        subjects.push({value: data.id, label: data.name })
+      }
+    })
+  }
+
+  useEffect(() => {
+    loadSubjects()
+  }, [])
+  const onSubmit = () => {
+    trigger()
+
+    loadStudents({
+      period: currentPeriod.value,
+      id: currentSemester.value,
+      subject_id:currentSubject.value
+    })
+  }
+
   return (
     <div className='app-user-list'>
-        <Card>
+      <Card>
         <CardHeader>
           <CardTitle tag='h4'>Search Filter</CardTitle>
         </CardHeader>
-        <CardBody>
-          <Row>
-            <Col md='4'>
-              <Select
-                isClearable={false}
-                theme={selectThemeColors}
-                className='react-select'
-                classNamePrefix='select'
-                options={roleOptions}
-                value={currentRole}
-              />
-            </Col>
-            <Col className='my-md-0 my-1' md='4'>
-              <Select
-                theme={selectThemeColors}
-                isClearable={false}
-                className='react-select'
-                classNamePrefix='select'
-                options={planOptions}
-                value={currentPlan}
+        <Form onSubmit={handleSubmit(onSubmit)} >
+          <CardBody>
+            <Row>
+            <Col md='3'>
+                <Select
+                  theme={selectThemeColors}
+                  isClearable={false}
+                  className='react-select'
+                  classNamePrefix='select'
+                  options={semesterOptions}
+                  value={currentSemester}
+                  name='semester'
+                  onChange={(e) => setCurrentSemester(e)}
+                />
+              </Col>
+              <Col md='3'>
+                <Select
+                  theme={selectThemeColors}
+                  isClearable={false}
+                  className='react-select'
+                  classNamePrefix='select'
+                  options={subjects}
+                  value={currentSubject}
+                  name='subject'
+                  onChange={(e) => setCurrentSubject(e)}
+                />
+              </Col>
 
-              />
-            </Col>
-            <Col md='4'>
-              <Select
-                theme={selectThemeColors}
-                isClearable={false}
-                className='react-select'
-                classNamePrefix='select'
-                options={statusOptions}
-                value={currentStatus}
-
-              />
-            </Col>
-          </Row>
-        </CardBody>
+              <Col md='2'>
+                <Select
+                  theme={selectThemeColors}
+                  isClearable={false}
+                  className='react-select'
+                  classNamePrefix='select'
+                  options={periodOptions}
+                  value={currentPeriod}
+                  name='period'
+                  onChange={(e) => setCurrentPeriod(e)}
+                />
+              </Col>
+              <Col md='1'>
+                <Button color='success' className='text-nowrap px-1 d-flex justify-content-center align-items-center'>Submit</Button>
+              </Col>
+            </Row>
+          </CardBody>
+        </Form>
       </Card>
-      <Form>
 
         <Card>
           <CardBody>
             {formValues.map((element, index) => (
-
 
               <Row className='justify-content-between align-items-center'>
                 <Col md='12'>
@@ -126,6 +165,7 @@ const ChancesList = () => {
                         id={`name-${index}`}
                         autoComplete="off"
                         placeholder='Name'
+                        disabled
                         defaultValue={element.name || ''}
                       />
                     </FormGroup>
@@ -141,7 +181,7 @@ const ChancesList = () => {
                         autoComplete="off"
                         placeholder='Father Name'
                         onChange={e => handleChange(index, e)}
-
+                        disabled
                       />
 
                     </FormGroup>
@@ -156,6 +196,7 @@ const ChancesList = () => {
                         autoComplete="off"
                         onChange={e => handleChange(index, e)}
                         placeholder='Roll Number'
+                        disabled
                       />
 
                     </FormGroup>
@@ -168,10 +209,10 @@ const ChancesList = () => {
                         name='mid-marks'
                         onChange={e => handleChange(index, e)}
                         id={`mid-marks-${index}`}
-                        defaultValue={element.job}
+                        defaultValue={element.midterm_marks[0]?.marks || 0 }
                         autoComplete="off"
                         placeholder='Middle Marks'
-
+                        disabled
                       />
                     </FormGroup>
                     <FormGroup tag={Col} md='2'>
@@ -179,47 +220,35 @@ const ChancesList = () => {
                         Final Marks  <span className='text-danger'>*</span>
                       </Label>
                       <Input
-                        name='final-marks'
-                        onChange={e => handleChange(index, e)}
-                        id={`final-marks-${index}`}
-                        defaultValue={element.marks}
-                        autoComplete="off"
-                        placeholder='Final Marks'
-                      />
-                    </FormGroup>
-                    <FormGroup tag={Col} md='2'>
-                      <Label for='final-marks'>
-                        Total <span className='text-danger'>*</span>
-                      </Label>
-                      <Input
-                        name='final-marks'
+                        name='marks'
                         onChange={e => handleChange(index, e)}
                         id={`final-marks-${index}`}
                         defaultValue={''}
                         autoComplete="off"
                         placeholder='Final Marks'
+                        required
                       />
                     </FormGroup>
+
                     <FormGroup tag={Col} md='2' >
-                      <Button.Ripple color='success' className='text-nowrap px-1 d-flex justify-content-center align-items-center' onClick={() => deleteForm(index)} outline>
+                    <Label></Label>
+                      <Button.Ripple color='success' className='text-nowrap px-1 d-flex justify-content-center align-items-center' onClick={() => saveForm(index, element)} outline>
                         <Plus size={14} className='mr-50' />
                         <span>Save</span>
                       </Button.Ripple>
                     </FormGroup>
-                    </Row>
+                  </Row>
 
 
-                  </Col>
+                </Col>
               </Row>
             ))}
 
           </CardBody>
         </Card>
 
-
-      </Form>
     </div>
   )
 }
 
-export default ChancesList
+export default Marks
