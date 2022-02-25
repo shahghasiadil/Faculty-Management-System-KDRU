@@ -1,13 +1,13 @@
 
-import { Layers, Users, Edit3, Book, CheckSquare, Calendar, FileText, Circle, ShoppingCart, User, Mail, MessageSquare, Edit, List} from 'react-feather'
+import { Layers, Users, Edit3, Book, CheckSquare, Calendar, FileText, Circle, ShoppingCart, User, Mail, MessageSquare, Edit, List } from 'react-feather'
 
 export default [
 
   {
-    id: 'students', 
-    title: 'Students', 
-    icon: <Users size={20} />, 
-    navLink: '/students' 
+    id: 'students',
+    title: 'Students',
+    icon: <Users size={20} />,
+    navLink: '/students'
   },
   {
     id: 'teachers',
@@ -55,13 +55,13 @@ export default [
   {
     id: 'subjects',
     title: 'Subjects',
-    icon: <Book size={20}/>,
+    icon: <Book size={20} />,
     navLink: '/subjects'
   },
   {
     id: 'marks',
     title: 'Marks',
-    icon: <FileText size={20}/>,
+    icon: <FileText size={20} />,
     children: [
       {
         id: 'midterm',
@@ -76,6 +76,12 @@ export default [
         navLink: '/final-marks'
       },
       {
+        id: 'final-marks-report',
+        title: 'Marks Report',
+        icon: <Circle size={12} />,
+        navLink: '/marks-report'
+      },
+      {
         id: 'assign-marks',
         title: 'Assign Marks',
         icon: <Circle size={12} />,
@@ -83,7 +89,7 @@ export default [
       }, {
         id: 'chance',
         title: 'Chance',
-        icon: <FileText size={20}/>,
+        icon: <FileText size={20} />,
         navLink: '/chances'
       }
     ]
@@ -91,7 +97,7 @@ export default [
   {
     id: 'registrations',
     title: 'Registrations',
-    icon: <Edit3 size={20}/>,
+    icon: <Edit3 size={20} />,
     navLink: '/registrations'
   }, {
     id: 'attendances',

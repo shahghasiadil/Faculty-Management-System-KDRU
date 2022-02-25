@@ -1,4 +1,4 @@
-import { ADD_FINAL_MARKS, ARCHIVE, DELETE_FINAL_MARKS, GET_ALL_DATA, GET_DATA, GET_FINAL_MARKS, RESTORE_FINAL_MARKS, UPDATE_FINAL_MARKS } from "../action/actionTypes"
+import { GET_STUDENTS, ADD_FINAL_MARKS, ARCHIVE, DELETE_FINAL_MARKS, GET_ALL_DATA, GET_DATA, GET_FINAL_MARKS, RESTORE_FINAL_MARKS, UPDATE_FINAL_MARKS } from "../action/actionTypes"
 
 // ** Initial State
 const initialState = {
@@ -6,7 +6,8 @@ const initialState = {
   data: [],
   total: 1,
   params: {},
-  selectedFinalMark: null
+  selectedFinalMark: null,
+  students: null
 }
 
 const finalMarks = (state = initialState, action) => {
@@ -18,22 +19,24 @@ const finalMarks = (state = initialState, action) => {
         ...state,
         data: action.data,
         total: action.totalPages,
-        params:action.params
+        params: action.params
       }
     case GET_FINAL_MARKS:
       return { ...state, selectedFinalMark: action.selectedFinalMark }
+    case GET_STUDENTS:
+      return { ...state, students: action.students }
     case ADD_FINAL_MARKS:
-      return { ...state  }
+      return { ...state }
     case UPDATE_FINAL_MARKS:
-        return { ...state }
+      return { ...state }
     case DELETE_FINAL_MARKS:
       return { ...state }
     case ARCHIVE:
       return { ...state }
     case RESTORE_FINAL_MARKS:
-      return { ...state}
+      return { ...state }
     default:
       return { ...state }
   }
 }
-export default  finalMarks
+export default finalMarks

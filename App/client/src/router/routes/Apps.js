@@ -69,6 +69,11 @@ const AppRoutes = [
     component: lazy(() => import('../../views/final-marks/list'))
   },
   {
+    path: '/marks-report',
+    exact: true,
+    component: lazy(() => import('../../views/final-marks/list/report'))
+  },
+  {
     path: '/views/final-mark/edit/:id',
     component: lazy(() => import('../../views/final-marks/edit')),
     meta: {
