@@ -34,8 +34,8 @@ use Illuminate\Support\Facades\Route;
 Route::apiResource('attendances', AttendanceController::class);
 Route::delete('attendances/attendance/{id}', [AttendanceController::class, 'permanentDelete']);
 Route::get('attendances/{id}/restore', [AttendanceController::class, 'restore']);
-Route::get('attendances/find-by-subject/{id}', [AttendanceController::class, 'searchBySubject']);
-Route::post('attendances/find-by-subject-period/', [AttendanceController::class, 'getStudentsBySubjectPeriod']);
+Route::post('attendances/find-by-subject-year-month/', [AttendanceController::class, 'getAttBySubjectYearMonth']);
+Route::post('attendances/find-by-student-month/', [AttendanceController::class, 'getAttByStudentMonth']);
 
 
 // ** Address Routes
@@ -108,7 +108,6 @@ Route::get('schedules/{id}/restore', [ScheduleController::class, 'restore']);
 Route::apiResource('subjects', SubjectController::class);
 Route::delete('subjects/subject/{id}', [SubjectController::class, 'permanentDelete']);
 Route::get('subjects/{id}/restore', [SubjectController::class, 'restore']);
-
 Route::get('get-semesters', [SubjectController::class, 'getSemesters']);
 
 // ** Student Routes
@@ -118,7 +117,7 @@ Route::get('students/{id}/restore', [StudentController::class, 'restore']);
 Route::get('students/get-father-name/{name}', [StudentController::class, 'studentFatherName']);
 Route::get('students/get-roll-no/{fname}', [StudentController::class, 'studentRollNo']);
 Route::post('students/find-by-email', [StudentController::class, 'findByEmail']);
-Route::get('students/find-by-subject/{id}', [StudentController::class, 'getStudentsBySubject']);
+Route::post('students/find-by-subject-period/', [StudentController::class, 'getStudentsBySubjectPeriod']);
 Route::get('students/find-by-semester/{id}', [StudentController::class, 'getStudentsBySemester']);
 Route::post('students/add-to-semester', [StudentController::class, 'addStudentToSemester']);
 Route::post('students/add-to-subject', [StudentController::class, 'addStudentToSubject']);

@@ -149,8 +149,16 @@ class StudentController extends Controller
             'student_id' => 'required|integer',
             'subject_id' => 'required|integer'
         ]);
+
         $subject = Subject::findOrFail($request->subject_id);
         $subject->students()->attach($request->student_id);
+        
+        // if a student is added to a subject, also add them to the related semester automatically
+        $semester = $subject->semester;
+        $student = $semester->students->where('id', $request->student_id)->first();
+        if($student == null){
+            $semester->students()->attach($request->student_id);
+        }
     }
 
     // the update function never updates user_id as it is only set once!
@@ -294,12 +302,12 @@ class StudentController extends Controller
     }
 
     /**
-     * @param int id (subject id)
+     * @param Request request (subject id and period)
      * this function returns all students related to a particular subject
      */
-    public function getStudentsBySubject($id)
+    public function getStudentsBySubjectPeriod(Request $request)
     {
-        return Subject::findOrFail($id)->students;
+        return Subject::findOrFail($request->subject_id)->students->where('period', $request->period);
     }
 
     /** @param int id (semester id)
