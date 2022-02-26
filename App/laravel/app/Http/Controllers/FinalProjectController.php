@@ -36,24 +36,13 @@ class FinalProjectController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
+        $data = $this->validate($request, [
             'name' => 'required|string',
             'code' => 'required|string',
             'teacher_id' => 'required|integer'
         ]);
 
-        try
-        {
-            FinalProject::create([
-                'name' => $request->name,
-                'code' => $request->code,
-                'teacher_id' => $request->teacher_id
-            ]);
-        }
-        catch (QueryException $e) 
-        {
-            echo($e);
-        }
+            FinalProject::create($data);
     }
 
     /**
