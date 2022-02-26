@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\FinalProject;
-
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class FinalProjectController extends Controller
 {
@@ -15,7 +15,7 @@ class FinalProjectController extends Controller
      */
     public function index()
     {
-        return FinalProject::with('teacher')->latest()->paginate(10);
+        return new JsonResource(FinalProject::with('teacher')->latest()->get());
     }
 
     /**
