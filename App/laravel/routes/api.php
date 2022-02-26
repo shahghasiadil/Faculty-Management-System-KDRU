@@ -36,7 +36,7 @@ Route::delete('attendances/attendance/{id}', [AttendanceController::class, 'perm
 Route::get('attendances/{id}/restore', [AttendanceController::class, 'restore']);
 Route::post('attendances/find-by-subject-year-month/', [AttendanceController::class, 'getAttBySubjectYearMonth']);
 Route::post('attendances/find-by-student-month/', [AttendanceController::class, 'getAttByStudentMonth']);
-
+Route::post('attendances/find-by-subject-period',[AttendanceController::class,'getStudentsBySubjectPeriod']);
 
 // ** Address Routes
 Route::apiResource('addresses', AddressController::class);
