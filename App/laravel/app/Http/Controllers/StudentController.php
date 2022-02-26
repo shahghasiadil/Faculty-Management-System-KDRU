@@ -61,7 +61,7 @@ class StudentController extends Controller
             'personal.gender' => 'required'
         ]);
 
-        try {
+        // try {
 
             $user = User::create([
                 'name' =>   $data['account']['username'],
@@ -116,12 +116,12 @@ class StudentController extends Controller
 
 
 
-        } catch (QueryException $e) {
-            if ($e->errorInfo[1] === 1062) {
-                return ("Duplicate Entry");
-            }
+        // } catch (QueryException $e) {
+        //     if ($e->errorInfo[1] === 1062) {
+        //         return ("Duplicate Entry");
+        //     }
 
-        }
+        // }
     }
     
     /**

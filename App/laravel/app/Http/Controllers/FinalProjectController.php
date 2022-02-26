@@ -42,7 +42,8 @@ class FinalProjectController extends Controller
             'teacher_id' => 'required|integer'
         ]);
 
-            FinalProject::create($data);
+            $finalProject = FinalProject::create($data);
+            $finalProject->students()->attach($request->stduents);
     }
 
     /**
@@ -83,6 +84,8 @@ class FinalProjectController extends Controller
 
         $finalProject = FinalProject::findOrFail($id);
         $finalProject->update($validatedData);
+        $finalProject->sync($request->students);
+
     }
 
     /**
