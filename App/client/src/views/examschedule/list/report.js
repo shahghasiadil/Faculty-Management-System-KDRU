@@ -1,25 +1,24 @@
 import { Fragment, useState } from 'react'
-import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import Avatar from '@components/avatar'
 import { useForm } from 'react-hook-form'
 import { selectThemeColors } from '@utils'
 import Select from 'react-select'
-import { Alert, Form, Button, CardBody, Card, CardHeader, CardTitle, CardImg, Row, Col, Table, Breadcrumb, BreadcrumbItem } from 'reactstrap'
+import { Printer } from 'react-feather'
+import { getExamSchedule } from '../store/action'
+import { Alert, Form, Button, CardBody, Card, CardHeader, CardTitle, Row, Col, Table } from 'reactstrap'
 import img1 from '@src/assets/images/slider/06.jpg'
-import img10 from '@src/assets/images/avatars/10.png'
 
 const CardActions = () => {
 
   const [currentSemester, setCurrentSemester] = useState({ value: '', label: 'Select Semester' })
-  const [currentPeriod, setCurrentPeriod] = useState({ value: '', label: 'Select Period' })
-  const [currentSubject, setCurrentSubject] = useState({ value: 0, label: 'Select Subject', number: 0 })
+  const [currentYear, setCurrentYear] = useState({ value: 2022, label: 'Year 2022 ' })
 
-  const subjectsOptions = [
-    { value: 0, label: 'Select Subject', number: 0 },
-    { value: 1, label: 'پروګرامینګ', number: 1 },
-    { value: 2, label: 'نیټورک', number: 2 },
-    { value: 3, label: 'اسلامیات', number: 3 }
+  const yearOptions = [
+    { value: 2020, label: 'Year 2020' },
+    { value: 2021, label: 'Year 2021' },
+    { value: 2022, label: 'Year 2022' },
+    { value: 2023, label: 'Year 2023' }
   ]
 
   const semesterOptions = [
@@ -33,30 +32,7 @@ const CardActions = () => {
     { value: 'اووم', label: 'اووم' },
     { value: 'اتم', label: 'اتم' }
   ]
-
-  const periodOptions = [
-    { value: '', label: 'Select Period', number: 0 },
-    { value: '1', label: '1', number: 1 },
-    { value: '2', label: '2', number: 2 },
-    { value: '3', label: '3', number: 3 }
-  ]
-
-  const increaseCount = () => {
-    setFormValues([...formValues, { relationship: "", name: "", father_name: "", job: "", academic_transfer: "", phone: "" }])
-  }
-
-  const handleChange = (i, e) => {
-    const newFormValues = [...formValues]
-    newFormValues[i][e.target.name] = e.target.value
-    setFormValues(newFormValues)
-  }
-  const deleteForm = i => {
-    const newFormValues = [...formValues]
-    newFormValues.splice(i, 1)
-    setFormValues(newFormValues)
-
-  }
-  const { students } = useSelector(state => state.finalMarks)
+  const { selectedExamSchedule } = useSelector(state => state.ExamSchedules)
 
   const dispatch = useDispatch()
 
@@ -65,7 +41,7 @@ const CardActions = () => {
   const onSubmit = () => {
     trigger()
 
-    //dispatch(getStudents(currentPeriod.value, currentSubject.value))
+    dispatch(getExamSchedule(currentSemester.value, currentYear.value))
   }
 
   const prints = () => {
@@ -88,43 +64,19 @@ const CardActions = () => {
         <Form onSubmit={handleSubmit(onSubmit)} >
           <CardBody>
             <Row>
-              {/* <Col md='2'>
-                <Select
-                  isClearable={false}
-                  theme={selectThemeColors}
-                  className='react-select'
-                  classNamePrefix='select'
-                  options={weeksOptions}
-                  value={currentWeek}
-                  name='week'
-                  onChange={(e) => setCurrentWeek(e)}
-                />
-              </Col> */}
-              {/* <Col md='2'>
+              <Col md='5'>
                 <Select
                   theme={selectThemeColors}
                   isClearable={false}
                   className='react-select'
                   classNamePrefix='select'
-                  options={monthsOptions}
-                  value={currentMonth}
-                  name='month'
-                  onChange={(e) => setCurrentMonth(e)}
-                />
-              </Col> */}
-              <Col md='4'>
-                <Select
-                  theme={selectThemeColors}
-                  isClearable={false}
-                  className='react-select'
-                  classNamePrefix='select'
-                  options={subjectsOptions}
-                  value={currentSubject}
+                  options={yearOptions}
+                  value={currentYear}
                   name='subject'
-                  onChange={(e) => setCurrentSubject(e)}
+                  onChange={(e) => setCurrentYear(e)}
                 />
               </Col>
-              <Col md='3'>
+              <Col md='5'>
                 <Select
                   theme={selectThemeColors}
                   isClearable={false}
@@ -136,30 +88,18 @@ const CardActions = () => {
                   onChange={(e) => setCurrentSemester(e)}
                 />
               </Col>
-              <Col md='3'>
-                <Select
-                  theme={selectThemeColors}
-                  isClearable={false}
-                  className='react-select'
-                  classNamePrefix='select'
-                  options={periodOptions}
-                  value={currentPeriod}
-                  name='period'
-                  onChange={(e) => setCurrentPeriod(e)}
-                />
-              </Col>
               <Col md='1'>
                 <Button color='success' className='text-nowrap px-1 d-flex justify-content-center align-items-center'>Submit</Button>
               </Col>
               <Col md='1'>
-                <Button onClick={prints} color='info' className='text-nowrap px-1 d-flex justify-content-center align-items-center'>Print</Button>
+                {selectedExamSchedule && <Button onClick={prints} color='info' className='text-nowrap px-1 d-flex justify-content-center align-items-center'>Print <Printer size={16} /></Button>}
               </Col>
             </Row>
           </CardBody>
         </Form>
       </Card>
 
-      {students === 'k' ? <Alert color='danger'> <h4 className='alert-heading'>Search by selecting the above filters </h4>
+      {selectedExamSchedule === 'k' ? <Alert color='danger'> <h4 className='alert-heading'>Search by selecting the above filters </h4>
         <div className='alert-body'>
           There is no data to show in table
         </div>

@@ -91,3 +91,29 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
 	flex-direction: row-reverse;
 	padding: 0;
 }
+
+// .react-dataTable {
+// 	overflow: none;
+// }
+
+// .react-dataTable:hover,
+// .react-dataTable:focus {
+// 	overflow: auto;
+// }
+
+.react-dataTable::-webkit-scrollbar {
+	background-color: rgba(9, 9, 10, 0.157);
+	height: 15px;
+	box-shadow: 2px, 3px, 4px, 5px gray;
+	cursor: pointer;
+}
+
+.react-dataTable::-webkit-scrollbar-thumb {
+	background-color: rgba(9, 9, 10, 0.219);
+}
+
+.react-dataTable::-webkit-scrollbar-track {
+	box-shadow: inset 2px 2px 9px rgba(197, 189, 189, 0.466);
+	border-radius: 7px;
+
+}

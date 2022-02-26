@@ -119,6 +119,25 @@ export default [
     ]
   },
   {
+    id: 'projects',
+    title: 'Projects',
+    icon: <User size={20} />,
+    children: [
+      {
+        id: 'view',
+        title: 'View',
+        icon: <Circle size={12} />,
+        navLink: '/projects'
+      },
+      {
+        id: 'report',
+        title: 'Emtpy',
+        icon: <Circle size={12} />,
+        navLink: '/apps/user/view'
+      }
+    ]
+  },
+  {
     id: 'users',
     title: 'User',
     icon: <User size={20} />,

@@ -69,6 +69,11 @@ const AppRoutes = [
   },
 
   {
+    path: '/projects',
+    exact: true,
+    component: lazy(() => import('../../views/project/'))
+  },
+  {
     path: '/final-marks',
     exact: true,
     component: lazy(() => import('../../views/final-marks/list'))

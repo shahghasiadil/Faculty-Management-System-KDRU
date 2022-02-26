@@ -1,8 +1,8 @@
 import axios from 'axios'
 
 // ** Toast Components
-import { SuccessProgressToast} from '../../list/Sidebar'
-import {UpdateProgressToast} from '../../edit/Edit'
+import { SuccessProgressToast } from '../../list/Sidebar'
+import { UpdateProgressToast } from '../../edit/Edit'
 import { toast, Slide } from 'react-toastify'
 import { ErrorToast as AlertComponent } from '../../list/Table'
 // ** SweetAlerts
@@ -29,19 +29,19 @@ export const getAllData = () => {
 export const getData = params => {
   return async dispatch => {
     await axios.get(`http://127.0.0.1:8000/api/exam-schedules`, params).then(response => {
-    dispatch({
-      type: GET_DATA,
-      data:response.data.data,
-      params
-    })
+      dispatch({
+        type: GET_DATA,
+        data: response.data.data,
+        params
+      })
     })
   }
-} 
+}
 // ** Get Student
-export const getExamSchedule = id => {
+export const getExamSchedule = (semesterId, year) => {
   return async dispatch => {
     await axios
-      .get(`http://127.0.0.1:8000/api/exam-schedules/${id}`)
+      .get(`http://127.0.0.1:8000/api/scheduales/scheduale-filter?semester_id=${semesterId}&year=${year}`)
       .then(response => {
         dispatch({
           type: GET_EXAM_SCHEDULE,
@@ -65,73 +65,73 @@ export const addExamSchedule = ExamSchedule => {
 
       })
       .then(() => {
-        toast.success(<SuccessProgressToast/>)
+        toast.success(<SuccessProgressToast />)
         dispatch(getData(getState().ExamSchedules.params))
         dispatch(getAllData())
-        
+
       })
       .catch(() => {
 
       })
-    }
   }
-  // ** Update Student
-  export const updateExamSchedule = (ExamSchedule, id) => {
-    return (dispatch, getState) => {
-      axios
-        .put(`http://127.0.0.1:8000/api/exam-schedules/${id}`, ExamSchedule)
-        .then(response => {
-          dispatch({
-            type: UPDATE_EXAM_SCHEDULE,
-            ExamSchedule
+}
+// ** Update Student
+export const updateExamSchedule = (ExamSchedule, id) => {
+  return (dispatch, getState) => {
+    axios
+      .put(`http://127.0.0.1:8000/api/exam-schedules/${id}`, ExamSchedule)
+      .then(response => {
+        dispatch({
+          type: UPDATE_EXAM_SCHEDULE,
+          ExamSchedule
+        })
+
+      })
+      .then(() => {
+        toast.success(<UpdateProgressToast />)
+        dispatch(getData(getState().ExamSchedules.params))
+        dispatch(getAllData())
+
+      })
+      .catch(err => console.log(err))
+  }
+}
+// ** Delete Student
+export const deleteExamSchedule = id => {
+  return (dispatch, getState) => {
+    MySwal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      customClass: {
+        confirmButton: 'btn btn-primary',
+        cancelButton: 'btn btn-danger ml-1'
+      },
+      buttonsStyling: false
+    }).then(function (result) {
+      if (result.value) {
+        axios.delete(`http://127.0.0.1:8000/api/exam-schedules/exam-schedule/${id}`)
+          .then(() => {
+            dispatch({
+              type: DELETE_EXAM_SCHEDULE
+            })
+            MySwal.fire({
+              icon: 'success',
+              title: 'Deleted!',
+              text: 'Your record has been deleted.',
+              customClass: {
+                confirmButton: 'btn btn-success'
+              }
+            })
+          }).catch(() => {
+            MySwal.fire('Failed!',
+              'There was something wrong.',
+              'warning')
           })
-          
-        })
-        .then(() => {
-          toast.success(<UpdateProgressToast/>)        
-          dispatch(getData(getState().ExamSchedules.params))
-          dispatch(getAllData())
-          
-        })
-        .catch(err => console.log(err))
       }
-    }
-  // ** Delete Student
-  export const deleteExamSchedule = id => {
-    return (dispatch, getState) => {
-       MySwal.fire({
-          title: 'Are you sure?',
-          text: "You won't be able to revert this!",
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonText: 'Yes, delete it!',
-          customClass: {
-            confirmButton: 'btn btn-primary',
-            cancelButton: 'btn btn-danger ml-1'
-          },
-          buttonsStyling: false
-        }).then(function (result) {
-          if (result.value) {
-            axios.delete(`http://127.0.0.1:8000/api/exam-schedules/exam-schedule/${id}`)
-            .then(() => {
-                dispatch({
-                type: DELETE_EXAM_SCHEDULE
-                })
-                MySwal.fire({
-                  icon: 'success',
-                  title: 'Deleted!',
-                  text: 'Your record has been deleted.',
-                  customClass: {
-                    confirmButton: 'btn btn-success'
-                  }
-                })
-              }).catch(() => {
-                MySwal.fire('Failed!',
-                'There was something wrong.',
-                'warning')
-              })
-          }
-        })      
+    })
       .then(() => {
         dispatch(getData(getState().ExamSchedules.params))
         dispatch(getAllData())
@@ -143,15 +143,15 @@ export const archiveExamSchedule = id => {
   return (dispatch, getState) => {
     axios.delete(`http://127.0.0.1:8000/api/exam-schedules/${id}`).then(() => {
       dispatch({
-        type:ARCHIVE
+        type: ARCHIVE
       })
     }).then(() => {
       dispatch(getData(getState().ExamSchedules.params))
       dispatch(getAllData())
-      toast.success(<AlertComponent id = {id}/>,
+      toast.success(<AlertComponent id={id} />,
         { transition: Slide, autoClose: 10000 }
-        )
-     
+      )
+
     }).catch(err => console.log(err))
   }
 }
@@ -160,7 +160,7 @@ export const restoreExamSchedule = id => {
   return (dispatch, getState) => {
     axios.get(`http://127.0.0.1:8000/api/exam-schedule/${id}/restore`).then(() => {
       dispatch({
-        type:RESTORE_EXAM_SCHEDULE
+        type: RESTORE_EXAM_SCHEDULE
       })
     }).then(() => {
       dispatch(getData(getState().ExamSchedules.params))
