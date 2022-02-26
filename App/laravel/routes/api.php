@@ -12,6 +12,7 @@ use App\Http\Controllers\FinalMarkController;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\AddressController;
+use App\Http\Controllers\FinalProjectController;
 use App\Http\Controllers\RelativeController;
 use App\Http\Controllers\Auth\AuthenticationController;
 use App\Http\Controllers\DashboardController;
@@ -66,6 +67,17 @@ Route::apiResource('final-marks', FinalMarkController::class);
 Route::delete('final-marks/final-mark/{id}', [FinalMarkController::class, 'permanentDelete']);
 Route::get('final-marks/{id}/restore', [FinalMarkController::class, 'restore']);
 Route::post('mark/final-marks-print',[FinalMarkController::class, 'loadMarks']);
+
+
+// ** Final Project Routes
+Route::apiResource('final-projects', FinalProjectController::class);
+Route::delete('final-projects/final-project/{id}', [FinalProjectController::class, 'permanentDelete']);
+Route::get('final-projects/{id}/restore', [FinalProjectController::class, 'restore']);
+Route::post('final-projects/add-student',[FinalProjectController::class, 'addStudentToFinalProject']);
+Route::post('final-projects/remove-student',[FinalProjectController::class, 'removeStudentFromFinalProject']);
+Route::get('final-projects/get-students-by-project/{id}',[FinalProjectController::class, 'getFinalProjectStudents']);
+Route::get('final-projects/get-teacher-by-project/{id}',[FinalProjectController::class, 'getFinalProjectTeacher']);
+
 
 // ** Login
 Route::post('/login', [AuthenticationController::class, 'login']);

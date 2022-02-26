@@ -15,6 +15,7 @@ class Teacher extends Model
     {
         return $this->hasMany(Schedule::class);
     }
+    
     public function examSchedules()
     {
         return $this->hasMany(ExamSchedule::class);
@@ -24,8 +25,14 @@ class Teacher extends Model
     {
         return $this->belongsTo(User::class);
     }
+
     public function address()
     {
         return $this->belongsTo(Address::class);
+    }
+
+    public function finalProject()
+    {
+        return $this->hasMany(FinalProject::class);
     }
 }
