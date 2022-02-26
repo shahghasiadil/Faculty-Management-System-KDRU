@@ -5,10 +5,7 @@ import Avatar from '@components/avatar'
 import { useForm } from 'react-hook-form'
 import { selectThemeColors } from '@utils'
 import Select from 'react-select'
-import { Printer } from 'react-feather'
-import { getStudents } from '../store/action'
 import { Alert, Form, Button, CardBody, Card, CardHeader, CardTitle, CardImg, Row, Col, Table, Breadcrumb, BreadcrumbItem } from 'reactstrap'
-
 import img1 from '@src/assets/images/slider/06.jpg'
 import img10 from '@src/assets/images/avatars/10.png'
 
@@ -68,26 +65,23 @@ const CardActions = () => {
   const onSubmit = () => {
     trigger()
 
-    dispatch(getStudents(currentPeriod.value, currentSubject.value))
-
+    //dispatch(getStudents(currentPeriod.value, currentSubject.value))
   }
 
-  const print = () => {
-    if (students !== null) {
-      const mainLayout = document.getElementById('printTable').innerHTML
-      const originalContent = document.body.innerHTML
-      document.body.innerHTML = mainLayout
-      window.print()
-      document.body.innerHTML = originalContent
-      window.close()
-    }
-  }
+  const prints = () => {
 
+    const mainLayout = document.getElementById('printBill').innerHTML
+    const originalContent = document.body.innerHTML
+    document.body.innerHTML = mainLayout
+    window.print()
+    document.body.innerHTML = originalContent
+    window.close()
+  }
 
   return (
     <Fragment>
 
-      <Card style={{ margin: 'auto' }}>
+      <Card >
         <CardHeader>
           <CardTitle tag='h4'>Search Filter</CardTitle>
         </CardHeader>
@@ -158,75 +152,127 @@ const CardActions = () => {
                 <Button color='success' className='text-nowrap px-1 d-flex justify-content-center align-items-center'>Submit</Button>
               </Col>
               <Col md='1'>
-                {students && <Button onClick={print} color='info' className='text-nowrap px-1 d-flex justify-content-center align-items-center'>Print <Printer size={16} className='mr-50' /> </Button>}
+                <Button onClick={prints} color='info' className='text-nowrap px-1 d-flex justify-content-center align-items-center'>Print</Button>
               </Col>
             </Row>
           </CardBody>
         </Form>
       </Card>
 
-      {students === null ? <Alert color='danger'> <h4 className='alert-heading'>Search by selecting the above filters </h4>
+      {students === 'k' ? <Alert color='danger'> <h4 className='alert-heading'>Search by selecting the above filters </h4>
         <div className='alert-body'>
           There is no data to show in table
         </div>
-      </Alert> : <Card className='attendance-div' id='printTable'>
+      </Alert> : <Card className='attendance-div' id='printBill'>
         <Row className='attendance-top-row' >
-          <Col md='4' className='attendance-logo-1'>
+          <Col md='3' className='attendance-logo-1'>
             <Avatar className='mr-1 ' img={img1} imgHeight='90' imgWidth='90' />
           </Col>
-          <Col md='4' className='top-center-div'>
-            <Row></Row>
-            <Row><h4>کندهار پوهنتون</h4></Row>
-            <Row><h4>کمپیوټر ساینس تدریسې مدیریت</h4></Row>
-            <Row><h4>د ازموینې شقه</h4></Row>
+          <Col md='6' className='top-center-div'>
+            <Row><h4>Faculty of Computer Science 1st year, 2nd semester Scheduale, Year 1400</h4></Row>
           </Col>
-          <Col md='4'>
+          <Col md='3'>
             <Avatar className='mr-1 ' img={img1} imgHeight='90' imgWidth='90' />
           </Col>
         </Row>
         <div className='text-center'>
           <Table bordered className='table-student-info'>
-            <tr>
-              <td colSpan="8" >
-                <h4>د ۱۴۰۰-۱۳۹۹ ل تحصیلې کال د لومړی ټولګې ({currentSemester.value}) سمسټر د ({currentSubject.label}) مضمون د  (&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;) استاد آزموینې شقه</h4>
-              </td>
-            </tr>
-            <tr>
-              <td rowSpan='2'>کتنې</td>
-              <td rowSpan='2'>نتیجه</td>
-              <td>مجموعه نمره</td>
-              <td>نمره</td>
-              <td> نمره</td>
-              <td colSpan='2'>پیژند</td>
-              <td rowSpan='2'>ګڼه</td>
-            </tr>
-            <tr>
-              <td>100%</td>
-              <td>80%</td>
-              <td>20%</td>
-              <td>د پلار نوم</td>
-              <td>نوم</td>
-            </tr>
-            {students.map((data, index) => (
-              <tr key={index}>
-                <td></td>
-                <td>{(Number(data.marks) + Number(data.student.midterm_marks[0].marks)) >= 55 ? 'کریدیت' : 'عدم کریدیت'} </td>
-                <td>  {Number(data.marks) + Number(data.student.midterm_marks[0].marks)} </td>
-                <td>{data.marks}</td>
-                <td>{data.student.midterm_marks[0].marks}</td>
-                <td>{data.student.father_name}</td>
-                <td>{data.student.name}</td>
-                <td>{index + 1}</td>
-              </tr>
 
-            ))}
+            <tr>
+              <td rowSpan={2}>Day /Hour</td>
+              <td>1st</td>
+              <td>2nd</td>
+              <td>3rd</td>
+              <td>4th</td>
+              <td>Remarks</td>
+            </tr>
+            <tr>
+              <td>1:30 - 2:20</td>
+              <td>2:30- 3:10</td>
+              <td>3:10 - 4:10</td>
+              <td>4:10 - 5:00</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td rowSpan={3}>Saturday</td>
+              <td colSpan={2}>Progmraming II CS211</td>
+              <td colSpan={2}>Math II  CS210</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td colSpan={2}>(4 CP)</td>
+              <td colSpan={2}>(4 CP)</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td colSpan={2}>Saye Shagha khan</td>
+              <td colSpan={2}>Samira ahmdazay</td>
+              <td></td>
+            </tr>
 
+            <tr>
+              <td rowSpan={3}>Sunday</td>
+              <td colSpan={2}>Progmraming II CS211</td>
+              <td colSpan={2}>Math II  CS210</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td colSpan={2}>(4 CP)</td>
+              <td colSpan={2}>(4 CP)</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td colSpan={2}>Saye Shagha khan</td>
+              <td colSpan={2}>Samira ahmdazay</td>
+              <td></td>
+            </tr>
+
+            <tr>
+              <td rowSpan={3}>Monday</td>
+              <td colSpan={2}>Progmraming II CS211</td>
+              <td colSpan={2}>Math II  CS210</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td colSpan={2}>(4 CP)</td>
+              <td colSpan={2}>(4 CP)</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td colSpan={2}>Saye Shagha khan</td>
+              <td colSpan={2}>Samira ahmdazay</td>
+              <td></td>
+            </tr>
+
+            <tr>
+              <td rowSpan={3}>Tuesday</td>
+              <td colSpan={2}>Progmraming II CS211</td>
+              <td colSpan={2}>Math II  CS210</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td colSpan={2}>(4 CP)</td>
+              <td colSpan={2}>(4 CP)</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td colSpan={2}>Saye Shagha khan</td>
+              <td colSpan={2}>Samira ahmdazay</td>
+              <td></td>
+            </tr>
           </Table>
+          <Row style={{ justifyContent: 'space-between', marginBottom: '30px' }} >
+            <Col md='4' style={{ padding: '40px' }}>
+              <h4>Dean of Faculty</h4>
+            </Col>
+            <Col md='4' >
+            </Col>
+            <Col md='4' style={{ padding: '40px' }}>
+              <h4> Teaching Admin officer</h4>
+            </Col>
+          </Row>
         </div>
-        <Row style={{ float: 'right', marginRight: '10px' }}>
-        </Row>
       </Card>}
-
     </Fragment>
   )
 }
