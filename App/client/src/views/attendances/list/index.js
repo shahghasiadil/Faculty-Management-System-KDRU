@@ -210,7 +210,7 @@ const CardActions = () => {
           </Col>
         </Row>
         <div className='text-center'>
-          {currentWeek.value === '4' ? <Table bordered className='table-student-info'>
+          {currentWeek.value === '4' ? <Table bordered className='react-dataTable table-student-info '>
             <tr style={{ borderTop: 0 }}>
               <td colSpan="25" >
                 <h4>د ۱۴۰۰-۱۳۹۹ ل تحصیلې کال د لومړی ټولګې ({currentSemester.value}) سمسټر د ({currentSubject.label}) مضمون د  (&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;) استاد (&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;) کریډیټه ({currentMonth.value}) د میاشتې حاضرې</h4>

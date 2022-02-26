@@ -5,15 +5,41 @@ import Avatar from '@components/avatar'
 import { useForm } from 'react-hook-form'
 import { selectThemeColors } from '@utils'
 import Select from 'react-select'
+import { Printer } from 'react-feather'
 import { Alert, Form, Button, CardBody, Card, CardHeader, CardTitle, CardImg, Row, Col, Table, Breadcrumb, BreadcrumbItem } from 'reactstrap'
+
 import img1 from '@src/assets/images/slider/06.jpg'
 import img10 from '@src/assets/images/avatars/10.png'
 
 const CardActions = () => {
 
+  const [currentWeek, setCurrentWeek] = useState({ value: '4', label: '4 weeks' })
+  const [currentMonth, setCurrentMonth] = useState({ value: '', label: 'Select Month' })
   const [currentSemester, setCurrentSemester] = useState({ value: '', label: 'Select Semester' })
   const [currentPeriod, setCurrentPeriod] = useState({ value: '', label: 'Select Period' })
   const [currentSubject, setCurrentSubject] = useState({ value: 0, label: 'Select Subject', number: 0 })
+
+  // ** User filter options
+  const weeksOptions = [
+    { value: '4', label: '4 weeks' },
+    { value: '6', label: '6 weeks' }
+  ]
+
+  const monthsOptions = [
+    { value: '', label: 'Select Month' },
+    { value: 'حمل', label: 'حمل' },
+    { value: 'ثور', label: 'ثور' },
+    { value: 'جوزا', label: 'جوزا' },
+    { value: 'سرطان', label: 'سرطان' },
+    { value: 'اسد', label: 'اسد' },
+    { value: 'سنبله', label: 'سنبله' },
+    { value: 'میزان', label: 'میزان' },
+    { value: 'عقرب', label: 'عقرب' },
+    { value: 'قوس', label: 'قوس' },
+    { value: 'جدی', label: 'جدی' },
+    { value: 'دلو', label: 'دلو' },
+    { value: 'حوت', label: 'حوت' }
+  ]
 
   const subjectsOptions = [
     { value: 0, label: 'Select Subject', number: 0 },
@@ -56,9 +82,9 @@ const CardActions = () => {
     setFormValues(newFormValues)
 
   }
-  const { students } = useSelector(state => state.finalMarks)
+  const { students } = useSelector(state => state.attendance)
 
-  const dispatch = useDispatch()
+  //const dispatch = useDispatch()
 
   const { handleSubmit, trigger } = useForm()
 
@@ -66,11 +92,11 @@ const CardActions = () => {
     trigger()
 
     //dispatch(getStudents(currentPeriod.value, currentSubject.value))
+
   }
 
-  const prints = () => {
-
-    const mainLayout = document.getElementById('printBill').innerHTML
+  const print = () => {
+    const mainLayout = document.getElementById('printTable').innerHTML
     const originalContent = document.body.innerHTML
     document.body.innerHTML = mainLayout
     window.print()
@@ -81,10 +107,10 @@ const CardActions = () => {
   return (
     <Fragment>
 
-      <Card >
-        <CardHeader>
+      <Card style={{ margin: 'auto' }}>
+        {/* <CardHeader>
           <CardTitle tag='h4'>Search Filter</CardTitle>
-        </CardHeader>
+        </CardHeader> */}
         <Form onSubmit={handleSubmit(onSubmit)} >
           <CardBody>
             <Row>
@@ -99,8 +125,8 @@ const CardActions = () => {
                   name='week'
                   onChange={(e) => setCurrentWeek(e)}
                 />
-              </Col> */}
-              {/* <Col md='2'>
+              </Col>
+              <Col md='2'>
                 <Select
                   theme={selectThemeColors}
                   isClearable={false}
@@ -111,8 +137,8 @@ const CardActions = () => {
                   name='month'
                   onChange={(e) => setCurrentMonth(e)}
                 />
-              </Col> */}
-              <Col md='4'>
+              </Col>
+              <Col md='2'>
                 <Select
                   theme={selectThemeColors}
                   isClearable={false}
@@ -124,7 +150,7 @@ const CardActions = () => {
                   onChange={(e) => setCurrentSubject(e)}
                 />
               </Col>
-              <Col md='3'>
+              <Col md='2'>
                 <Select
                   theme={selectThemeColors}
                   isClearable={false}
@@ -136,7 +162,7 @@ const CardActions = () => {
                   onChange={(e) => setCurrentSemester(e)}
                 />
               </Col>
-              <Col md='3'>
+              <Col md='2'>
                 <Select
                   theme={selectThemeColors}
                   isClearable={false}
@@ -150,26 +176,31 @@ const CardActions = () => {
               </Col>
               <Col md='1'>
                 <Button color='success' className='text-nowrap px-1 d-flex justify-content-center align-items-center'>Submit</Button>
-              </Col>
+              </Col> */}
+
               <Col md='1'>
-                <Button onClick={prints} color='info' className='text-nowrap px-1 d-flex justify-content-center align-items-center'>Print</Button>
+                <Button onClick={print} color='info' className='text-nowrap px-1 d-flex justify-content-center align-items-center'>Print <Printer size={16} className='mr-50' /> </Button>
               </Col>
             </Row>
           </CardBody>
         </Form>
       </Card>
-
-      {students === 'k' ? <Alert color='danger'> <h4 className='alert-heading'>Search by selecting the above filters </h4>
+      {students === "ddd" ? <Alert color='danger'>
+        <h4 className='alert-heading'>Search by selecting the above filters </h4>
         <div className='alert-body'>
           There is no data to show in table
         </div>
-      </Alert> : <Card className='attendance-div' id='printBill'>
+      </Alert> : <Card className='attendance-div' id='printTable' >
         <Row className='attendance-top-row' >
           <Col md='3' className='attendance-logo-1'>
             <Avatar className='mr-1 ' img={img1} imgHeight='90' imgWidth='90' />
           </Col>
           <Col md='6' className='top-center-div'>
-            <Row><h4>Faculty of Computer Science 1st year, 2nd semester Scheduale, Year 1400</h4></Row>
+            <Row></Row>
+            <Row><h4>کندهار پوهنتون</h4></Row>
+            <Row><h4>کمپیوټر ساینس پوهنځی</h4></Row>
+            <Row><h4>د اجرائیه چارو عمومې مدیریت</h4></Row>
+            <Row><h4>د څلورمې دورې د فارغه کیدونکو محصلینو د مونوګرافونو د پروژو لست</h4></Row>
           </Col>
           <Col md='3'>
             <Avatar className='mr-1 ' img={img1} imgHeight='90' imgWidth='90' />
@@ -177,102 +208,105 @@ const CardActions = () => {
         </Row>
         <div className='text-center'>
           <Table bordered className='table-student-info'>
+            <tr>
+              <td>رهمنا استاد</td>
+              <td>تائید شوې پروژه</td>
+              <td>د پلار نوم</td>
+              <td>نوم</td>
+              <td>شمیره</td>
+            </tr>
 
+            {/* // ** start */}
             <tr>
-              <td rowSpan={2}>Day /Hour</td>
-              <td>1st</td>
-              <td>2nd</td>
-              <td>3rd</td>
-              <td>4th</td>
-              <td>Remarks</td>
-            </tr>
-            <tr>
-              <td>1:30 - 2:20</td>
-              <td>2:30- 3:10</td>
-              <td>3:10 - 4:10</td>
-              <td>4:10 - 5:00</td>
-              <td></td>
-            </tr>
-            <tr>
-              <td rowSpan={3}>Saturday</td>
-              <td colSpan={2}>Progmraming II CS211</td>
-              <td colSpan={2}>Math II  CS210</td>
-              <td></td>
-            </tr>
-            <tr>
-              <td colSpan={2}>(4 CP)</td>
-              <td colSpan={2}>(4 CP)</td>
-              <td></td>
-            </tr>
-            <tr>
-              <td colSpan={2}>Saye Shagha khan</td>
-              <td colSpan={2}>Samira ahmdazay</td>
-              <td></td>
+              <td rowSpan={6} >محمد صادق رحی</td>
             </tr>
 
             <tr>
-              <td rowSpan={3}>Sunday</td>
-              <td colSpan={2}>Progmraming II CS211</td>
-              <td colSpan={2}>Math II  CS210</td>
-              <td></td>
-            </tr>
-            <tr>
-              <td colSpan={2}>(4 CP)</td>
-              <td colSpan={2}>(4 CP)</td>
-              <td></td>
-            </tr>
-            <tr>
-              <td colSpan={2}>Saye Shagha khan</td>
-              <td colSpan={2}>Samira ahmdazay</td>
-              <td></td>
+              <td rowSpan={5}>Smart Homes </td>
             </tr>
 
             <tr>
-              <td rowSpan={3}>Monday</td>
-              <td colSpan={2}>Progmraming II CS211</td>
-              <td colSpan={2}>Math II  CS210</td>
-              <td></td>
-            </tr>
-            <tr>
-              <td colSpan={2}>(4 CP)</td>
-              <td colSpan={2}>(4 CP)</td>
-              <td></td>
-            </tr>
-            <tr>
-              <td colSpan={2}>Saye Shagha khan</td>
-              <td colSpan={2}>Samira ahmdazay</td>
-              <td></td>
+              <td>جلیل احمد</td>
+              <td>بشیر احمد</td>
+              <td>1</td>
             </tr>
 
             <tr>
-              <td rowSpan={3}>Tuesday</td>
-              <td colSpan={2}>Progmraming II CS211</td>
-              <td colSpan={2}>Math II  CS210</td>
-              <td></td>
+              <td>محمد اکبر</td>
+              <td>عزت الله </td>
+              <td>2</td>
             </tr>
+
             <tr>
-              <td colSpan={2}>(4 CP)</td>
-              <td colSpan={2}>(4 CP)</td>
-              <td></td>
+              <td>عبدالرحیم</td>
+              <td>رمضان</td>
+              <td>3</td>
             </tr>
+
             <tr>
-              <td colSpan={2}>Saye Shagha khan</td>
-              <td colSpan={2}>Samira ahmdazay</td>
-              <td></td>
+              <td>حاجی عبدالقیوم</td>
+              <td>عزیز احمد</td>
+              <td>4</td>
             </tr>
+
+            <tr>
+              <td colSpan={5} style={{ backgroundColor: 'rgba(230, 98, 59, 0.466)' }}></td>
+            </tr>
+            {/* // ** end */}
+
+
+            {/* // ** start */}
+            <tr>
+              <td rowSpan={6} >محمد صادق رحی</td>
+            </tr>
+
+            <tr>
+              <td rowSpan={5}>Smart Homes </td>
+            </tr>
+
+            <tr>
+              <td>جلیل احمد</td>
+              <td>بشیر احمد</td>
+              <td>5</td>
+            </tr>
+
+            <tr>
+              <td>محمد اکبر</td>
+              <td>عزت الله </td>
+              <td>6</td>
+            </tr>
+
+            <tr>
+              <td>عبدالرحیم</td>
+              <td>رمضان</td>
+              <td>7</td>
+            </tr>
+
+            <tr>
+              <td>حاجی عبدالقیوم</td>
+              <td>عزیز احمد</td>
+              <td>8</td>
+            </tr>
+
+            <tr>
+              <td colSpan={5} style={{ backgroundColor: 'rgba(230, 98, 59, 0.466)' }}></td>
+            </tr>
+            {/* // ** end */}
+
           </Table>
           <Row style={{ justifyContent: 'space-between', marginBottom: '30px' }} >
             <Col md='4' style={{ padding: '40px' }}>
-              <h4>Dean of Faculty</h4>
+              <h4>د کمپیوټر ساینس پوهنځی رئیس</h4>
             </Col>
             <Col md='4' >
             </Col>
             <Col md='4' style={{ padding: '40px' }}>
-              <h4> Teaching Admin officer</h4>
+              <h4> د اجرائیه چارو مدیر</h4>
             </Col>
           </Row>
         </div>
       </Card>}
+
     </Fragment>
   )
 }

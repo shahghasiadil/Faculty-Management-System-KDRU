@@ -42,7 +42,7 @@ export default [
         id: 'view-schedule',
         title: 'View Schedule',
         icon: <Circle size={12} />,
-        navLink: '/view-schedule'
+        navLink: '/schedule'
       },
       {
         id: 'view-exam-schedule',
@@ -113,6 +113,25 @@ export default [
       {
         id: 'report',
         title: 'Report',
+        icon: <Circle size={12} />,
+        navLink: '/apps/user/view'
+      }
+    ]
+  },
+  {
+    id: 'projects',
+    title: 'Projects',
+    icon: <User size={20} />,
+    children: [
+      {
+        id: 'view',
+        title: 'View',
+        icon: <Circle size={12} />,
+        navLink: '/projects'
+      },
+      {
+        id: 'report',
+        title: 'Emtpy',
         icon: <Circle size={12} />,
         navLink: '/apps/user/view'
       }
