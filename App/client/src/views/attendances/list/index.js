@@ -7,6 +7,7 @@ import { selectThemeColors } from '@utils'
 import Select from 'react-select'
 import { getStudents } from '../store/action/'
 import Spinner from '@components/spinner/Loading-spinner'
+import { Printer } from 'react-feather'
 import { Alert, Form, Button, CardBody, Card, CardHeader, CardTitle, CardImg, Row, Col, Table, Breadcrumb, BreadcrumbItem } from 'reactstrap'
 
 import img1 from '@src/assets/images/slider/06.jpg'
@@ -96,6 +97,17 @@ const CardActions = () => {
 
   }
 
+  const print = () => {
+    if (students !== null) {
+      const mainLayout = document.getElementById('printTable').innerHTML
+      const originalContent = document.body.innerHTML
+      document.body.innerHTML = mainLayout
+      window.print()
+      document.body.innerHTML = originalContent
+      window.close()
+    }
+  }
+
   return (
     <Fragment>
 
@@ -130,7 +142,7 @@ const CardActions = () => {
                   onChange={(e) => setCurrentMonth(e)}
                 />
               </Col>
-              <Col md='3'>
+              <Col md='2'>
                 <Select
                   theme={selectThemeColors}
                   isClearable={false}
@@ -169,6 +181,10 @@ const CardActions = () => {
               <Col md='1'>
                 <Button color='success' className='text-nowrap px-1 d-flex justify-content-center align-items-center'>Submit</Button>
               </Col>
+
+              <Col md='1'>
+                {students && <Button onClick={print} color='info' className='text-nowrap px-1 d-flex justify-content-center align-items-center'>Print <Printer size={16} className='mr-50' /> </Button>}
+              </Col>
             </Row>
           </CardBody>
         </Form>
@@ -178,7 +194,7 @@ const CardActions = () => {
         <div className='alert-body'>
           There is no data to show in table
         </div>
-      </Alert> : <Card className='attendance-div'>
+      </Alert> : <Card className='attendance-div' id='printTable' >
         <Row className='attendance-top-row' >
           <Col md='4' className='attendance-logo-1'>
             <Avatar className='mr-1 ' img={img1} imgHeight='90' imgWidth='90' />

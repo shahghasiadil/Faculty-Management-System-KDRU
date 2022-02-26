@@ -1,25 +1,47 @@
 import { Fragment } from 'react'
 import { Link } from 'react-router-dom'
 import Avatar from '@components/avatar'
+import { Printer } from 'react-feather'
 import { CardImg, Row, Col, Table, Breadcrumb, BreadcrumbItem } from 'reactstrap'
 
 import img1 from '@src/assets/images/slider/06.jpg'
 import img10 from '@src/assets/images/avatars/10.png'
+import Button from 'reactstrap/lib/Button'
+
 
 const CardActions = ({ selectedStudent }) => {
 
+
+  const print = () => {
+
+    const mainLayout = document.getElementById('printTable').innerHTML
+    const originalContent = document.body.innerHTML
+    document.body.style.direction = 'rtl'
+    document.body.innerHTML = mainLayout
+    window.print()
+    document.body.style.direction = 'ltr'
+    document.body.innerHTML = originalContent
+    window.close()
+  }
+
   return (
     <Fragment>
-      <Breadcrumb>
-        <BreadcrumbItem>
-          <Link to='/students'> Students </Link>
-        </BreadcrumbItem>
-        <BreadcrumbItem active>
-          <span> More Info </span>
-        </BreadcrumbItem>
-      </Breadcrumb>
+      <Row style={{
+        justifyContent: 'space-between'
+      }}>
+        <Breadcrumb >
+          <BreadcrumbItem>
+            <Link to='/students'> Students </Link>
+          </BreadcrumbItem>
+          <BreadcrumbItem active>
+            <span> More Info </span>
+          </BreadcrumbItem>
 
-      <div className='root-div'>
+        </Breadcrumb>
+        <Button onClick={print} color='info' className='text-nowrap px-1 d-flex justify-content-center align-items-center'>Print <Printer size={16} className='mr-50' /> </Button>
+      </Row>
+
+      <div className='root-div' id='printTable'>
         <Row className='std-logo'>
           <Avatar className='mr-1 ' img={img1} imgHeight='90' imgWidth='90' />
         </Row>

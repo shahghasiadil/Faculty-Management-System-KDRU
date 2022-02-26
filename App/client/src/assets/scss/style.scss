@@ -50,20 +50,22 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
 
 // ** Attendance sheet styles
 
-.col-absent,
-.col-present,
-.col-code-number,
-.col-gana {
-	transform: rotate(270deg);
-	width: 25px;
-}
+// .col-absent,
+// .col-present,
+// .col-code-number,
+// .col-gana {
+// 	//transform: rotate(90deg);
+// 	//width: 25px;
+// 	//background: transparent;
+// 	//padding: 40px;
+// 	//margin: auto;
+// }
 
-.col-absent,
-.col-present {
-	padding: 0;
-	max-width: 15px;
-	min-width: 15px;
-}
+// .col-absent,
+// .col-present {
+// 	max-width: 15px;
+// 	min-width: 15px;
+// }
 
 .attendance-div {
 	margin: 0;
@@ -75,6 +77,7 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
 .col-code-number,
 .std-father-name {
 	word-spacing: normal;
+
 }
 
 .attendance-top-row {
