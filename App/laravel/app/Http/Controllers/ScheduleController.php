@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Schedule;
+use Illuminate\Http\Resources\Json\JsonResource;
+
 class ScheduleController extends Controller
 {
     /**
@@ -13,7 +15,7 @@ class ScheduleController extends Controller
      */
     public function index()
     {
-        return Schedule::with(['teacher', 'subject'])->latest()->paginate(10);
+        return new JsonResource(Schedule::with(['teacher', 'subject'])->latest()->get());
     }
 
     /**
