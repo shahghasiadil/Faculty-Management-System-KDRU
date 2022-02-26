@@ -18,6 +18,7 @@ class CreateExamSchedulesTable extends Migration
             $table->date('date');
             $table->foreignId('teacher_id')->constrained('teachers');
             $table->foreignId('subject_id')->constrained('subjects');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

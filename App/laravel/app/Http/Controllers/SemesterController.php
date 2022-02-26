@@ -159,14 +159,12 @@ class SemesterController extends Controller
                 }
             }
         }
-
-        // return all percentages of the students
+        // return all funded students
         return $funded;
     }
 
     public function find_all_students_of_semester(Request $request)
     {
-
         $student = FinalMark::where('subject_id',$request->subject_id)->pluck('student_id');
         return new JsonResource(Semester::find($request->id)->students()
         ->with(['midtermMarks' => function($query) use ($request){

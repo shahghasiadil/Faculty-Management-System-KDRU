@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddColumnToSemestersTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,13 @@ class AddColumnToSemestersTable extends Migration
      */
     public function up()
     {
-        Schema::table('semesters', function (Blueprint $table) {
+        Schema::create('final_projects', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('code')->unique();
+            $table->foreignId('teacher_id')->constrained('teachers');
             $table->softDeletes();
+            $table->timestamps();
         });
     }
 
@@ -25,9 +30,6 @@ class AddColumnToSemestersTable extends Migration
      */
     public function down()
     {
-        Schema::table('semesters', function (Blueprint $table) {
-            //
-            $table->dropSoftDeletes();
-        });
+        Schema::dropIfExists('final_project');
     }
-}
+};

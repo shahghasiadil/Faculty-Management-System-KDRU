@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAddressesTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,10 @@ class CreateAddressesTable extends Migration
      */
     public function up()
     {
-        Schema::create('addresses', function (Blueprint $table) {
+        Schema::create('final_project_student', function (Blueprint $table) {
             $table->id();
-            $table->string('province');
-            $table->string('district');
-            $table->string('area');
-            $table->integer('street_number');
-            $table->integer('house_number');
-            $table->softDeletes();
+            $table->foreignId('final_project_id')->constrained('final_projects')->onDelete('cascade');
+            $table->foreignId('student_id')->constrained('students')->unique(); //a student cannot join multiple projects
             $table->timestamps();
         });
     }
@@ -32,6 +28,6 @@ class CreateAddressesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('addresses');
+        Schema::dropIfExists('final_project_student');
     }
-}
+};

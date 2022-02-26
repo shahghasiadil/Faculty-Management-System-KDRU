@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Schedule;
+use Illuminate\Http\Resources\Json\JsonResource;
+
 class ScheduleController extends Controller
 {
     /**
@@ -13,7 +15,7 @@ class ScheduleController extends Controller
      */
     public function index()
     {
-        return Schedule::with(['teacher', 'subject'])->latest()->paginate(10);
+        return new JsonResource(Schedule::with(['teacher', 'subject'])->latest()->get());
     }
 
     /**
@@ -88,5 +90,12 @@ class ScheduleController extends Controller
         if ($schedule && $schedule->trashed()) {
             $schedule->restore();
         }
+    }
+
+    public function scheduleFilter(Request $request)
+    {
+        return new JsonResource(Schedule::with('subject','teacher')->whereYear('created_at',$request->year)->whereHas('subject.semester', function($query) use ($request){
+            $query->where('id',$request->semester_id);
+        })->get());
     }
 }
