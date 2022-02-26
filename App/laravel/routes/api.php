@@ -102,7 +102,7 @@ Route::get('relatives/{id}/restore', [RelativeController::class, 'restore']);
 Route::apiResource('schedules', ScheduleController::class);
 Route::delete('schedules/schedule/{id}', [ScheduleController::class, 'permanentDelete']);
 Route::get('schedules/{id}/restore', [ScheduleController::class, 'restore']);
-
+Route::post('schedules/schedule-filter',[ScheduleController::class,'scheduleFilter']);
 
 // ** Subject routes
 Route::apiResource('subjects', SubjectController::class);
