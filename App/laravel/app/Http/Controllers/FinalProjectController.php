@@ -36,6 +36,7 @@ class FinalProjectController extends Controller
      */
     public function store(Request $request)
     {
+        // return $request;
         $data = $this->validate($request, [
             'name' => 'required|string',
             'code' => 'required|string',
@@ -43,7 +44,7 @@ class FinalProjectController extends Controller
         ]);
 
             $finalProject = FinalProject::create($data);
-            $finalProject->students()->attach($request->stduents);
+            $this->addStudentToFinalProject($finalProject->id, $request->students);
     }
 
     /**
@@ -54,7 +55,7 @@ class FinalProjectController extends Controller
      */
     public function show($id)
     {
-        return FinalProject::with('teacher')->findOrFail($id);
+        return new JsonResource(FinalProject::with('teacher')->findOrFail($id));
     }
 
     /**
@@ -84,7 +85,7 @@ class FinalProjectController extends Controller
 
         $finalProject = FinalProject::findOrFail($id);
         $finalProject->update($validatedData);
-        $finalProject->sync($request->students);
+        $finalProject->students()->sync($request->students);
 
     }
 
@@ -107,6 +108,7 @@ class FinalProjectController extends Controller
     public function permanentDelete($id)
     {
         $finalProject = FinalProject::findOrFail($id);
+        $finalProject->students()->detach();
         $finalProject->forceDelete();
     }
 
@@ -130,11 +132,11 @@ class FinalProjectController extends Controller
      *
      * @param  Request  $request
      */
-    public function addStudentToFinalProject(Request $request)
+    public function addStudentToFinalProject($project_id , $students)
     {
         try{
-            $finalProject = FinalProject::findOrFail($request->final_project_id);
-            $finalProject->students()->attach($request->student_id);
+            $finalProject = FinalProject::findOrFail($project_id);
+            $finalProject->students()->attach($students);
         }
         catch (QueryException $e) 
         {
@@ -142,22 +144,7 @@ class FinalProjectController extends Controller
         }
     }
 
-    /**
-     * Adds a student to a final project.
-     *
-     * @param  Request  $request
-     */
-    public function removeStudentFromFinalProject(Request $request)
-    {
-        try{
-            $finalProject = FinalProject::findOrFail($request->final_project_id);
-            $finalProject->students()->detach($request->student_id);
-        }
-        catch (QueryException $e) 
-        {
-            echo($e);
-        }
-    }
+
 
     /**
      * Returns all students related to a final project.

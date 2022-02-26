@@ -73,8 +73,6 @@ Route::post('mark/final-marks-print',[FinalMarkController::class, 'loadMarks']);
 Route::apiResource('final-projects', FinalProjectController::class);
 Route::delete('final-projects/final-project/{id}', [FinalProjectController::class, 'permanentDelete']);
 Route::get('final-projects/{id}/restore', [FinalProjectController::class, 'restore']);
-Route::post('final-projects/add-student',[FinalProjectController::class, 'addStudentToFinalProject']);
-Route::post('final-projects/remove-student',[FinalProjectController::class, 'removeStudentFromFinalProject']);
 Route::get('final-projects/get-students-by-project/{id}',[FinalProjectController::class, 'getFinalProjectStudents']);
 Route::get('final-projects/get-teacher-by-project/{id}',[FinalProjectController::class, 'getFinalProjectTeacher']);
 
