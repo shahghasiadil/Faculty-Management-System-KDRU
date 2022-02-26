@@ -1,0 +1,174 @@
+// Layout
+// ========================================================================
+body,
+#root,
+.wrapper {
+  height: 100%;
+}
+
+// Vertical Menu
+// ========================================================================
+.vertical-layout .main-menu {
+  &.expanded {
+    .navigation {
+      li:not(.open) {
+        & > ul {
+          display: block !important;
+        }
+      }
+    }
+  }
+  .navigation {
+    li:not(.open) {
+      a {
+        &:after {
+          transform: rotate(0deg) !important;
+        }
+      }
+    }
+  }
+}
+
+body #root .wrapper .ps__rail-y {
+  left: auto !important ;
+  right: 1px !important;
+}
+
+// Horizontal Menu
+// ========================================================================
+.horizontal-layout {
+  &.navbar-static .navbar-scrolled {
+    background: $white !important;
+    box-shadow: rgba($black, 0.05) 0px 4px 20px 0px !important;
+  }
+
+  // Main Navbar
+  .header-navbar {
+    .navbar-container {
+      .dropdown-language,
+      .dropdown-cart,
+      .dropdown-notification,
+      .dropdown-user {
+        .dropdown-menu {
+          top: 3rem !important;
+        }
+      }
+    }
+  }
+
+  // Menu
+  .horizontal-menu-wrapper {
+    #main-menu-navigation {
+      .dropdown {
+        .dropdown-submenu {
+          .dropdown-toggle:after {
+            margin-top: -5px;
+          }
+        }
+      }
+    }
+
+    .navbar-horizontal {
+      ul.dropdown-menu {
+        .nav-item.active > a {
+          border-bottom: none;
+        }
+
+        // Scrollbar styles
+        &::-webkit-scrollbar {
+          width: 5px;
+          height: 5px;
+        }
+
+        &::-webkit-scrollbar-thumb {
+          background: $gray-500;
+          border-radius: 20px;
+        }
+
+        &::-webkit-scrollbar-track {
+          background: $gray-300;
+          border-radius: 30px;
+        }
+      }
+    }
+  }
+}
+
+// Bookmarks search
+// ========================================================================
+.header-navbar .navbar-container {
+  .navbar-nav {
+    .autocomplete-container .suggestion-item span {
+      line-height: 1.2;
+    }
+  }
+}
+
+// Component Code
+// ========================================================================
+.card-snippet {
+  pre {
+    margin-top: 0;
+    border-radius: 0.5rem;
+  }
+}
+
+// Dashboard Analytics
+// =======================================================================
+
+.card-congratulations {
+  .avatar svg {
+    height: 28px !important;
+    width: 28px !important;
+  }
+}
+
+// Card Analytics
+// =======================================================================
+.avg-session-progress {
+  height: 6px;
+}
+
+// Block UI
+// ========================================================================
+.block-ui-container {
+  .block-ui-overlay {
+    background: rgba($black, 0.6);
+  }
+}
+
+// React SlideDown
+// ========================================================================
+.react-slidedown {
+  &::-webkit-scrollbar {
+    width: 0px;
+  }
+}
+
+// Router Transitions
+// ========================================================================
+.animate__animated.animate__zoomIn,
+.animate__animated.animate__fadeInLeft {
+  --animate-duration: 1s;
+}
+
+// App Ecommerce
+// ========================================================================
+.ecommerce-application {
+  .content-wrapper.animate__animated {
+    animation: none;
+  }
+}
+
+// Customizer
+// ========================================================================
+.customizer {
+  .react-select {
+    width: 100%;
+    max-width: 200px;
+
+    .select__menu {
+      z-index: 2;
+    }
+  }
+}
