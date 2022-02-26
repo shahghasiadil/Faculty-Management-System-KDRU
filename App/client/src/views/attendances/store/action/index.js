@@ -17,7 +17,7 @@ import {
 export const getStudents = (periodId, subjectId) => {
   return async dispatch => {
     await axios
-      .post(`http://127.0.0.1:8000/api/attendances/find-by-subject-period?period=${periodId}&subject_id=${subjectId}`)
+      .post(`http://127.0.0.1:8000/api/students/find-by-subject-period?period=${periodId}&subject_id=${subjectId}`)
       .then(response => {
         dispatch({
           type: GET_STUDENTS,
