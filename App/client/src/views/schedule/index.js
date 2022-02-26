@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form'
 import { selectThemeColors } from '@utils'
 import Select from 'react-select'
 import { Printer } from 'react-feather'
-import { getExamSchedule } from '../store/action'
+import { getSchedule } from './store/action'
 import { Alert, Form, Button, CardBody, Card, CardHeader, CardTitle, Row, Col, Table } from 'reactstrap'
 import img1 from '@src/assets/images/slider/06.jpg'
 
@@ -23,16 +23,16 @@ const CardActions = () => {
 
   const semesterOptions = [
     { value: '', label: 'Select Semester' },
-    { value: 'لومړی', label: 'لومړی' },
-    { value: 'دوهم', label: 'دوهم' },
-    { value: 'دریم', label: 'دریم' },
-    { value: 'څلورم', label: 'څلورم' },
-    { value: 'پنځم', label: 'پنځم' },
-    { value: 'شپږم', label: 'ښپږم' },
-    { value: 'اووم', label: 'اووم' },
-    { value: 'اتم', label: 'اتم' }
+    { value: '1', label: 'لومړی' },
+    { value: '2', label: 'دوهم' },
+    { value: '3', label: 'دریم' },
+    { value: '4', label: 'څلورم' },
+    { value: '5', label: 'پنځم' },
+    { value: '6', label: 'ښپږم' },
+    { value: '7', label: 'اووم' },
+    { value: '8', label: 'اتم' }
   ]
-  const { selectedExamSchedule } = useSelector(state => state.ExamSchedules)
+  const { schedule } = useSelector(state => state.schedule)
 
   const dispatch = useDispatch()
 
@@ -41,7 +41,7 @@ const CardActions = () => {
   const onSubmit = () => {
     trigger()
 
-    dispatch(getExamSchedule(currentSemester.value, currentYear.value))
+    dispatch(getSchedule(currentSemester.value, currentYear.value))
   }
 
   const prints = () => {
@@ -92,14 +92,14 @@ const CardActions = () => {
                 <Button color='success' className='text-nowrap px-1 d-flex justify-content-center align-items-center'>Submit</Button>
               </Col>
               <Col md='1'>
-                {selectedExamSchedule && <Button onClick={prints} color='info' className='text-nowrap px-1 d-flex justify-content-center align-items-center'>Print <Printer size={16} /></Button>}
+                {schedule && <Button onClick={prints} color='info' className='text-nowrap px-1 d-flex justify-content-center align-items-center'>Print <Printer size={16} /></Button>}
               </Col>
             </Row>
           </CardBody>
         </Form>
       </Card>
 
-      {selectedExamSchedule === 'k' ? <Alert color='danger'> <h4 className='alert-heading'>Search by selecting the above filters </h4>
+      {schedule === null ? <Alert color='danger'> <h4 className='alert-heading'>Search by selecting the above filters </h4>
         <div className='alert-body'>
           There is no data to show in table
         </div>
@@ -112,7 +112,7 @@ const CardActions = () => {
             <Row><h4>Faculty of Computer Science 1st year, 2nd semester Scheduale, Year 1400</h4></Row>
           </Col>
           <Col md='3'>
-            <Avatar className='mr-1 ' img={img1} imgHeight='90' imgWidth='90' />
+            <Avatar className='mr-1' img={img1} imgHeight='90' imgWidth='90' />
           </Col>
         </Row>
         <div className='text-center'>
@@ -126,6 +126,7 @@ const CardActions = () => {
               <td>4th</td>
               <td>Remarks</td>
             </tr>
+
             <tr>
               <td>1:30 - 2:20</td>
               <td>2:30- 3:10</td>
@@ -133,73 +134,27 @@ const CardActions = () => {
               <td>4:10 - 5:00</td>
               <td></td>
             </tr>
-            <tr>
-              <td rowSpan={3}>Saturday</td>
-              <td colSpan={2}>Progmraming II CS211</td>
-              <td colSpan={2}>Math II  CS210</td>
-              <td></td>
-            </tr>
-            <tr>
-              <td colSpan={2}>(4 CP)</td>
-              <td colSpan={2}>(4 CP)</td>
-              <td></td>
-            </tr>
-            <tr>
-              <td colSpan={2}>Saye Shagha khan</td>
-              <td colSpan={2}>Samira ahmdazay</td>
-              <td></td>
-            </tr>
+            {schedule.map((data, index) => (<>
+              <tr>
+                <td rowSpan={3}>{data.week_day}</td>
+                <td colSpan={2}>{data.subject.name}</td>
+                <td colSpan={2}>Math II  CS210</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td colSpan={2}>(4 CP)</td>
+                <td colSpan={2}>(4 CP)</td>
+                <td></td>
+              </tr>
 
-            <tr>
-              <td rowSpan={3}>Sunday</td>
-              <td colSpan={2}>Progmraming II CS211</td>
-              <td colSpan={2}>Math II  CS210</td>
-              <td></td>
-            </tr>
-            <tr>
-              <td colSpan={2}>(4 CP)</td>
-              <td colSpan={2}>(4 CP)</td>
-              <td></td>
-            </tr>
-            <tr>
-              <td colSpan={2}>Saye Shagha khan</td>
-              <td colSpan={2}>Samira ahmdazay</td>
-              <td></td>
-            </tr>
+              <tr>
+                <td colSpan={2}>{data.teacher.name}</td>
+                <td colSpan={2}>Samira ahmdazay</td>
+                <td></td>
+              </tr>
+            </>
+            ))}
 
-            <tr>
-              <td rowSpan={3}>Monday</td>
-              <td colSpan={2}>Progmraming II CS211</td>
-              <td colSpan={2}>Math II  CS210</td>
-              <td></td>
-            </tr>
-            <tr>
-              <td colSpan={2}>(4 CP)</td>
-              <td colSpan={2}>(4 CP)</td>
-              <td></td>
-            </tr>
-            <tr>
-              <td colSpan={2}>Saye Shagha khan</td>
-              <td colSpan={2}>Samira ahmdazay</td>
-              <td></td>
-            </tr>
-
-            <tr>
-              <td rowSpan={3}>Tuesday</td>
-              <td colSpan={2}>Progmraming II CS211</td>
-              <td colSpan={2}>Math II  CS210</td>
-              <td></td>
-            </tr>
-            <tr>
-              <td colSpan={2}>(4 CP)</td>
-              <td colSpan={2}>(4 CP)</td>
-              <td></td>
-            </tr>
-            <tr>
-              <td colSpan={2}>Saye Shagha khan</td>
-              <td colSpan={2}>Samira ahmdazay</td>
-              <td></td>
-            </tr>
           </Table>
           <Row style={{ justifyContent: 'space-between', marginBottom: '30px' }} >
             <Col md='4' style={{ padding: '40px' }}>

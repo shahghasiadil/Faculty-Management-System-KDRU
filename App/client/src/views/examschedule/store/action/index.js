@@ -38,10 +38,10 @@ export const getData = params => {
   }
 }
 // ** Get Student
-export const getExamSchedule = (semesterId, year) => {
+export const getExamSchedule = id => {
   return async dispatch => {
     await axios
-      .get(`http://127.0.0.1:8000/api/scheduales/scheduale-filter?semester_id=${semesterId}&year=${year}`)
+      .get(`http://127.0.0.1:8000/api/exam-schedules/${id}`)
       .then(response => {
         dispatch({
           type: GET_EXAM_SCHEDULE,
