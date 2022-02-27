@@ -223,6 +223,16 @@ const SelectOptions = () => {
               className='react-select'
               classNamePrefix='select'
             />
+            <Select
+              isClearable={false}
+              theme={selectThemeColors}
+              defaultValue={[colorOptions[2], colorOptions[3]]}
+              isMulti
+              name='colors'
+              options={colorOptions}
+              className='react-select'
+              classNamePrefix='select'
+            />
           </Col>
           <Col className='mb-1' md='6' sm='12'>
             <Label>Grouped Select</Label>

@@ -124,17 +124,18 @@ export default [
     icon: <User size={20} />,
     children: [
       {
-        id: 'view',
-        title: 'View',
+        id: 'project',
+        title: 'Assign Project',
         icon: <Circle size={12} />,
-        navLink: '/projects'
+        navLink: '/assign-project'
       },
       {
         id: 'report',
-        title: 'Emtpy',
+        title: 'View Projects',
         icon: <Circle size={12} />,
-        navLink: '/apps/user/view'
+        navLink: '/projects-report'
       }
+
     ]
   },
   {
