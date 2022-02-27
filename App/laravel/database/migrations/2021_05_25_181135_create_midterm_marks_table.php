@@ -18,6 +18,7 @@ class CreateMidtermMarksTable extends Migration
             $table->integer('marks');
             $table->foreignId('student_id')->constrained();
             $table->foreignId('subject_id')->constrained();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -18,6 +18,7 @@ class CreateFinalMarksTable extends Migration
             $table->foreignId('student_id')->constrained();
             $table->foreignId('subject_id')->constrained();
             $table->integer('marks');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

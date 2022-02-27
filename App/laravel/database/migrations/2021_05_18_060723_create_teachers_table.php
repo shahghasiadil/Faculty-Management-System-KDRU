@@ -22,6 +22,7 @@ class CreateTeachersTable extends Migration
             $table->text('bio');
             $table->foreignId('address_id');
             $table->foreignId('user_id');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

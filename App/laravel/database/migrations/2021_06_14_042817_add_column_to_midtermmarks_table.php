@@ -14,7 +14,7 @@ class AddColumnToMidtermmarksTable extends Migration
     public function up()
     {
         Schema::table('midterm_marks', function (Blueprint $table) {
-            $table->softDeletes();
+          //  $table->softDeletes();
         });
     }
 

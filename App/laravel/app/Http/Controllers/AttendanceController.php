@@ -7,6 +7,7 @@ use App\Models\Attendance;
 use App\Models\Subject;
 use App\Models\Semester;
 use App\Models\Student;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class AttendanceController extends Controller
 {
@@ -29,21 +30,24 @@ class AttendanceController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'state' => 'required|in:PRESENT,ABSENT',
-            'date' => 'required|date',
-            'start_time' => 'required|regex:/(\d+\:\d+)/',
-            'end_time' => 'required|regex:/(\d+\:\d+)/',
+            'month' => 'required|string',
+            'year' => 'required|integer',
+            'present' => 'required',
+            'absent' => 'integer',
+            'leave' => 'integer',
             'student_id' => 'required|integer',
             'subject_id' => 'required|integer',
         ]);
 
         Attendance::create([
-            'state' => $request->state,
-            'date' => $request->date,
-            'start_time' => $request->start_time,
-            'end_time' => $request->end_time,
-            'student_id' => $request->student_id,
-            'subject_id' => $request->subject_id
+            'month' => $request->month,
+            'year' => $request->year,
+            'present' => $request->present,
+            'absent' => $request->absent,
+            'leave' => $request->leave,
+            'year' => $request->year,
+            'subject_id' => $request->subject_id,
+            'student_id' => $request->student_id
         ]);
     }
 
@@ -79,12 +83,13 @@ class AttendanceController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'state' => 'required|in:PRESENT,ABSENT',
-            'date' => 'required|date',
-            'start_time' => 'required|regex:/(\d+\:\d+)/',
-            'end_time' => 'required|regex:/(\d+\:\d+)/',
-            'student_id' => 'required|integer',
-            'subject_id' => 'required|integer',
+            'month' => 'string',
+            'year' => 'integer',
+            'present' => 'integer',
+            'absent' => 'integer',
+            'leave' => 'integer',
+            'student_id' => 'integer',
+            'subject_id' => 'integer',
         ]);
 
         $attendance = Attendance::findOrFail($id);
@@ -120,7 +125,27 @@ class AttendanceController extends Controller
         else return response()->json(['message' => 'Resource not found', 'status' => 204]);
     }
 
+    /**
+     * Returns attendances of all students by subject, period and month.
+     * @param  Request request
+     * @return App\Models\Attendance;
+     */
+    public function getAttBySubjectYearMonth(Request $request)
+    {
+        return Attendance::with(['student'])->where(['subject_id'=>$request->subject_id, 'year'=>$request->year, 'month'=>$request->month])->get()->all();
+    }
+
+    /**
+     * Returns attendances of all subjects by student.
+     * @param  Request request
+     * @return App\Models\Attendance;
+     */
+    public function getAttByStudentMonthYear(Request $request)
+    {
+        return Attendance::with(['subject'])->where(['student_id'=>$request->student_id, 'month'=>$request->month, 'year'=>$request->year])->get()->all();
+    }
+
     public function getStudentsBySubjectPeriod(Request $request){
-        return Subject::findOrFail($request->subject_id)->students->where('period', $request->period)->all();
+        return new JsonResource(Subject::findOrFail($request->subject_id)->students->where('period', $request->period)->all());
     }
 }

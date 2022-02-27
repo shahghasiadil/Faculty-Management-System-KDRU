@@ -63,6 +63,11 @@ class ScheduleController extends Controller
         $schedule->update($request->all());
     }
 
+    public function show($id)
+    {
+        return Schedule::with(['teacher','subject'])->findOrFail($id);
+    }
+
     /**
      * Remove the specified resource from storage.
      *

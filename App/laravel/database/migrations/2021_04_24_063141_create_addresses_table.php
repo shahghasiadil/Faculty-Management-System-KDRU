@@ -20,6 +20,7 @@ class CreateAddressesTable extends Migration
             $table->string('area');
             $table->integer('street_number');
             $table->integer('house_number');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

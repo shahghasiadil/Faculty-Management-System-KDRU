@@ -15,12 +15,14 @@ class CreateAttendancesTable extends Migration
     {
         Schema::create('attendances', function (Blueprint $table) {
             $table->id();
-            $table->enum('state', ['PRESENT', 'ABSENT']);
-            $table->date('date');
-            $table->time('start_time');
-            $table->time('end_time');
+            $table->enum('month', ['وری', 'غویی','غبرګولی','چنګاښ','زمری','وږی','تله','لړم','لېندۍ','مرغومی','سلواغه','کب']);
+            $table->integer('year');
+            $table->integer('present');
+            $table->integer('absent')->default(0);
+            $table->integer('leave')->default(0);
             $table->foreignId('student_id')->constrained('students');
             $table->foreignId('subject_id')->constrained('subjects');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

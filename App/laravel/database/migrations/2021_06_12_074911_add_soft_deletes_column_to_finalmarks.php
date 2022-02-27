@@ -14,7 +14,7 @@ class AddSoftDeletesColumnToFinalmarks extends Migration
     public function up()
     {
         Schema::table('final_marks', function (Blueprint $table) {
-            $table->softDeletes();
+            //$table->softDeletes();
         });
     }
 

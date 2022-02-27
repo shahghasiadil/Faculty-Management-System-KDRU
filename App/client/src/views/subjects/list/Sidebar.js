@@ -65,7 +65,8 @@ const SidebarNewSubjects = ({ open, toggleSidebar }) => {
 
   const SubjectSchema = yup.object().shape({
     name: yup.string().required().min(3).label('Name'),
-    credit: yup.string().required().label("Credit")
+    credit: yup.string().required().label("Credit"),
+    code: yup.string().required().label("Code")
   })
 
   // ** React hook form
@@ -73,7 +74,6 @@ const SidebarNewSubjects = ({ open, toggleSidebar }) => {
   
   const loadSemesters = () => {
     axios.get('http://127.0.0.1:8000/api/semesters').then((res) => {
-      // alert(res)
       for (const data of res.data.data) {
           semesters.push({value:data.id, label:data.name})
       }
@@ -91,7 +91,8 @@ const SidebarNewSubjects = ({ open, toggleSidebar }) => {
         addSubject({
           name: values.name,
           credit:values.credit,
-          semester_id:value
+          semester_id:value,
+          code: values.code
         })
       )
     }
@@ -121,6 +122,21 @@ const SidebarNewSubjects = ({ open, toggleSidebar }) => {
             className={watch('name') ? classnames({ 'is-valid': !errors.name }) : ''}
           />
           {errors && errors.name && <FormFeedback>{errors.name.message}</FormFeedback>}
+        </FormGroup>
+        <FormGroup>
+          <Label for='first-name'>
+            Code <span className='text-danger'>*</span>
+          </Label>
+          <Input
+            name='code'
+            id='code'
+            autoComplete = "off"
+            placeholder='Code'
+            innerRef={register({ required: true })}
+            invalid={errors.code && true}
+            className={watch('code') ? classnames({ 'is-valid': !errors.code }) : ''}
+          />
+          {errors && errors.code && <FormFeedback>{errors.code.message}</FormFeedback>}
         </FormGroup>
         <FormGroup>
           <Label for='lastName'>

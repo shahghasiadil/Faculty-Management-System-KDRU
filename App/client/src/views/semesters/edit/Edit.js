@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { useDispatch } from 'react-redux'
-import { useHistory} from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 // ** Custom Components
 import Avatar from '@components/avatar'
 import classnames from 'classnames'
@@ -25,7 +25,7 @@ export const UpdateProgressToast = () => (
     </div>
     <div className='toastify-body'>
       <span role='img' aria-label='toast-text'>
-         Record Successfully Updated
+        Record Successfully Updated
       </span>
     </div>
   </Fragment>
@@ -36,31 +36,29 @@ const SemesterTab = ({ selectedSemester }) => {
   const [semesterData, setSemesterData] = useState(null)
   const dispatch = useDispatch()
   // ** Function to change user image
- 
 
   const SemesterSchema = yup.object().shape({
     name: yup.string().required().min(3).label('Semester')
   })
-  
-  const { register, errors, handleSubmit, watch} = useForm({ mode: 'onChange', resolver: yupResolver(SemesterSchema) })
+
+  const { register, errors, handleSubmit, watch } = useForm({ mode: 'onChange', resolver: yupResolver(SemesterSchema) })
   // ** Update user image on mount or change
   useEffect(() => {
     if (selectedSemester !== null || (selectedSemester !== null && semesterData !== null && selectedSemester.id !== semesterData.id)) {
       setSemesterData(selectedSemester)
-     
+
     }
   }, [selectedSemester])
-  
+
   // ** Renders User
   const onSubmit = values => {
-  
+
     if (isObjEmpty(errors)) {
       dispatch(
         updateSemester({
           name: values.name
         }, selectedSemester.id)
       )
-      
     }
     history.push('/semesters')
   }
@@ -81,23 +79,23 @@ const SemesterTab = ({ selectedSemester }) => {
               <FormGroup>
                 <Label for='name'>Name</Label>
                 <Input
-                      name='name'
-                      id='name'
-                      defaultValue={semesterData && semesterData.name}
-                      placeholder='John'
-                      innerRef={register({ required: true })}
-                      invalid={errors.name && true}
-                      className={watch('name') ? classnames({ 'is-valid': !errors.name }) : ''}
-                    />
-                    {errors && errors.name && <FormFeedback>{errors.name.message}</FormFeedback>}
+                  name='name'
+                  id='name'
+                  defaultValue={semesterData && semesterData.name}
+                  placeholder='John'
+                  innerRef={register({ required: true })}
+                  invalid={errors.name && true}
+                  className={watch('name') ? classnames({ 'is-valid': !errors.name }) : ''}
+                />
+                {errors && errors.name && <FormFeedback>{errors.name.message}</FormFeedback>}
               </FormGroup>
             </Col>
-            
+
             <Col className='d-flex flex-sm-row flex-column mt-2' sm='12'>
               <Button.Ripple className='mb-1 mb-sm-0 mr-0 mr-sm-1' type='submit' color='primary'>
                 Save Changes
               </Button.Ripple>
-              <Button.Ripple color='secondary' outline onClick = {() => { history.push('/semseters') }}>
+              <Button.Ripple color='secondary' outline onClick={() => { history.push('/semseters') }}>
                 Cancel
               </Button.Ripple>
             </Col>

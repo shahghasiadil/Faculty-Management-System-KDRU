@@ -15,9 +15,11 @@ class CreateSubjectsTable extends Migration
     {
         Schema::create('subjects', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique(); //MATH_01 (subjectname_semester)
+            $table->string('name'); //MATH_01 (subjectname_semester)
             $table->integer('credit');
+            $table->string('code')->unique();
             $table->foreignId('semester_id')->constrained('semesters');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

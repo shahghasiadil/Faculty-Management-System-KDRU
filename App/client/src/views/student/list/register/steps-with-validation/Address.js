@@ -1,16 +1,37 @@
+
+import * as yup from 'yup'
 import { Fragment } from 'react'
+import { useSelector } from 'react-redux'
 import classnames from 'classnames'
 import { isObjEmpty } from '@utils'
 import { useForm } from 'react-hook-form'
 import { ArrowLeft, ArrowRight } from 'react-feather'
-import { Label, FormGroup, Row, Col, Button, Form, Input } from 'reactstrap'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { Label, FormGroup, Row, Col, Button, Form, Input, FormFeedback } from 'reactstrap'
 
 const Address = ({ stepper, type }) => {
-  const { register, errors, handleSubmit, trigger } = useForm()
 
-  const onSubmit = () => {
+  const StudentSchema = yup.object().shape({
+    province: yup.string().required('Province is required field'),
+    district: yup.string().required("District is required field"),
+    area: yup.string().required("Area is required field"),
+    streetNo: yup.string().required("Street Number is required field"),
+    houseNo: yup.string().required("House Number is required field")
+  })
+  // ** React hook form
+  const { register, errors, handleSubmit, watch, trigger } = useForm({ mode: 'onChange', resolver: yupResolver(StudentSchema) })
+
+  const { studentInfo } = useSelector(state => state.students)
+  const { address } = studentInfo
+
+  const onSubmit = (value) => {
     trigger()
     if (isObjEmpty(errors)) {
+      address.province = value.province
+      address.district = value.district
+      address.area = value.area
+      address.street_no = value.streetNo
+      address.house_no = value.houseNo
       stepper.next()
     }
   }
@@ -23,73 +44,91 @@ const Address = ({ stepper, type }) => {
       </div>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Row>
+
           <FormGroup tag={Col} md='4'>
-            <Label className='form-label' for={`province-${type}`}>
-              Province
+            <Label for='province'>
+              Province  <span className='text-danger'>*</span>
             </Label>
             <Input
-              type='text'
-              id={`province-${type}`}
-              name={`province-${type}`}
+              name='province'
+              id='province'
+              autoComplete="off"
               placeholder='Kabul'
               innerRef={register({ required: true })}
-              className={classnames({ 'is-invalid': errors[`province-${type}`] })}
+              invalid={errors.province && true}
+              className={watch('province') ? classnames({ 'is-valid': !errors.province }) : ''}
             />
+            {errors && errors.province && <FormFeedback>{errors.province.message}</FormFeedback>}
           </FormGroup>
+
+
           <FormGroup tag={Col} md='4'>
-            <Label className='form-label' for={`district-${type}`}>
-              District
+            <Label for='district'>
+              District  <span className='text-danger'>*</span>
             </Label>
             <Input
-              type='text'
-              name={`district-${type}`}
-              id={`district-${type}`}
+              name='district'
+              id='district'
+              autoComplete="off"
               placeholder='Paghman'
               innerRef={register({ required: true })}
-              className={classnames({ 'is-invalid': errors[`district-${type}`] })}
+              invalid={errors.district && true}
+              className={watch('district') ? classnames({ 'is-valid': !errors.district }) : ''}
             />
+            {errors && errors.district && <FormFeedback>{errors.district.message}</FormFeedback>}
           </FormGroup>
+
           <FormGroup tag={Col} md='4'>
-            <Label className='form-label' for={`area-${type}`}>
-              Area
+            <Label for='area'>
+              Area  <span className='text-danger'>*</span>
             </Label>
             <Input
-              type='text'
-              name={`area-${type}`}
-              id={`area-${type}`}
+              name='area'
+              id='area'
+              autoComplete="off"
               placeholder='Area'
               innerRef={register({ required: true })}
-              className={classnames({ 'is-invalid': errors[`area-${type}`] })}
+              invalid={errors.area && true}
+              className={watch('area') ? classnames({ 'is-valid': !errors.area }) : ''}
             />
+            {errors && errors.area && <FormFeedback>{errors.area.message}</FormFeedback>}
           </FormGroup>
+
         </Row>
         <Row>
+
           <FormGroup tag={Col} md='6'>
-            <Label className='form-label' for={`street-no-${type}`}>
-              Street No
+            <Label for='streetNo'>
+              Street No  <span className='text-danger'>*</span>
             </Label>
             <Input
-              type='number'
-              name={`street-no-${type}`}
-              id={`street-no-${type}`}
-              placeholder='12'
+              name='streetNo'
+              id='streetNo'
+              autoComplete="off"
+              placeholder='8'
               innerRef={register({ required: true })}
-              className={classnames({ 'is-invalid': errors[`street-no-${type}`] })}
+              invalid={errors.streetNo && true}
+              className={watch('streetNo') ? classnames({ 'is-valid': !errors.streetNo }) : ''}
             />
+            {errors && errors.area && <FormFeedback>{errors.streetNo.message}</FormFeedback>}
           </FormGroup>
+
           <FormGroup tag={Col} md='6'>
-            <Label className='form-label' for={`house-no-${type}`}>
-              House No
+            <Label for='houseNo'>
+              House No  <span className='text-danger'>*</span>
             </Label>
             <Input
-              type='number'
-              name={`house-no-${type}`}
-              id={`house-no-${type}`}
-              placeholder='4'
+              name='houseNo'
+              id='houseNo'
+              autoComplete="off"
+              placeholder='3'
               innerRef={register({ required: true })}
-              className={classnames({ 'is-invalid': errors[`house-no-${type}`] })}
+              invalid={errors.houseNo && true}
+              className={watch('houseNo') ? classnames({ 'is-valid': !errors.houseNo }) : ''}
             />
+            {errors && errors.houseNo && <FormFeedback>{errors.houseNo.message}</FormFeedback>}
           </FormGroup>
+
         </Row>
         <div className='d-flex justify-content-between'>
           <Button.Ripple color='primary' className='btn-prev' onClick={() => stepper.previous()}>

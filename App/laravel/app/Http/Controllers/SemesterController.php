@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\SemesterResource;
+use App\Models\FinalMark;
 use App\Models\Semester;
 use App\Models\Student;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\DB;
 
 class SemesterController extends Controller
 {
@@ -120,5 +123,55 @@ class SemesterController extends Controller
             return $semester;
         } 
         else return response()->json(['message' => 'Resource Not Found', 'status' => 204]);
+    }
+
+    /**
+     * @param Request request (semester_id and period)
+     * this function returns all students who are eligible for governmental fund related to a particular semester
+     */
+    public function getFundedStudentsBySemester(Request $request){
+        $students = Semester::findOrFail($request->semester_id)->students->where('period', $request->period)->all();
+        $funded = [];
+
+        foreach($students as $student){
+            // students from 'Kandahar City' won't be counted as funded.
+            if($student->address->province == 'KANDAHAR' && $student->address->district == 'CITY'){
+                continue;
+            }
+            else{
+                // counts the number of subject that the student has enrolled
+                $subjectCount = 0;
+                // sums final marks of all subjects that the student has enrolled
+                $sumOfFinalMarks = 0;
+                foreach($student->finalMarks as $marks){
+                    $subjectCount++;
+                    $sumOfFinalMarks += $marks->marks;
+                }
+                // total marks divided by number of subject that he has enrolled
+                $average = $sumOfFinalMarks/$subjectCount;
+                // resets the variables
+                $sumOfFinalMarks = 0;
+                $subjectCount = 0;
+
+                // adds the student to a global array if the average is above 65
+                if($average > 65){
+                    array_push($funded, $student);
+                }
+            }
+        }
+        // return all funded students
+        return $funded;
+    }
+
+    public function find_all_students_of_semester(Request $request)
+    {
+        $student = FinalMark::where('subject_id',$request->subject_id)->pluck('student_id');
+        return new JsonResource(Semester::find($request->id)->students()
+        ->with(['midtermMarks' => function($query) use ($request){
+            $query->where('subject_id', $request->subject_id);
+        }])
+        ->whereNotIn('students.id',$student)
+        ->where('period', $request->period)
+        ->get());
     }
 }

@@ -23,9 +23,4 @@ class Semester extends Model
     {
         return $this->belongsToMany(Student::class);
     }
-
-    public function semester()
-    {
-        return $this->hasMany(Repeat::class);
-    }
 }

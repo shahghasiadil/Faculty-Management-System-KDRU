@@ -15,13 +15,14 @@ return new class extends Migration
     {
         Schema::create('relatives', function (Blueprint $table) {
             $table->id();
-            $table->enum('relationship', ['FATHER', 'BROTHER', 'PATERNAL_UNCLE', 'MATERNAL_UNCLE']);
+            $table->string('relationship');
             $table->string('name');
             $table->string('father_name')->nullable();
-            $table->enum('job', ['PERSONAL_BUSINESS', 'DOCTOR', 'STUDENT', 'TEACHER', 'EMPLOYEE']);
+            $table->string('job');
             $table->string('academic_transfer')->nullable();
             $table->string('phone')->nullable();
             $table->foreignId('student_id')->constrained('students');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

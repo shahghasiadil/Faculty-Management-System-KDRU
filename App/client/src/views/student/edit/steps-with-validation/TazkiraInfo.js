@@ -1,16 +1,41 @@
-import { Fragment } from 'react'
+
+import * as yup from 'yup'
+import { Fragment, useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 import classnames from 'classnames'
 import { isObjEmpty } from '@utils'
 import { useForm } from 'react-hook-form'
 import { ArrowLeft, ArrowRight } from 'react-feather'
-import { Label, FormGroup, Row, Col, Button, Form, Input } from 'reactstrap'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { Label, FormGroup, Row, Col, Button, Form, Input, FormFeedback } from 'reactstrap'
 
 const TazkiraInfo = ({ stepper, type }) => {
-  const { register, errors, handleSubmit, trigger } = useForm()
 
-  const onSubmit = () => {
+  const StudentSchema = yup.object().shape({
+    tazkiraVolume: yup.string().required('Tazkira Volume is required field'),
+    tazkiraPage: yup.string().required("Tazkira Page is required field"),
+    registrationNo: yup.string().required("Registration Number is required field")
+  })
+
+  const [studentData, setStudentData] = useState(null)
+  // ** React hook form
+  const { register, errors, handleSubmit, watch, trigger } = useForm({ mode: 'onChange', resolver: yupResolver(StudentSchema) })
+
+  const { studentInfo, selectedStudent } = useSelector(state => state.students)
+  const { tazkira } = studentInfo
+
+  useEffect(() => {
+    if (selectedStudent !== null || (selectedStudent !== null && studentData !== null && selectedStudent.id !== StudentData.id)) {
+      setStudentData(selectedStudent)
+    }
+  }, [selectedStudent])
+
+  const onSubmit = (value) => {
     trigger()
     if (isObjEmpty(errors)) {
+      tazkira.tazkira_volume = value.tazkiraVolume
+      tazkira.tazkira_page = value.tazkiraPage
+      tazkira.tazkira_registration_number = value.registrationNo
       stepper.next()
     }
   }
@@ -23,48 +48,57 @@ const TazkiraInfo = ({ stepper, type }) => {
       </div>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Row>
-          
+
           <FormGroup tag={Col} md='6'>
-            <Label className='form-label' for={`tazkira-volume-${type}`}>
-              Tazkira Volume
+            <Label for='tazkiraVolume'>
+              Tazkira Volume  <span className='text-danger'>*</span>
             </Label>
             <Input
-              type='text'
-              name={`tazkira-volume-${type}`}
-              id={`tazkira-volume-${type}`}
-              placeholder='1401-2234-54'
+              name='tazkiraVolume'
+              id='tazkiraVolume'
+              defaultValue={studentData && studentData.tazkira_volume}
+              autoComplete="off"
+              placeholder='123-456-789'
               innerRef={register({ required: true })}
-              className={classnames({ 'is-invalid': errors[`tazkira-volume-${type}`] })}
+              invalid={errors.tazkiraVolume && true}
+              className={watch('tazkiraVolume') ? classnames({ 'is-valid': !errors.tazkiraVolume }) : ''}
             />
+            {errors && errors.tazkiraVolume && <FormFeedback>{errors.tazkiraVolume.message}</FormFeedback>}
           </FormGroup>
+
           <FormGroup tag={Col} md='6'>
-            <Label className='form-label' for={`tazkira-page-${type}`}>
-              Tazkira Page
+            <Label for='tazkiraPage'>
+              Tazkira Page  <span className='text-danger'>*</span>
             </Label>
             <Input
-              type='text'
-              name={`tazkira-page-${type}`}
-              id={`tazkira-page-${type}`}
-              placeholder='3'
+              name='tazkiraPage'
+              id='tazkiraPage'
+              defaultValue={studentData && studentData.tazkira_page}
+              autoComplete="off"
+              placeholder='12'
               innerRef={register({ required: true })}
-              className={classnames({ 'is-invalid': errors[`tazkira-page-${type}`] })}
+              invalid={errors.tazkiraPage && true}
+              className={watch('tazkiraPage') ? classnames({ 'is-valid': !errors.tazkiraPage }) : ''}
             />
+            {errors && errors.tazkiraPage && <FormFeedback>{errors.tazkiraPage.message}</FormFeedback>}
           </FormGroup>
         </Row>
         <Row>
-          
+
           <FormGroup tag={Col} md='6'>
-            <Label className='form-label' for={`registration-no-${type}`}>
-              Registration No
+            <Label for='registrationNo'>
+              Registration No   <span className='text-danger'>*</span>
             </Label>
             <Input
-              type='text'
-              name={`registration-no-${type}`}
-              id={`registration-no-${type}`}
-              placeholder='2343'
+              name='registrationNo'
+              id='registrationNo'
+              defaultValue={studentData && studentData.tazkira_registration_number}
+              placeholder='123'
               innerRef={register({ required: true })}
-              className={classnames({ 'is-invalid': errors[`registration-no-${type}`] })}
+              invalid={errors.registrationNo && true}
+              className={watch('registrationNo') ? classnames({ 'is-valid': !errors.registrationNo }) : ''}
             />
+            {errors && errors.registrationNo && <FormFeedback>{errors.registrationNo.message}</FormFeedback>}
           </FormGroup>
         </Row>
         <div className='d-flex justify-content-between'>

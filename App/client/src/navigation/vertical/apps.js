@@ -1,13 +1,13 @@
 
-import { Layers, Users, Edit3, Book, CheckSquare, Calendar, FileText, Circle, ShoppingCart, User, Mail, MessageSquare, Edit, List} from 'react-feather'
+import { Layers, Users, Edit3, Book, CheckSquare, Calendar, FileText, Circle, ShoppingCart, User, Mail, MessageSquare, Edit, List } from 'react-feather'
 
 export default [
 
   {
-    id: 'students', 
-    title: 'Students', 
-    icon: <Users size={20} />, 
-    navLink: '/students' 
+    id: 'students',
+    title: 'Students',
+    icon: <Users size={20} />,
+    navLink: '/students'
   },
   {
     id: 'teachers',
@@ -25,50 +25,99 @@ export default [
     id: 'schedules',
     title: 'Schedules',
     icon: <Calendar size={20} />,
-    navLink: '/schedules'
-  },
-  {
-    id: 'ExamSchedules',
-    title: 'Exam Schedule',
-    icon: <Calendar size={20} />,
-    navLink: '/exam-schedule'
+    children: [
+      {
+        id: 'schedules',
+        title: 'Schedules',
+        icon: <Circle size={12} />,
+        navLink: '/schedules'
+      },
+      {
+        id: 'exam-schedules',
+        title: 'Exam Schedules',
+        icon: <Circle size={12} />,
+        navLink: '/exam-schedule'
+      },
+      {
+        id: 'view-schedule',
+        title: 'View Schedule',
+        icon: <Circle size={12} />,
+        navLink: '/view-schedule'
+      },
+      {
+        id: 'view-exam-schedule',
+        title: 'View Exam Schedule',
+        icon: <Circle size={12} />,
+        navLink: '/view-exam-schedule'
+      }
+    ]
   },
   {
     id: 'subjects',
     title: 'Subjects',
-    icon: <Book size={20}/>,
+    icon: <Book size={20} />,
     navLink: '/subjects'
   },
   {
-    id: 'final-marks',
-    title: 'Final Marks',
-    icon: <FileText size={20}/>,
-    navLink: '/final-marks'
-  },
-  {
-    id: 'mid-term-marks',
-    title: 'Mid Term Marks',
-    icon: <FileText size={20}/>,
-    navLink: '/mid-term-marks'
-  },
-  {
-    id: 'chance',
-    title: 'Chance',
-    icon: <FileText size={20}/>,
-    navLink: '/chances'
+    id: 'marks',
+    title: 'Marks',
+    icon: <FileText size={20} />,
+    children: [
+      {
+        id: 'midterm',
+        title: 'Mid Marks',
+        icon: <Circle size={12} />,
+        navLink: '/mid-term-marks'
+      },
+      {
+        id: 'final-marks',
+        title: 'Final Marks',
+        icon: <Circle size={12} />,
+        navLink: '/final-marks'
+      },
+      {
+        id: 'final-marks-report',
+        title: 'Marks Report',
+        icon: <Circle size={12} />,
+        navLink: '/marks-report'
+      },
+      {
+        id: 'assign-marks',
+        title: 'Assign Marks',
+        icon: <Circle size={12} />,
+        navLink: '/assign-marks'
+      }, {
+        id: 'chance',
+        title: 'Chance',
+        icon: <FileText size={20} />,
+        navLink: '/chances'
+      }
+    ]
   },
   {
     id: 'registrations',
     title: 'Registrations',
-    icon: <Edit3 size={20}/>,
+    icon: <Edit3 size={20} />,
     navLink: '/registrations'
+  }, {
+    id: 'attendances',
+    title: 'Attendances',
+    icon: <User size={20} />,
+    children: [
+      {
+        id: 'view',
+        title: 'View',
+        icon: <Circle size={12} />,
+        navLink: '/attendances'
+      },
+      {
+        id: 'report',
+        title: 'Report',
+        icon: <Circle size={12} />,
+        navLink: '/apps/user/view'
+      }
+    ]
   },
-  {
-    id:'schedules',
-    title:'Schedules',
-    icon:<Layers size = {20}/>,
-    navLink:'/schedules'
-  },  
   {
     id: 'users',
     title: 'User',

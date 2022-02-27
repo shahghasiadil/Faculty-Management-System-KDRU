@@ -19,7 +19,11 @@ const AppRoutes = [
       navLink: '/views/student/edit'
     }
   },
-
+  {
+    path: '/students/info/:id',
+    exact: true,
+    component: lazy(() => import('../../views/student/list/info/'))
+  },
   {
     path: '/registrations',
     exact: true,
@@ -36,20 +40,50 @@ const AppRoutes = [
 
   // exam schedule route
   {
+    path: '/attendances',
+    exact: true,
+    component: lazy(() => import('../../views/attendances/list'))
+  },
+  {
+    path: '/assign-marks',
+    exact: true,
+    component: lazy(() => import('../../views/assign-marks/list'))
+  },
+  {
     path: '/exam-schedule',
     exact: true,
     component: lazy(() => import('../../views/examschedule/list'))
   },
   {
-    path: '/exam-schedule/edit',
+    path: '/views/exam-schedule/edit/:id',
     exact: true,
-    component: lazy(() => import('../../views/examschedule/edit'))
+    component: lazy(() => import('../../views/examschedule/edit')),
+    meta: {
+      navLink: '/views/examschedule/edit'
+    }
   },
-
+  {
+    path: '/schedules',
+    exact: true,
+    component: lazy(() => import('../../views/schedules/list'))
+  },
+  {
+    path: '/views/schedule/edit/:id',
+    exact: true,
+    component: lazy(() => import('../../views/schedules/edit')),
+    meta: {
+      navLink: '/views/schedules/edit'
+    }
+  },
   {
     path: '/final-marks',
     exact: true,
     component: lazy(() => import('../../views/final-marks/list'))
+  },
+  {
+    path: '/marks-report',
+    exact: true,
+    component: lazy(() => import('../../views/final-marks/list/report'))
   },
   {
     path: '/views/final-mark/edit/:id',
@@ -118,7 +152,6 @@ const AppRoutes = [
       navLink: '/views/subject/edit'
     }
   },
-  
   // {
   //   path:'/schedules',
   //   exact:true,

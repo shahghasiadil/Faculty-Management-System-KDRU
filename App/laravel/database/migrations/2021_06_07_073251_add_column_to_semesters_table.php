@@ -14,7 +14,7 @@ class AddColumnToSemestersTable extends Migration
     public function up()
     {
         Schema::table('semesters', function (Blueprint $table) {
-            $table->softDeletes();
+           // $table->softDeletes();
         });
     }
 

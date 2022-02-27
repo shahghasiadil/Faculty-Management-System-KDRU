@@ -1,8 +1,8 @@
 import axios from 'axios'
-
+import { Redirect } from 'react-router-dom'
 // ** Toast Components
 import { SuccessProgressToast, ErrorToast } from '../../list/Sidebar'
-import {UpdateProgressToast} from '../../edit/Edit'
+import { UpdateProgressToast } from '../../edit/Edit'
 import { toast, Slide } from 'react-toastify'
 import { ErrorToast as AlertComponent } from '../../list/Table'
 
@@ -27,20 +27,16 @@ export const getAllData = () => {
 }
 
 // ** Get data on page or row change
-export const getData = params => {
+export const getData = () => {
   return async dispatch => {
-    await axios.get(`http://127.0.0.1:8000/api/students`, params).then(response => {
-    dispatch({
-      type: GET_DATA,
-      data: response.data,
-      data: response.data,
-      totalPages: response.data.total,
-      params
-    })
+    await axios.get(`http://127.0.0.1:8000/api/students`).then(response => {
+      dispatch({
+        type: GET_DATA
+      })
     })
   }
 }
- 
+
 // ** Get Student
 export const getStudent = id => {
   return async dispatch => {
@@ -71,73 +67,74 @@ export const addStudent = student => {
         }
       })
       .then(() => {
-        toast.success(<SuccessProgressToast name={student.name} lastName = {student.last_name}/>)        
+        toast.success(<SuccessProgressToast name={student.personal.name} lastName={student.personal.last_name} />)
         dispatch(getData(getState().students.params))
         dispatch(getAllData())
-        
+        return <Redirect to='/student' />
+
       })
       .catch(() => {
-        toast.success(<ErrorToast/>)        
+        toast.error(<ErrorToast />)
       })
-    }
   }
-  // ** Update Student
-  export const updateStudent = (student, id) => {
-    return (dispatch, getState) => {
-      axios
-        .put(`http://127.0.0.1:8000/api/students/${id}`, student)
-        .then(response => {
-          dispatch({
-            type: UPDATE_STUDENT,
-            student
+}
+// ** Update Student
+export const updateStudent = (student, id) => {
+  return (dispatch, getState) => {
+    axios
+      .put(`http://127.0.0.1:8000/api/students/${id}`, student)
+      .then(response => {
+        dispatch({
+          type: UPDATE_STUDENT,
+          student
+        })
+
+      })
+      .then(() => {
+        toast.success(<UpdateProgressToast />)
+        dispatch(getData(getState().students.params))
+        dispatch(getAllData())
+        return <Redirect to='/student' />
+      })
+      .catch(err => console.log(err))
+  }
+}
+// ** Delete Student
+export const deleteStudent = id => {
+  return (dispatch, getState) => {
+    MySwal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      customClass: {
+        confirmButton: 'btn btn-primary',
+        cancelButton: 'btn btn-danger ml-1'
+      },
+      buttonsStyling: false
+    }).then(function (result) {
+      if (result.value) {
+        axios.delete(`http://127.0.0.1:8000/api/students/student/${id}`)
+          .then(() => {
+            dispatch({
+              type: DELETE_STUDENT
+            })
+            MySwal.fire({
+              icon: 'success',
+              title: 'Deleted!',
+              text: 'Your record has been deleted.',
+              customClass: {
+                confirmButton: 'btn btn-success'
+              }
+            })
+          }).catch(() => {
+            MySwal.fire('Failed!',
+              'There was something wrong.',
+              'warning')
           })
-          
-        })
-        .then(() => {
-          toast.success(<UpdateProgressToast/>)        
-          dispatch(getData(getState().students.params))
-          dispatch(getAllData())
-          
-        })
-        .catch(err => console.log(err))
       }
-    }
-  // ** Delete Student
-  export const deleteStudent = id => {
-    return (dispatch, getState) => {
-       MySwal.fire({
-          title: 'Are you sure?',
-          text: "You won't be able to revert this!",
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonText: 'Yes, delete it!',
-          customClass: {
-            confirmButton: 'btn btn-primary',
-            cancelButton: 'btn btn-danger ml-1'
-          },
-          buttonsStyling: false
-        }).then(function (result) {
-          if (result.value) {
-            axios.delete(`http://127.0.0.1:8000/api/students/student/${id}`)
-            .then(() => {
-                dispatch({
-                type: DELETE_STUDENT
-                })
-                MySwal.fire({
-                  icon: 'success',
-                  title: 'Deleted!',
-                  text: 'Your record has been deleted.',
-                  customClass: {
-                    confirmButton: 'btn btn-success'
-                  }
-                })
-              }).catch(() => {
-                MySwal.fire('Failed!',
-                'There was something wrong.',
-                'warning')
-              })
-          }
-        })      
+    })
       .then(() => {
         dispatch(getData(getState().students.params))
         dispatch(getAllData())
@@ -149,15 +146,15 @@ export const archiveStudent = id => {
   return (dispatch, getState) => {
     axios.delete(`http://127.0.0.1:8000/api/students/${id}`).then(() => {
       dispatch({
-        type:ARCHIVE
+        type: ARCHIVE
       })
     }).then(() => {
       dispatch(getData(getState().students.params))
       dispatch(getAllData())
-      toast.success(<AlertComponent id = {id}/>,
+      toast.success(<AlertComponent id={id} />,
         { transition: Slide, autoClose: 10000 }
-        )
-     
+      )
+
     }).catch(err => console.log(err))
   }
 }
@@ -166,7 +163,7 @@ export const restoreStudent = id => {
   return (dispatch, getState) => {
     axios.get(`http://127.0.0.1:8000/api/students/${id}/restore`).then(() => {
       dispatch({
-        type:RESTORE_STUDENT
+        type: RESTORE_STUDENT
       })
     }).then(() => {
       dispatch(getData(getState().students.params))
