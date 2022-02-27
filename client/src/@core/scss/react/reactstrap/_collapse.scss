@@ -1,0 +1,21 @@
+// Component App Collapse
+// ========================================================================
+.app-collapse {
+  &.card {
+    .card-header {
+      padding: 1rem;
+    }
+
+    svg {
+      transition: all 300ms linear 0s;
+    }
+    .card-header:not(.collapsed) {
+      svg {
+        transform: rotate(180deg);
+      }
+    }
+  }
+  .collapse-title {
+    max-width: calc(100% - 25px);
+  }
+}
