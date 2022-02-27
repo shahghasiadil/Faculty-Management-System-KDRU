@@ -67,11 +67,15 @@ const AppRoutes = [
       navLink: '/views/examschedule/edit'
     }
   },
-
   {
-    path: '/projects',
+    path: '/assign-project',
     exact: true,
-    component: lazy(() => import('../../views/project/'))
+    component: lazy(() => import('../../views/project/list/'))
+  },
+  {
+    path: '/projects-report',
+    exact: true,
+    component: lazy(() => import('../../views/project/list/report'))
   },
   {
     path: '/final-marks',
