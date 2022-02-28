@@ -148,3 +148,6 @@ Route::apiResource('teachers', TeacherController::class);
 Route::delete('teachers/teacher/{id}', [TeacherController::class, 'permanentDelete']);
 Route::get('teachers/{id}/restore', [TeacherController::class, 'restore']);
 Route::post('teachers/find-by-email', [TeacherController::class, 'findByEmail']);
+
+
+Route::get('/total-marks',[FinalMarkController::class,'totalMark']);
