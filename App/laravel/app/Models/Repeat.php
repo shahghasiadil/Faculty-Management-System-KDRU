@@ -20,4 +20,8 @@ class Repeat extends Model
     {
         return $this->belongsTo(Semester::class);
     }
+
+    public function finalMark(){
+        return $this->belongsTo(FinalMark::class);
+    }
 }

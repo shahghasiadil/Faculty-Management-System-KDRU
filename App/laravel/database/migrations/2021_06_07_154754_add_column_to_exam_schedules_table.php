@@ -14,7 +14,7 @@ class AddColumnToExamSchedulesTable extends Migration
     public function up()
     {
         Schema::table('exam_schedules', function (Blueprint $table) {
-           // $table->softDeletes();
+           $table->softDeletes();
         });
     }
 

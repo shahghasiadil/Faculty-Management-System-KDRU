@@ -70,6 +70,7 @@ export const getFinalMark = id => {
 
 // ** Add new Final Mark
 export const addFinalMark = finalMark => {
+  // console.log(finalMark)
   return (dispatch, getState) => {
     axios
       .post('http://127.0.0.1:8000/api/final-marks', finalMark)

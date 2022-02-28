@@ -93,7 +93,6 @@ const SidebarNewSchedule = ({ open, toggleSidebar }) => {
     { value: 4, label: 'Tuseday'},
     { value: 5, label: 'Wednesday'},
     { value: 6, label: 'Thursday'}
-    // { value: 4, label: 'Farah'},
   ]
 
   // ** Function to handle form submit

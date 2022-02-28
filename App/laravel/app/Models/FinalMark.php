@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class FinalMark extends Model
 {
     use HasFactory, SoftDeletes;
-    protected $fillable = ['mid_term_marks', 'marks', 'student_id', 'subject_id'];
+    protected $fillable = ['marks', 'student_id', 'subject_id', 'total_marks'];
     public function student()
     {
         return $this->belongsTo(Student::class);
@@ -19,5 +19,10 @@ class FinalMark extends Model
     public function subject()
     {
         return $this->belongsTo(Subject::class);
+    }
+
+    public function repeats()
+    {
+        return $this->hasMany(Repeat::class);
     }
 }

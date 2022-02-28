@@ -8,6 +8,8 @@ import Avatar from '@components/avatar'
 import { Check, X} from 'react-feather'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
+
+import Flatpickr from 'react-flatpickr'
 // ** Custom Components
 import Sidebar from '@components/sidebar'
 // ** Utils
@@ -55,10 +57,12 @@ const SidebarNewMarks = ({ open, toggleSidebar }) => {
   const [visible, setVisible] = useState('')
   const [students, setStudents] = useState([])
   const [subjects, setSubjects] = useState([])
+  const [picker, setPicker] = useState(new Date())
   const [selectedSubject, setSelectedSubject] = useState(0)
   const [studentFathers, setStudentFathers] = useState([])
   const [studentRollNo, setStudentRollNo] = useState([])
   const [selectedStudentRollNo, setSelectedStudentRollNo] = useState('')
+
   // ** Store Vars
   const dispatch = useDispatch()
   // ** Validations Yup

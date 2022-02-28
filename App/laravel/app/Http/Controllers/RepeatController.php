@@ -19,27 +19,18 @@ class RepeatController extends Controller
      */
     public function index()
     {
-        return $students_chance_credits_sum = DB::table('final_marks')
-        ->leftJoin('students', 'students.id', '=', 'final_marks.student_id')
-        ->leftJoin('subjects', 'subjects.id', '=', 'final_marks.subject_id')
-        ->select('final_marks.student_id',  DB::raw('sum(subjects.credit) as total_chance_credit'))
-        ->where('final_marks.year', '=', 2019)
-        ->where('semester_id', '=', 1)
-        ->where('final_marks.marks', '<', 55)
-        ->groupBy('student_id')
-        ->get();
+ 
+        // $test = FinalMark::with(['student','subject.semester'])
+        // ->where('year', 2016)
+        // ->whereRelation('subject','semester_id','=', 1)
+        // ->where('marks', '<', 55)
+        // ->whereHas('subject.credit', function($query) {
+        //     // $query->select(DB::raw('sum($uery) as total_chance_credit'));
+        // })
+        // ->get();
+        // return $test;
+        return Repeat::with(['student', 'semester','finalMark'])->latest()->paginate(10);
         
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-   
-    public function create()
-    {
-          
     }
 
     /**
@@ -53,8 +44,7 @@ class RepeatController extends Controller
         
         // this variable is used to find specific semester total subjects credits to used in repeat rules
         // when one student has been chanced in high credits than total credits of semester his repeated to next year
-        $sem_total_credits = Subject::with('semester')->where('semester_id', $request->semester_id)->sum('credit');
-        
+        $sem_total_credits = Subject::with('semester')->where('semester_id', $request->semester_id)->sum('credit');    
         // this variable is used to find  students total credit in specific semester that credits in which they are chanced.
         // this variable is array of students objects with their total credits in which they are chanced
         $students_chance_credits_sum = DB::table('final_marks')
@@ -103,7 +93,7 @@ class RepeatController extends Controller
      */
     public function show($id)
     {
-        //
+        return Repeat::with(['student', 'semester'])->find($id);
     }
 
     /**

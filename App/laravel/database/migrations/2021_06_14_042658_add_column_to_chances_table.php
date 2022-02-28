@@ -14,7 +14,7 @@ class AddColumnToChancesTable extends Migration
     public function up()
     {
         Schema::table('chances', function (Blueprint $table) {
-           // $table->softDeletes();
+           $table->softDeletes();
         });
     }
 

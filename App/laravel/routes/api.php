@@ -15,6 +15,7 @@ use App\Http\Controllers\AddressController;
 use App\Http\Controllers\RelativeController;
 use App\Http\Controllers\Auth\AuthenticationController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\RepeatController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -138,3 +139,6 @@ Route::apiResource('teachers', TeacherController::class);
 Route::delete('teachers/teacher/{id}', [TeacherController::class, 'permanentDelete']);
 Route::get('teachers/{id}/restore', [TeacherController::class, 'restore']);
 Route::post('teachers/find-by-email', [TeacherController::class, 'findByEmail']);
+
+// ** Repeat Routes
+Route::apiResource('repeats', RepeatController::class);

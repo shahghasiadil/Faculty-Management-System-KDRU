@@ -14,7 +14,7 @@ class AddColumnToSubjectsTable extends Migration
     public function up()
     {
         Schema::table('subjects', function (Blueprint $table) {
-          //  $table->softDeletes();
+        //    $table->softDeletes();
         });
     }
 
