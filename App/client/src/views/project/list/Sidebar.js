@@ -115,7 +115,6 @@ const SidebarNewProjects = ({ open, toggleSidebar }) => {
       )
     }
   }
-
   return (
     <Sidebar
       size='lg'
