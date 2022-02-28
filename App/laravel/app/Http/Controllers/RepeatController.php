@@ -47,13 +47,14 @@ class RepeatController extends Controller
         $sem_total_credits = Subject::with('semester')->where('semester_id', $request->semester_id)->sum('credit');    
         // this variable is used to find  students total credit in specific semester that credits in which they are chanced.
         // this variable is array of students objects with their total credits in which they are chanced
-        $students_chance_credits_sum = DB::table('final_marks')
+        
+         $students_chance_credits_sum = DB::table('final_marks')
         ->leftJoin('students', 'students.id', '=', 'final_marks.student_id')
         ->leftJoin('subjects', 'subjects.id', '=', 'final_marks.subject_id')
         ->select('final_marks.student_id',  DB::raw('sum(subjects.credit) as total_chance_credit'))
-        ->where('final_marks.year', '=', $request->year)
+        ->whereYear('final_marks.created_at', '=', $request->year)
         ->where('semester_id', '=', $request->semester_id)
-        ->where('final_marks.marks', '<', 55)
+        ->where('final_marks.total_marks', '<', 55)
         ->groupBy('student_id')
         ->get();
 
@@ -61,11 +62,11 @@ class RepeatController extends Controller
         foreach($students_chance_credits_sum as $std_credit_sum){
             
             // if the secific record is exist do not add student to semester
-            $sem_student_exist = DB::table('semester_student')
+            $sem_student_doesNotExist = DB::table('semester_student')
             ->where('semester_id', $request->semester_id)
             ->where('student_id', $std_credit_sum->student_id)->doesntExist();
              
-                if($sem_student_exist){
+                if($sem_student_doesNotExist){
                     $semester = Semester::find($request->semester_id);
                     $semester->students()->attach($std_credit_sum->student_id);
                 }
