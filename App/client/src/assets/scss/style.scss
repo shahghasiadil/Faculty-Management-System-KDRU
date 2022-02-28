@@ -1,0 +1,90 @@
+/*================================================================================
+	Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
+	Version: 2.0
+	Author: PIXINVENT
+	Author URL: http://www.themeforest.net/user/pixinvent
+================================================================================
+
+NOTE:
+------
+PLACE HERE YOUR OWN SCSS CODES AND IF NEEDED, OVERRIDE THE STYLES FROM THE OTHER STYLESHEETS.
+WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BETTER LIKE THIS.  */
+.root-div {
+	font-size: 18px;
+	text-align: right;
+	direction: rtl;
+}
+
+.top-first-div {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.top-center-div {
+	display: flex;
+	flex-flow: column wrap;
+	place-items: center;
+	justify-content: center;
+}
+
+.std-logo {
+	display: flex;
+	flex-flow: column wrap;
+	place-items: center;
+	margin-bottom: -30px;
+}
+
+.student-image {
+	height: 150px;
+	width: 150px;
+	float: left;
+}
+
+.table-student-info>thead>tr>th {
+	font-size: 17px;
+	text-align: center;
+
+}
+
+
+// ** Attendance sheet styles
+
+.col-absent,
+.col-present,
+.col-code-number,
+.col-gana {
+	transform: rotate(270deg);
+	width: 25px;
+}
+
+.col-absent,
+.col-present {
+	padding: 0;
+	max-width: 15px;
+	min-width: 15px;
+}
+
+.attendance-div {
+	margin: 0;
+	padding: 0;
+	margin-top: 20px;
+	font-size: 17px;
+}
+
+.col-code-number,
+.std-father-name {
+	word-spacing: normal;
+}
+
+.attendance-top-row {
+	display: flex;
+	flex-direction: row-reverse;
+	margin-bottom: 10px;
+}
+
+.attendance-logo-1 {
+	display: flex;
+	flex-direction: row-reverse;
+	padding: 0;
+}
