@@ -1,0 +1,153 @@
+// Component: Number Input
+// ========================================================================
+
+@import '../../scss/base/bootstrap-extended/include';
+@import '../../scss/base/components/include';
+
+.number-input {
+  border-radius: $border-radius;
+  text-align: center;
+  border: 1px solid $custom-control-border-color;
+  overflow: hidden;
+
+  .form-control {
+    text-align: center;
+    padding: 0 0.25rem;
+    border-color: $custom-control-border-color;
+
+    ::-webkit-outer-spin-button,
+    ::-webkit-inner-spin-button {
+      margin: 0;
+      -webkit-appearance: none;
+    }
+    -moz-appearance: textfield;
+  }
+
+  &:focus,
+  &:active,
+  &:focus-within {
+    outline: 0;
+    box-shadow: none;
+    border-color: $primary;
+
+    .form-control {
+      box-shadow: none;
+      border-color: $custom-control-border-color !important;
+    }
+  }
+
+  &:not(.vertical-number-input) {
+    .form-control {
+      border-top: 0;
+      border-bottom: 0;
+    }
+  }
+
+  &.disabled,
+  &.readonly {
+    &:focus,
+    &:active,
+    &:focus-within {
+      outline: 0;
+      box-shadow: none;
+      border-color: $custom-control-border-color;
+    }
+    .btn {
+      background-color: $input-disabled-bg;
+      opacity: 1;
+    }
+  }
+
+  &.vertical-number-input {
+    display: inline-flex;
+    flex-direction: column;
+    width: auto;
+    max-width: 3rem;
+
+    .input-group-prepend,
+    .input-group-append {
+      margin-right: 0;
+      margin-left: 0;
+
+      .btn {
+        width: 100%;
+      }
+    }
+
+    .input-group-prepend .btn {
+      border-bottom-left-radius: 0;
+      border-top-right-radius: $btn-border-radius;
+    }
+
+    .input-group-append .btn {
+      border-bottom-left-radius: $btn-border-radius;
+      border-top-right-radius: 0;
+    }
+
+    .form-control {
+      border-left: 0;
+      border-right: 0;
+      width: 100%;
+      padding-left: 0.5rem;
+      padding-right: 0.5rem;
+      font-size: 0.85rem;
+    }
+
+    &-sm {
+      max-width: 2.5rem;
+      .form-control {
+        padding-left: 0.25rem;
+        padding-right: 0.25rem;
+        font-size: 0.75rem;
+      }
+    }
+
+    &-lg {
+      max-width: 3.5rem;
+      .form-control {
+        font-size: 1rem;
+      }
+    }
+  }
+}
+
+.dark-layout {
+  .number-input {
+    border-color: $theme-dark-input-border-color;
+
+    .input-group-prepend,
+    .input-group-append {
+      button:not(.disabled) {
+        svg {
+          stroke: $theme-dark-body-color;
+        }
+      }
+    }
+
+    &:focus,
+    &:active,
+    &:focus-within {
+      border-color: $primary !important;
+
+      .form-control {
+        border-color: $theme-dark-input-border-color !important;
+      }
+    }
+
+    &:not(.disabled),
+    &:not(.readonly) {
+      &:focus,
+      &:active,
+      &:focus-within {
+        border-color: $theme-dark-input-border-color;
+      }
+    }
+
+    &.disabled,
+    &.readonly {
+      .btn {
+        background-color: $theme-dark-input-disabled-border-color;
+      }
+    }
+  }
+}

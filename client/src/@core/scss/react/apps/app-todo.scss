@@ -1,0 +1,10 @@
+// App Todo
+// ========================================================================
+
+@import '../../base/pages/app-todo.scss';
+
+.todo-application {
+  .todo-item[draggable='true'] {
+    box-shadow: 0 0 10px 0 rgba(24, 28, 33, 0.25);
+  }
+}
