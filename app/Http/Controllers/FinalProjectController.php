@@ -15,7 +15,7 @@ class FinalProjectController extends Controller
      */
     public function index()
     {
-        return new JsonResource(FinalProject::with('teacher')->latest()->get());
+        return new JsonResource(FinalProject::with('teacher','students:id,name,father_name')->latest()->get());
     }
 
     /**
@@ -55,7 +55,7 @@ class FinalProjectController extends Controller
      */
     public function show($id)
     {
-        return new JsonResource(FinalProject::with('teacher')->findOrFail($id));
+        return new JsonResource(FinalProject::with('teacher','students:id,name,father_name')->findOrFail($id));
     }
 
     /**
