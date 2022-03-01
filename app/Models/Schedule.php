@@ -9,13 +9,20 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Schedule extends Model
 {
     use HasFactory, SoftDeletes;
-    protected $fillable = ['week_day', 'teacher_id', 'subject_id', 'start_time', 'end_time'];
-    public function teacher()
-    {
-        return $this->belongsTo(Teacher::class);
-    }
+    protected $fillable = ['week_day_id', 'subject_id', 'hour_count'];
+
     public function subject()
     {
         return $this->belongsTo(Subject::class);
+    }
+
+    /**
+     * Get the week_day that owns the Schedule
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function week_day()
+    {
+        return $this->belongsTo(WeekDay::class);
     }
 }

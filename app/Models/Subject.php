@@ -11,7 +11,7 @@ class Subject extends Model
     use HasFactory, SoftDeletes;
 
     // Mass Assignment
-    protected $fillable = ['name', 'credit', 'semester_id', 'code'];
+    protected $fillable = ['name', 'credit', 'semester_id', 'code', 'teacher_id'];
 
     public function registrations()
     {
@@ -53,5 +53,15 @@ class Subject extends Model
     public function students()
     {
         return $this->belongsToMany(Student::class);
+    }
+
+    /**
+     * Get the teacher that owns the Subject
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function teacher()
+    {
+        return $this->belongsTo(Teacher::class);
     }
 }

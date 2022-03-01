@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSchedulesTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,9 @@ class CreateSchedulesTable extends Migration
      */
     public function up()
     {
-        Schema::create('schedules', function (Blueprint $table) {
+        Schema::create('table_week_days', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('week_day_id')->constrained('week_days');
-            $table->foreignId('subject_id')->constrained('subjects');
-            $table->int('hour_count');
-            $table->softDeletes();
+            $table->string('day');
             $table->timestamps();
         });
     }
@@ -30,6 +27,6 @@ class CreateSchedulesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('schedules');
+        Schema::dropIfExists('table_week_days');
     }
-}
+};

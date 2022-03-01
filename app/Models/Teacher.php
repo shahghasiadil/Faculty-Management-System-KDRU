@@ -35,4 +35,14 @@ class Teacher extends Model
     {
         return $this->hasMany(FinalProject::class);
     }
+
+    /**
+     * Get all of the subjects for the Teacher
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function subjects()
+    {
+        return $this->hasMany(Subject::class);
+    }
 }
