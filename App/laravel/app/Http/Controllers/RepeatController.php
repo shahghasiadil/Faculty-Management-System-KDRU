@@ -19,17 +19,20 @@ class RepeatController extends Controller
      */
     public function index()
     {
- 
-        // $test = FinalMark::with(['student','subject.semester'])
-        // ->where('year', 2016)
-        // ->whereRelation('subject','semester_id','=', 1)
-        // ->where('marks', '<', 55)
-        // ->whereHas('subject.credit', function($query) {
-        //     // $query->select(DB::raw('sum($uery) as total_chance_credit'));
-        // })
-        // ->get();
-        // return $test;
-        return Repeat::with(['student', 'semester','finalMark'])->latest()->paginate(10);
+
+        // return Repeat::with(['student', 'semester','finalMark'])->latest()->paginate(10);
+
+    //    return $students_chance_credits_sum = DB::table('final_marks')
+    //     ->leftJoin('students', 'students.id', '=', 'final_marks.student_id')
+    //     ->leftJoin('subjects', 'subjects.id', '=', 'final_marks.subject_id')
+    //     ->leftJoin('midterm_marks', 'midterm_marks.id', '=', 'final_marks.midterm_mark_id')
+    //     ->select('final_marks.student_id',  DB::raw('sum(subjects.credit) as total_chance_credit'), DB::raw('final_marks.marks + midterm_marks.marks as total_marks') )
+    //     ->whereYear('final_marks.created_at', '=', $request->year)
+    //     ->where('semester_id', '=', $request->semester_id)
+    //     ->where('total_marks', '<', 55)
+    //     ->groupBy('student_id')
+    //     ->get();
+            return 'hello';
         
     }
 
@@ -48,13 +51,14 @@ class RepeatController extends Controller
         // this variable is used to find  students total credit in specific semester that credits in which they are chanced.
         // this variable is array of students objects with their total credits in which they are chanced
         
-         $students_chance_credits_sum = DB::table('final_marks')
+        $students_chance_credits_sum = DB::table('final_marks')
         ->leftJoin('students', 'students.id', '=', 'final_marks.student_id')
         ->leftJoin('subjects', 'subjects.id', '=', 'final_marks.subject_id')
-        ->select('final_marks.student_id',  DB::raw('sum(subjects.credit) as total_chance_credit'))
+        ->leftJoin('midterm_marks', 'midterm_marks.id', '=', 'final_marks.midterm_mark_id')
+        ->select('final_marks.student_id',  DB::raw('sum(subjects.credit) as total_chance_credit'), DB::raw('final_marks.marks + midterm_marks.marks as total_marks') )
         ->whereYear('final_marks.created_at', '=', $request->year)
         ->where('semester_id', '=', $request->semester_id)
-        ->where('final_marks.total_marks', '<', 55)
+        ->where('total_marks', '<', 55)
         ->groupBy('student_id')
         ->get();
 

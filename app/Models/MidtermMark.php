@@ -19,4 +19,9 @@ class MidtermMark extends Model
     {
         return $this->belongsTo(Subject::class);
     }
+
+    public function finalMarks()
+    {
+        return $this->hasMany(FinalMark::class);
+    }
 }

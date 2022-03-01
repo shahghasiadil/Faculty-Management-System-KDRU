@@ -99,6 +99,10 @@ Route::delete('relatives/relative/{id}', [RelativeController::class, 'permanentD
 Route::get('relatives/{id}/restore', [RelativeController::class, 'restore']);
 
 
+// ** Repeat Routes
+Route::apiResource('repeats', RepeatController::class);
+
+
 // ** Schedule Routes
 Route::apiResource('schedules', ScheduleController::class);
 Route::delete('schedules/schedule/{id}', [ScheduleController::class, 'permanentDelete']);
@@ -140,5 +144,3 @@ Route::delete('teachers/teacher/{id}', [TeacherController::class, 'permanentDele
 Route::get('teachers/{id}/restore', [TeacherController::class, 'restore']);
 Route::post('teachers/find-by-email', [TeacherController::class, 'findByEmail']);
 
-// ** Repeat Routes
-Route::apiResource('repeats', RepeatController::class);

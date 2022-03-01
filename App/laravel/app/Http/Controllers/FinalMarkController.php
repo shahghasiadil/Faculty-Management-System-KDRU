@@ -54,7 +54,7 @@ class FinalMarkController extends Controller
             //if student total mark is less than or equal 54 then assign he to chance table
             if($total_marks <= 54){
                 $chance_count = Chance::where(['student_id' => $student_id, 'subject_id' => $subject_id])->count();
-                $chance_record =  ['student_id' => $student_id, 'subject_id' => $subject_id, 'chance_count' => $chance_count + 1, 'marks' => $mid_term_marks];
+                $chance_record =  ['student_id' => $student_id, 'subject_id' => $subject_id, 'chance_count' => $chance_count + 1, 'marks' => $total_marks];
                     
                 Chance::create($chance_record);
             } 
