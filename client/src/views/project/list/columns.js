@@ -9,8 +9,6 @@ import { store } from '@store/storeConfig/store'
 // ** Third Party Components
 import { UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
 import { MoreVertical, Delete, Trash2, Archive } from 'react-feather'
-
-
 export const columns = [
     {
         name: 'Project',
@@ -31,7 +29,7 @@ export const columns = [
         minWidth: '250px',
         selector: 'credit',
         sortable: true,
-        cell: row => row.teacher
+        cell: row => row.teacher.name
     },
     // {
     //     name: 'Students',
@@ -59,10 +57,12 @@ export const columns = [
                     </DropdownItem>
                     <DropdownItem
                         tag={Link}
-                        to={`/views/project/edit/${row.id}`}
+                        //to={`/views/project/edit/${row.id}`}
                         className='w-100'
                         onClick={() => store.dispatch(getProject(row.id))}
                     >
+
+
                         <Archive size={14} className='mr-50' />
                         <span className='align-middle'>Edit</span>
                     </DropdownItem>

@@ -8,7 +8,7 @@ import Avatar from '@components/avatar'
 import { columns } from './columns'
 
 // ** Store & Actions
-import { getAllData, getData, restoreProject } from '../store/action'
+import { getAllData, restoreProject } from '../store/action'
 import { useDispatch, useSelector } from 'react-redux'
 
 // ** Third Party Components
@@ -20,6 +20,8 @@ import { Card, Input, Row, Col, Label, Button } from 'reactstrap'
 import '@styles/react/libs/react-select/_react-select.scss'
 import '@styles/react/libs/tables/react-dataTable-component.scss'
 import { store } from '@store/storeConfig/store'
+
+import SidebarUpdateProject from './edit'
 
 // ** ErrorToast Component for Undo Records
 export const ErrorToast = ({ id }) => (
@@ -47,14 +49,29 @@ const ProjectsList = () => {
     // ** States
     const [searchTerm, setSearchTerm] = useState('')
     const [sidebarOpen, setSidebarOpen] = useState(false)
+    const [sidebarOpenEdit, setSidebarOpenEdit] = useState(false)
 
     // ** Function to toggle sidebar
-    const toggleSidebar = () => setSidebarOpen(!sidebarOpen)
+    const toggleSidebar = () => {
+        setSidebarOpen(!sidebarOpen)
+    }
+
+    const openEditSidebar = () => {
+
+        if (sidebarOpenEdit === true) {
+            store.selectedProject = null
+        }
+        setSidebarOpenEdit(!sidebarOpenEdit)
+
+    }
     // ** Get data on mount
     useEffect(() => {
         dispatch(getAllData())
-        dispatch(getData())
-    }, [dispatch, store.data.length])
+
+        if (store.selectedProject !== null) {
+            openEditSidebar()
+        }
+    }, [dispatch, store.data.length, store.selectedProject])
 
     const filteredData = store.allData.filter(item => item.name.toLowerCase().includes(searchTerm))
 
@@ -96,6 +113,8 @@ const ProjectsList = () => {
                 />
             </Card>
             <Sidebar open={sidebarOpen} toggleSidebar={toggleSidebar} />
+
+            <SidebarUpdateProject open={sidebarOpenEdit} selectedProject={store.selectedProject} openEditSidebar={openEditSidebar} />
         </Fragment>
     )
 }

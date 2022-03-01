@@ -1,4 +1,4 @@
-import { ADD_PROJECT, ARCHIVE, DELETE_PROJECT, GET_ALL_DATA, GET_DATA, GET_PROJECT, RESTORE_PROJECT, UPDATE_PROJECT } from "../action/actionTypes"
+import { RESEST_PROJECT, ADD_PROJECT, ARCHIVE, DELETE_PROJECT, GET_ALL_DATA, GET_DATA, GET_PROJECT, RESTORE_PROJECT, UPDATE_PROJECT } from "../action/actionTypes"
 
 // ** Initial State
 const initialState = {
@@ -18,6 +18,8 @@ const projects = (state = initialState, action) => {
             }
         case GET_PROJECT:
             return { ...state, selectedProject: action.selectedProject }
+        case RESEST_PROJECT:
+            return { ...state, selectedProject: null }
         case ADD_PROJECT:
             return { ...state }
         case UPDATE_PROJECT:

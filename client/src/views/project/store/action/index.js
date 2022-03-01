@@ -2,7 +2,7 @@ import axios from 'axios'
 
 // ** Toast Components
 import { SuccessProgressToast, ErrorToast } from '../../list/Sidebar'
-import { UpdateProgressToast } from '../../edit/Edit'
+import { UpdateProgressToast } from '../../list/edit'
 import { toast, Slide } from 'react-toastify'
 import { ErrorToast as AlertComponent } from '../../list/Table'
 
@@ -12,7 +12,15 @@ import withReactContent from 'sweetalert2-react-content'
 const MySwal = withReactContent(Swal)
 
 // ** ActionTypes Constants
-import { ADD_PROJECT, ARCHIVE, DELETE_PROJECT, GET_ALL_DATA, GET_DATA, GET_PROJECT, RESTORE_PROJECT, UPDATE_PROJECT } from './actionTypes'
+import { RESEST_PROJECT, ADD_PROJECT, ARCHIVE, DELETE_PROJECT, GET_ALL_DATA, GET_DATA, GET_PROJECT, RESTORE_PROJECT, UPDATE_PROJECT } from './actionTypes'
+
+export const resetProject = () => {
+    return (dispatch) => {
+        dispatch({
+            type: RESEST_PROJECT
+        })
+    }
+}
 
 // ** Get all Data
 export const getAllData = () => {
@@ -43,11 +51,11 @@ export const getData = () => {
 export const getProject = id => {
     return async dispatch => {
         await axios
-            .get(`http://127.0.0.1:8000/api/projects/${id}`)
+            .get(`http://127.0.0.1:8000/api/final-projects/${id}`)
             .then(response => {
                 dispatch({
                     type: GET_PROJECT,
-                    selectedProject: response.data
+                    selectedProject: response.data.data
                 })
             })
             .catch(err => console.log(err))
@@ -80,7 +88,7 @@ export const addProject = project => {
 export const updateSubject = (project, id) => {
     return (dispatch, getState) => {
         axios
-            .put(`http://127.0.0.1:8000/api/projects/${id}`, project)
+            .put(`http://127.0.0.1:8000/api/final-projects/${id}`, project)
             .then(response => {
                 dispatch({
                     type: UPDATE_PROJECT,
@@ -113,7 +121,7 @@ export const deleteProject = id => {
             buttonsStyling: false
         }).then(function (result) {
             if (result.value) {
-                axios.delete(`http://127.0.0.1:8000/api/projects/project/${id}`)
+                axios.delete(`http://127.0.0.1:8000/api/final-projects/project/${id}`)
                     .then(() => {
                         dispatch({
                             type: DELETE_PROJECT
@@ -142,7 +150,7 @@ export const deleteProject = id => {
 // ** Move to Recycle bin Project
 export const archiveProject = id => {
     return (dispatch, getState) => {
-        axios.delete(`http://127.0.0.1:8000/api/projects/${id}`).then(() => {
+        axios.delete(`http://127.0.0.1:8000/api/final-projects/${id}`).then(() => {
             dispatch({
                 type: ARCHIVE
             })
@@ -159,7 +167,7 @@ export const archiveProject = id => {
 // ** Restore Project
 export const restoreProject = id => {
     return (dispatch, getState) => {
-        axios.get(`http://127.0.0.1:8000/api/projects/${id}/restore`).then(() => {
+        axios.get(`http://127.0.0.1:8000/api/final-projects/${id}/restore`).then(() => {
             dispatch({
                 type: RESTORE_PROJECT
             })
