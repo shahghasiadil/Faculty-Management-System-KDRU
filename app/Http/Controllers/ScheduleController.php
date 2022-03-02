@@ -28,19 +28,15 @@ class ScheduleController extends Controller
     {
 
         $this->validate($request, [
-            'week_day' => 'required|string|max:80',
-            'teacher_id' => 'required|integer',
+            'week_day_id' => 'required|string|max:80',
             'subject_id' => 'required|integer',
-            'start_time' => 'required|regex:/(\d+\:\d+)/',
-            'end_time' => 'required|regex:/(\d+\:\d+)/'
+            'hour_count' => 'required|integer'
         ]);
 
         Schedule::create([
             'week_day' => $request->week_day,
-            'teacher_id' => $request->teacher_id,
             'subject_id' => $request->subject_id,
-            'start_time' => $request->start_time,
-            'end_time' => $request->end_time
+            'hour_count' => $request->hour_count
         ]);
     }
 
@@ -55,11 +51,9 @@ class ScheduleController extends Controller
     {
         $schedule = Schedule::findOrFail($id);
         $this->validate($request, [
-            'week_day' => 'required|string|max:80',
-            'teacher_id' => 'required|integer',
-            'subject_id' => 'required|integer',
-            'start_time' => 'required|regex:/(\d+\:\d+)/',
-            'end_time' => 'required|regex:/(\d+\:\d+)/'
+            'week_day_id' => 'string|max:80',
+            'subject_id' => 'integer',
+            'hour_count' => 'integer'
         ]);
 
         $schedule->update($request->all());

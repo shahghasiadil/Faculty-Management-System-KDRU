@@ -31,7 +31,8 @@ class SubjectController extends Controller
         $data =$this->validate($request, [
             'name' => 'required|string|max:80',
             'credit' => 'required|integer',
-            'semester_id' => 'required',
+            'semester_id' => 'required|integer',
+            'teacher_id' => 'required|integer',
             'code' => 'required'
         ]);
 
@@ -43,10 +44,11 @@ class SubjectController extends Controller
     {
         $subject = Subject::findOrFail($id);
         $data = $this->validate($request, [
-            'name' => 'required|string|max:80',
-            'credit' => 'required|integer',
-            'semester_id' => 'required',
-            'code' => 'required'
+            'name' => 'string|max:80',
+            'credit' => 'integer',
+            'semester_id' => 'integer',
+            'teacher_id' => 'integer',
+            'code' => ''
         ]);
         $subject->update($data);
     }
