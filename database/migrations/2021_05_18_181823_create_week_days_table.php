@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('table_week_days', function (Blueprint $table) {
+        Schema::create('week_days', function (Blueprint $table) {
             $table->id();
             $table->string('day');
             $table->timestamps();
