@@ -166,4 +166,13 @@ class FinalProjectController extends Controller
     {
         return FinalProject::findOrFail($id)->teacher->with(['user', 'address'])->get();
     }
+
+    public function project_filter(Request $request)
+    {
+        return new JsonResource(FinalProject::with('teacher','students:id,name,father_name')
+        ->whereRelation('students','period','=',$request->period)
+        ->latest()
+        ->get()
+    );
+    }
 }

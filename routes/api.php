@@ -75,6 +75,7 @@ Route::delete('final-projects/final-project/{id}', [FinalProjectController::clas
 Route::get('final-projects/{id}/restore', [FinalProjectController::class, 'restore']);
 Route::get('final-projects/get-students-by-project/{id}',[FinalProjectController::class, 'getFinalProjectStudents']);
 Route::get('final-projects/get-teacher-by-project/{id}',[FinalProjectController::class, 'getFinalProjectTeacher']);
+Route::post('final-projects/filter',[FinalProjectController::class,'project_filter']);
 
 
 // ** Login
@@ -148,6 +149,3 @@ Route::apiResource('teachers', TeacherController::class);
 Route::delete('teachers/teacher/{id}', [TeacherController::class, 'permanentDelete']);
 Route::get('teachers/{id}/restore', [TeacherController::class, 'restore']);
 Route::post('teachers/find-by-email', [TeacherController::class, 'findByEmail']);
-
-
-Route::get('/total-marks',[FinalMarkController::class,'totalMark']);
