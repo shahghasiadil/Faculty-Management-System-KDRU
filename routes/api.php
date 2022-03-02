@@ -16,6 +16,7 @@ use App\Http\Controllers\FinalProjectController;
 use App\Http\Controllers\RelativeController;
 use App\Http\Controllers\Auth\AuthenticationController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\RepeatController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -151,3 +152,6 @@ Route::post('teachers/find-by-email', [TeacherController::class, 'findByEmail'])
 
 
 Route::get('/total-marks',[FinalMarkController::class,'totalMark']);
+
+// ** Repeat Route
+Route::apiResource('repeats', RepeatController::class);
