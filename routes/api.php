@@ -89,6 +89,7 @@ Route::post('/login', [AuthenticationController::class, 'login']);
 Route::apiResource('mid-term-marks', MidtermMarkController::class);
 Route::delete('mid-term-marks/mid-term-mark/{id}', [MidtermMarkController::class, 'permanentDelete']);
 Route::get('mid-term-marks/{id}/restore', [MidtermMarkController::class, 'restore']);
+Route::post('mid-term-marks/mark-assign-students',[SemesterController::class,'find_all_students']);
 
 
 // ** Using middleware
