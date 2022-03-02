@@ -28,13 +28,13 @@ class ScheduleController extends Controller
     {
 
         $this->validate($request, [
-            'week_day_id' => 'required|string|max:80',
+            'week_day_id' => 'required|integer',
             'subject_id' => 'required|integer',
             'hour_count' => 'required|integer'
         ]);
 
         Schedule::create([
-            'week_day' => $request->week_day,
+            'week_day_id' => $request->week_day_id,
             'subject_id' => $request->subject_id,
             'hour_count' => $request->hour_count
         ]);
