@@ -27,17 +27,13 @@ class ScheduleController extends Controller
     public function store(Request $request)
     {
 
-        $this->validate($request, [
+        $data = $this->validate($request, [
             'week_day_id' => 'required|string|max:80',
             'subject_id' => 'required|integer',
             'hour_count' => 'required|integer'
         ]);
 
-        Schedule::create([
-            'week_day' => $request->week_day,
-            'subject_id' => $request->subject_id,
-            'hour_count' => $request->hour_count
-        ]);
+        Schedule::create($data);
     }
 
     /**
