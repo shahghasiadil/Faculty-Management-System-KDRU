@@ -17,7 +17,7 @@ import { useForm } from 'react-hook-form'
 import { Button, FormGroup, Label, Form, Input, FormFeedback } from 'reactstrap'
 
 // ** Store & Actions
-import { addAttendance } from '../store/action'
+import { updateAttendance } from '../store/action'
 import { useDispatch } from 'react-redux'
 import axios from 'axios'
 
@@ -53,7 +53,7 @@ export const ErrorToast = () => (
         </div>
     </Fragment>
 )
-const SidebarAttendanceEdit = ({ open, toggleSidebarEdit }) => {
+const SidebarAttendanceEdit = ({ open, selectedAttendance, toggleSidebarEdit }) => {
 
     // ** State Vars
     const [subjects, setSubjects] = useState([])
@@ -104,27 +104,26 @@ const SidebarAttendanceEdit = ({ open, toggleSidebarEdit }) => {
     }
 
     const yearOptions = [
-        { value: '', label: 'Select Period', number: 0 },
-        { value: '2020', label: '2020', number: 1 },
-        { value: '2021', label: '2021', number: 2 },
-        { value: '2022', label: '2022', number: 3 }
+        { value: '', label: 'Select Year', number: 0 },
+        { value: 1400, label: '1400', number: 1 },
+        { value: 1401, label: '1401', number: 2 },
+        { value: 1402, label: '1402', number: 3 }
     ]
 
 
     const monthsOptions = [
         { value: '', label: 'Select Month' },
-        { value: 'حمل', label: 'حمل' },
-        { value: 'ثور', label: 'ثور' },
-        { value: 'جوزا', label: 'جوزا' },
-        { value: 'سرطان', label: 'سرطان' },
-        { value: 'اسد', label: 'اسد' },
-        { value: 'سنبله', label: 'سنبله' },
-        { value: 'میزان', label: 'میزان' },
-        { value: 'عقرب', label: 'عقرب' },
-        { value: 'قوس', label: 'قوس' },
-        { value: 'جدی', label: 'جدی' },
-        { value: 'دلو', label: 'دلو' },
-        { value: 'حوت', label: 'حوت' }
+        { value: 'وری', label: 'وری' },
+        { value: 'غویی', label: 'غویی' },
+        { value: 'غبرګولی', label: 'غبرګولی' },
+        { value: 'چنګاښ', label: 'چنګاښ' },
+        { value: 'زمری', label: 'زمری' },
+        { value: 'تله', label: 'تله' },
+        { value: 'لړم', label: 'لړم' },
+        { value: 'لیندۍ', label: 'لیندۍ' },
+        { value: 'مرغومی', label: 'مرغومی' },
+        { value: 'سلواغه', label: 'سلواغه' },
+        { value: 'کب', label: 'کب' }
     ]
 
     useEffect(() => {
@@ -132,13 +131,50 @@ const SidebarAttendanceEdit = ({ open, toggleSidebarEdit }) => {
         loadStudents()
     }, [])
 
+    useEffect(() => {
+        if (selectedAttendance !== null) {
+
+            setPresent(selectedAttendance.present)
+            setAbsent(selectedAttendance.absent)
+            setLeave(selectedAttendance.leave)
+
+            setMonth(selectedAttendance.leave)
+
+            subjects.map((data, index) => {
+                if (data.value === selectedAttendance.subject.id) {
+                    setSubject(data)
+                }
+            })
+
+            students.map((data, index) => {
+                if (data.value === selectedAttendance.student.id) {
+                    setStudent(data)
+                }
+            })
+
+            monthsOptions.map((data, index) => {
+                if (data.value === selectedAttendance.month) {
+                    setMonth(data)
+                }
+            })
+
+            yearOptions.map((data, index) => {
+                if (data.value === selectedAttendance.year) {
+                    setYear(data)
+                }
+            })
+
+
+        }
+    }, [selectedAttendance])
+
     // ** Function to handle form submit
     const onSubmit = () => {
         trigger()
         if (isObjEmpty(errors)) {
             toggleSidebarEdit()
             dispatch(
-                addAttendance({
+                updateAttendance({
                     month,
                     year,
                     present,
@@ -146,7 +182,7 @@ const SidebarAttendanceEdit = ({ open, toggleSidebarEdit }) => {
                     leave,
                     student_id: student,
                     subject_id: subject
-                })
+                }, selectedAttendance.id)
             )
         }
     }
@@ -155,7 +191,7 @@ const SidebarAttendanceEdit = ({ open, toggleSidebarEdit }) => {
         <Sidebar
             size='lg'
             open={open}
-            title='New Project'
+            title='Update Attendance'
             headerClassName='mb-1'
             contentClassName='pt-0'
             toggleSidebarEdit={toggleSidebarEdit}
@@ -169,6 +205,7 @@ const SidebarAttendanceEdit = ({ open, toggleSidebarEdit }) => {
                         theme={selectThemeColors}
                         className='react-select'
                         classNamePrefix='select'
+                        defaultValue={student}
                         name='loading'
                         options={students}
                         isLoading={true}
@@ -184,6 +221,7 @@ const SidebarAttendanceEdit = ({ open, toggleSidebarEdit }) => {
                         className='react-select'
                         classNamePrefix='select'
                         name='loading'
+                        defaultValue={subject}
                         options={subjects}
                         isLoading={true}
                         onChange={(e) => { setSubject(e.value) }}
@@ -197,6 +235,7 @@ const SidebarAttendanceEdit = ({ open, toggleSidebarEdit }) => {
                         name='present'
                         id='present'
                         autoComplete="off"
+                        defaultValue={present}
                         onChange={(e) => { setPresent(e.value) }}
                         placeholder='49'
                         innerRef={register({ required: true })}
@@ -213,6 +252,7 @@ const SidebarAttendanceEdit = ({ open, toggleSidebarEdit }) => {
                         name='absent'
                         id='absent'
                         autoComplete="off"
+                        defaultValue={absent}
                         onChange={(e) => { setAbsent(e.value) }}
                         placeholder='3'
                         innerRef={register({ required: true })}
@@ -229,6 +269,7 @@ const SidebarAttendanceEdit = ({ open, toggleSidebarEdit }) => {
                         name='leave'
                         id='leave'
                         autoComplete="off"
+                        defaultValue={leave}
                         onChange={(e) => { setLeave(e.value) }}
                         placeholder='5'
                         innerRef={register({ required: true })}
@@ -246,6 +287,7 @@ const SidebarAttendanceEdit = ({ open, toggleSidebarEdit }) => {
                         className='react-select'
                         classNamePrefix='select'
                         name='loading'
+                        defaultValue={month}
                         options={monthsOptions}
                         isLoading={true}
                         onChange={(e) => { setMonth(e.value) }}
@@ -260,6 +302,7 @@ const SidebarAttendanceEdit = ({ open, toggleSidebarEdit }) => {
                         className='react-select'
                         classNamePrefix='select'
                         name='loading'
+                        defaultValue={year}
                         options={yearOptions}
                         isLoading={true}
                         onChange={(e) => { setYear(e.value) }}

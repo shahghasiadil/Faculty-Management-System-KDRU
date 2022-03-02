@@ -66,14 +66,16 @@ const ProjectsList = () => {
     }
     // ** Get data on mount
     useEffect(() => {
-        // dispatch(getAllData())
+        dispatch(getAllData())
 
         if (store.selectedAttendance !== null) {
-            openEditSidebar()
+            toggleSidebarEdit()
         }
     }, [dispatch, store.data.length, store.selectedAttendance])
 
-    const filteredData = store.allData.filter(item => item.name.toLowerCase().includes(searchTerm))
+    console.log(store.selectedAttendance)
+
+    const filteredData = store.allData.filter(item => item.month.toLowerCase().includes(searchTerm))
 
     return (
         <Fragment>

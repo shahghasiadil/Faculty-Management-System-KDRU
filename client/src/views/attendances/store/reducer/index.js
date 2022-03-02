@@ -4,8 +4,8 @@ import { GET_STUDENTS, RESEST_ATTENDANCE, ADD_ATTENDANCE, ARCHIVE, DELETE_ATTEND
 const initialState = {
     allData: [],
     data: [],
-    selectedAttendance: null,
-    students: null
+    students: null,
+    selectedAttendance: null
 }
 
 const attendance = (state = initialState, action) => {

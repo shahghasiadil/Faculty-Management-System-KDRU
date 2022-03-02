@@ -104,10 +104,10 @@ const SidebarNewAttendance = ({ open, toggleSidebar }) => {
     }
 
     const yearOptions = [
-        { value: '', label: 'Select Period', number: 0 },
-        { value: '1400', label: '1400', number: 1 },
-        { value: '2021', label: '2021', number: 2 },
-        { value: '2022', label: '2022', number: 3 }
+        { value: '', label: 'Select Year', number: 0 },
+        { value: 1400, label: '1400', number: 1 },
+        { value: 1401, label: '1401', number: 2 },
+        { value: 1402, label: '1402', number: 3 }
     ]
 
 
@@ -197,7 +197,7 @@ const SidebarNewAttendance = ({ open, toggleSidebar }) => {
                         name='present'
                         id='present'
                         autoComplete="off"
-                        onChange={(e) => { setPresent(e.value) }}
+                        onChange={(e) => { setPresent(e.target.value) }}
                         placeholder='49'
                         innerRef={register({ required: true })}
                         invalid={errors.present && true}
@@ -213,7 +213,7 @@ const SidebarNewAttendance = ({ open, toggleSidebar }) => {
                         name='absent'
                         id='absent'
                         autoComplete="off"
-                        onChange={(e) => { setAbsent(e.value) }}
+                        onChange={(e) => { setAbsent(e.target.value) }}
                         placeholder='3'
                         innerRef={register({ required: true })}
                         invalid={errors.absent && true}
@@ -229,7 +229,7 @@ const SidebarNewAttendance = ({ open, toggleSidebar }) => {
                         name='leave'
                         id='leave'
                         autoComplete="off"
-                        onChange={(e) => { setLeave(e.value) }}
+                        onChange={(e) => { setLeave(e.target.value) }}
                         placeholder='5'
                         innerRef={register({ required: true })}
                         invalid={errors.leave && true}

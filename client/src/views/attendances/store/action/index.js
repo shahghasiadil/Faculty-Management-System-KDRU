@@ -71,7 +71,7 @@ export const getAttendance = id => {
             .then(response => {
                 dispatch({
                     type: GET_ATTENDANCE,
-                    selectedAttendance: response.data.data
+                    selectedAttendance: response.data
                 })
             })
             .catch(err => console.log(err))
@@ -80,7 +80,7 @@ export const getAttendance = id => {
 
 // ** Add new Project
 export const addAttendance = attendance => {
-
+    console.log(attendance)
     return (dispatch, getState) => {
         axios
             .post('http://127.0.0.1:8000/api/attendances', attendance)

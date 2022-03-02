@@ -11,34 +11,40 @@ import { UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from
 import { MoreVertical, Delete, Trash2, Archive } from 'react-feather'
 export const columns = [
     {
-        name: 'Project',
+        name: 'Student',
         minWidth: '250px',
         selector: 'name',
         sortable: true,
-        cell: row => row.name
+        cell: row => row.student.name
     },
     {
-        name: 'Code',
+        name: 'Subject',
         minWidth: '250px',
         selector: 'name',
         sortable: true,
-        cell: row => row.code
+        cell: row => row.subject.name
     },
     {
-        name: 'Teacher',
+        name: 'Present',
         minWidth: '250px',
         selector: 'credit',
         sortable: true,
-        cell: row => row.teacher.name
+        cell: row => row.present
     },
-    // {
-    //     name: 'Students',
-    //     minWidth: '250px',
-    //     selector: ['semester.name'],
-    //     sortable: true,
-    //     cell: row => row.semester?.name
-    // },
-
+    {
+        name: 'Absent',
+        minWidth: '250px',
+        selector: 'credit',
+        sortable: true,
+        cell: row => row.absent
+    },
+    {
+        name: 'Leave',
+        minWidth: '250px',
+        selector: 'credit',
+        sortable: true,
+        cell: row => row.leave
+    },
     {
         name: 'Actions',
         minWidth: '100px',
