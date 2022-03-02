@@ -12,6 +12,7 @@ use App\Http\Controllers\FinalMarkController;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\AddressController;
+use App\Http\Controllers\WeekDayController;
 use App\Http\Controllers\FinalProjectController;
 use App\Http\Controllers\RelativeController;
 use App\Http\Controllers\Auth\AuthenticationController;
@@ -89,6 +90,7 @@ Route::post('/login', [AuthenticationController::class, 'login']);
 Route::apiResource('mid-term-marks', MidtermMarkController::class);
 Route::delete('mid-term-marks/mid-term-mark/{id}', [MidtermMarkController::class, 'permanentDelete']);
 Route::get('mid-term-marks/{id}/restore', [MidtermMarkController::class, 'restore']);
+Route::post('mid-term-marks/mark-assign-students',[SemesterController::class,'find_all_students']);
 
 
 // ** Using middleware
@@ -149,3 +151,8 @@ Route::apiResource('teachers', TeacherController::class);
 Route::delete('teachers/teacher/{id}', [TeacherController::class, 'permanentDelete']);
 Route::get('teachers/{id}/restore', [TeacherController::class, 'restore']);
 Route::post('teachers/find-by-email', [TeacherController::class, 'findByEmail']);
+
+
+// ** WeekDay Routes
+Route::apiResource('week-days', WeekDayController::class);
+Route::post('week-days/find-subjects-by-semester-weekDay', [WeekDayController::class, 'getSubjectsBySemesterWeekDay']);
