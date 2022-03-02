@@ -204,11 +204,11 @@ const CardActions = () => {
                         </tr>
                         {allData.map((data, index) => (<>
                             <tr>
-                                <td rowSpan={data.students.length + 2} >محمد صادق رحی</td>
+                                <td rowSpan={data.students.length + 2} >{data.teacher.name}</td>
                             </tr>
 
                             <tr>
-                                <td rowSpan={data.students.length + 1}>Smart Homes </td>
+                                <td rowSpan={data.students.length + 1}>{data.name} </td>
                             </tr>
 
                             {data.students.map((std, i) => (

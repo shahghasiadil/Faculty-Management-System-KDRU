@@ -116,17 +116,21 @@ const SidebarUpdateProject = ({ open, selectedProject, openEditSidebar }) => {
                     setTeacher(index)
                 }
             })
+            setSelectedTeacher(selectedProject.teacher_id)
 
             selectedProject.students.map((data) => {
 
                 students.map((std) => {
 
                     if (data.pivot.student_id === std.value) {
-                        studentsEdit.push(std)
+                        const dt = [...studentsEdit, std]
+                        setStudentsEdit([... new Set(dt)])
                     }
                 })
             })
+            setSelectedStudents(studentsEdit)
         }
+        console.log(studentsEdit)
     }, [selectedProject])
     // ** Function to handle form submit
     const studentsId = []
@@ -213,7 +217,6 @@ const SidebarUpdateProject = ({ open, selectedProject, openEditSidebar }) => {
                         Students <span className='text-danger'>*</span>
                     </Label>
                     <Select
-                        isClearable={false}
                         theme={selectThemeColors}
                         defaultValue={studentsEdit}
                         isMulti
