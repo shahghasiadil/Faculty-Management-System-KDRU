@@ -14,7 +14,7 @@ class FinalMarkController extends Controller
 
     public function index()
     {
-        return FinalMark::with(['student', 'subject'])->latest()->paginate(10);
+        return new JsonResource(FinalMark::with(['student', 'subject'])->latest()->get());
     }
 
     public function searchByStudent($id)
