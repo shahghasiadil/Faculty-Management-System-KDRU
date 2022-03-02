@@ -46,13 +46,13 @@ class ScheduleController extends Controller
     public function update(Request $request, $id)
     {
         $schedule = Schedule::findOrFail($id);
-        $this->validate($request, [
+        $data = $this->validate($request, [
             'week_day_id' => 'string|max:80',
             'subject_id' => 'integer',
             'hour_count' => 'integer'
         ]);
 
-        $schedule->update($request->all());
+        $schedule->update($data);
     }
 
     /**
