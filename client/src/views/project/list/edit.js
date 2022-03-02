@@ -116,6 +116,7 @@ const SidebarUpdateProject = ({ open, selectedProject, openEditSidebar }) => {
                     setTeacher(index)
                 }
             })
+            setSelectedTeacher(selectedProject.teacher_id)
 
             selectedProject.students.map((data) => {
 
@@ -127,6 +128,7 @@ const SidebarUpdateProject = ({ open, selectedProject, openEditSidebar }) => {
                     }
                 })
             })
+            setSelectedStudents(studentsEdit)
         }
         console.log(studentsEdit)
     }, [selectedProject])

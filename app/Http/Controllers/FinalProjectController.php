@@ -77,6 +77,7 @@ class FinalProjectController extends Controller
      */
     public function update(Request $request, $id)
     {
+
         $validatedData = $this->validate($request, [
             'name' => 'string',
             'code' => 'string',
