@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\WeekDay;
+use App\Models\Schedule;
 
 class WeekDayController extends Controller
 {
@@ -38,7 +40,7 @@ class WeekDayController extends Controller
             'day' => 'required|string'
         ]);
 
-        Semester::create([
+        WeekDay::create([
             'day' => $request->day
         ]);
     }
@@ -78,7 +80,7 @@ class WeekDayController extends Controller
             'day' => 'required|string'
         ]);
 
-        Semester::update($request->all());
+        WeekDay::update($request->all());
     }
 
     /**
@@ -91,5 +93,16 @@ class WeekDayController extends Controller
     {
         $weekday = WeekDay::findOrFail($id);
         $weekday->delete();
+    }
+
+    /**
+     * Return subjects for a specified semester and week_day.
+     *
+     * @param  Request  $request
+     */
+    public function getSubjectsBySemesterWeekDay(Request $request)
+    {
+        $schedules = Schedule::with(['subject'])->where('week_day_id', $request->week_day_id)->get();
+        return $schedules;
     }
 }
