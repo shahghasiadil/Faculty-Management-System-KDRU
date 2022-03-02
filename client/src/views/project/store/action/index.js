@@ -47,6 +47,18 @@ export const getData = () => {
     }
 }
 
+// ** get Projects by period
+export const getProjectsByPeriod = period => {
+    return (dispatch) => {
+        axios.post(`http://127.0.0.1:8000/api/final-projects/filter?period=${period}`).then((response) => {
+            dispatch({
+                type: GET_PROJECT,
+                selectedProject: response.data.data
+            })
+        }).catch(err => console.log(err))
+    }
+}
+
 // ** Get Project
 export const getProject = id => {
     return async dispatch => {
