@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\SemesterResource;
 use App\Models\FinalMark;
+use App\Models\MidtermMark;
 use App\Models\Semester;
 use App\Models\Student;
 
@@ -170,6 +171,16 @@ class SemesterController extends Controller
         ->with(['midtermMarks' => function($query) use ($request){
             $query->where('subject_id', $request->subject_id);
         }])
+        ->whereNotIn('students.id',$student)
+        ->where('period', $request->period)
+        ->get());
+    }
+
+    public function find_all_students(Request $request)
+    {
+        $student = MidtermMark::where('subject_id',$request->subject_id)->pluck('student_id');
+        // return $student;
+        return new JsonResource(Semester::find($request->semester_id)->students()
         ->whereNotIn('students.id',$student)
         ->where('period', $request->period)
         ->get());
