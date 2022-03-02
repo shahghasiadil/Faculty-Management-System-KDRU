@@ -110,9 +110,10 @@ export default [
         title: 'Attendances',
         icon: <User size={20} />,
         children: [
+
             {
-                id: 'view',
-                title: 'View',
+                id: 'attendance',
+                title: 'Attendance',
                 icon: <Circle size={12} />,
                 navLink: '/attendances'
             },
@@ -120,7 +121,7 @@ export default [
                 id: 'report',
                 title: 'Report',
                 icon: <Circle size={12} />,
-                navLink: '/apps/user/view'
+                navLink: '/attendances-report'
             }
         ]
     },

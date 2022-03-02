@@ -45,6 +45,11 @@ const AppRoutes = [
         component: lazy(() => import('../../views/attendances/list'))
     },
     {
+        path: '/attendances-report',
+        exact: true,
+        component: lazy(() => import('../../views/attendances/list/report'))
+    },
+    {
         path: '/assign-final-marks',
         exact: true,
         component: lazy(() => import('../../views/assign-marks/list/assign-final-marks'))

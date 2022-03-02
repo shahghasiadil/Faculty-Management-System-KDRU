@@ -33,7 +33,7 @@ use Illuminate\Support\Facades\Route;
 
 
 // **  Attendance Routes
-Route::apiResource('attendances', AttendanceController::class);
+Route::apiResource('    ', AttendanceController::class);
 Route::delete('attendances/attendance/{id}', [AttendanceController::class, 'permanentDelete']);
 Route::get('attendances/{id}/restore', [AttendanceController::class, 'restore']);
 Route::post('attendances/find-by-subject-year-month/', [AttendanceController::class, 'getAttBySubjectYearMonth']);
