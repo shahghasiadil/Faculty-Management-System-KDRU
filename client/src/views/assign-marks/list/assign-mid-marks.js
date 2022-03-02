@@ -40,7 +40,9 @@ const Marks = () => {
     const periodOptions = [
         { value: '1', label: '1', number: 1 },
         { value: '2', label: '2', number: 2 },
-        { value: '3', label: '3', number: 3 }
+        { value: '3', label: '3', number: 3 },
+        { value: '4', label: '4', number: 4 }
+
     ]
 
     const handleChange = (i, e) => {
@@ -49,12 +51,12 @@ const Marks = () => {
         setFormValues(newFormValues)
     }
     const saveForm = (i, e) => {
-
-        if (e.marks) {
+        alert(e.mid_marks)
+        if (e.mid_marks) {
             dispatch(addMidTermMark({
                 student_id: e.id,
                 subject_id: currentSubject.value,
-                marks: e.marks
+                marks: e.mid_marks
             }))
             const newFormValues = [...formValues]
             newFormValues.splice(i, 1)
@@ -68,6 +70,8 @@ const Marks = () => {
     const loadStudents = () => {
         axios.post(`http://127.0.0.1:8000/api/mid-term-marks/mark-assign-students?semester_id=${currentSemester.value}&subject_id=${currentSubject.value}&period=${currentPeriod.value}`).then(response => {
             setFormValues([...response.data.data])
+        }).catch((err) => {
+            console.log(err)
         })
     }
     const loadSubjects = () => {
@@ -145,7 +149,7 @@ const Marks = () => {
                 <CardBody>
                     {formValues.map((element, index) => (
 
-                        <Row className='justify-content-between align-items-center'>
+                        <Row key={index} className='justify-content-between align-items-center'>
                             <Col md='12'>
 
                                 <Row>
@@ -201,13 +205,12 @@ const Marks = () => {
                                             Mid Marks  <span className='text-danger'>*</span>
                                         </Label>
                                         <Input
-                                            name='mid-marks'
+                                            name='mid_marks'
                                             onChange={e => handleChange(index, e)}
                                             id={`mid-marks-${index}`}
-                                            defaultValue={element.midterm_marks[0]?.marks || 0}
                                             autoComplete="off"
                                             placeholder='Middle Marks'
-
+                                            required
                                         />
                                     </FormGroup>
 
