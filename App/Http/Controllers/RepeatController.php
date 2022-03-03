@@ -77,7 +77,6 @@ class RepeatController extends Controller
                         }
                     }
             if($request->semester_id && $request->period){
-                // return $request;
                 return new JsonResource(Repeat::with('student')->where('semester_id',$request->semester_id)->whereRelation('student','period','=',$request->period)->get());
             }
 
