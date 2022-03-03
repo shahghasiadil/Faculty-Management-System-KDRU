@@ -20,20 +20,8 @@ class RepeatController extends Controller
     public function index()
     {
 
-        // return Repeat::with(['student', 'semester','finalMark'])->latest()->paginate(10);
+        return Repeat::with(['student', 'semester','finalMark'])->latest()->paginate(10);
 
-       return $students_chance_credits_sum = DB::table('final_marks')
-        ->leftJoin('students', 'students.id', '=', 'final_marks.student_id')
-        ->leftJoin('subjects', 'subjects.id', '=', 'final_marks.subject_id')
-        ->leftJoin('midterm_marks', 'midterm_marks.id', '=', 'final_marks.midterm_mark_id')
-        ->select('final_marks.student_id',  DB::raw('sum(subjects.credit) as total_chance_credit') )
-        ->whereYear('final_marks.created_at', '=', '2022')
-        ->where('semester_id', '=', 1)
-        ->where(DB::raw('final_marks.marks + midterm_marks.marks'), '<', 55)
-        ->groupBy('student_id')
-        ->get();
-
-        
     }
 
     /**
@@ -55,10 +43,10 @@ class RepeatController extends Controller
         ->leftJoin('students', 'students.id', '=', 'final_marks.student_id')
         ->leftJoin('subjects', 'subjects.id', '=', 'final_marks.subject_id')
         ->leftJoin('midterm_marks', 'midterm_marks.id', '=', 'final_marks.midterm_mark_id')
-        ->select('final_marks.student_id',  DB::raw('sum(subjects.credit) as total_chance_credit'), DB::raw('final_marks.marks + midterm_marks.marks as total_marks') )
-        ->whereYear('final_marks.created_at', '=', $request->year)
+        ->select('final_marks.student_id',  DB::raw('sum(subjects.credit) as total_chance_credit') )
+        ->where('students.period', '=', $request->period)
         ->where('semester_id', '=', $request->semester_id)
-        ->where('total_marks', '<', 55)
+        ->where(DB::raw('final_marks.marks + midterm_marks.marks'), '<', 55)
         ->groupBy('student_id')
         ->get();
 
@@ -78,7 +66,6 @@ class RepeatController extends Controller
                     Repeat::create([
                         'student_id' => $std_credit_sum->student_id,
                         'semester_id' => $request->semester_id,
-                        'repeat_year' => $request->year
                     ]);
                 
                 }else {
@@ -134,6 +121,7 @@ class RepeatController extends Controller
     {
         //
     }
+
     
 
 }

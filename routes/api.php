@@ -155,3 +155,4 @@ Route::get('/total-marks',[FinalMarkController::class,'totalMark']);
 
 // ** Repeat Route
 Route::apiResource('repeats', RepeatController::class);
+Route::get('addrepeats/{period}/{sem}', [RepeatController::class, 'test']);
