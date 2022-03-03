@@ -8,6 +8,7 @@ use App\Models\Subject;
 use App\Models\FinalMark;
 use App\Models\Semester;
 use App\Models\Repeat;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\DB;
 
 class RepeatController extends Controller
@@ -75,6 +76,10 @@ class RepeatController extends Controller
                     $semester->students()->attach($std_credit_sum->student_id);
                         }
                     }
+            if($request->semester_id && $request->period){
+                return new JsonResource(Repeat::with('student')->where('semester_id',$request->semester_id)->whereRelation('student','period','=',$request->period)->get());
+            }
+
         }
 
     /**
