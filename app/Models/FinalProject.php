@@ -19,4 +19,9 @@ class FinalProject extends Model
     {
         return $this->belongsTo(Teacher::class);
     }
+
+    public function midtermMark()
+    {
+        return $this->belongsTo(MidtermMark::class);
+    }
 }

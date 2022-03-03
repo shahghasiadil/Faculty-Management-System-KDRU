@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class FinalMark extends Model
 {
     use HasFactory, SoftDeletes;
-    protected $fillable = ['mid_term_marks', 'marks', 'student_id', 'subject_id'];
+    protected $fillable = ['midterm_mark_id', 'marks', 'student_id', 'subject_id'];
     public function student()
     {
         return $this->belongsTo(Student::class);

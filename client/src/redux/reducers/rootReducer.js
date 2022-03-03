@@ -22,7 +22,7 @@ import semesters from '@src/views/semesters/store/reducer'
 import registrations from '@src/views/registrations/store/reducer'
 import ExamSchedules from '@src/views/examschedule/store/reducer'
 import attendance from '../../views/attendances/store/reducer'
-import schedule from '../../views/schedule/store/reducer'
+import schedules from '../../views/schedules/store/reducer'
 import projects from '../../views/project/store/reducer'
 // import semesters from '@src/views/semesters/store/reducer'
 import subjects from '@src/views/subjects/store/reducer'
@@ -51,7 +51,7 @@ const rootReducer = combineReducers({
   ecommerce,
   dataTables,
   attendance,
-  schedule,
+  schedules,
   projects
 })
 
