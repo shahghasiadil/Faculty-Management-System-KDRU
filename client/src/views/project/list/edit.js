@@ -130,8 +130,8 @@ const SidebarUpdateProject = ({ open, selectedProject, openEditSidebar }) => {
             })
             setSelectedStudents(studentsEdit)
         }
-        console.log(studentsEdit)
     }, [selectedProject])
+
     // ** Function to handle form submit
     const studentsId = []
     const onSubmit = (values) => {
