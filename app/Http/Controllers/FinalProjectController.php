@@ -77,6 +77,7 @@ class FinalProjectController extends Controller
      */
     public function update(Request $request, $id)
     {
+
         $validatedData = $this->validate($request, [
             'name' => 'string',
             'code' => 'string',
@@ -164,5 +165,14 @@ class FinalProjectController extends Controller
     public function getFinalProjectTeacher($id)
     {
         return FinalProject::findOrFail($id)->teacher->with(['user', 'address'])->get();
+    }
+
+    public function project_filter(Request $request)
+    {
+        return new JsonResource(FinalProject::with('teacher','students:id,name,father_name')
+        ->whereRelation('students','period','=',$request->period)
+        ->latest()
+        ->get()
+    );
     }
 }

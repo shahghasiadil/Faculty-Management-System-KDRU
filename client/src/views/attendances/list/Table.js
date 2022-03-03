@@ -1,15 +1,14 @@
 // ** React Imports
 import { Fragment, useState, useEffect } from 'react'
 
-// ** Teacher List Sidebar
+// ** Project Sidebar
 import Sidebar from './Sidebar'
 import Avatar from '@components/avatar'
-
 // ** Columns
 import { columns } from './columns'
 
 // ** Store & Actions
-import { getAllData, getData, restoreTeacher } from '../store/action'
+import { getAllData, restoreAttendance } from '../store/action'
 import { useDispatch, useSelector } from 'react-redux'
 
 // ** Third Party Components
@@ -22,6 +21,8 @@ import '@styles/react/libs/react-select/_react-select.scss'
 import '@styles/react/libs/tables/react-dataTable-component.scss'
 import { store } from '@store/storeConfig/store'
 
+import SidebarAttendanceEdit from './edit'
+
 // ** ErrorToast Component for Undo Records
 export const ErrorToast = ({ id }) => (
     <Fragment>
@@ -30,36 +31,51 @@ export const ErrorToast = ({ id }) => (
                 <Avatar size='sm' color='success' icon={<Check size={12} />} />
                 <h6 className='toast-title'>Success</h6>
             </div>
-            <small className='text-muted'>3 secondes Ago</small>
+            <small className='text-muted'> 3 secondes Ago</small>
         </div>
         <div className='toastify-body alert-danger'>
             <span role='img' aria-label='toast-text'>
-                Record deleted  <strong>Oops</strong> <Button.Ripple color='flat-info' onClick={() => { store.dispatch(restoreTeacher(id)) }}>Undo</Button.Ripple>
+                Record deleted  <strong>Oops</strong> <Button.Ripple color='flat-info' onClick={() => { store.dispatch(restoreAttendance(id)) }}>Undo</Button.Ripple>
             </span>
         </div>
     </Fragment>
 )
 
-const TeachersList = () => {
-
+const ProjectsList = () => {
     // ** Store Vars
     const dispatch = useDispatch()
-    const store = useSelector(state => state.teachers)
+    const store = useSelector(state => state.attendance)
 
     // ** States
     const [searchTerm, setSearchTerm] = useState('')
     const [sidebarOpen, setSidebarOpen] = useState(false)
+    const [sidebarOpenEdit, setSidebarOpenEdit] = useState(false)
 
     // ** Function to toggle sidebar
-    const toggleSidebar = () => setSidebarOpen(!sidebarOpen)
+    const toggleSidebar = () => {
+        setSidebarOpen(!sidebarOpen)
+    }
 
+    const toggleSidebarEdit = () => {
+
+        if (sidebarOpenEdit === true) {
+            store.selectedAttendance = null
+        }
+        setSidebarOpenEdit(!sidebarOpenEdit)
+
+    }
     // ** Get data on mount
     useEffect(() => {
         dispatch(getAllData())
-        dispatch(getData())
-    }, [dispatch, store.data.length])
 
-    const filteredData = store.allData.filter(item => item.name.toLowerCase().includes(searchTerm))
+        if (store.selectedAttendance !== null) {
+            toggleSidebarEdit()
+        }
+    }, [dispatch, store.data.length, store.selectedAttendance])
+
+    console.log(store.selectedAttendance)
+
+    const filteredData = store.allData.filter(item => item.month.toLowerCase().includes(searchTerm))
 
     return (
         <Fragment>
@@ -84,7 +100,7 @@ const TeachersList = () => {
                             />
                         </div>
                         <Button.Ripple color='primary' onClick={toggleSidebar}>
-                            Add New Teacher
+                            Add Attendance
                         </Button.Ripple>
                     </Col>
                 </Row>
@@ -98,10 +114,11 @@ const TeachersList = () => {
                     data={filteredData}
                 />
             </Card>
-
             <Sidebar open={sidebarOpen} toggleSidebar={toggleSidebar} />
+
+            <SidebarAttendanceEdit open={sidebarOpenEdit} selectedAttendance={store.selectedAttendance} toggleSidebarEdit={toggleSidebarEdit} />
         </Fragment>
     )
 }
 
-export default TeachersList
+export default ProjectsList

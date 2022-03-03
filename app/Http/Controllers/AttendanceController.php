@@ -18,7 +18,7 @@ class AttendanceController extends Controller
      */
     public function index()
     {
-        return Attendance::with(['student', 'subject'])->latest()->paginate(10);
+        return new JsonResource(Attendance::with(['student', 'subject'])->latest()->get());
     }
 
     /**

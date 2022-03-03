@@ -12,6 +12,7 @@ use App\Http\Controllers\FinalMarkController;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\AddressController;
+use App\Http\Controllers\WeekDayController;
 use App\Http\Controllers\FinalProjectController;
 use App\Http\Controllers\RelativeController;
 use App\Http\Controllers\Auth\AuthenticationController;
@@ -38,7 +39,7 @@ Route::delete('attendances/attendance/{id}', [AttendanceController::class, 'perm
 Route::get('attendances/{id}/restore', [AttendanceController::class, 'restore']);
 Route::post('attendances/find-by-subject-year-month/', [AttendanceController::class, 'getAttBySubjectYearMonth']);
 Route::post('attendances/find-by-student-month/', [AttendanceController::class, 'getAttByStudentMonth']);
-Route::post('attendances/find-by-subject-period',[AttendanceController::class,'getStudentsBySubjectPeriod']);
+Route::post('attendances/find-by-subject-period', [AttendanceController::class, 'getStudentsBySubjectPeriod']);
 
 // ** Address Routes
 Route::apiResource('addresses', AddressController::class);
@@ -67,15 +68,16 @@ Route::get('exam-schedule/{id}/restore', [ExamScheduleController::class, 'restor
 Route::apiResource('final-marks', FinalMarkController::class);
 Route::delete('final-marks/final-mark/{id}', [FinalMarkController::class, 'permanentDelete']);
 Route::get('final-marks/{id}/restore', [FinalMarkController::class, 'restore']);
-Route::post('mark/final-marks-print',[FinalMarkController::class, 'loadMarks']);
+Route::post('mark/final-marks-print', [FinalMarkController::class, 'loadMarks']);
 
 
 // ** Final Project Routes
 Route::apiResource('final-projects', FinalProjectController::class);
 Route::delete('final-projects/final-project/{id}', [FinalProjectController::class, 'permanentDelete']);
 Route::get('final-projects/{id}/restore', [FinalProjectController::class, 'restore']);
-Route::get('final-projects/get-students-by-project/{id}',[FinalProjectController::class, 'getFinalProjectStudents']);
-Route::get('final-projects/get-teacher-by-project/{id}',[FinalProjectController::class, 'getFinalProjectTeacher']);
+Route::get('final-projects/get-students-by-project/{id}', [FinalProjectController::class, 'getFinalProjectStudents']);
+Route::get('final-projects/get-teacher-by-project/{id}', [FinalProjectController::class, 'getFinalProjectTeacher']);
+Route::post('final-projects/filter', [FinalProjectController::class, 'project_filter']);
 
 
 // ** Login
@@ -89,6 +91,7 @@ Route::post('/login', [AuthenticationController::class, 'login']);
 Route::apiResource('mid-term-marks', MidtermMarkController::class);
 Route::delete('mid-term-marks/mid-term-mark/{id}', [MidtermMarkController::class, 'permanentDelete']);
 Route::get('mid-term-marks/{id}/restore', [MidtermMarkController::class, 'restore']);
+Route::post('mid-term-marks/mark-assign-students', [SemesterController::class, 'find_all_students']);
 
 
 // ** Using middleware
@@ -113,7 +116,7 @@ Route::get('relatives/{id}/restore', [RelativeController::class, 'restore']);
 Route::apiResource('schedules', ScheduleController::class);
 Route::delete('schedules/schedule/{id}', [ScheduleController::class, 'permanentDelete']);
 Route::get('schedules/{id}/restore', [ScheduleController::class, 'restore']);
-Route::post('schedules/schedule-filter',[ScheduleController::class,'scheduleFilter']);
+Route::post('schedules/schedule-filter', [ScheduleController::class, 'scheduleFilter']);
 
 // ** Subject routes
 Route::apiResource('subjects', SubjectController::class);
@@ -142,7 +145,7 @@ Route::get('semesters/{id}/restore', [SemesterController::class, 'restore']);
 Route::get('semesters/find-by-name', [SemesterController::class, 'findByNumber']);
 Route::post('semesters/funded-students', [SemesterController::class, 'getFundedStudentsBySemester']);
 
-Route::post('semester/find-all-students-of-semester',[SemesterController::class,'find_all_students_of_semester']);
+Route::post('semester/find-all-students-of-semester', [SemesterController::class, 'find_all_students_of_semester']);
 
 // ** Teacher Routes
 Route::apiResource('teachers', TeacherController::class);
@@ -151,8 +154,10 @@ Route::get('teachers/{id}/restore', [TeacherController::class, 'restore']);
 Route::post('teachers/find-by-email', [TeacherController::class, 'findByEmail']);
 
 
-Route::get('/total-marks',[FinalMarkController::class,'totalMark']);
+// ** WeekDay Routes
+Route::apiResource('week-days', WeekDayController::class);
+Route::post('week-days/find-subjects-by-semester-weekDay', [WeekDayController::class, 'getSubjectsBySemesterWeekDay']);
 
-// ** Repeat Route
+
+// ** Repeat Routes
 Route::apiResource('repeats', RepeatController::class);
-Route::get('addrepeats/{period}/{sem}', [RepeatController::class, 'test']);

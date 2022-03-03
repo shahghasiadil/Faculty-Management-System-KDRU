@@ -19,6 +19,7 @@ class CreateSubjectsTable extends Migration
             $table->integer('credit');
             $table->string('code')->unique();
             $table->foreignId('semester_id')->constrained('semesters');
+            $table->foreignId('teacher_id')->constrained('teachers');
             $table->softDeletes();
             $table->timestamps();
         });

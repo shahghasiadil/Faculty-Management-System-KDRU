@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 
 // ** Store & Actions
-import { archiveProject, getProject, deleteProject } from '../store/action'
+import { archiveAttendance, getAttendance, deleteAttendance } from '../store/action'
 import { store } from '@store/storeConfig/store'
 
 // ** Third Party Components
@@ -11,34 +11,40 @@ import { UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from
 import { MoreVertical, Delete, Trash2, Archive } from 'react-feather'
 export const columns = [
     {
-        name: 'Project',
+        name: 'Student',
         minWidth: '250px',
         selector: 'name',
         sortable: true,
-        cell: row => row.name
+        cell: row => row.student.name
     },
     {
-        name: 'Code',
+        name: 'Subject',
         minWidth: '250px',
         selector: 'name',
         sortable: true,
-        cell: row => row.code
+        cell: row => row.subject.name
     },
     {
-        name: 'Teacher',
+        name: 'Present',
         minWidth: '250px',
         selector: 'credit',
         sortable: true,
-        cell: row => row.teacher.name
+        cell: row => row.present
     },
-    // {
-    //     name: 'Students',
-    //     minWidth: '250px',
-    //     selector: ['semester.name'],
-    //     sortable: true,
-    //     cell: row => row.semester?.name
-    // },
-
+    {
+        name: 'Absent',
+        minWidth: '250px',
+        selector: 'credit',
+        sortable: true,
+        cell: row => row.absent
+    },
+    {
+        name: 'Leave',
+        minWidth: '250px',
+        selector: 'credit',
+        sortable: true,
+        cell: row => row.leave
+    },
     {
         name: 'Actions',
         minWidth: '100px',
@@ -50,23 +56,20 @@ export const columns = [
                 <DropdownMenu right>
                     <DropdownItem
                         className='w-100'
-                        onClick={() => store.dispatch(archiveProject(row.id))}
+                        onClick={() => store.dispatch(archiveAttendance(row.id))}
                     >
                         <Trash2 size={14} className='mr-50' />
                         <span className='align-middle'>Archive</span>
                     </DropdownItem>
                     <DropdownItem
                         tag={Link}
-                        //to={`/views/project/edit/${row.id}`}
                         className='w-100'
-                        onClick={() => store.dispatch(getProject(row.id))}
+                        onClick={() => store.dispatch(getAttendance(row.id))}
                     >
-
-
                         <Archive size={14} className='mr-50' />
                         <span className='align-middle'>Edit</span>
                     </DropdownItem>
-                    <DropdownItem className='w-100' onClick={() => store.dispatch(deleteProject(row.id))}>
+                    <DropdownItem className='w-100' onClick={() => store.dispatch(deleteAttendance(row.id))}>
                         <Delete size={14} className='mr-50' />
                         <span className='align-middle'>Delete</span>
                     </DropdownItem>
