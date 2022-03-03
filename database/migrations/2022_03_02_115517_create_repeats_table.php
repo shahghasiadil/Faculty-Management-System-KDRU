@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFinalMarksTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,10 @@ class CreateFinalMarksTable extends Migration
      */
     public function up()
     {
-        Schema::create('final_marks', function (Blueprint $table) {
+        Schema::create('repeats', function (Blueprint $table) {
             $table->id();
             $table->foreignId('student_id')->constrained();
-            $table->foreignId('subject_id')->constrained();
-            $table->foreignId('midterm_mark_id')->constrained();
-            $table->integer('marks');
-            $table->softDeletes();
+            $table->foreignId('semester_id')->constrained();
             $table->timestamps();
         });
     }
@@ -31,6 +28,6 @@ class CreateFinalMarksTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('final_marks');
+        Schema::dropIfExists('repeats');
     }
-}
+};

@@ -23,4 +23,9 @@ class Semester extends Model
     {
         return $this->belongsToMany(Student::class);
     }
+
+    public function finalMarks()
+    {
+        return $this->hasMany(FinalMark::class);
+    }
 }

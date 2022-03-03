@@ -17,6 +17,7 @@ use App\Http\Controllers\FinalProjectController;
 use App\Http\Controllers\RelativeController;
 use App\Http\Controllers\Auth\AuthenticationController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\RepeatController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -156,3 +157,7 @@ Route::post('teachers/find-by-email', [TeacherController::class, 'findByEmail'])
 // ** WeekDay Routes
 Route::apiResource('week-days', WeekDayController::class);
 Route::post('week-days/find-subjects-by-semester-weekDay', [WeekDayController::class, 'getSubjectsBySemesterWeekDay']);
+
+
+// ** Repeat Routes
+Route::apiResource('repeats', RepeatController::class);
