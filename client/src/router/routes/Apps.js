@@ -8,6 +8,11 @@ const AppRoutes = [
         component: lazy(() => import('../../views/student/list/'))
     },
     {
+        path: '/students-repeat',
+        exact: true,
+        component: lazy(() => import('../../views/student/repeat/'))
+    },
+    {
         path: '/students/add',
         exact: true,
         component: lazy(() => import('../../views/student/list/register/register'))

@@ -2,13 +2,28 @@
 import { Layers, Users, Edit3, Book, CheckSquare, Calendar, FileText, Circle, ShoppingCart, User, Mail, MessageSquare, Edit, List } from 'react-feather'
 
 export default [
-
     {
         id: 'students',
         title: 'Students',
-        icon: <Users size={20} />,
-        navLink: '/students'
+        icon: <User size={20} />,
+        children: [
+
+            {
+                id: 'students',
+                title: 'Students',
+                icon: <Users size={20} />,
+                navLink: '/students'
+            },
+            {
+                id: 'repeat',
+                title: 'Repeat',
+                icon: <Circle size={12} />,
+                navLink: '/students-repeat'
+            }
+        ]
     },
+
+
     {
         id: 'teachers',
         title: 'Teachers',
