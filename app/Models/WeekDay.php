@@ -20,4 +20,14 @@ class WeekDay extends Model
     {
         return $this->hasMany(Schedule::class);
     }
+
+    /**
+     * Get all of the schedules for the WeekDay
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function subjects()
+    {
+        return $this->hasManyThrough(Subject::class, Schedule::class);
+    }
 }
