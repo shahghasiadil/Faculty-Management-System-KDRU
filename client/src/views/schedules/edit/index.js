@@ -21,11 +21,11 @@ const SchedualeEdit = () => {
   // ** States & Vars
   const [activeTab, setActiveTab] = useState('1'),
 
-    store = useSelector(state => state.Schedules),
+    store = useSelector(state => state.schedules),
 
     dispatch = useDispatch(),
     { id } = useParams()
-   console.log(store.selectedSchedule)
+  //  console.log(store.selectedSchedule)
   // ** Function to toggle tabs
   const toggle = tab => setActiveTab(tab)
 

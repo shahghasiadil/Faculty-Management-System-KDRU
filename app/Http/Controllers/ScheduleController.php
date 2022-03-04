@@ -15,7 +15,7 @@ class ScheduleController extends Controller
      */
     public function index()
     {
-        return new JsonResource(Schedule::with(['teacher', 'subject'])->latest()->get());
+        return new JsonResource(Schedule::with(['week_day', 'subject'])->latest()->get());
     }
 
     /**
@@ -28,7 +28,7 @@ class ScheduleController extends Controller
     {
 
         $data = $this->validate($request, [
-            'week_day_id' => 'required|string|max:80',
+            'week_day_id' => 'required|integer|max:80',
             'subject_id' => 'required|integer',
             'hour_count' => 'required|integer'
         ]);
@@ -47,12 +47,17 @@ class ScheduleController extends Controller
     {
         $schedule = Schedule::findOrFail($id);
         $data = $this->validate($request, [
-            'week_day_id' => 'string|max:80',
+            'week_day_id' => 'integer|max:80',
             'subject_id' => 'integer',
             'hour_count' => 'integer'
         ]);
 
         $schedule->update($data);
+    }
+
+    public function show($id)
+    {
+        return new JsonResource(Schedule::with(['week_day','subject'])->findOrFail($id));
     }
 
     /**
