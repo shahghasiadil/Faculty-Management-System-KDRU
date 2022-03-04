@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\WeekDay;
 use App\Models\Schedule;
 
+use Illuminate\Support\Facades\DB;
+
 class WeekDayController extends Controller
 {
     /**
@@ -15,7 +17,7 @@ class WeekDayController extends Controller
      */
     public function index()
     {
-        //
+        return WeekDay::with(['schedules'])->latest()->get();
     }
 
     /**
@@ -53,7 +55,7 @@ class WeekDayController extends Controller
      */
     public function show($id)
     {
-        //
+        return WeekDay::with(['schedules'])->findOrFail($id);
     }
 
     /**
@@ -96,13 +98,22 @@ class WeekDayController extends Controller
     }
 
     /**
-     * Return subjects for a specified semester and week_day.
+     * Return subjects for a specified week_day.
      *
      * @param  Request  $request
      */
-    public function getSubjectsBySemesterWeekDay(Request $request)
+    public function getSubjectsByWeekDay(Request $request)
     {
-        $schedules = Schedule::with(['subject'])->where('week_day_id', $request->week_day_id)->get();
-        return $schedules;
+        // I couldn't do it in Eloquent. so i did it in raw SQL
+
+        return DB::table('schedules')
+        ->join('week_days', 'schedules.week_day_id', '=', 'week_days.id')
+        ->join('subjects', 'schedules.subject_id', '=', 'subjects.id')
+        ->join('semesters', 'subjects.semester_id', '=', 'semesters.id')
+        ->select('week_days.day', 'subjects.name', 'schedules.hour_count')
+        ->where('week_days.id', $request->week_day_id)
+        ->where('semesters.id', $request->semester_id)
+        ->orderBy('schedules.hour_count', 'asc')
+        ->get();
     }
 }

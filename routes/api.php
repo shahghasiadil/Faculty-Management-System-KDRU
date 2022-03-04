@@ -156,7 +156,7 @@ Route::post('teachers/find-by-email', [TeacherController::class, 'findByEmail'])
 
 // ** WeekDay Routes
 Route::apiResource('week-days', WeekDayController::class);
-Route::post('week-days/find-subjects-by-semester-weekDay', [WeekDayController::class, 'getSubjectsBySemesterWeekDay']);
+Route::post('week-days/get-subjects', [WeekDayController::class, 'getSubjectsByWeekDay']);
 
 
 // ** Repeat Routes
