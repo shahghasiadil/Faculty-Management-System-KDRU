@@ -76,9 +76,12 @@ const StudentsList = () => {
 
     const onSubmit = () => {
         trigger()
-
-        dispatch(getSchedule(currentSemester.value, currentYear.value))
+        axios.post(`http://127.0.0.1:8000/api/repeats?semester_id=${currentSemester.value}&period=${currentPeriod.value}`).then((res) => {
+            setStudents(res.data.data)
+        })
     }
+
+    console.log(students)
 
     const prints = () => {
 
@@ -89,19 +92,6 @@ const StudentsList = () => {
         document.body.innerHTML = originalContent
         window.close()
     }
-
-    const loadStudents = () => {
-        axios.get('http://127.0.0.1:8000/api/students').then((res) => {
-
-            setStudents(res.data.data)
-        })
-    }
-
-    console.log(students)
-
-    useEffect(() => {
-        loadStudents()
-    }, [])
 
     return (
         <Fragment>

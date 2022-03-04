@@ -26,14 +26,12 @@ export const getAllData = () => {
 }
 
 // ** Get data on page or row change
-export const getData = params => {
+export const getData = () => {
     return async dispatch => {
-        await axios.get(`http://127.0.0.1:8000/api/mid-term-marks`, params).then(response => {
+        await axios.get(`http://127.0.0.1:8000/api/mid-term-marks`).then(response => {
             dispatch({
                 type: GET_DATA,
-                data: response.data,
-                totalPages: response.data.total,
-                params
+                data: response.data
             })
         })
     }

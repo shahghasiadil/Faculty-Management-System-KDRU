@@ -13,11 +13,6 @@ import { addStudent } from '../../../store/action'
 
 
 export const SuccessProgressToast = ({ name, lastName }) => {
-    const history = useHistory()
-
-    useEffect(() => {
-        history.push('/students')
-    }, [name, lastName])
 
     return (
         <Fragment>
@@ -65,6 +60,7 @@ const KankorInfo = ({ stepper, type }) => {
     })
     // ** React hook form
     const { register, errors, handleSubmit, watch, trigger } = useForm({ mode: 'onChange', resolver: yupResolver(StudentSchema) })
+    const history = useHistory()
 
     const { studentInfo, redirect } = useSelector(state => state.students)
     const { kankor } = studentInfo
@@ -78,6 +74,9 @@ const KankorInfo = ({ stepper, type }) => {
             kankor.school_name = value.school_name
 
             dispatch(addStudent(studentInfo))
+
+            history.push('/students')
+
         }
     }
 
