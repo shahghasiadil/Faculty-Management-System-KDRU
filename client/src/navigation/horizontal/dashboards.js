@@ -10,7 +10,7 @@ export default [
         id: 'analyticsDash',
         title: 'Analytics',
         icon: <Activity />,
-        navLink: '/dashboard/analytics'
+        navLink: '/dashboard'
       },
       {
         id: 'eCommerceDash',
