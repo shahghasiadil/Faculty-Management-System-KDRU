@@ -117,6 +117,8 @@ Route::apiResource('schedules', ScheduleController::class);
 Route::delete('schedules/schedule/{id}', [ScheduleController::class, 'permanentDelete']);
 Route::get('schedules/{id}/restore', [ScheduleController::class, 'restore']);
 Route::post('schedules/schedule-filter', [ScheduleController::class, 'scheduleFilter']);
+Route::get('schedules/get-schedule-by-semester/{id}', [ScheduleController::class, 'getScheduleBySemester']);
+
 
 // ** Subject routes
 Route::apiResource('subjects', SubjectController::class);
