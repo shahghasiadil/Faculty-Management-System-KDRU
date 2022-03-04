@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\MidtermMark;
 use App\Models\Student;
 use App\Models\Subject;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\DB;
 
 class MidtermMarkController extends Controller
@@ -17,7 +18,7 @@ class MidtermMarkController extends Controller
      */
     public function index()
     {
-        return MidtermMark::with(['student','subject'])->latest()->paginate(10);
+        return new JsonResource(MidtermMark::with(['student','subject'])->latest()->get());
     }
 
     /**
