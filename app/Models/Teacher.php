@@ -11,10 +11,10 @@ class Teacher extends Model
     use HasFactory, SoftDeletes;
     protected $fillable = ['national_id', 'name', 'last_name', 'degree', 'bio', 'address_id', 'user_id'];
 
-    public function schedules()
-    {
-        return $this->hasMany(Schedule::class);
-    }
+    // public function schedules()
+    // {
+    //     return $this->hasMany(Schedule::class);
+    // }
     
     public function examSchedules()
     {

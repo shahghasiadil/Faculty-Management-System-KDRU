@@ -38,17 +38,16 @@ export const UpdateProgressToast = () => (
   </Fragment>
 )
 const SchedualEditView = ({ selectedSchedule }) => {
-  console.log(selectedSchedule)
+  // console.log(selectedSchedule)
   // ** States
   const history = useHistory()
   const [ScheduleData, setScheduleData] = useState(null)
   const [value, setVaules] = useState(selectedSchedule.subject_id)
   const [picker, setPicker] = useState(selectedSchedule.date)
   const [subjects, setSubject] = useState([])
-  const [teachers, setTeacher] = useState([])
-  const [teacher, setTeachers] = useState(selectedSchedule.teacher_id)
   const dispatch = useDispatch()
   const [weekDay, setWeekDay] = useState('')
+  const [hourCount, setHourCount] = useState()
   const [startTime, setStartTime] = useState(new Date())
   const [endTime, setEndTime] = useState(new Date())
   // ** Function to change user image
@@ -59,27 +58,15 @@ const SchedualEditView = ({ selectedSchedule }) => {
         subjects.push({ id: data.id, name: data.name })
       }
     })
+    console.log(subjects)
   }
 
-  const loadTeachers = () => {
-    axios.get('http://127.0.0.1:8000/api/teachers').then((res) => {
-      for (const data of res.data.data) {
-        setTeacher([...teachers, { id: data.id, value: data.name }])
-      }
-    })
-  }
 
   const StudentSchema = yup.object().shape({
 
   })
 
-  const dx = teachers.filter(ndx => ndx.id !== ScheduleData.teacher_id)
   const sub = subjects.filter(ndx => ndx.id !== ScheduleData.subject_id)
-
-  const opt = dx.map((item, i) => {
-    console.log(item)
-    return (<option defaultValue= {item.id} key = {i}>{item.name}</option>)
-   })
 
   const { register, errors, handleSubmit, watch } = useForm({ mode: 'onChange', resolver: yupResolver(StudentSchema) })
   // ** Update user image on mount or change
@@ -87,39 +74,10 @@ const SchedualEditView = ({ selectedSchedule }) => {
     if (selectedSchedule !== null || (selectedSchedule !== null && ScheduleData !== null && selectedSchedule.id !== ScheduleData.id)) {
       setScheduleData(selectedSchedule)
       loadSubjects()
-      loadTeachers()
     }
 
   }, [selectedSchedule])
 
-
-  // if (teachers.length > 0) {
-  //
-  //   setTeacher(Selectedteacher)
-  // }
-
-  // const Selectedteacher = subjects.findIndex(ndx => ndx.id === selectedSchedule.subject_id)
-  // // console.log(Selectedteacher)
-  // setTeacher(Selectedteacher)
-  // ** Renders User
- 
-  const onSubmit = (values) => {
-    const sDate = new Date(startTime)
-    const eDate = new Date(endTime)
-    const sTime = `${sDate.getHours()}:${sDate.getMinutes()}`
-    const eTime = `${eDate.getHours()}:${eDate.getMinutes()}`
-
-    dispatch(
-      updateSchedule({
-        start_time:sTime,
-        end_time:eTime,
-        week_day:weekDay,
-        subject_id:value,
-        teacher_id:teacher
-      }, selectedSchedule.id)
-    )
-    history.push('/schedules')
-}
 
   const week_day = [
     { value: 1, label: 'Satarday' },
@@ -131,8 +89,38 @@ const SchedualEditView = ({ selectedSchedule }) => {
   ]
   const week = week_day.map((item, i) => {
     // console.log(item)
-    return (<option defaultValue= {item.label} key = {i}>{item.label}</option>)
+    return (<option defaultValue= {item.value} key = {i}>{item.label}</option>)
    })
+
+   const handleValue = value => {
+       week_day.find((value) => {
+         setWeekDay(value.value)
+       })
+  }
+
+
+   const hour_count = [
+    { value: 1, label: 1 },
+    { value: 2, label: 2 },
+    { value: 3, label: 3 },
+    { value: 4, label: 4}
+  ]
+
+  const onSubmit = (values) => {
+    dispatch(
+      updateSchedule({
+        week_day_id:weekDay,
+        subject_id:value,
+        hour_count:hourCount
+      }, selectedSchedule.data.id)
+    )
+    history.push('/schedules')
+    // console.log(selectedSchedule.data.id)
+}
+
+  const hour = hour_count.map((item, i) => {
+    return (<option defaultValue= {item.label} key = {i}>{item.label}</option>)
+  })
 
   return (
     <Row>
@@ -152,8 +140,8 @@ const SchedualEditView = ({ selectedSchedule }) => {
                 <Input type='select'
                 name='select'
                 id='select-basic'
-                onChange = { (e) => { setTeacher(e.target.value) }}>
-                <option selected defaultValue= {selectedSchedule.subject_id} >{selectedSchedule.subject.name}</option>
+                onChange = { (e) => { setSubject(e.target.value) }}>
+                <option selected defaultValue= {selectedSchedule.subject_id} >{selectedSchedule.data.subject.name}</option>
                 {
                     sub.map((item, i) => {
                       // console.log(item)
@@ -163,30 +151,15 @@ const SchedualEditView = ({ selectedSchedule }) => {
             </Input>
               </FormGroup>
             </Col>
-            <Col md='4' sm='12'>
-              <FormGroup>
-                <Label>Teacher</Label>
-                <Input type='select'
-                name='select'
-                id='select-basic'
-                onChange = { (e) => { setVaules(e.target.value) }}>
-                <option selected defaultValue= {selectedSchedule.teacher_id} >{selectedSchedule.teacher.name}</option>
-                {
-                    opt
-                }
-          </Input>
 
-              </FormGroup>
-            </Col>
-                
             <Col md='4' sm='12'>
               <FormGroup>
              <Label for = "weekday">Week Day<span className='text-danger'>*</span></Label>
              <Input type='select'
                 name='select'
                 id='select-basic'
-                onChange = { (e) => { setWeekDay(e.target.value) }}>
-                <option selected defaultValue= {selectedSchedule.week_day} >{selectedSchedule.week_day}</option>
+                onChange = { (e) => { handleValue(e.target.value) }}>
+                <option selected defaultValue= {selectedSchedule.week_day_id} >{selectedSchedule.data.week_day.day}</option>
                 {
                     week
                 }
@@ -194,41 +167,20 @@ const SchedualEditView = ({ selectedSchedule }) => {
           </FormGroup>
             </Col>
             <Col md='4' sm='12'>
-            <FormGroup>
-            <Label id='startTime'>Start Time</Label>
-            <Flatpickr
-              className='form-control'
-              value={startTime}
-              id='startTime'
-              options={{
-                enableTime: true,
-                noCalendar: true,
-                dateFormat: 'H:i',
-                time_24hr: true
-              }}
-              onChange={date => setStartTime(date)}
-            />
-        </FormGroup>
+              <FormGroup>
+             <Label for = "weekday">Hour Count<span className='text-danger'>*</span></Label>
+             <Input type='select'
+                name='select'
+                id='select-basic'
+                onChange = { (e) => { setHourCount(e.target.value) }}>
+                <option selected defaultValue= {selectedSchedule.hour_count} >{selectedSchedule.data.hour_count}</option>
+                {
+                    hour
+                }
+          </Input>
+          </FormGroup>
             </Col>
-            <Col md='4' sm='12'>
-            <FormGroup>
-            <Label id='endTime'>Start Time</Label>
-            <Flatpickr
-              className='form-control'
-              value={endTime}
-              id='endTime'
-              options={{
-                enableTime: true,
-                noCalendar: true,
-                dateFormat: 'H:i',
-                time_24hr: true
-              }}
-              onChange={date => setEndTime(date)}
-            />
-        </FormGroup>
-            </Col>
-            
-
+                
             <Col className='d-flex flex-sm-row flex-column mt-2' sm='12'>
               <Button.Ripple className='mb-1 mb-sm-0 mr-0 mr-sm-1' type='submit' color='primary'>
                 Save Changes

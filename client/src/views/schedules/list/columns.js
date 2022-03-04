@@ -12,11 +12,11 @@ import { MoreVertical, Delete, Trash2, Archive } from 'react-feather'
 
 export const columns = [
   {
-    name: 'Weekly Day',
+    name: 'Week Day',
     minWidth: '250px',
-    selector: 'week_day',
+    selector: 'week_days',
     sortable: true,
-    cell: row => row.week_day
+    cell: row => row.week_day?.day
   },
   {
     name: 'Subject',
@@ -26,27 +26,12 @@ export const columns = [
     cell: row => row.subject?.name
   },
   {
-    name: 'Teacher',
+    name: 'Hour Count',
     minWidth: '250px',
-    selector: '',
+    selector: 'hour_count',
     sortable: true,
-    cell: row => row.teacher?.name
+    cell: row => row.hour_count
   },
-  {
-    name: 'Start Time',
-    minWidth: '250px',
-    selector: 'start_time',
-    sortable: true,
-    cell: row => row.start_time
-  },
-  {
-    name: 'End Time',
-    minWidth: '250px',
-    selector: 'end_time',
-    sortable: true,
-    cell: row => row.end_time
-  },
-
   {
     name: 'Actions',
     minWidth: '100px',
@@ -65,7 +50,7 @@ export const columns = [
           </DropdownItem>
           <DropdownItem
             tag={Link}
-            to={`/views/schedule/edit/${row.id}`}
+            to={`/views/schedules/edit/${row.id}`}
             className='w-100'
             onClick={() => store.dispatch(getSchedule(row.id))}
           >

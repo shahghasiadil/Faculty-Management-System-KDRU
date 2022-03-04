@@ -56,6 +56,7 @@ const ExamSchedualEditView = ({ selectedExamSchedule }) => {
         subjects.push({ id: data.id, name: data.name })
       }
     })
+    // console.log(subjects)
   }
 
   const loadTeachers = () => {
@@ -102,7 +103,7 @@ const ExamSchedualEditView = ({ selectedExamSchedule }) => {
   const onSubmit = values => {
 
     if (isObjEmpty(errors)) {
-      console.log(value)
+      // console.log(value)
       dispatch(
         updateExamSchedule({
           date:picker,
