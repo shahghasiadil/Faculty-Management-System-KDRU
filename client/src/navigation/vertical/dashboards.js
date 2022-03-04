@@ -7,6 +7,6 @@ export default [
     icon:  <Home size={20} />,
     badge: 'light-warning',
     badgeText: '1',
-    navLink: '/dashboard/analytics'
+    navLink: '/dashboard'
   }
 ]

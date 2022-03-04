@@ -1,5 +1,4 @@
-import { useContext } from 'react'
-import { List } from 'react-feather'
+import { useContext, useEffect, useState } from 'react'
 import { kFormatter } from '@utils'
 import Avatar from '@components/avatar'
 import Timeline from '@components/timeline'
@@ -16,11 +15,30 @@ import { Row, Col, Card, CardHeader, CardTitle, CardBody, Media } from 'reactstr
 import OrdersReceived from '@src/views/ui-elements/cards/statistics/OrdersReceived'
 import CardCongratulations from '@src/views/ui-elements/cards/advance/CardCongratulations'
 import SubscribersGained from '@src/views/ui-elements/cards/statistics/SubscribersGained'
-
+import StatsWithAreaChart from '@components/widgets/stats/StatsWithAreaChart'
 import '@styles/react/libs/charts/apex-charts.scss'
+import { BookOpen } from 'react-feather'
+import axios from 'axios'
 
 const AnalyticsDashboard = () => {
   const { colors } = useContext(ThemeColors)
+  const [students, setStudents] = useState(0)
+  const [subjects, setSubjects] = useState(0)
+  const [teachers, setTeachers] = useState(0)
+  const [male, setMales] = useState(0)
+  const [female, setFemale] = useState(0)
+
+  useEffect(() => {
+    axios.get('http://127.0.0.1:8000/api/dashboard').then((res) => {
+      const {students, subjects, teachers, maleStudents, femaleStudents} = res.data
+      setTeachers(teachers)
+      setStudents(students)
+      setSubjects(subjects)
+      setMales(maleStudents)
+      setFemale(femaleStudents)
+    })
+  }, [])
+
 
   const avatarGroupArr = [
       {
@@ -110,28 +128,34 @@ const AnalyticsDashboard = () => {
   return (
     <div id='dashboard-analytics'>
       <Row className='match-height'>
-      <Col lg='3' sm='6'>
-          <SubscribersGained kFormatter={kFormatter} />
+      <Col lg='4' sm='6'>
+          <SubscribersGained kFormatter={kFormatter} value={students ?? 0} title="Students" />
       </Col>
-      <Col lg='3' sm='6'>
-          <SubscribersGained kFormatter={kFormatter} />
+      <Col lg='4' sm='6'>
+          <SubscribersGained kFormatter={kFormatter} value={teachers ?? 0} title="Teachers" />
       </Col>
-        <Col lg='3' sm='6'>
-          <SubscribersGained kFormatter={kFormatter} />
+        <Col lg='4' sm='6'>
+          <SubscribersGained kFormatter={kFormatter} value={male ?? 0} title="Male Students"  />
         </Col>
-        <Col lg='3' sm='6'>
-          <OrdersReceived kFormatter={kFormatter} warning={colors.warning.main} />
+        <Col lg='4' sm='6'>
+          <SubscribersGained kFormatter={kFormatter} value={male ?? 0} title="Female Students"  />
+        </Col>
+        <Col lg='4' sm='6'>
+        <StatsWithAreaChart
+      icon={<BookOpen size={21}/>}
+      color='primary'
+      stats={subjects}
+      statTitle="Subjects"
+      series={[
+        {
+          name: 'Subscribers',
+          data: [28, 40, 36, 52, 38, 60, 55]
+        }
+      ]}
+      type='area'
+    />
         </Col>
       </Row>
-      <Row className='match-height'>
-        <Col lg='6' xs='12'>
-          <AvgSessions primary={colors.primary.main} />
-        </Col>
-        <Col lg='6' xs='12'>
-          <SupportTracker primary={colors.primary.main} danger={colors.danger.main} />
-        </Col>
-      </Row>
-
 
     </div>
   )
