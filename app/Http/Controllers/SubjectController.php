@@ -18,12 +18,12 @@ class SubjectController extends Controller
     // index Method return the data of subjects with semester
     public function index()
     {
-        return new SubjectResource(Subject::with('semester')->latest()->get());
+        return new SubjectResource(Subject::with('semester','teacher')->latest()->get());
     }
 
     public function show($id)
     {
-        return Subject::with('semester')->findOrFail($id);
+        return Subject::with('semester','teacher')->findOrFail($id);
     }
 
     public function store(Request $request)
