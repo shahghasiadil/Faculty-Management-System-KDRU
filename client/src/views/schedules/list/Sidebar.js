@@ -50,6 +50,7 @@ const SidebarNewSchedule = ({ open, toggleSidebar }) => {
   const [teachers, setTeacher] = useState([])
   const [teacher, setTeachers] = useState(0)
   const [weekDay, setWeekDay] = useState('')
+  const [hourCount, setHourCount] = useState()
   // ** Store Vars
   const dispatch = useDispatch()
   // ** Validations Yup
@@ -95,20 +96,24 @@ const SidebarNewSchedule = ({ open, toggleSidebar }) => {
     { value: 6, label: 'Thursday'}
   ]
 
+  const hour_count = [
+    { value: 1, label: 1 },
+    { value: 2, label: 2 },
+    { value: 3, label: 3 },
+    { value: 4, label: 4}
+  ]
   // ** Function to handle form submit
   const onSubmit = (values) => {
-      const sDate = new Date(startTime)
-      const eDate = new Date(endTime)
-      const sTime = `${sDate.getHours()}:${sDate.getMinutes()}`
-      const eTime = `${eDate.getHours()}:${eDate.getMinutes()}`
+      // const sDate = new Date(startTime)
+      // const eDate = new Date(endTime)
+      // const sTime = `${sDate.getHours()}:${sDate.getMinutes()}`
+      // const eTime = `${eDate.getHours()}:${eDate.getMinutes()}`
       toggleSidebar()
       dispatch(
         addSchedule({
-          start_time:sTime,
-          end_time:eTime,
-          week_day:weekDay,
+          week_day_id:weekDay,
           subject_id:value,
-          teacher_id:teacher
+          hour_count:hourCount
         })
       )
   }
@@ -137,19 +142,6 @@ const SidebarNewSchedule = ({ open, toggleSidebar }) => {
             />
         </FormGroup>
         <FormGroup>
-        <Label>Teacher</Label>
-            <Select
-              theme={selectThemeColors}
-              className='react-select'
-              classNamePrefix='select'
-              defaultValue={''}
-              name='clear'
-              options={teachers}
-
-              onChange = {(e) => { setTeachers(e.value) } }
-            />
-        </FormGroup>
-        <FormGroup>
         <Label for = "weekday">Week Day<span className='text-danger'>*</span></Label>
             <Select
               theme={selectThemeColors}
@@ -159,40 +151,25 @@ const SidebarNewSchedule = ({ open, toggleSidebar }) => {
               name = 'weekDay'
               id = 'weekday'
               options={week_day}
-              onChange = { (e) => { setWeekDay(e.label) }}
+              onChange = { (e) => { setWeekDay(e.value) }}
               isLoading
             />
         </FormGroup>
         <FormGroup>
-            <Label id='startTime'>Start Time</Label>
-            <Flatpickr
-              className='form-control'
-              value={startTime}
-              id='startTime'
-              options={{
-                enableTime: true,
-                noCalendar: true,
-                dateFormat: 'H:i',
-                time_24hr: true
-              }}
-              onChange={date => setStartTime(date)}
+        <Label for = "hourcount">Hour Count<span className='text-danger'>*</span></Label>
+            <Select
+              theme={selectThemeColors}
+              // className={classnames('react-select', { 'is-invalid': !degree})}
+              classNamePrefix='select'
+              defaultValue={''}
+              name = 'hourCount'
+              id = 'hourcount'
+              options={hour_count}
+              onChange = { (e) => { setHourCount(e.value) }}
+              isLoading
             />
         </FormGroup>
-        <FormGroup>
-            <Label id='endTime'>Start Time</Label>
-            <Flatpickr
-              className='form-control'
-              value={endTime}
-              id='endTime'
-              options={{
-                enableTime: true,
-                noCalendar: true,
-                dateFormat: 'H:i',
-                time_24hr: true
-              }}
-              onChange={date => setEndTime(date)}
-            />
-        </FormGroup>
+       
         <Button type='submit' className='mr-1' color='primary'>
           Submit
         </Button>

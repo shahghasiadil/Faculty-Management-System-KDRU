@@ -78,6 +78,14 @@ const AppRoutes = [
         }
     },
     {
+        path: '/views/schedules/edit/:id',
+        exact: true,
+        component: lazy(() => import('../../views/schedules/edit')),
+        meta: {
+            navLink: '/views/schedules/edit'
+        }
+    },
+    {
         path: '/assign-project',
         exact: true,
         component: lazy(() => import('../../views/project/list/'))
