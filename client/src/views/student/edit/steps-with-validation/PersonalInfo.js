@@ -13,12 +13,10 @@ import { Label, FormGroup, Row, Col, Button, Form, Input, FormFeedback } from 'r
 import '@styles/react/libs/react-select/_react-select.scss'
 
 const PersonalInfo = ({ stepper, type }) => {
-
+  const [studentData, setStudentData] = useState(null)
   const [language, setLanguage] = useState('')
   const [gender, setGender] = useState('')
   const [status, setStatus] = useState('')
-
-  const [studentData, setStudentData] = useState(null)
 
   const StudentSchema = yup.object().shape({
     firstName: yup.string().required('First Name is required field').min(3, 'First Name must be at least 3 characters'),
@@ -59,7 +57,9 @@ const PersonalInfo = ({ stepper, type }) => {
   useEffect(() => {
     if (selectedStudent !== null || (selectedStudent !== null && studentData !== null && selectedStudent.id !== StudentData.id)) {
       setStudentData(selectedStudent)
-
+      setGender(selectedStudent.gender)
+      setLanguage(selectedStudent.native_tongue)
+      setStatus(selectedStudent.marital_status)
     }
   }, [selectedStudent])
 

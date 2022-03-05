@@ -31,6 +31,7 @@ const TazkiraInfo = ({ stepper, type }) => {
       tazkira.tazkira_registration_number = value.registrationNo
       stepper.next()
     }
+
   }
 
   return (
