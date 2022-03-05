@@ -54,7 +54,7 @@ Route::get('chances/{id}/restore', [ChanceController::class, 'restore']);
 
 
 // ** Dashboard Routes
-Route::get('/dashboard', DashboardController::class);
+Route::get('dashboard', DashboardController::class);
 // there should be a route for inserting user photo aswell
 
 
@@ -117,6 +117,8 @@ Route::apiResource('schedules', ScheduleController::class);
 Route::delete('schedules/schedule/{id}', [ScheduleController::class, 'permanentDelete']);
 Route::get('schedules/{id}/restore', [ScheduleController::class, 'restore']);
 Route::post('schedules/schedule-filter', [ScheduleController::class, 'scheduleFilter']);
+Route::get('schedules/get-schedule-by-semester/{id}', [ScheduleController::class, 'getScheduleBySemester']);
+
 
 // ** Subject routes
 Route::apiResource('subjects', SubjectController::class);
@@ -156,7 +158,7 @@ Route::post('teachers/find-by-email', [TeacherController::class, 'findByEmail'])
 
 // ** WeekDay Routes
 Route::apiResource('week-days', WeekDayController::class);
-Route::post('week-days/find-subjects-by-semester-weekDay', [WeekDayController::class, 'getSubjectsBySemesterWeekDay']);
+Route::post('week-days/get-subjects', [WeekDayController::class, 'getSubjectsByWeekDay']);
 
 
 // ** Repeat Routes

@@ -16,8 +16,8 @@ class CreateMidtermMarksTable extends Migration
         Schema::create('midterm_marks', function (Blueprint $table) {
             $table->id();
             $table->integer('marks');
-            $table->foreignId('student_id')->constrained();
-            $table->foreignId('subject_id')->constrained();
+            $table->foreignId('student_id');
+            $table->foreignId('subject_id');
             $table->softDeletes();
             $table->timestamps();
         });

@@ -2,11 +2,12 @@
 
 namespace Tests\Feature;
 
+use App\Models\Repeat;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class StudentTest extends TestCase
+class RepeatTest extends TestCase
 {
     use RefreshDatabase;
     /**
@@ -14,11 +15,10 @@ class StudentTest extends TestCase
      *
      * @return void
      */
-    public function test_student_can_be_returned()
+    public function test_repeat_get()
     {
-        $this->withoutExceptionHandling();
-        $response = $this->get('/api/students');
-        $response->assertOk();
+        $response = $this->get('/api/repeats');
+        $response->assertStatus(200);
     }
 
 }
