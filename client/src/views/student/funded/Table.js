@@ -76,7 +76,7 @@ const StudentsList = () => {
 
     const onSubmit = () => {
         trigger()
-        axios.post(`http://127.0.0.1:8000/api/repeats?semester_id=${currentSemester.value}&period=${currentPeriod.value}`).then((res) => {
+        axios.post(`http://127.0.0.1:8000/api/semesters/funded-students?semester_id=${currentSemester.value}&period=${currentPeriod.value}`).then((res) => {
             setStudents(res.data.data)
 
             // const dt = [...students, res.data.data]

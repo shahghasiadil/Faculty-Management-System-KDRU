@@ -4,8 +4,6 @@ import { GET_STUDENTS, ADD_FINAL_MARKS, ARCHIVE, DELETE_FINAL_MARKS, GET_ALL_DAT
 const initialState = {
   allData: [],
   data: [],
-  total: 1,
-  params: {},
   selectedFinalMark: null,
   students: null
 }

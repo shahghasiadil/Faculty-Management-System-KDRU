@@ -51,7 +51,6 @@ const Marks = () => {
         setFormValues(newFormValues)
     }
     const saveForm = (i, e) => {
-        alert(e.mid_marks)
         if (e.mid_marks) {
             dispatch(addMidTermMark({
                 student_id: e.id,

@@ -73,7 +73,13 @@ const ProjectsList = () => {
         }
     }, [dispatch, store.data.length, store.selectedProject])
 
-    const filteredData = store.allData.filter(item => item.name.toLowerCase().includes(searchTerm))
+    const [data, setData] = useState([])
+    useEffect(() => {
+        if (store.allData.length !== 0) {
+            const filteredData = store.allData.filter(item => item.name.toLowerCase().includes(searchTerm))
+            setData(filteredData)
+        }
+    }, [store.allData.length, searchTerm])
 
     return (
         <Fragment>
@@ -109,7 +115,7 @@ const ProjectsList = () => {
                     columns={columns}
                     sortIcon={<ChevronDown />}
                     className='react-dataTable'
-                    data={filteredData}
+                    data={data}
                 />
             </Card>
             <Sidebar open={sidebarOpen} toggleSidebar={toggleSidebar} />

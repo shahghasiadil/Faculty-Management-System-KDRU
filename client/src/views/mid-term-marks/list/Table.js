@@ -1,20 +1,20 @@
 // ** React Imports
 import { Fragment, useState, useEffect } from 'react'
-
+import { Link } from 'react-router-dom'
 // ** FinalMark List Sidebar
 import Sidebar from './Sidebar'
 import Avatar from '@components/avatar'
 // ** Columns
-import { columns } from './columns'
+//import { columns } from './columns'
 
 // ** Store & Actions
-import { getAllData, getData, restoreMidTermMark } from '../store/action'
+import { getAllData, getData, restoreMidTermMark, deleteMidTermMark, archiveMidTermMark } from '../store/action'
 import { useDispatch, useSelector } from 'react-redux'
 
 // ** Third Party Components
-import { ChevronDown, Check } from 'react-feather'
+import { ChevronDown, Check, MoreVertical, Delete, Trash2, Archive } from 'react-feather'
 import DataTable from 'react-data-table-component'
-import { Card, Input, Row, Col, Label, CustomInput, Button } from 'reactstrap'
+import { Card, Input, Row, Col, Label, CustomInput, Button, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
 
 // ** Styles
 import '@styles/react/libs/react-select/_react-select.scss'
@@ -39,33 +39,110 @@ export const ErrorToast = ({ id }) => (
     </Fragment>
 )
 
-
 const MidTermMarksList = () => {
 
     // ** Store Vars
     const dispatch = useDispatch()
     const store = useSelector(state => state.midTermMarks)
 
-    // ** States
-    const [searchTerm, setSearchTerm] = useState('')
     const [sidebarOpen, setSidebarOpen] = useState(false)
-
-    // ** Function to toggle sidebar
-
-    const toggleSidebar = () => setSidebarOpen(!sidebarOpen)
+    const [marksId, setMarksId] = useState('')
+    const [searchTerm, setSearchTerm] = useState('')
+    //const [data, setData] = useState([])
 
     // ** Get data on mount
+
+    // ** Function to toggle sidebar
+    const toggleSidebar = () => {
+        setSidebarOpen(!sidebarOpen)
+    }
+
+    const openSideBar = (id) => {
+        setMarksId(id)
+        toggleSidebar()
+    }
+
     useEffect(() => {
         dispatch(getAllData())
-        dispatch(getData())
 
     }, [dispatch, store.data.length])
 
-    console.log(store.allData)
-
-
     // ** Search filtering
-    const filteredData = store.allData.filter(item => item.name.toLowerCase().includes(searchTerm))
+    const [data, setData] = useState([])
+    useEffect(() => {
+        if (store.allData.length !== 0) {
+            const filteredData = store.allData.filter(item => item.student.name.toLowerCase().includes(searchTerm))
+            setData(filteredData)
+        }
+    }, [store.allData.length, searchTerm])
+
+
+    const columns = [
+
+        {
+            name: 'STUDENT',
+            minWidth: '250px',
+            selector: ['student.name'],
+            sortable: true,
+            cell: row => row.student?.name
+        },
+        {
+            name: 'SUBJECT',
+            minWidth: '250px',
+            selector: ['subject.name'],
+            sortable: true,
+            cell: row => row.subject?.name
+        },
+        {
+            name: 'CREDITS',
+            minWidth: '250px',
+            selector: ['subject.credit'],
+            sortable: true,
+            cell: row => row.subject?.credit
+        },
+        {
+            name: 'MID TERM MARKS',
+            minWidth: '138px',
+            selector: 'marks',
+            sortable: true,
+            cell: row => row.marks
+        },
+
+        {
+            name: 'Actions',
+            minWidth: '100px',
+            cell: row => (
+                <UncontrolledDropdown>
+                    <DropdownToggle tag='div' className='btn btn-sm'>
+                        <MoreVertical size={14} className='cursor-pointer' />
+                    </DropdownToggle>
+                    <DropdownMenu right>
+                        <DropdownItem
+                            className='w-100'
+                            onClick={() => dispatch(archiveMidTermMark(row.id))}
+                        >
+                            <Trash2 size={14} className='mr-50' />
+                            <span className='align-middle'>Archive</span>
+                        </DropdownItem>
+                        <DropdownItem
+                            tag={Link}
+                            className='w-100'
+                            //onClick={() => store.dispatch(getMidTermMark(row.id))}
+                            onClick={() => openSideBar(row.id)}
+                        >
+
+                            <Archive size={14} className='mr-50' />
+                            <span className='align-middle'>Edit</span>
+                        </DropdownItem>
+                        <DropdownItem className='w-100' onClick={() => dispatch(deleteMidTermMark(row.id))}>
+                            <Delete size={14} className='mr-50' />
+                            <span className='align-middle'>Delete</span>
+                        </DropdownItem>
+                    </DropdownMenu>
+                </UncontrolledDropdown>
+            )
+        }
+    ]
 
     return (
         <Fragment>
@@ -98,9 +175,11 @@ const MidTermMarksList = () => {
                     columns={columns}
                     sortIcon={<ChevronDown />}
                     className="react-dataTable"
-                    data={filteredData}
+                    data={data}
                 />
             </Card>
+            <Sidebar open={sidebarOpen} toggleSidebar={toggleSidebar} marksId={marksId} />
+
         </Fragment>
     )
 }

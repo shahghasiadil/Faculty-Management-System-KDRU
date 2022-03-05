@@ -19,6 +19,12 @@ export default [
                 title: 'Repeat',
                 icon: <Circle size={12} />,
                 navLink: '/students-repeat'
+            },
+            {
+                id: 'funded',
+                title: 'Funded',
+                icon: <Circle size={12} />,
+                navLink: '/students-funded'
             }
         ]
     },
@@ -57,7 +63,7 @@ export default [
                 id: 'view-schedule',
                 title: 'View Schedule',
                 icon: <Circle size={12} />,
-                navLink: '/schedule'
+                navLink: '/schedule-view'
             },
             {
                 id: 'view-exam-schedule',
