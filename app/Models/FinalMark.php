@@ -20,4 +20,9 @@ class FinalMark extends Model
     {
         return $this->belongsTo(Subject::class);
     }
+
+    public function midtermMark()
+    {
+        return $this->belongsTo(MidtermMark::class);
+    }
 }
