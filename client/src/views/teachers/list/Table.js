@@ -56,8 +56,7 @@ const TeachersList = () => {
     // ** Get data on mount
     useEffect(() => {
         dispatch(getAllData())
-        dispatch(getData())
-    }, [dispatch, store.data.length])
+    }, [dispatch, store.allData.length])
 
     const filteredData = store.allData.filter(item => item.name.toLowerCase().includes(searchTerm))
 

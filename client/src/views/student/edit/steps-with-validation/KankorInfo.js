@@ -43,7 +43,7 @@ const KankorInfo = ({ stepper, type }) => {
       kankor.school_name = value.school_name
 
       dispatch(updateStudent(studentInfo, selectedStudent.id))
-
+      history.push('/students')
     }
   }
 

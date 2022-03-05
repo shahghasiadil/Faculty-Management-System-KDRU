@@ -191,7 +191,7 @@ class StudentController extends Controller
             'personal.phone' => 'string',
             'personal.gender' => 'required'
         ]);
-
+        // return  $data['personal']['father_name'];
 
         $user = User::findOrFail($student->user_id);
         $user->name = $data['account']['username'];
@@ -239,11 +239,11 @@ class StudentController extends Controller
             Relative::updateOrCreate([
                 'relationship' => $relative['relationship'],
                 'name' => $relative['name'],
-                'father_name' => $relative['fathername'],
+                'father_name' => $relative['father_name'],
                 'job' => $relative['job'],
                 'phone' => $relative['phone'],
                 'student_id' => $student->id,
-                'academic_transfer'=> $relative['academicTransfer']
+                'academic_transfer'=> $relative['academic_transfer']
             ]);
         }
 
@@ -290,16 +290,6 @@ class StudentController extends Controller
         }
     }
 
-    public function studentFatherName($name)
-    {
-        $studentFather = Student::select('father_name')->where('name', '=', $name)->groupBy('father_name')->get();
-        return $studentFather;
-    }
-
-    public function studentRollNo($fname)
-    {
-        return Student::select('id', 'roll_no')->where('father_name', '=', $fname)->get();
-    }
 
     /**
      * @param Request request (subject id and period)

@@ -32,8 +32,19 @@ class FinalMarkTest extends TestCase
     public function test_marks_can_be_updated()
     {
 
-        $this->post('/api/final-marks',['student_id' => 1 , 'subject_id'=> 1 , 'marks' => 50 , 'midterm_mark_id'=>1]);
-        $this->patch('/api/final-marks',['student_id' => 1 , 'subject_id'=> 1 , 'marks' => 90 , 'midterm_mark_id'=>1]);
-        $this->assertEquals('50',FinalMark::first()->marks);
+         $this->post('/api/final-marks',['student_id' => 1 , 'subject_id'=> 1 , 'marks' => 90 , 'midterm_mark_id'=>1]);
+
+         $marks = FinalMark::first();
+        $this->patch('/api/final-marks/'.$marks->id,['student_id' => 1 , 'subject_id'=> 1 , 'marks' => 90 , 'midterm_mark_id'=>3]);
+        $this->assertEquals('90',FinalMark::first()->marks);
+    }
+
+    public function test_final_mark_mid_mark_id_is_required()
+    {
+        $this->post('/api/final-marks',['student_id' => 1 , 'subject_id'=> 1 , 'marks' => 90 , 'midterm_mark_id'=>1]);
+        $marks = FinalMark::first();
+        $response =  $this->patch('/api/final-marks/'.$marks->id,['student_id' => 1 , 'subject_id'=> 1 , 'marks' => 90 , 'midterm_mark_id'=>'']);
+
+        $response->assertSessionHasErrors('midterm_mark_id');
     }
 }
