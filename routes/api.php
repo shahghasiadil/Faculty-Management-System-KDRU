@@ -54,7 +54,7 @@ Route::get('chances/{id}/restore', [ChanceController::class, 'restore']);
 
 
 // ** Dashboard Routes
-Route::get('/dashboard', DashboardController::class);
+Route::get('dashboard', DashboardController::class);
 // there should be a route for inserting user photo aswell
 
 
