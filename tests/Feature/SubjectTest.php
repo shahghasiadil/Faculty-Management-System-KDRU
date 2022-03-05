@@ -23,6 +23,7 @@ class SubjectTest extends TestCase
 
     public function test_subject_can_be_added()
     {
+        $this->withoutExceptionHandling();
         $this->post('/api/subjects',['name'=> 'C++', 'code' => 'CS50', 'credit'=> 4, 'semester_id' => 2,'teacher_id'=> 1]);
         $this->assertDatabaseCount('subjects', 1);
     }

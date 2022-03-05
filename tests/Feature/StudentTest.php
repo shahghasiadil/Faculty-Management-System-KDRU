@@ -15,9 +15,9 @@ class StudentTest extends TestCase
      */
     public function test_student_can_be_returned()
     {
+        $this->withoutExceptionHandling();
         $response = $this->get('/api/students');
-
-        $response->assertStatus(200);
+        $response->assertOk();
     }
 
 }
