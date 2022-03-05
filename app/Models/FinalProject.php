@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class FinalProject extends Model
 {
     use HasFactory;
-    protected $fillable = ['name', 'code', 'teacher_id'];
+    protected $fillable = ['name', 'code', 'teacher_id', 'project_id', 'students'];
 
     public function students()
     {
