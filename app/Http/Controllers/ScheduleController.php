@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Schedule;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+use Illuminate\Support\Facades\DB;
+
 class ScheduleController extends Controller
 {
     /**
@@ -92,5 +94,25 @@ class ScheduleController extends Controller
         return new JsonResource(Schedule::with('subject','teacher')->whereYear('created_at',$request->year)->whereHas('subject.semester', function($query) use ($request){
             $query->where('id',$request->semester_id);
         })->get());
+    }
+
+    /**
+     * Return all week schedule of a semester.
+     *
+     * @param int  $id
+     */
+    public function getScheduleBySemester($id)
+    {
+        // I couldn't do it in Eloquent. so i did it in raw SQL
+
+        return DB::table('schedules')
+        ->join('week_days', 'schedules.week_day_id', '=', 'week_days.id')
+        ->join('subjects', 'schedules.subject_id', '=', 'subjects.id')
+        ->join('semesters', 'subjects.semester_id', '=', 'semesters.id')
+        ->select('week_days.day', 'subjects.name', 'schedules.hour_count')
+        ->where('semesters.id', $id)
+        ->orderBy('week_days.id', 'asc') //we have to store the week_day records in a sequence like: [saturday=1, sunday=2, mon...]
+        ->orderBy('schedules.hour_count', 'asc')
+        ->get();
     }
 }
