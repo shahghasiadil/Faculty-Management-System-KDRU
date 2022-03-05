@@ -115,7 +115,8 @@ class FinalMarkController extends Controller
         $validated = $this->validate($request, [
             'marks' => 'required|integer',
             'student_id' => 'required|integer',
-            'subject_id' => 'required|integer'
+            'subject_id' => 'required|integer',
+            'midterm_mark_id' => 'required'
         ]);
         $finalMark->update($validated);
     }
