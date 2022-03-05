@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Repeat;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -19,4 +20,5 @@ class RepeatTest extends TestCase
         $response = $this->get('/api/repeats');
         $response->assertStatus(200);
     }
+
 }
