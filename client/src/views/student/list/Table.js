@@ -59,11 +59,12 @@ const StudentsList = () => {
     useEffect(() => {
         dispatch(getAllData())
         dispatch(getData())
-        if (store.data.length !== 0) {
-            const filteredData = store.data?.filter(item => item.name.toLowerCase().includes(searchTerm))
+        if (store.allData.length !== 0 && store.allData !== undefined) {
+            console.log(store.allData)
+            const filteredData = store?.allData?.filter(item => item.name.toLowerCase().includes(searchTerm))
             setData(filteredData)
         }
-    }, [dispatch, store.data.length, searchTerm])
+    }, [dispatch, store.allData.length, searchTerm])
     return (
         <Fragment>
             <Card>

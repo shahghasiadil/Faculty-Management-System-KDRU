@@ -19,7 +19,7 @@ export const getAllData = () => {
     await axios.get('http://127.0.0.1:8000/api/teachers').then(response => {
       dispatch({
         type: GET_ALL_DATA,
-        data: response.data
+        data: response.data.data
       })
       // console.log(response.data)
     })
