@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, Fragment} from 'react'
 import Wizard from '@components/wizard'
 import Address from './steps-with-validation/Address'
 import Relatives from './steps-with-validation/Relatives'
@@ -9,6 +9,8 @@ import AccountDetails from './steps-with-validation/AccountDetails'
 
 import { Breadcrumb, BreadcrumbItem } from 'reactstrap'
 import { Link } from 'react-router-dom'
+import Avatar from '@components/avatar'
+import { Check } from "react-feather"
 
 export const UpdateProgressToast = () => (
   <Fragment>

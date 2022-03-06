@@ -13,7 +13,6 @@ import { addStudent } from '../../../store/action'
 
 
 export const SuccessProgressToast = ({ name, lastName }) => {
-
     return (
         <Fragment>
             <div className='toastify-header'>
@@ -50,7 +49,7 @@ export const ErrorToast = () => (
 )
 
 const KankorInfo = ({ stepper, type }) => {
-
+    const history = useHistory()
 
     const StudentSchema = yup.object().shape({
         kankorId: yup.string().required('Kankor ID is required field'),
@@ -72,9 +71,7 @@ const KankorInfo = ({ stepper, type }) => {
             kankor.kankor_year = value.kankorYear
             kankor.kankor_score = value.kankorScore
             kankor.school_name = value.school_name
-
             dispatch(addStudent(studentInfo))
-
             history.push('/students')
 
         }
