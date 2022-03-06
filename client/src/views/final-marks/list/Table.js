@@ -71,10 +71,10 @@ const MidTermMarksList = () => {
     const [data, setData] = useState([])
     useEffect(() => {
         if (store.allData.length !== 0) {
-            const filteredData = store.allData.filter(item => item.student.name.toLowerCase().includes(searchTerm))
+            const filteredData = store.allData.filter(item => item?.student?.name?.toLowerCase().includes(searchTerm))
             setData(filteredData)
         }
-    }, [store.allData.length, searchTerm])
+    }, [store?.allData?.length, searchTerm])
 
 
     const columns = [
