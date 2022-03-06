@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react'
+import { Fragment, useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import Avatar from '@components/avatar'
@@ -7,6 +7,7 @@ import { selectThemeColors } from '@utils'
 import Select from 'react-select'
 import { Printer } from 'react-feather'
 import { getStudents } from '../store/action'
+import axios from 'axios'
 import { Alert, Form, Button, CardBody, Card, CardHeader, CardTitle, CardImg, Row, Col, Table, Breadcrumb, BreadcrumbItem } from 'reactstrap'
 
 import img1 from '@src/assets/images/slider/06.jpg'
@@ -17,7 +18,7 @@ const CardActions = () => {
   const [currentSemester, setCurrentSemester] = useState({ value: '', label: 'Select Semester' })
   const [currentPeriod, setCurrentPeriod] = useState({ value: '', label: 'Select Period' })
   const [currentSubject, setCurrentSubject] = useState({ value: 0, label: 'Select Subject', number: 0 })
-
+  const [subjects, setSubjects] = useState([])
   const subjectsOptions = [
     { value: 0, label: 'Select Subject', number: 0 },
     { value: 1, label: 'پروګرامینګ', number: 1 },
@@ -26,16 +27,15 @@ const CardActions = () => {
   ]
 
   const semesterOptions = [
-    { value: '', label: 'Select Semester' },
-    { value: 'لومړی', label: 'لومړی' },
-    { value: 'دوهم', label: 'دوهم' },
-    { value: 'دریم', label: 'دریم' },
-    { value: 'څلورم', label: 'څلورم' },
-    { value: 'پنځم', label: 'پنځم' },
-    { value: 'شپږم', label: 'ښپږم' },
-    { value: 'اووم', label: 'اووم' },
-    { value: 'اتم', label: 'اتم' }
-  ]
+    { value: 1, label: 'First' },
+    { value: 2, label: 'Second' },
+    { value: 3, label: 'Third' },
+    { value: 4, label: 'Fourth' },
+    { value: 5, label: 'Fifth' },
+    { value: 6, label: 'Sixth' },
+    { value: 7, label: 'Seventh' },
+    { value: 8, label: 'Eighth' }
+]
 
   const periodOptions = [
     { value: '', label: 'Select Period', number: 0 },
@@ -43,6 +43,18 @@ const CardActions = () => {
     { value: '2', label: '2', number: 2 },
     { value: '3', label: '3', number: 3 }
   ]
+
+  const loadSubjects = () => {
+    axios.get('http://127.0.0.1:8000/api/subjects').then((res) => {
+        for (const data of res.data.data) {
+            subjects.push({ value: data.id, label: data.name })
+        }
+    })
+}
+
+  useEffect(() => {
+    loadSubjects()
+  }, [])
 
   const increaseCount = () => {
     setFormValues([...formValues, { relationship: "", name: "", father_name: "", job: "", academic_transfer: "", phone: "" }])
@@ -118,18 +130,6 @@ const CardActions = () => {
                   onChange={(e) => setCurrentMonth(e)}
                 />
               </Col> */}
-              <Col md='4'>
-                <Select
-                  theme={selectThemeColors}
-                  isClearable={false}
-                  className='react-select'
-                  classNamePrefix='select'
-                  options={subjectsOptions}
-                  value={currentSubject}
-                  name='subject'
-                  onChange={(e) => setCurrentSubject(e)}
-                />
-              </Col>
               <Col md='3'>
                 <Select
                   theme={selectThemeColors}
@@ -140,6 +140,18 @@ const CardActions = () => {
                   value={currentSemester}
                   name='semester'
                   onChange={(e) => setCurrentSemester(e)}
+                />
+              </Col>
+              <Col md='4'>
+                <Select
+                  theme={selectThemeColors}
+                  isClearable={false}
+                  className='react-select'
+                  classNamePrefix='select'
+                  options={subjects}
+                  value={currentSubject}
+                  name='subject'
+                  onChange={(e) => setCurrentSubject(e)}
                 />
               </Col>
               <Col md='3'>
