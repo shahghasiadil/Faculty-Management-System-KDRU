@@ -28,7 +28,7 @@ const PersonalInfo = ({ stepper, type }) => {
     //gender: yup.string().required("Gender is required field").oneOf(genderOptions),
     //language: yup.string().required("Native Language is required field"),
     //maritalstate: yup.string().required("Marital State is required field"),
-    roleNo: yup.string().required("Role Number is required field").max(2, "Role number must be 2 digits"),
+    roleNo: yup.string().required("Role Number is required field"),
     period: yup.string().required("Period is required field"),
     graduationYear: yup.string().required("Graduation year is required field").max(4)
   })

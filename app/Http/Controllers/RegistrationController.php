@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Subject;
+use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\DB;
 
 class RegistrationController extends Controller
 {
@@ -14,7 +16,12 @@ class RegistrationController extends Controller
      */
     public function index()
     {
-
+        return new JsonResource(DB::table('students')
+        ->join('student_subject','students.id','student_subject.student_id')
+        ->join('subjects','subjects.id','student_subject.subject_id')
+        ->select('students.name as student', 'subjects.name')
+        ->orderByDesc('student_subject.created_at')
+        ->get());
     }
 
     /**

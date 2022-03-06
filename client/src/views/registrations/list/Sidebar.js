@@ -69,8 +69,8 @@ const SidebarNewRegistration = ({ open, toggleSidebar }) => {
 
   const loadStudents = () => {
     students.length = 0
-    axios.get('http://127.0.0.1:8000/api/get_student').then((response) => {
-      for (const data of response.data) {
+    axios.get('http://127.0.0.1:8000/api/students').then((response) => {
+      for (const data of response.data.data) {
          students.push({ value:data.id, label:data.name})
       }
     })
@@ -79,8 +79,8 @@ const SidebarNewRegistration = ({ open, toggleSidebar }) => {
 
 const loadSubjects = () => {
   subjects.length = 0
-  axios.get('http://127.0.0.1:8000/api/get_subject').then((response) => {
-    for (const data of response.data) {
+  axios.get('http://127.0.0.1:8000/api/subjects').then((response) => {
+    for (const data of response.data.data) {
        subjects.push({ value:data.id, label:data.name})
     }
   })

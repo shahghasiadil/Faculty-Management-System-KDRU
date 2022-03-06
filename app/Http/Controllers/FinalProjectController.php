@@ -133,11 +133,11 @@ class FinalProjectController extends Controller
      *
      * @param  int project_id and list students
      */
-    public function addStudentToFinalProject(Request $request)
+    public function addStudentToFinalProject($project_id , $students)
     {
         try{
-            $finalProject = FinalProject::findOrFail($request->project_id);
-            $finalProject->students()->attach($request->students);
+            $finalProject = FinalProject::findOrFail($project_id);
+            $finalProject->students()->attach($students);
         }
         catch (QueryException $e) 
         {
