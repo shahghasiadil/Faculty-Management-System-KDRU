@@ -13,11 +13,6 @@ class Subject extends Model
     // Mass Assignment
     protected $fillable = ['name', 'credit', 'semester_id', 'code', 'teacher_id'];
 
-    public function registrations()
-    {
-        return $this->belongsToMany(Registration::class);
-    }
-
     public function attendances()
     {
         return $this->hasMany(Attendance::class);

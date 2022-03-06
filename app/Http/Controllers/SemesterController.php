@@ -143,17 +143,19 @@ class SemesterController extends Controller
                 // counts the number of subject that the student has enrolled
                 $subjectCount = 0;
                 // sums final marks of all subjects that the student has enrolled
-                $sumOfFinalMarks = 0;
+                $sumOfTotalMarks = 0;
                 foreach($student->finalMarks as $marks){
                     $subjectCount++;
-                    $sumOfFinalMarks += $marks->marks;
+                    // sum of finalMarks and it's respective midtermMarks
+                    $totalMarks = $marks->midtermMark->marks + $marks->marks;
+                    $sumOfTotalMarks += $totalMarks;
                 }
                 // total marks divided by number of subject that he has enrolled
-                $average = $sumOfFinalMarks/$subjectCount;
+                $average = $sumOfTotalMarks/$subjectCount;
                 // resets the variables
-                $sumOfFinalMarks = 0;
+                $sumOfTotalMarks = 0;
                 $subjectCount = 0;
-
+                echo($average);
                 // adds the student to a global array if the average is above 65
                 if($average > 65){
                     array_push($funded, $student);
