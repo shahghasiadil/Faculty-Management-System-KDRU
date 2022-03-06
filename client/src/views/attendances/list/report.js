@@ -294,8 +294,8 @@ const CardActions = () => {
                                 <td></td>
                                 <td width="5px"></td>
                                 <td width="5px"></td>
-                                <td colSpan="2" >{data.name}</td>
                                 <td colSpan="2" >{data.father_name}</td>
+                                <td colSpan="2" >{data.name}</td>
                                 <td width="88px" >{data.roll_no}</td>
                                 <td>{index + 1}</td>
                             </tr>

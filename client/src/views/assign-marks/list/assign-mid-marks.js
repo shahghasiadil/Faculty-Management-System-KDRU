@@ -210,6 +210,7 @@ const Marks = () => {
                                             autoComplete="off"
                                             placeholder='Middle Marks'
                                             required
+                                            max="20"
                                         />
                                     </FormGroup>
 

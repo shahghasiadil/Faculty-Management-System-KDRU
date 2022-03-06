@@ -59,8 +59,8 @@ const StudentsList = () => {
     useEffect(() => {
         dispatch(getAllData())
         dispatch(getData())
-        if (store.allData.length !== 0) {
-            const filteredData = store.allData?.filter(item => item.name.toLowerCase().includes(searchTerm))
+        if (store.data.length !== 0) {
+            const filteredData = store.data?.filter(item => item.name.toLowerCase().includes(searchTerm))
             setData(filteredData)
         }
     }, [dispatch, store.data.length, searchTerm])

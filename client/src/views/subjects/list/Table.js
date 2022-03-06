@@ -61,7 +61,7 @@ const SubjectsList = () => {
     const [data, setData] = useState([])
     useEffect(() => {
         if (store.allData.length !== 0) {
-            const filteredData = store.allData.filter(item => item.name.toLowerCase().includes(searchTerm))
+            const filteredData = store.allData?.filter(item => item.name?.toLowerCase().includes(searchTerm))
             setData(filteredData)
         }
     }, [store.allData.length, searchTerm])

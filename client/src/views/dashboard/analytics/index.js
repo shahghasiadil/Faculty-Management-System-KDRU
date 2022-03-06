@@ -138,7 +138,7 @@ const AnalyticsDashboard = () => {
           <SubscribersGained kFormatter={kFormatter} value={male ?? 0} title="Male Students"  />
         </Col>
         <Col lg='4' sm='6'>
-          <SubscribersGained kFormatter={kFormatter} value={male ?? 0} title="Female Students"  />
+          <SubscribersGained kFormatter={kFormatter} value={female ?? 0} title="Female Students"  />
         </Col>
         <Col lg='4' sm='6'>
         <StatsWithAreaChart
