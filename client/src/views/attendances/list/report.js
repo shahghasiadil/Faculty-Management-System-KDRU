@@ -10,7 +10,8 @@ import { getStudents } from '../store/action/'
 import { Printer } from 'react-feather'
 import { Alert, Form, Button, CardBody, Card, CardHeader, CardTitle, CardImg, Row, Col, Table, Breadcrumb, BreadcrumbItem } from 'reactstrap'
 
-import img1 from '@src/assets/images/slider/06.jpg'
+import cs from '@src/assets/images/slider/cs_logos.png'
+import un from '@src/assets/images/slider/kdr.png'
 
 const CardActions = () => {
 
@@ -226,7 +227,7 @@ const CardActions = () => {
             </Alert> : <Card className='attendance-div' id='printTable' >
                 <Row className='attendance-top-row' >
                     <Col md='4' className='attendance-logo-1'>
-                        <Avatar className='mr-1 ' img={img1} imgHeight='90' imgWidth='90' />
+                        <Avatar className='mr-1 ' img={un} imgHeight='90' imgWidth='90' />
                     </Col>
                     <Col md='4' className='top-center-div'>
                         <Row></Row>
@@ -235,7 +236,7 @@ const CardActions = () => {
                         <Row><h4>د تدریسې چارو عمومې مدیریت</h4></Row>
                     </Col>
                     <Col md='4'>
-                        <Avatar className='mr-1 ' img={img1} imgHeight='90' imgWidth='90' />
+                        <Avatar className='mr-1 ' img={cs} imgHeight='90' imgWidth='90' />
                     </Col>
                 </Row>
                 <div className='text-center'>
