@@ -19,7 +19,7 @@ export const getAllData = () => {
     await axios.get('http://127.0.0.1:8000/api/teachers').then(response => {
       dispatch({
         type: GET_ALL_DATA,
-        data: response.data.data
+        data: response.data
       })
       // console.log(response.data)
     })
@@ -72,7 +72,6 @@ export const addTeacher = teacher => {
         toast.success(<SuccessProgressToast name={teacher.name} lastName = {teacher.last_name}/>)        
         dispatch(getData(getState().teachers.params))
         dispatch(getAllData())
-        
       })
       .catch(() => {
         toast.success(<ErrorToast/>)        

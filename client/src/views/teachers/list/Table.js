@@ -53,18 +53,16 @@ const TeachersList = () => {
     // ** Function to toggle sidebar
     const toggleSidebar = () => setSidebarOpen(!sidebarOpen)
 
-    // ** Get data on mount
-    useEffect(() => {
-        dispatch(getAllData())
-    }, [dispatch, store.allData.length])
 
     const [data, setData] = useState([])
     useEffect(() => {
-        if (store.allData.length !== 0) {
-            const filteredData = store.allData.filter(item => item.name.toLowerCase().includes(searchTerm))
+        dispatch(getAllData())
+        dispatch(getData())
+        if (store.data.length !== 0) {
+            const filteredData = store.data?.filter(item => item.name?.toLowerCase().includes(searchTerm))
             setData(filteredData)
         }
-    }, [store.allData.length, searchTerm])
+    }, [dispatch, store.data.length, searchTerm])
     return (
         <Fragment>
             <Card>
