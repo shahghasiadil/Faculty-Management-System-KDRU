@@ -14,7 +14,7 @@ class RegistrationController extends Controller
      */
     public function index()
     {
-        return Registration::with(['subjects', 'students'])->get();
+        // not implemented
     }
 
     /**
