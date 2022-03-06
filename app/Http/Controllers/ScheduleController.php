@@ -104,7 +104,6 @@ class ScheduleController extends Controller
     public function getScheduleBySemester($id)
     {
         // I couldn't do it in Eloquent. so i did it in raw SQL
-
         return DB::table('schedules')
         ->join('week_days', 'schedules.week_day_id', '=', 'week_days.id')
         ->join('subjects', 'schedules.subject_id', '=', 'subjects.id')

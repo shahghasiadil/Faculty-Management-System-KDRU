@@ -68,13 +68,22 @@ class RepeatController extends Controller
                         'semester_id' => $request->semester_id,
                     ]);
                 
-                }else {
+                }
+                else
+                {
                     // if student is not repeat so increment his semester in semester_student table
                     $next_semester = $request->semester_id + 1;
-                    $semester = Semester::find($next_semester);
-                    $semester->students()->attach($std_credit_sum->student_id);
-                        }
+
+                    // if semester is more than 8, it means the student is graduated
+                    if ($next_semester > 8){
+                        Student::find($std_credit_sum->student_id)->update(['current_status' => 'INACTIVE']);
                     }
+                    else{
+                        $semester = Semester::find($next_semester);
+                        $semester->students()->attach($std_credit_sum->student_id);
+                    }
+                }
+            }
         }
 
     /**

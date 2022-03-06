@@ -73,4 +73,26 @@ class SubjectController extends Controller
             $subject->restore();
         }
     }
+
+    /**
+     * @param Request request [student_id, subject_id]
+     * this function add a students to a particular subject
+     */
+    public function addStudentToSubject(Request $request)
+    {
+        $this->validate($request, [
+            'student_id' => 'required|integer',
+            'subject_id' => 'required|integer'
+        ]);
+
+        $subject = Subject::findOrFail($request->subject_id);
+        $subject->students()->attach($request->student_id);
+        
+        // if a student is added to a subject, also add them to the related semester automatically
+        $semester = $subject->semester;
+        $student = $semester->students->where('id', $request->student_id)->first();
+        if($student == null){
+            $semester->students()->attach($request->student_id);
+        }
+    }
 }
