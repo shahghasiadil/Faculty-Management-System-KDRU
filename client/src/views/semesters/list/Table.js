@@ -90,17 +90,13 @@ const CustomHeader = ({
 const SemestersList = () => {
     // ** Store Vars
     const dispatch = useDispatch()
-    const { allData } = useSelector(state => state.semesters)
+    const store = useSelector(state => state.semesters)
 
     // ** States
     const [searchTerm, setSearchTerm] = useState('')
     const [currentPage, setCurrentPage] = useState(1)
     const [rowsPerPage, setRowsPerPage] = useState(10)
     const [sidebarOpen, setSidebarOpen] = useState(false)
-
-    useEffect(() => {
-        dispatch(getAllData())
-    }, [dispatch])
 
     // ** Function to toggle sidebar
     const toggleSidebar = () => setSidebarOpen(!sidebarOpen)
@@ -111,11 +107,13 @@ const SemestersList = () => {
     }
     const [data, setData] = useState([])
     useEffect(() => {
-        if (allData.length !== 0) {
-            const filteredData = allData.filter(item => item.name.toLowerCase().includes(searchTerm))
+        dispatch(getAllData())
+        dispatch(getData())
+        if (store.allData.length !== 0) {
+            const filteredData = store?.data?.filter(item => item.name?.toLowerCase().includes(searchTerm))
             setData(filteredData)
         }
-    }, [allData.length, searchTerm])
+    }, [dispatch, store.data.length])
     return (
         <Fragment>
             <Card>

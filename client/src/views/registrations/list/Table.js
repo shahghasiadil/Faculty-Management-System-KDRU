@@ -104,18 +104,15 @@ const  RegistrationsList = () => {
   
   // ** Function to toggle sidebar
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen)
-  // ** Get data on mount
-  useEffect(() => {
-    dispatch(getAllData())
-    dispatch(
-      getData({
-        page: currentPage,
-        perPage: rowsPerPage,
-        q: searchTerm
-      })
-    )
-    
-  }, [dispatch, store.data.length])  
+  const [data, setData] = useState([])
+    useEffect(() => {
+        dispatch(getAllData())
+        if (store.allData.length !== 0) {
+            const filteredData = store.allData?.filter(item => item.name?.toLowerCase().includes(searchTerm))
+            setData(filteredData)
+        }
+    }, [store.allData.length, searchTerm])
+
   // ** Function in get data on page change
   const handlePagination = page => {
     dispatch(
@@ -177,51 +174,18 @@ const  RegistrationsList = () => {
     )
   }
 
-  // ** Table data to render
-  const dataToRender = () => {
-    const filters = {
-      q: searchTerm
-    }
-
-    const isFiltered = Object.keys(filters).some(function (k) {
-      return filters[k].length > 0
-    })
-  
-    if (store.data.length > 0) {
- 
-      return store.data
-    } else if (store.data.length === 0 && isFiltered) {
-      return []
-    } else {
-
-      return store.allData.slice(0, rowsPerPage)
-    }
-  }
-
   return (
     <Fragment>
       <Card>
-        <DataTable
-          noHeader
-          pagination
-          subHeader
-          responsive
-          paginationServer
-          columns={columns}
-          sortIcon={<ChevronDown />}
-          className='react-dataTable'
-          paginationComponent={CustomPagination}
-          data={dataToRender()}
-          subHeaderComponent={
-            <CustomHeader
-              toggleSidebar={toggleSidebar}
-              handlePerPage={handlePerPage}
-              rowsPerPage={rowsPerPage}
-              searchTerm={searchTerm}
-              handleFilter={handleFilter}
-            />
-          }
-        />
+      <DataTable
+                    noHeader
+                    pagination
+                    responsive
+                    columns={columns}
+                    sortIcon={<ChevronDown />}
+                    className='react-dataTable'
+                    data={data}
+                />
       </Card>
 
       <Sidebar open={sidebarOpen} toggleSidebar={toggleSidebar} />

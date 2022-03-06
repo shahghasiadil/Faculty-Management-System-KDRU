@@ -21,6 +21,7 @@ import { Card, Input, Row, Col, Label, Button } from 'reactstrap'
 import '@styles/react/libs/react-select/_react-select.scss'
 import '@styles/react/libs/tables/react-dataTable-component.scss'
 import { store } from '@store/storeConfig/store'
+import { getData } from '../../teachers/store/action'
 
 // ** ErrorToast Component for Undo Records
 export const ErrorToast = ({ id }) => (
@@ -46,11 +47,6 @@ const StudentsList = () => {
     const dispatch = useDispatch()
     const store = useSelector(state => state.students)
     const [searchTerm, setSearchTerm] = useState('')
-    // ** Get data on mount
-    useEffect(() => {
-        dispatch(getAllData())
-    }, [store.allData.length])
-
 
     const history = useHistory()
 
@@ -61,11 +57,13 @@ const StudentsList = () => {
     // ** Search filtering
     const [data, setData] = useState([])
     useEffect(() => {
+        dispatch(getAllData())
+        dispatch(getData())
         if (store.allData.length !== 0) {
-            const filteredData = store.allData.filter(item => item?.name?.toLowerCase().includes(searchTerm))
+            const filteredData = store.allData?.filter(item => item.name.toLowerCase().includes(searchTerm))
             setData(filteredData)
         }
-    }, [store?.allData?.length, searchTerm])
+    }, [dispatch, store.data.length, searchTerm])
     return (
         <Fragment>
             <Card>
