@@ -57,9 +57,9 @@ const Marks = () => {
                 subject_id: currentSubject.value,
                 marks: e.mid_marks
             }))
-            const newFormValues = [...formValues]
-            newFormValues.splice(i, 1)
-            setFormValues(newFormValues)
+            // const newFormValues = [...formValues]
+            // newFormValues.splice(i, 1)
+            // setFormValues(newFormValues)
         }
 
     }
@@ -204,6 +204,7 @@ const Marks = () => {
                                             Mid Marks  <span className='text-danger'>*</span>
                                         </Label>
                                         <Input
+                                            type="number"
                                             name='mid_marks'
                                             onChange={e => handleChange(index, e)}
                                             id={`mid-marks-${index}`}
@@ -211,6 +212,7 @@ const Marks = () => {
                                             placeholder='Middle Marks'
                                             required
                                             max="20"
+                                            min="0"
                                         />
                                     </FormGroup>
 

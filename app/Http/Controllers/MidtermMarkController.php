@@ -41,7 +41,7 @@ class MidtermMarkController extends Controller
         $validated = $this->validate(
             $request,
             [
-                'marks' => 'required|integer',
+                'marks' => 'required|integer|between:1,20',
                 'subject_id' => 'required',
                 'student_id' => 'required'
             ]
@@ -86,7 +86,7 @@ class MidtermMarkController extends Controller
         $validated = $this->validate(
             $request,
             [
-                'marks' => 'required|integer',
+                'marks' => 'required|integer|between:1,20',
                 'subject_id' => 'required',
                 'student_id' => 'required'
             ]
