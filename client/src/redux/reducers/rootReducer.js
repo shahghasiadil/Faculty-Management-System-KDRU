@@ -27,32 +27,31 @@ import projects from '../../views/project/store/reducer'
 // import semesters from '@src/views/semesters/store/reducer'
 import subjects from '@src/views/subjects/store/reducer'
 // import finalMarks from '@src/views/final-marks/store/reducer'
-// import midTermMarks from '@src/views/mid-term-marks/store/reducer'
 // import chances from '@src/views/chance/store/reducer'
 const rootReducer = combineReducers({
-  auth,
-  todo,
-  chat,
-  email,
-  users,
-  navbar,
-  layout,
-  registrations,
-  ExamSchedules,
-  subjects,
-  students,
-  finalMarks,
-  midTermMarks,
-  chances,
-  teachers,
-  semesters,
-  invoice,
-  calendar,
-  ecommerce,
-  dataTables,
-  attendance,
-  schedules,
-  projects
+    auth,
+    todo,
+    chat,
+    email,
+    users,
+    navbar,
+    layout,
+    registrations,
+    ExamSchedules,
+    subjects,
+    students,
+    finalMarks,
+    midTermMarks,
+    chances,
+    teachers,
+    semesters,
+    invoice,
+    calendar,
+    ecommerce,
+    dataTables,
+    attendance,
+    schedules,
+    projects
 })
 
 export default rootReducer

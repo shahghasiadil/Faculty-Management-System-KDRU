@@ -8,6 +8,16 @@ const AppRoutes = [
         component: lazy(() => import('../../views/student/list/'))
     },
     {
+        path: '/students-repeat',
+        exact: true,
+        component: lazy(() => import('../../views/student/repeat/'))
+    },
+    {
+        path: '/students-funded',
+        exact: true,
+        component: lazy(() => import('../../views/student/funded/'))
+    },
+    {
         path: '/students/add',
         exact: true,
         component: lazy(() => import('../../views/student/list/register/register'))
@@ -67,7 +77,12 @@ const AppRoutes = [
     {
         path: '/schedules',
         exact: true,
-        component: lazy(() => import('../../views/schedules/list'))
+        component: lazy(() => import('../../views/schedules/list/'))
+    },
+    {
+        path: '/schedule-view',
+        exact: true,
+        component: lazy(() => import('../../views/schedules/list/schedule-view'))
     },
     {
         path: '/views/exam-schedule/edit/:id',
