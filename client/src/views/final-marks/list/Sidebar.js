@@ -32,7 +32,7 @@ export const SuccessProgressToast = ({ student, subject, mark }) => (
         </div>
         <div className='toastify-body'>
             <span role='img' aria-label='toast-text'>
-                {`${mark} Mid Term Mark Added Successfully`}
+                {`${mark} Final Mark Added Successfully`}
             </span>
         </div>
     </Fragment>

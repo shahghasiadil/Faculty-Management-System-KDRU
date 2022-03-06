@@ -10,6 +10,7 @@ import { Printer } from 'react-feather'
 import { getSchedule } from '../store/action'
 import { Alert, Form, Button, CardBody, Card, CardHeader, CardTitle, Row, Col, Table } from 'reactstrap'
 import img1 from '@src/assets/images/slider/06.jpg'
+import { element } from 'prop-types'
 
 const CardActions = () => {
 
@@ -42,9 +43,14 @@ const CardActions = () => {
 
     const onSubmit = () => {
         trigger()
-        axios.get(`http://127.0.0.1:8000/api/get-schedule-by-semester?id=${currentSemester.value}`).then((res) => {
+        axios.get(`http://127.0.0.1:8000/api/schedules/get-schedule-by-semester/${currentSemester.value}`).then((res) => {
             setSchedule(res.data.data)
+            console.log(res.data.data)
+            res.data.data.filter((element, index) => {
+                console.log(element['day'])
+            })
         })
+
     }
 
     const prints = () => {
@@ -66,18 +72,7 @@ const CardActions = () => {
                 <Form onSubmit={handleSubmit(onSubmit)} >
                     <CardBody>
                         <Row>
-                            <Col md='5'>
-                                <Select
-                                    theme={selectThemeColors}
-                                    isClearable={false}
-                                    className='react-select'
-                                    classNamePrefix='select'
-                                    options={periodOptions}
-                                    value={currentPeriod}
-                                    name='subject'
-                                    onChange={(e) => setCurrentPeriod(e)}
-                                />
-                            </Col>
+
                             <Col md='5'>
                                 <Select
                                     theme={selectThemeColors}
@@ -136,11 +131,23 @@ const CardActions = () => {
                             <td>4:10 - 5:00</td>
                             <td></td>
                         </tr>
-                        {schedule.map((data, index) => (<>
+                        {/* {schedule.map((data, index) => (
+
+                             */}
+                            {/* <> */}
                             <tr>
-                                <td rowSpan={3}></td>
-                                <td colSpan={2}></td>
-                                <td colSpan={2}>Math II  CS210</td>
+                                <td rowSpan={3}>Saturday</td>
+                                { schedule.map((data, index) => (
+
+                                    <>
+                                    {
+                                        data['day'] === 'SATURDAY' ? <td colSpan={2}>{data.name }</td> : ''
+                                    }
+                                    </>
+                                ))
+                                }
+
+                                {/* <td colSpan={2}>Math II  CS210</td> */}
                                 <td></td>
                             </tr>
                             <tr>
@@ -154,8 +161,8 @@ const CardActions = () => {
                                 <td colSpan={2}>Samira ahmdazay</td>
                                 <td></td>
                             </tr>
-                        </>
-                        ))}
+                        {/* </> */}
+                        {/* ))} */}
 
                     </Table>
                     <Row style={{ justifyContent: 'space-between', marginBottom: '30px' }} >
