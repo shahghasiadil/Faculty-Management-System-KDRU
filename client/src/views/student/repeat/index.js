@@ -1,10 +1,10 @@
-// ** Mid Term Marks List Component
+// ** Student List Component
 import Table from './Table'
 
 // ** Styles
 import '@styles/react/apps/app-users.scss'
 
-const MidTermMarksList = () => {
+const StudentsList = () => {
   return (
     <div className='app-user-list'>
       <Table />
@@ -12,4 +12,4 @@ const MidTermMarksList = () => {
   )
 }
 
-export default MidTermMarksList
+export default StudentsList
