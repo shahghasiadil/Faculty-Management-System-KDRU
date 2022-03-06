@@ -14,7 +14,7 @@ class RegistrationController extends Controller
      */
     public function index()
     {
-        // not implemented
+        DB::table('sudents')->join('student_subject','')
     }
 
     /**
