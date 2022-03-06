@@ -30,7 +30,7 @@ class ScheduleController extends Controller
     {
 
         $data = $this->validate($request, [
-            'week_day_id' => 'required|integer|max:80',
+            'week_day_id' => 'required',
             'subject_id' => 'required|integer',
             'hour_count' => 'required|integer'
         ]);
@@ -49,7 +49,7 @@ class ScheduleController extends Controller
     {
         $schedule = Schedule::findOrFail($id);
         $data = $this->validate($request, [
-            'week_day_id' => 'integer|max:80',
+            'week_day_id' => 'integer',
             'subject_id' => 'integer',
             'hour_count' => 'integer'
         ]);
