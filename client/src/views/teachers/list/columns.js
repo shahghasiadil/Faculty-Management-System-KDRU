@@ -49,14 +49,6 @@ export const columns = [
     cell: row => row.degree
   },
   {
-    name: 'Address',
-    minWidth: '100px',
-    selector: 'address',
-    sortable: true,
-    // searchable:true,
-    cell: row => row.address?.city
-  },
-  {
     name: 'Bio',
     minWidth: '200px',
     selector: 'bio',

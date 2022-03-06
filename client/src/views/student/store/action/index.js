@@ -29,7 +29,8 @@ export const getData = () => {
     return async dispatch => {
         await axios.get(`http://127.0.0.1:8000/api/students`).then(response => {
             dispatch({
-                type: GET_DATA
+                type: GET_DATA,
+                data: response.data.data
             })
         })
     }

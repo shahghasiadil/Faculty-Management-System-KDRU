@@ -59,7 +59,6 @@ const KankorInfo = ({ stepper, type }) => {
     })
     // ** React hook form
     const { register, errors, handleSubmit, watch, trigger } = useForm({ mode: 'onChange', resolver: yupResolver(StudentSchema) })
-    const history = useHistory()
 
     const { studentInfo, redirect } = useSelector(state => state.students)
     const { kankor } = studentInfo

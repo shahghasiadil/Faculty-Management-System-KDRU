@@ -73,12 +73,14 @@ const Login = props => {
       useJwt
         .login({ email, password })
         .then(res => {
-          const data = { ...res.data.userData, accessToken: res.data.accessToken, refreshToken: res.data.refreshToken }
+          const abilities = [{ action: 'manage', subject: 'all' }]
+          // console.log(res.data.access_token)
+          const data = { ...res.data.user, accessToken: res.data.access_token, refreshToken: res.data.access_token }
           dispatch(handleLogin(data))
-          ability.update(res.data.userData.ability)
-          history.push(getHomeRouteForLoggedInUser(data.role))
+          ability.update(abilities)
+          history.push(getHomeRouteForLoggedInUser('admin'))
           toast.success(
-            <ToastContent name={data.fullName || data.username || 'John Doe'} role={data.role || 'admin'} />,
+            <ToastContent name={ res.data.user.name || 'John Doe'} role={'admin'} />,
             { transition: Slide, hideProgressBar: true, autoClose: 2000 }
           )
         })

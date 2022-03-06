@@ -77,6 +77,7 @@ Route::delete('final-projects/final-project/{id}', [FinalProjectController::clas
 Route::get('final-projects/{id}/restore', [FinalProjectController::class, 'restore']);
 Route::get('final-projects/get-students-by-project/{id}', [FinalProjectController::class, 'getFinalProjectStudents']);
 Route::get('final-projects/get-teacher-by-project/{id}', [FinalProjectController::class, 'getFinalProjectTeacher']);
+Route::post('final-projects/add-student-list', [FinalProjectController::class, 'addStudentToFinalProject']);
 Route::post('final-projects/filter', [FinalProjectController::class, 'project_filter']);
 
 
@@ -100,16 +101,15 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 });
 
 
-// ** Registration Routes
-Route::apiResource('registrations', RegistrationController::class);
-Route::delete('registrations/registration/{id}', [RegistrationController::class, 'permanentDelete']);
-Route::get('registrations/{id}/restore', [RegistrationController::class, 'restore']);
-
-
 // ** Relative Routes
 Route::apiResource('relatives', RelativeController::class);
 Route::delete('relatives/relative/{id}', [RelativeController::class, 'permanentDelete']);
 Route::get('relatives/{id}/restore', [RelativeController::class, 'restore']);
+
+
+// ** Registration Routes
+Route::apiResource('registrations', RegistrationController::class);
+Route::delete('registrations/registration/{id}', [RegistrationController::class, 'permanentDelete']);
 
 
 // ** Schedule Routes
@@ -124,7 +124,9 @@ Route::get('schedules/get-schedule-by-semester/{id}', [ScheduleController::class
 Route::apiResource('subjects', SubjectController::class);
 Route::delete('subjects/subject/{id}', [SubjectController::class, 'permanentDelete']);
 Route::get('subjects/{id}/restore', [SubjectController::class, 'restore']);
+Route::post('subjects/add-student', [SubjectController::class, 'addStudentToSubject']);
 Route::get('get-semesters', [SubjectController::class, 'getSemesters']);
+
 
 // ** Student Routes
 Route::apiResource('/students', StudentController::class);
@@ -136,7 +138,6 @@ Route::post('students/find-by-email', [StudentController::class, 'findByEmail'])
 Route::post('students/find-by-subject-period/', [StudentController::class, 'getStudentsBySubjectPeriod']);
 Route::get('students/find-by-semester/{id}', [StudentController::class, 'getStudentsBySemester']);
 Route::post('students/add-to-semester', [StudentController::class, 'addStudentToSemester']);
-Route::post('students/add-to-subject', [StudentController::class, 'addStudentToSubject']);
 Route::get('students/get-relatives/{id}', [StudentController::class, 'getStudentRelatives']);
 
 
@@ -146,8 +147,8 @@ Route::delete('semesters/semester/{id}', [SemesterController::class, 'permanentD
 Route::get('semesters/{id}/restore', [SemesterController::class, 'restore']);
 Route::get('semesters/find-by-name', [SemesterController::class, 'findByNumber']);
 Route::post('semesters/funded-students', [SemesterController::class, 'getFundedStudentsBySemester']);
-
 Route::post('semester/find-all-students-of-semester', [SemesterController::class, 'find_all_students_of_semester']);
+
 
 // ** Teacher Routes
 Route::apiResource('teachers', TeacherController::class);

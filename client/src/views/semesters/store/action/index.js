@@ -44,9 +44,7 @@ export const getData = params => {
       .then(response => {
         dispatch({
           type: GET_DATA,
-          data: response.data.data,
-          totalPages: response.data.total,
-          params
+          data: response.data.data
         })
       })
   }
