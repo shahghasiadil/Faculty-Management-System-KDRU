@@ -9,6 +9,7 @@ use App\Http\Controllers\ExamScheduleController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\ChanceController;
 use App\Http\Controllers\FinalMarkController;
+use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\WeekDayController;
@@ -104,6 +105,11 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 Route::apiResource('relatives', RelativeController::class);
 Route::delete('relatives/relative/{id}', [RelativeController::class, 'permanentDelete']);
 Route::get('relatives/{id}/restore', [RelativeController::class, 'restore']);
+
+
+// ** Registration Routes
+Route::apiResource('registrations', RegistrationController::class);
+Route::delete('registrations/registration/{id}', [RegistrationController::class, 'permanentDelete']);
 
 
 // ** Schedule Routes
