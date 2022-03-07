@@ -19,9 +19,10 @@ const Marks = () => {
 
     const [currentSemester, setCurrentSemester] = useState({ value: '', label: 'Select Semester' })
     const [currentPeriod, setCurrentPeriod] = useState({ value: '', label: 'Select Period' })
-    const [currentSubject, setCurrentSubject] = useState()
+    const [currentSubject, setCurrentSubject] = useState({ value: '', label: 'Select Subject' })
     const [subjects, setSubjects] = useState([])
     const [total, setTotal] = useState(0)
+    const [semesters, setSemesters] = useState([])
 
     const dispatch = useDispatch()
 
@@ -73,6 +74,14 @@ const Marks = () => {
             console.log(err)
         })
     }
+    const loadSemesters = () => {
+        axios.get('http://127.0.0.1:8000/api/semesters').then((res) => {
+
+            for (const data of res.data.data) {
+                semesters.push({ value: data.id, label: data.name })
+            }
+        })
+    }
     const loadSubjects = () => {
         axios.get('http://127.0.0.1:8000/api/subjects').then((res) => {
             for (const data of res.data.data) {
@@ -83,6 +92,7 @@ const Marks = () => {
 
     useEffect(() => {
         loadSubjects()
+        loadSemesters()
     }, [])
     const onSubmit = () => {
         trigger()
@@ -105,7 +115,7 @@ const Marks = () => {
                                     isClearable={false}
                                     className='react-select'
                                     classNamePrefix='select'
-                                    options={semesterOptions}
+                                    options={semesters}
                                     value={currentSemester}
                                     name='semester'
                                     onChange={(e) => setCurrentSemester(e)}
