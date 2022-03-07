@@ -4,7 +4,7 @@
 const themeConfig = {
   app: {
     appName: 'Vuexy',
-    appLogoImage: require('@src/assets/images/logo/logo.svg').default
+    appLogoImage: require('@src/assets/images/slider/cs_logos.png').default
   },
   layout: {
     isRTL: false,

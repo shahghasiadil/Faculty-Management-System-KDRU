@@ -33,6 +33,11 @@ class FinalMarkController extends Controller
 
     public function store(Request $request)
     {
+        $validated = $this->validate($request, [
+            'marks' => 'required|integer|between:1,80',
+            'student_id' => 'required|integer',
+            'subject_id' => 'required|integer',
+        ]);
         //this is the request data
         $student_id = $request->student_id;
         $subject_id = $request->subject_id;

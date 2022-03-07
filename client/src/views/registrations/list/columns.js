@@ -16,25 +16,17 @@ export const columns = [
   {
     name: 'Student',
     minWidth: '250px',
-    selector: ['student.name'],
+    selector: ['student'],
     sortable: true,
-    cell: row => row.student?.name
+    cell: row => row.student
   },
   {
     name: 'Subject',
     minWidth: '250px',
-    selector: ['subject.name'],
+    selector: ['name'],
     sortable: true,
-    cell: row => row.subject?.name
+    cell: row => row.name
   },
-  {
-    name: 'Date',
-    minWidth: '250px',
-    selector: ['created_at'],
-    sortable: true,
-    cell: row => row.created_at
-  },
-
   {
     name: 'Actions',
     minWidth: '100px',

@@ -54,6 +54,23 @@ const ToastContent = ({ name, role }) => (
   </Fragment>
 )
 
+export const  ErrorToast = () => (
+  <Fragment>
+    <div className='toastify-header'>
+      <div className='title-wrapper'>
+        <Avatar size='sm' color='danger' icon={<X size={12} />} />
+        <h6 className='toast-title'>Error!</h6>
+      </div>
+      <small className='text-muted'>3 Sec Ago</small>
+    </div>
+    <div className='toastify-body'>
+      <span role='img' aria-label='toast-text'>
+        Credentials not match
+      </span>
+    </div>
+  </Fragment>
+)
+
 const Login = props => {
   const [skin, setSkin] = useSkin()
   const ability = useContext(AbilityContext)
@@ -61,8 +78,8 @@ const Login = props => {
   const auth = useSelector(state => state.auth)
   const { loading } = auth
   const history = useHistory()
-  const [email, setEmail] = useState('admin@demo.com')
-  const [password, setPassword] = useState('admin')
+  const [email, setEmail] = useState('admin@gmail.com')
+  const [password, setPassword] = useState('')
 
   const { register, errors, handleSubmit } = useForm()
   const illustration = skin === 'dark' ? 'login-v2-dark.svg' : 'login-v2.svg',
@@ -81,10 +98,13 @@ const Login = props => {
           history.push(getHomeRouteForLoggedInUser('admin'))
           toast.success(
             <ToastContent name={ res.data.user.name || 'John Doe'} role={'admin'} />,
-            { transition: Slide, hideProgressBar: true, autoClose: 2000 }
+            { transition: Slide, hideProgressBar: true, autoClose: 4000 }
           )
         })
-        .catch(err => console.log(err))
+        .catch((err) => {
+          // console.log('error')
+          toast.success(<ErrorToast/>)
+        })
     }
   }
 

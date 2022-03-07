@@ -45,6 +45,12 @@ export const ErrorToast = () => (
                 <h6 className='toast-title'>Error!</h6>
             </div>
             <small className='text-muted'>3 Sec Ago</small>
+
+        </div>
+        <div className='toastify-body'>
+            <span role='img' aria-label='toast-text'>
+               Invalid Marks
+            </span>
         </div>
     </Fragment>
 )

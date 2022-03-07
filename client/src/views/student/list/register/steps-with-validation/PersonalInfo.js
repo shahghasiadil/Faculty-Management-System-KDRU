@@ -25,7 +25,7 @@ const PersonalInfo = ({ stepper, type }) => {
     //gender: yup.string().required("Gender is required field"),
     //language: yup.string().required("Native Language is required field"),
     //maritalstate: yup.string().required("Marital State is required field"),
-    roleNo: yup.string().required("Role Number is required field").max(2, "Role number must be 2 digits"),
+    roleNo: yup.string().required("Role Number is required field"),
     period: yup.string().required("Period is required field"),
     graduationYear: yup.string().required("Graduation year is required field").max(4)
   })
@@ -258,9 +258,9 @@ const PersonalInfo = ({ stepper, type }) => {
             <Input
               name='roleNo'
               id='roleNo'
-              type='number'
+              type='text'
               autoComplete="off"
-              placeholder='1'
+              placeholder='CS4000'
               innerRef={register({ required: true })}
               invalid={errors.roleNo && true}
               className={watch('roleNo') ? classnames({ 'is-valid': !errors.roleNo }) : ''}

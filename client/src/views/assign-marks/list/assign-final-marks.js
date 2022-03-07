@@ -60,9 +60,9 @@ const Marks = () => {
                 subject_id: currentSubject.value,
                 marks: e.marks
             }))
-            const newFormValues = [...formValues]
-            newFormValues.splice(i, 1)
-            setFormValues(newFormValues)
+            // const newFormValues = [...formValues]
+            // newFormValues.splice(i, 1)
+            // setFormValues(newFormValues)
         }
 
     }

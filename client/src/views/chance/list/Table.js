@@ -83,9 +83,6 @@ const CustomHeader = ({ toggleSidebar, handlePerPage, rowsPerPage, handleFilter,
               onChange={e => handleFilter(e.target.value)}
             />
           </div>
-          <Button.Ripple color='primary' onClick={toggleSidebar}>
-            Add Chance
-          </Button.Ripple>
         </Col>
       </Row>
     </div>

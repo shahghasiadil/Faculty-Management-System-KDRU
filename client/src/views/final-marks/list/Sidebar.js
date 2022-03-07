@@ -32,19 +32,25 @@ export const SuccessProgressToast = ({ student, subject, mark }) => (
         </div>
         <div className='toastify-body'>
             <span role='img' aria-label='toast-text'>
-                {`${mark} Mid Term Mark Added Successfully`}
+                {`${mark} Final Mark Added Successfully`}
             </span>
         </div>
     </Fragment>
 )
 export const ErrorToast = () => (
     <Fragment>
-        <div className='toastify-header'>
+           <div className='toastify-header'>
             <div className='title-wrapper'>
                 <Avatar size='sm' color='danger' icon={<X size={12} />} />
                 <h6 className='toast-title'>Error!</h6>
             </div>
             <small className='text-muted'>3 Sec Ago</small>
+
+        </div>
+        <div className='toastify-body'>
+            <span role='img' aria-label='toast-text'>
+               Invalid Marks
+            </span>
         </div>
     </Fragment>
 )

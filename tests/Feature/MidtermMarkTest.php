@@ -25,7 +25,7 @@ class MidtermMarkTest extends TestCase
     public function mid_marks_can_stored()
     {
         $this->withoutExceptionHandling();
-        $response = $this->post('/api/mid-term-marks', ['student_id' => '1','subject_id'=> '1','marks'=>50 ]);
+        $response = $this->post('/api/mid-term-marks', ['student_id' => '1','subject_id'=> '1','marks'=>20 ]);
         $response->assertOk();
         $this->assertCount(1, MidtermMark::all());
     }
@@ -34,16 +34,16 @@ class MidtermMarkTest extends TestCase
      public function mid_marks_can_updated()
      {
          $this->withoutExceptionHandling();
-         $this->post('/api/mid-term-marks', ['student_id' => '11','subject_id'=> '4','marks'=>40 ]);
+         $this->post('/api/mid-term-marks', ['student_id' => '11','subject_id'=> '4','marks'=>20 ]);
          $midterm = MidtermMark::first();
-         $this->patch('/api/mid-term-marks/'.$midterm->id, ['student_id' => '11','subject_id'=> '4','marks'=>50 ]);
-         $this->assertEquals('50', MidtermMark::first()->marks);
+         $this->patch('/api/mid-term-marks/'.$midterm->id, ['student_id' => '11','subject_id'=> '4','marks'=>19 ]);
+         $this->assertEquals('19', MidtermMark::first()->marks);
      }
      /** @test */
      public function mid_marks_can_be_deleted()
      {
          $this->withoutExceptionHandling();
-         $this->post('/api/mid-term-marks', ['student_id' => '3','subject_id'=> '3','marks'=>40 ]);
+         $this->post('/api/mid-term-marks', ['student_id' => '3','subject_id'=> '3','marks'=>15 ]);
 
          $this->assertCount(1, MidtermMark::all());
          $semester = MidtermMark::first();

@@ -32,7 +32,7 @@ export const getData = params => {
     await axios.get(`http://127.0.0.1:8000/api/registrations`, params).then(response => {
     dispatch({
       type: GET_DATA,
-      data: response.data,
+      data: response.data.data,
       totalPages: response.data.total,
       params
     })

@@ -8,25 +8,36 @@ import { selectThemeColors } from '@utils'
 import Select from 'react-select'
 import { Printer } from 'react-feather'
 import { getStudents } from '../store/action'
-import { Alert, Form, Button, CardBody, Card, CardHeader, CardTitle, Row, Col, Table, Breadcrumb, BreadcrumbItem } from 'reactstrap'
 
-import img1 from '@src/assets/images/slider/06.jpg'
+import { Alert, Form, Button, CardBody, Card, CardHeader, CardTitle, CardImg, Row, Col, Table, Breadcrumb, BreadcrumbItem } from 'reactstrap'
+
+import cs from '@src/assets/images/slider/cs_logos.png'
+import un from '@src/assets/images/slider/kdr.png'
+
 
 const CardActions = () => {
 
-    const [currentSemester, setCurrentSemester] = useState({ value: '', label: 'Select Semester' })
-    const [currentPeriod, setCurrentPeriod] = useState({ value: '', label: 'Select Period' })
-    const [currentSubject, setCurrentSubject] = useState({ value: 0, label: 'Select Subject', number: 0 })
+  const [currentSemester, setCurrentSemester] = useState({ value: '', label: 'Select Semester' })
+  const [currentPeriod, setCurrentPeriod] = useState({ value: '', label: 'Select Period' })
+  const [currentSubject, setCurrentSubject] = useState({ value: 0, label: 'Select Subject', number: 0 })
+  const [subjects, setSubjects] = useState([])
+  const subjectsOptions = [
+    { value: 0, label: 'Select Subject', number: 0 },
+    { value: 1, label: 'پروګرامینګ', number: 1 },
+    { value: 2, label: 'نیټورک', number: 2 },
+    { value: 3, label: 'اسلامیات', number: 3 }
+  ]
 
-    const [subjects, setSubjects] = useState([])
-    const [semesters, setSemesters] = useState([])
-
-    const subjectsOptions = [
-        { value: 0, label: 'Select Subject', number: 0 },
-        { value: 1, label: 'پروګرامینګ', number: 1 },
-        { value: 2, label: 'نیټورک', number: 2 },
-        { value: 3, label: 'اسلامیات', number: 3 }
-    ]
+  const semesterOptions = [
+    { value: 1, label: 'First' },
+    { value: 2, label: 'Second' },
+    { value: 3, label: 'Third' },
+    { value: 4, label: 'Fourth' },
+    { value: 5, label: 'Fifth' },
+    { value: 6, label: 'Sixth' },
+    { value: 7, label: 'Seventh' },
+    { value: 8, label: 'Eighth' }
+]
 
     const loadSemesters = () => {
         axios.get('http://127.0.0.1:8000/api/semesters').then((res) => {

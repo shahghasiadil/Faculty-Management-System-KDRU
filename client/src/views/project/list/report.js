@@ -7,7 +7,8 @@ import { getProjectsByPeriod } from '../store/action'
 import { Printer } from 'react-feather'
 import { Alert, Form, Button, CardBody, Card, CardHeader, CardTitle, Row, Col, Table } from 'reactstrap'
 
-import img1 from '@src/assets/images/slider/06.jpg'
+import cs from '@src/assets/images/slider/cs_logos.png'
+import un from '@src/assets/images/slider/kdr.png'
 
 const CardActions = () => {
 
@@ -86,7 +87,7 @@ const CardActions = () => {
             </Alert> : <Card className='attendance-div' id='printTable' >
                 <Row className='attendance-top-row' >
                     <Col md='3' className='attendance-logo-1'>
-                        <Avatar className='mr-1 ' img={img1} imgHeight='90' imgWidth='90' />
+                        <Avatar className='mr-1 ' img={un} imgHeight='90' imgWidth='90' />
                     </Col>
                     <Col md='6' className='top-center-div'>
                         <Row></Row>
@@ -96,7 +97,7 @@ const CardActions = () => {
                         <Row><h4>د څلورمې دورې د فارغه کیدونکو محصلینو د مونوګرافونو د پروژو لست</h4></Row>
                     </Col>
                     <Col md='3'>
-                        <Avatar className='mr-1 ' img={img1} imgHeight='90' imgWidth='90' />
+                        <Avatar className='mr-1 ' img={cs} imgHeight='90' imgWidth='90' />
                     </Col>
                 </Row>
                 <div className='text-center'>

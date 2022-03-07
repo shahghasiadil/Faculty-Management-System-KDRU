@@ -104,7 +104,7 @@ class ScheduleController extends Controller
     public function getScheduleBySemester($id)
     {
         // I couldn't do it in Eloquent. so i did it in raw SQL
-        return DB::table('schedules')
+        return new JsonResource( DB::table('schedules')
         ->join('week_days', 'schedules.week_day_id', '=', 'week_days.id')
         ->join('subjects', 'schedules.subject_id', '=', 'subjects.id')
         ->join('semesters', 'subjects.semester_id', '=', 'semesters.id')
@@ -112,6 +112,6 @@ class ScheduleController extends Controller
         ->where('semesters.id', $id)
         ->orderBy('week_days.id', 'asc') //we have to store the week_day records in a sequence like: [saturday=1, sunday=2, mon...]
         ->orderBy('schedules.hour_count', 'asc')
-        ->get();
+        ->get());
     }
 }

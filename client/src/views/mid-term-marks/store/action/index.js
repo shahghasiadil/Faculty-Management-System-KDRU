@@ -53,7 +53,7 @@ export const getMidTermMark = id => {
 
 // ** Add new mid Mark
 export const addMidTermMark = midTermMark => {
-    alert(midTermMark)
+
     return (dispatch, getState) => {
         axios
             .post('http://127.0.0.1:8000/api/mid-term-marks', midTermMark)

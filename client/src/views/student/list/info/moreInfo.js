@@ -4,7 +4,7 @@ import Avatar from '@components/avatar'
 import { Printer } from 'react-feather'
 import { CardImg, Row, Col, Table, Breadcrumb, BreadcrumbItem } from 'reactstrap'
 
-import img1 from '@src/assets/images/slider/06.jpg'
+import img1 from '@src/assets/images/slider/education.jpg'
 import img10 from '@src/assets/images/avatars/10.png'
 import Button from 'reactstrap/lib/Button'
 
