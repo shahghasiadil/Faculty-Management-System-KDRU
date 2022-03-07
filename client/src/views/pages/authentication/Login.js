@@ -98,7 +98,7 @@ const Login = props => {
           history.push(getHomeRouteForLoggedInUser('admin'))
           toast.success(
             <ToastContent name={ res.data.user.name || 'John Doe'} role={'admin'} />,
-            { transition: Slide, hideProgressBar: true, autoClose: 2000 }
+            { transition: Slide, hideProgressBar: true, autoClose: 4000 }
           )
         })
         .catch((err) => {

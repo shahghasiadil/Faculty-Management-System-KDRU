@@ -258,9 +258,9 @@ const PersonalInfo = ({ stepper, type }) => {
             <Input
               name='roleNo'
               id='roleNo'
-              type='number'
+              type='text'
               autoComplete="off"
-              placeholder='1'
+              placeholder='CS4000'
               innerRef={register({ required: true })}
               invalid={errors.roleNo && true}
               className={watch('roleNo') ? classnames({ 'is-valid': !errors.roleNo }) : ''}

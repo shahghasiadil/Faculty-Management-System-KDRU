@@ -55,7 +55,6 @@ const KankorInfo = ({ stepper, type }) => {
             </div>
             <Form onSubmit={handleSubmit(onSubmit)}>
                 <Row>
-
                     <FormGroup tag={Col} md='6'>
                         <Label for='school_name'>
                             School Name <span className='text-danger'>*</span>
@@ -72,8 +71,6 @@ const KankorInfo = ({ stepper, type }) => {
                         />
                         {errors && errors.school_name && <FormFeedback>{errors.school_name.message}</FormFeedback>}
                     </FormGroup>
-                </Row>
-                <Row>
 
                     <FormGroup tag={Col} md='6'>
                         <Label for='kankorId'>
@@ -108,8 +105,6 @@ const KankorInfo = ({ stepper, type }) => {
                         />
                         {errors && errors.kankorYear && <FormFeedback>{errors.kankorYear.message}</FormFeedback>}
                     </FormGroup>
-                </Row>
-                <Row>
 
                     <FormGroup tag={Col} md='6'>
                         <Label for='kankorScore'>

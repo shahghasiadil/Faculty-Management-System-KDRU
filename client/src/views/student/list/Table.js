@@ -61,7 +61,7 @@ const StudentsList = () => {
         dispatch(getData())
         if (store.allData.length !== 0 && store.allData !== undefined) {
             console.log(store.allData)
-            const filteredData = store?.allData?.filter(item => item.name.toLowerCase().includes(searchTerm))
+            const filteredData = store?.allData?.filter(item => item.name.toLowerCase().includes(searchTerm) || item.roll_no.toLowerCase().includes(searchTerm))
             setData(filteredData)
         }
     }, [dispatch, store.allData.length, searchTerm])

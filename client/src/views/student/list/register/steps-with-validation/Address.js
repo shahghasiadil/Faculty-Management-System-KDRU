@@ -110,7 +110,7 @@ const Address = ({ stepper, type }) => {
               invalid={errors.streetNo && true}
               className={watch('streetNo') ? classnames({ 'is-valid': !errors.streetNo }) : ''}
             />
-            {errors && errors.area && <FormFeedback>{errors.streetNo.message}</FormFeedback>}
+            {/* {errors && errors.area && <FormFeedback>{errors.streetNo.message}</FormFeedback>} */}
           </FormGroup>
 
           <FormGroup tag={Col} md='6'>

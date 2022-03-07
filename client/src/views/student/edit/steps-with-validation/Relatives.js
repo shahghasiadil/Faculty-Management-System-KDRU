@@ -19,7 +19,7 @@ const Relatives = ({ stepper, type }) => {
     name: yup.string().required("Name is required field").min(3, 'Name must be at least 3 characters'),
     fathername: yup.string().required("Father Name is required field").min(3, 'Father Name must be at least 3 characters'),
     job: yup.string().required("Job is required field").min(3, 'Job must be at least 3 characters'),
-    academicTransfer: yup.string().required("Academic transfer is required field").min(4, 'Academic transfer must be at least 3 characters'),
+    academic_transfer: yup.string().required("Academic transfer is required field").min(4, 'Academic transfer must be at least 3 characters'),
     phone: yup.string().required("Phone Number is required field")
   })
   // ** React hook form
@@ -156,21 +156,21 @@ const Relatives = ({ stepper, type }) => {
                     </FormGroup>
 
                     <FormGroup tag={Col} md='4'>
-                      <Label for='academicTransfer'>
+                      <Label for='academic_transfer'>
                         Academic Transfer  <span className='text-danger'>*</span>
                       </Label>
                       <Input
-                        name='academicTransfer'
-                        id={`academicTransfer-${index}`}
+                        name='academic_transfer'
+                        id={`academic_transfer-${index}`}
                         autoComplete="off"
                         onChange={e => handleChange(index, e)}
                         defaultValue={element.academic_transfer}
                         placeholder='Academic Transfer'
                         innerRef={register({ required: true })}
-                        invalid={errors.academicTransfer && true}
-                        className={watch('academicTransfer') ? classnames({ 'is-valid': !errors.academicTransfer }) : ''}
+                        invalid={errors.academic_transfer && true}
+                        className={watch('academic_transfer') ? classnames({ 'is-valid': !errors.academic_transfer }) : ''}
                       />
-                      {errors && errors.academicTransfer && <FormFeedback>{errors.academicTransfer.message}</FormFeedback>}
+                      {errors && errors.academic_transfer && <FormFeedback>{errors.academic_transfer.message}</FormFeedback>}
                     </FormGroup>
 
                     <FormGroup tag={Col} md='4'>
