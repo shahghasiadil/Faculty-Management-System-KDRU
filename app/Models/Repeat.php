@@ -2,19 +2,15 @@
 
 namespace App\Models;
 
+use App\Traits\belongsToStudent;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Repeat extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes , belongsToStudent;
     protected $fillable = ['student_id', 'semester_id'];
-   
-    public function student()
-    {
-        return $this->belongsTo(Student::class);
-    }
 
     public function semester()
     {
