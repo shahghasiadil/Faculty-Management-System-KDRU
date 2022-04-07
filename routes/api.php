@@ -146,12 +146,13 @@ Route::get('students/get-relatives/{id}', [StudentController::class, 'getStudent
 
 // ** Semester Routes
 Route::apiResource('semesters', SemesterController::class);
-Route::delete('semesters/semester/{id}', [SemesterController::class, 'permanentDelete']);
-Route::get('semesters/{id}/restore', [SemesterController::class, 'restore']);
-Route::get('semesters/find-by-name', [SemesterController::class, 'findByNumber']);
-Route::post('semesters/funded-students', [SemesterController::class, 'getFundedStudentsBySemester']);
-Route::post('semester/find-all-students-of-semester', [SemesterController::class, 'find_all_students_of_semester']);
-
+Route::controller(SemesterController::class)->group(function(){
+    Route::delete('semesters/semester/{id}','permanentDelete');
+    Route::get('semesters/{id}/restore', 'restore');
+    Route::get('semesters/find-by-name','findByNumber');
+    Route::post('semesters/funded-students', 'getFundedStudentsBySemester');
+    Route::post('semester/find-all-students-of-semester', 'find_all_students_of_semester');
+});
 
 // ** Teacher Routes
 Route::apiResource('teachers', TeacherController::class);
