@@ -133,15 +133,17 @@ Route::get('get-semesters', [SubjectController::class, 'getSemesters']);
 
 // ** Student Routes
 Route::apiResource('/students', StudentController::class);
-Route::delete('students/student/{id}', [StudentController::class, 'permanentDelete']);
-Route::get('students/{id}/restore', [StudentController::class, 'restore']);
-Route::get('students/get-father-name/{name}', [StudentController::class, 'studentFatherName']);
-Route::get('students/get-roll-no/{fname}', [StudentController::class, 'studentRollNo']);
-Route::post('students/find-by-email', [StudentController::class, 'findByEmail']);
-Route::post('students/find-by-subject-period/', [StudentController::class, 'getStudentsBySubjectPeriod']);
-Route::get('students/find-by-semester/{id}', [StudentController::class, 'getStudentsBySemester']);
-Route::post('students/add-to-semester', [StudentController::class, 'addStudentToSemester']);
-Route::get('students/get-relatives/{id}', [StudentController::class, 'getStudentRelatives']);
+Route::controller(StudentController::class)->group(function(){
+    Route::delete('students/student/{id}', 'permanentDelete');
+    Route::get('students/{id}/restore', 'restore');
+    Route::get('students/get-father-name/{name}', 'studentFatherName');
+    Route::get('students/get-roll-no/{fname}', 'studentRollNo');
+    Route::post('students/find-by-email', 'findByEmail');
+    Route::post('students/find-by-subject-period/', 'getStudentsBySubjectPeriod');
+    Route::get('students/find-by-semester/{id}', 'getStudentsBySemester');
+    Route::post('students/add-to-semester','addStudentToSemester');
+    Route::get('students/get-relatives/{id}', 'getStudentRelatives');
+});
 
 
 // ** Semester Routes
