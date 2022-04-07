@@ -112,9 +112,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
 // ** Relative Routes
 Route::apiResource('relatives', RelativeController::class);
-Route::delete('relatives/relative/{id}', [RelativeController::class, 'permanentDelete']);
-Route::get('relatives/{id}/restore', [RelativeController::class, 'restore']);
-
+Route::controller(RelativeController::class)->group(function(){
+    Route::delete('relatives/relative/{id}', 'permanentDelete');
+    Route::get('relatives/{id}/restore', 'restore');
+});
 
 // ** Registration Routes
 Route::apiResource('registrations', RegistrationController::class);
