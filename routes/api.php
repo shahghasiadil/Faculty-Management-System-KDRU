@@ -35,7 +35,6 @@ use Illuminate\Support\Facades\Route;
 
 // **  Attendance Routes
 Route::apiResource('attendances', AttendanceController::class);
-
 Route::controller(AttendanceController::class)->group(function(){
     Route::delete('attendances/attendance/{id}', 'permanentDelete');
     Route::get('attendances/{id}/restore', 'restore');
@@ -46,8 +45,11 @@ Route::controller(AttendanceController::class)->group(function(){
 
 // ** Address Routes
 Route::apiResource('addresses', AddressController::class);
-Route::delete('addresses/address/{id}', [AddressController::class, 'permanentDelete']);
-Route::get('addresses/{id}/restore', [AddressController::class, 'restore']);
+
+Route::controller(AddressController::class)->group(function(){
+    Route::delete('addresses/address/{id}', 'permanentDelete');
+    Route::get('addresses/{id}/restore', 'restore');
+});
 
 
 // ** Chance Routes
