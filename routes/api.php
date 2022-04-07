@@ -155,10 +155,11 @@ Route::post('semester/find-all-students-of-semester', [SemesterController::class
 
 // ** Teacher Routes
 Route::apiResource('teachers', TeacherController::class);
-Route::delete('teachers/teacher/{id}', [TeacherController::class, 'permanentDelete']);
-Route::get('teachers/{id}/restore', [TeacherController::class, 'restore']);
-Route::post('teachers/find-by-email', [TeacherController::class, 'findByEmail']);
-
+Route::controller(TeacherController::class)->group(function(){
+    Route::delete('teachers/teacher/{id}',  'permanentDelete');
+    Route::get('teachers/{id}/restore', 'restore');
+    Route::post('teachers/find-by-email', 'findByEmail');
+});
 
 // ** WeekDay Routes
 Route::apiResource('week-days', WeekDayController::class);
