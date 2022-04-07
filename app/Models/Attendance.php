@@ -12,3 +12,4 @@ class Attendance extends Model
 {
     use HasFactory, SoftDeletes, belongsToStudent, belongsToSubject;
     protected $fillable = ['month', 'year', 'present', 'absent', 'leave', 'student_id', 'subject_id'];
+}

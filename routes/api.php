@@ -35,23 +35,29 @@ use Illuminate\Support\Facades\Route;
 
 // **  Attendance Routes
 Route::apiResource('attendances', AttendanceController::class);
-Route::delete('attendances/attendance/{id}', [AttendanceController::class, 'permanentDelete']);
-Route::get('attendances/{id}/restore', [AttendanceController::class, 'restore']);
-Route::post('attendances/find-by-subject-year-month/', [AttendanceController::class, 'getAttBySubjectYearMonth']);
-Route::post('attendances/find-by-student-month/', [AttendanceController::class, 'getAttByStudentMonth']);
-Route::post('attendances/find-by-subject-period', [AttendanceController::class, 'getStudentsBySubjectPeriod']);
+Route::controller(AttendanceController::class)->group(function(){
+    Route::delete('attendances/attendance/{id}', 'permanentDelete');
+    Route::get('attendances/{id}/restore', 'restore');
+    Route::post('attendances/find-by-subject-year-month/','getAttBySubjectYearMonth');
+    Route::post('attendances/find-by-student-month/', 'getAttByStudentMonth');
+    Route::post('attendances/find-by-subject-period', 'getStudentsBySubjectPeriod');
+});
 
 // ** Address Routes
 Route::apiResource('addresses', AddressController::class);
-Route::delete('addresses/address/{id}', [AddressController::class, 'permanentDelete']);
-Route::get('addresses/{id}/restore', [AddressController::class, 'restore']);
+
+Route::controller(AddressController::class)->group(function(){
+    Route::delete('addresses/address/{id}', 'permanentDelete');
+    Route::get('addresses/{id}/restore', 'restore');
+});
 
 
 // ** Chance Routes
 Route::apiResource('chances', ChanceController::class);
-Route::delete('chances/chance/{id}', [ChanceController::class, 'permanentDelete']);
-Route::get('chances/{id}/restore', [ChanceController::class, 'restore']);
-
+Route::controller(ChanceController::class)->group(function(){
+    Route::delete('chances/chance/{id}', 'permanentDelete');
+    Route::get('chances/{id}/restore', 'restore');
+});
 
 // ** Dashboard Routes
 Route::get('dashboard', DashboardController::class);
@@ -83,9 +89,6 @@ Route::post('final-projects/filter', [FinalProjectController::class, 'project_fi
 
 // ** Login
 Route::post('/login', [AuthenticationController::class, 'login']);
-// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
 
 
 // ** Midterm Mark Routes

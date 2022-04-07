@@ -21,6 +21,7 @@ const CardActions = () => {
   const [currentPeriod, setCurrentPeriod] = useState({ value: '', label: 'Select Period' })
   const [currentSubject, setCurrentSubject] = useState({ value: 0, label: 'Select Subject', number: 0 })
   const [subjects, setSubjects] = useState([])
+  const [semesters, setSemester] = useState([])
   const subjectsOptions = [
     { value: 0, label: 'Select Subject', number: 0 },
     { value: 1, label: 'پروګرامینګ', number: 1 },
@@ -184,7 +185,7 @@ const CardActions = () => {
             </Alert> : <Card className='attendance-div' id='printTable'>
                 <Row className='attendance-top-row' >
                     <Col md='4' className='attendance-logo-1'>
-                        <Avatar className='mr-1 ' img={img1} imgHeight='90' imgWidth='90' />
+                        <Avatar className='mr-1 ' img={cs} imgHeight='90' imgWidth='90' />
                     </Col>
                     <Col md='4' className='top-center-div'>
                         <Row></Row>
@@ -193,7 +194,7 @@ const CardActions = () => {
                         <Row><h4>د ازموینې شقه</h4></Row>
                     </Col>
                     <Col md='4'>
-                        <Avatar className='mr-1 ' img={img1} imgHeight='90' imgWidth='90' />
+                        <Avatar className='mr-1 ' img={un} imgHeight='90' imgWidth='90' />
                     </Col>
                 </Row>
                 <div className='text-center'>
