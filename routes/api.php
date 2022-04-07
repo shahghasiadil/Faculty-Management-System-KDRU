@@ -32,7 +32,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// ** Using middleware
+// ** Login
+Route::post('/login', [AuthenticationController::class, 'login']);
 
+Route::group(['middleware' => ['auth:sanctum']], function () {
 // **  Attendance Routes
 Route::apiResource('attendances', AttendanceController::class);
 Route::controller(AttendanceController::class)->group(function(){
@@ -91,10 +95,6 @@ Route::controller(FinalProjectController::class)->group(function(){
     Route::post('final-projects/filter', 'project_filter');
 });
 
-// ** Login
-Route::post('/login', [AuthenticationController::class, 'login']);
-
-
 // ** Midterm Mark Routes
 Route::apiResource('mid-term-marks', MidtermMarkController::class);
 Route::controller(MidtermMarkController::class)->group(function(){
@@ -103,12 +103,7 @@ Route::controller(MidtermMarkController::class)->group(function(){
     Route::post('mid-term-marks/mark-assign-students', 'find_all_students');
 });
 
-
-// ** Using middleware
-Route::group(['middleware' => ['auth:sanctum']], function () {
-    Route::post('/logout', [AuthenticationController::class, 'logout']);
-});
-
+Route::post('/logout', [AuthenticationController::class, 'logout']);
 
 // ** Relative Routes
 Route::apiResource('relatives', RelativeController::class);
@@ -179,3 +174,5 @@ Route::post('week-days/get-subjects', [WeekDayController::class, 'getSubjectsByW
 
 // ** Repeat Routes
 Route::apiResource('repeats', RepeatController::class);
+
+});
