@@ -35,11 +35,14 @@ use Illuminate\Support\Facades\Route;
 
 // **  Attendance Routes
 Route::apiResource('attendances', AttendanceController::class);
-Route::delete('attendances/attendance/{id}', [AttendanceController::class, 'permanentDelete']);
-Route::get('attendances/{id}/restore', [AttendanceController::class, 'restore']);
-Route::post('attendances/find-by-subject-year-month/', [AttendanceController::class, 'getAttBySubjectYearMonth']);
-Route::post('attendances/find-by-student-month/', [AttendanceController::class, 'getAttByStudentMonth']);
-Route::post('attendances/find-by-subject-period', [AttendanceController::class, 'getStudentsBySubjectPeriod']);
+
+Route::controller(AttendanceController::class)->group(function(){
+    Route::delete('attendances/attendance/{id}', 'permanentDelete');
+    Route::get('attendances/{id}/restore', 'restore');
+    Route::post('attendances/find-by-subject-year-month/','getAttBySubjectYearMonth');
+    Route::post('attendances/find-by-student-month/', 'getAttByStudentMonth');
+    Route::post('attendances/find-by-subject-period', 'getStudentsBySubjectPeriod');
+});
 
 // ** Address Routes
 Route::apiResource('addresses', AddressController::class);
