@@ -81,13 +81,15 @@ Route::controller(FinalMarkController::class)->group(function(){
 
 // ** Final Project Routes
 Route::apiResource('final-projects', FinalProjectController::class);
-Route::delete('final-projects/final-project/{id}', [FinalProjectController::class, 'permanentDelete']);
-Route::get('final-projects/{id}/restore', [FinalProjectController::class, 'restore']);
-Route::get('final-projects/get-students-by-project/{id}', [FinalProjectController::class, 'getFinalProjectStudents']);
-Route::get('final-projects/get-teacher-by-project/{id}', [FinalProjectController::class, 'getFinalProjectTeacher']);
-Route::post('final-projects/add-student-list', [FinalProjectController::class, 'addStudentToFinalProject']);
-Route::post('final-projects/filter', [FinalProjectController::class, 'project_filter']);
 
+Route::controller(FinalProjectController::class)->group(function(){
+    Route::delete('final-projects/final-project/{id}', 'permanentDelete');
+    Route::get('final-projects/{id}/restore','restore');
+    Route::get('final-projects/get-students-by-project/{id}','getFinalProjectStudents');
+    Route::get('final-projects/get-teacher-by-project/{id}','getFinalProjectTeacher');
+    Route::post('final-projects/add-student-list', 'addStudentToFinalProject');
+    Route::post('final-projects/filter', 'project_filter');
+});
 
 // ** Login
 Route::post('/login', [AuthenticationController::class, 'login']);
