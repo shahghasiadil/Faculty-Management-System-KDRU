@@ -54,9 +54,10 @@ Route::controller(AddressController::class)->group(function(){
 
 // ** Chance Routes
 Route::apiResource('chances', ChanceController::class);
-Route::delete('chances/chance/{id}', [ChanceController::class, 'permanentDelete']);
-Route::get('chances/{id}/restore', [ChanceController::class, 'restore']);
-
+Route::controller(ChanceController::class)->group(function(){
+    Route::delete('chances/chance/{id}', 'permanentDelete');
+    Route::get('chances/{id}/restore', 'restore');
+});
 
 // ** Dashboard Routes
 Route::get('dashboard', DashboardController::class);
