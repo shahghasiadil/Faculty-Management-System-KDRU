@@ -73,10 +73,11 @@ Route::controller(ExamScheduleController::class)->group(function(){
 
 // ** Final Mark Routes
 Route::apiResource('final-marks', FinalMarkController::class);
-Route::delete('final-marks/final-mark/{id}', [FinalMarkController::class, 'permanentDelete']);
-Route::get('final-marks/{id}/restore', [FinalMarkController::class, 'restore']);
-Route::post('mark/final-marks-print', [FinalMarkController::class, 'loadMarks']);
-
+Route::controller(FinalMarkController::class)->group(function(){
+    Route::delete('final-marks/final-mark/{id}', 'permanentDelete');
+    Route::get('final-marks/{id}/restore', 'restore');
+    Route::post('mark/final-marks-print', 'loadMarks');
+});
 
 // ** Final Project Routes
 Route::apiResource('final-projects', FinalProjectController::class);
