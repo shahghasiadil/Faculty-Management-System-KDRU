@@ -89,9 +89,6 @@ Route::post('final-projects/filter', [FinalProjectController::class, 'project_fi
 
 // ** Login
 Route::post('/login', [AuthenticationController::class, 'login']);
-// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
 
 
 // ** Midterm Mark Routes
