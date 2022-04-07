@@ -132,11 +132,12 @@ Route::get('schedules/get-schedule-by-semester/{id}', [ScheduleController::class
 
 // ** Subject routes
 Route::apiResource('subjects', SubjectController::class);
-Route::delete('subjects/subject/{id}', [SubjectController::class, 'permanentDelete']);
-Route::get('subjects/{id}/restore', [SubjectController::class, 'restore']);
-Route::post('subjects/add-student', [SubjectController::class, 'addStudentToSubject']);
-Route::get('get-semesters', [SubjectController::class, 'getSemesters']);
-
+Route::controller(SubjectController::class)->group(function(){
+    Route::delete('subjects/subject/{id}', 'permanentDelete');
+    Route::get('subjects/{id}/restore', 'restore');
+    Route::post('subjects/add-student', 'addStudentToSubject');
+    Route::get('get-semesters', 'getSemesters');
+});
 
 // ** Student Routes
 Route::apiResource('/students', StudentController::class);
