@@ -5,9 +5,9 @@ Faculty Management System (FMS) as final project for faculty of Copmuter Science
 Faculty Management System (FMS) Built with Laravel 9 in Back-end and React , Redux in Front-end API's
 
 ## Configurations
- `clone the project `
- `cp env.example .env `
- `cd Faculty-Management-System-KDRU `
+ `clone the project`
+ `cp env.example .env`
+ `cd Faculty-Management-System-KDRU`
  `composer install`
  `php artisan migrate --seed`
 
